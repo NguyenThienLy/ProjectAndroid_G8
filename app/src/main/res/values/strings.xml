@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">bluebird</string>
+    <string name="name">Phòng cho thuê Nguyễn Tri Phương, quận 1</string>
+    <string name="price">3 triệu/người</string>
+    <string name="area">5m x 6m</string>
+    <string name="address">127 An Diêm Vương, Tân Bình, Tp. Hồ Chí Minh</string>
+    <string name="type">KHU CHUNG CƯ.</string>
+    <string name="quantityMember">2</string>
+    <string name="quantityComment">69</string>
+</resources>
