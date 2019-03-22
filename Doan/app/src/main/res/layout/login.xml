@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:scaleType="fitXY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/dubai"
+        android:contentDescription="TODO" />
+    <Button
+        android:id="@+id/btnLoginA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login with"
+        android:background="@android:color/holo_red_light"
+        android:width="300dp"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="50dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+       <ImageButton
+           android:layout_width="130dp"
+           android:layout_height="40dp"
+           android:src="@drawable/ic_facebook"
+           android:background="@android:color/white"
+           android:layout_marginLeft="55dp"
+           />
+        <ImageButton
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_google"
+            android:background="@android:color/white"
+            android:layout_marginLeft="40dp"
+            />
+
+    </LinearLayout>
+    <TextView
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Do not have account?"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textStyle="italic"
+            />
+    <TextView
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign up"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textStyle="italic|bold"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="56dp"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:drawableTop="@drawable/ic_location"
+            android:text="Location"
+            android:background="@android:color/white"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:drawableTop="@drawable/ic_price"
+            android:text="Price"
+            android:background="@android:color/white"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:drawableTop="@drawable/ic_user"
+            android:text="Account"
+            android:background="@android:color/white"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:drawableTop="@drawable/ic_flash"
+            android:text="Quick Search"
+            android:background="@android:color/white"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>
