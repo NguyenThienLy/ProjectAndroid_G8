@@ -56,7 +56,7 @@
             <GridView
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:id="@+id/gv_room"
+                android:id="@+id/grV_room"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="700dp"
@@ -70,7 +70,7 @@
             <ListView
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:id="@+id/lst_room"
+                android:id="@+id/lstV_room"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="700dp"
