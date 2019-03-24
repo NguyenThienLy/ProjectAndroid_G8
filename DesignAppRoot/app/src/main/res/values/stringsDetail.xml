@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="stringHeader">Chi tiết phòng</string>
+    <string name="stringName">Phòng cho thuê Trần kế xương, Quận Phú Nhuận</string>
+    <string name="stringPrice">GIÁ PHÒNG</string>
+    <string name="stringStatus">CÒN PHÒNG</string>
+    <string name="stringArea">DIỆN TÍCH</string>
+    <string name="stringDeposit">ĐẶT CỌC</string>
+    <string name="stringNote">Lưu ý</string>
+    <string name="stringUtilities">Tiện ích</string>
+    <string name="stringQuantity">SỐ LƯỢNG</string>
+</resources>

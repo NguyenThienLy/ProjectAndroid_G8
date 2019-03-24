@@ -24,7 +24,7 @@
                     android:layout_height="60px"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/frame"
+                    android:background="@drawable/custom_main"
                     android:textSize="20px"
                     android:textColor="@android:color/darker_gray"
                     android:paddingLeft="10px"
@@ -39,18 +39,18 @@
                     android:layout_width="225px"
                     android:layout_height="200px"
                     android:src="@drawable/binh_thanh"
-                    android:background="@drawable/frame"/>
+                    android:background="@drawable/custom_main"/>
                 <ImageButton
                     android:layout_width="225px"
                     android:layout_height="200px"
                     android:src="@drawable/binh_thanh"
-                    android:background="@drawable/frame"
+                    android:background="@drawable/custom_main"
                     android:layout_marginLeft="10dp"/>
                 <ImageButton
                     android:layout_width="225px"
                     android:layout_height="200px"
                     android:src="@drawable/binh_thanh"
-                    android:background="@drawable/frame"
+                    android:background="@drawable/custom_main"
                     android:layout_marginLeft="10dp"/>
             </LinearLayout>
             <GridView
