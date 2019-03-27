@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="10dp">
+
+    <RadioButton
+        android:id="@+id/r_btn_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:text="Vị trí"
+        android:textColor="#666666"
+        android:textSize="40px"
+        android:translationX="35px"
+        android:buttonTint="#00BFFF"/>
+</LinearLayout>
