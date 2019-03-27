@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="stringButLogin">LOGIN WITH ACCOUNT OF APP</string>
+    <string name="stringQuestion">Do not have account?</string>
+    <string name="stringSignUp">Sign up</string>
+</resources>
