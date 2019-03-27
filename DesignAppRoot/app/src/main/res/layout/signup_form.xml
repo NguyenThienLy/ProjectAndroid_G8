@@ -74,7 +74,7 @@
             android:width="300dp"
             android:layout_gravity="center"
             android:textColor="@android:color/white"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="45dp"
             />
     </LinearLayout>
 
