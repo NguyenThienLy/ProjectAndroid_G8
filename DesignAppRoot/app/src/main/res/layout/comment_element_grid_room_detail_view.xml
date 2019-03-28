@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_circle_avatar_room_detail"/>
+
+        <ImageView
+            android:id="@+id/img_avt_comment_room_detail"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_svg_avt_01_100"
+            />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp">
+            <TextView
+                android:id="@+id/txt_name_comment_room_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nguyễn Thiên Lý"
+                android:textColor="@android:color/black"
+                android:textSize="18dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_svg_like_100"/>
+                <TextView
+                    android:id="@+id/txt_quantityLike_comment_room_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:layout_marginLeft="2dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorGrayType1"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_rate_comment_room_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7.5"
+            android:textSize="25sp"
+            android:layout_gravity="center"
+            android:textColor="@color/colorRateRather"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_margin="5dp"
+        android:background="@color/colorGrayType2" />
+
+    <TextView
+        android:id="@+id/txt_headComment_comment_room_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="Chỗ ở tốt!!"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/txt_mainComment_comment_room_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="Mình tới tìm phòng này thì thấy phòng đăng khá đúng với thông tin trên app, khá hài lòng. !!"
+        android:textSize="15sp"
+        android:textColor="@color/colorGrayType1"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_margin="5dp"
+        android:background="@color/colorGrayType2" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_svg_like_blue_100"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stringLike"
+            android:textSize="18sp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@android:color/holo_blue_bright"/>
+    </LinearLayout>
+
+</LinearLayout>

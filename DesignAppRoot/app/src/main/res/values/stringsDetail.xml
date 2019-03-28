@@ -9,4 +9,13 @@
     <string name="stringNote">Lưu ý</string>
     <string name="stringUtilities">Tiện ích</string>
     <string name="stringQuantity">SỐ LƯỢNG</string>
+    <string name="stringSeeMore">Xem thêm</string>
+    <string name="stringCollapse">Thu gọn</string>
+    <string name="stringAdress">Địa chỉ</string>
+    <string name="stringDetail">Chi tiết</string>
+    <string name="stringCallBookRoom">Gọi đặt phòng</string>
+    <string name="stringCheckMap">Check map</string>
+    <string name="stringSameCriteria">Cùng tiêu chí</string>
+    <string name="stringLike">Like this</string>
+    <string name="stringEvaluate">Đánh giá</string>
 </resources>
