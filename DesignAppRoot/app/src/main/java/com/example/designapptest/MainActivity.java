@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
     com.example.designapptest.suggestAdapter suggestAdapterList;
     Button btnChooseSearch;
     ListView lstVSearch;
-    String[] dataSearch={"Vị trí","Giá cả","Số người","Tiện nghi","Map"};
+    String[] dataSearch={"Vị trí","Giá ả","Số ngcười","Tiện nghi","Map"};
     EditText edTSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
