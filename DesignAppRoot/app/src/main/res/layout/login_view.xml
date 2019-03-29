@@ -8,14 +8,15 @@
         android:id="@+id/imageView"
         android:scaleType="fitXY"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/bg_jpg_login_100"
-        android:contentDescription="TODO" />
+        android:layout_height="400dp"
+        android:src="@drawable/bg_jpg_login_100"
+
+        />
     <Button
-        android:id="@+id/btnLoginA"
+        android:id="@+id/btn_LoginWithApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/stringButLogin"
+        android:text="@string/stringBtnLogin"
         android:background="@color/colorRed"
         android:width="300dp"
         android:layout_gravity="center"
@@ -30,6 +31,7 @@
         android:layout_marginTop="20dp">
 
         <ImageButton
+            android:id="@+id/btnImg_facebook_login"
             android:layout_width="130dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_svg_facebook_100"
@@ -37,6 +39,7 @@
             android:layout_marginLeft="55dp"
             />
         <ImageButton
+            android:id="@+id/btnImg_google_login"
             android:layout_width="130dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_svg_google_100"
@@ -55,6 +58,7 @@
         android:textStyle="italic"
         />
     <TextView
+        android:id="@+id/txt_signUp_login"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -22,7 +22,7 @@
             android:layout_marginTop="15dp"
             />
         <EditText
-            android:id="@+id/edt_nameSignUp"
+            android:id="@+id/edt_name_signUp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="55dp"
             android:layout_width="200dp"
@@ -33,7 +33,7 @@
             android:gravity="center"
             />
         <EditText
-            android:id="@+id/edt_passwordSignUp"
+            android:id="@+id/edt_password_signUp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="55dp"
             android:layout_width="200dp"
@@ -44,7 +44,7 @@
             android:gravity="center"
             />
         <EditText
-            android:id="@+id/edt_addressSignUp"
+            android:id="@+id/edt_address_signUp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="55dp"
             android:layout_width="200dp"
@@ -55,7 +55,7 @@
             android:gravity="center"
             />
         <EditText
-            android:id="@+id/edt_email"
+            android:id="@+id/edt_email_signUp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="55dp"
             android:layout_width="200dp"

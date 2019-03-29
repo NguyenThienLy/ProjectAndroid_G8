@@ -19,13 +19,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*initData();
+        initData();
         roomAdapterGid=new roomAdapter(this,R.layout.rom_element_grid_view,mydata);
         roomAdapterList=new roomAdapter(this,R.layout.rom_element_list_view,mydata);
         grVRoom.setAdapter(roomAdapterGid);
         lstVRoom.setAdapter(roomAdapterList);
         grVRoom.setClickable(false);
-        lstVRoom.setClickable(false);*/
+        lstVRoom.setClickable(false);
     }
     private void initData()
     {
