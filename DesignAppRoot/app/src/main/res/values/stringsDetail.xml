@@ -18,4 +18,12 @@
     <string name="stringSameCriteria">Cùng tiêu chí</string>
     <string name="stringLike">Like this</string>
     <string name="stringEvaluate">Đánh giá</string>
+    <string name="stringRateGreat">Tuyệt vời</string>
+    <string name="stringRatePrettyGood">Khá tốt</string>
+    <string name="stringRateMedium">Trung bình</string>
+    <string name="stringRateBad">Quá tệ</string>
+    <string name="stringCramped">Chật</string>
+    <string name="stringMedium">Vừa</string>
+    <string name="stringWide">Rộng</string>
+    <string name="stringComment">Bình luận:</string>
 </resources>
