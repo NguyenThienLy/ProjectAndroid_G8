@@ -36,18 +36,28 @@
                         android:paddingLeft="30px"
                         android:layout_marginTop="5px"/>
                     <EditText
+                        android:id="@+id/edT_search"
                         android:layout_width="350px"
                         android:layout_height="60px"
                         android:background="@drawable/frame"
                         android:textSize="20px"
                         android:textColor="@android:color/darker_gray"
                         android:hint="Where do you need?"
-                        android:paddingLeft="10px"/>
+                        android:paddingLeft="10px" />
                 </LinearLayout>
                 <ListView
                     android:id="@+id/lstV_search"
                     android:layout_width="440px"
-                    android:layout_height="250px"
+                    android:layout_height="350px"
+                    android:background="@drawable/frame"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="280px"
+                    android:visibility="invisible">
+                </ListView>
+                <ListView
+                    android:id="@+id/lstV_suggest"
+                    android:layout_width="440px"
+                    android:layout_height="350px"
                     android:background="@drawable/frame"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="280px"

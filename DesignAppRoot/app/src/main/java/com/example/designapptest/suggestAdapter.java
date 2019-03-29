@@ -5,23 +5,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RadioButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class searchAdapter extends BaseAdapter {
+import java.net.ContentHandler;
+import java.util.List;
+
+public class suggestAdapter extends BaseAdapter {
     private Context context;
     private int layout;
-    String[] typeSearch;
+    private List<roomModel> room;
 
-    public searchAdapter(Context context, int layout, String[] typeSearch) {
+    public suggestAdapter(Context context, int layout, List<roomModel> room) {
         this.context = context;
         this.layout = layout;
-        this.typeSearch = typeSearch;
+        this.room = room;
     }
-
     @Override
     public int getCount() {
-        return typeSearch.length;
+        return room.size();
     }
 
     @Override
@@ -39,9 +41,14 @@ public class searchAdapter extends BaseAdapter {
         LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView= inflater.inflate(layout,null);
         //anh xa
-        TextView type=(TextView) convertView.findViewById(R.id.r_btn_search);
-        //gan gia tri
-        type.setText(typeSearch[position]);
+        ImageView image=(ImageView) convertView.findViewById(R.id.img_room);
+        TextView name=(TextView) convertView.findViewById(R.id.txtV_name);
+        TextView address=(TextView) convertView.findViewById(R.id.txtV_address);
+        //gan du lieu
+        roomModel itemroom=room.get(position);
+        image.setImageResource(itemroom.getImage());
+        name.setText(itemroom.getName());
+        address.setText(itemroom.getAddress());
         return convertView;
     }
 }
