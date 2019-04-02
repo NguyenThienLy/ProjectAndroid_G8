@@ -76,7 +76,6 @@
                 android:layout_height="700dp"
                 android:layout_alignParentBottom="true"
                 android:gravity="center">
-
             </ListView>
         </LinearLayout>
     </ScrollView>

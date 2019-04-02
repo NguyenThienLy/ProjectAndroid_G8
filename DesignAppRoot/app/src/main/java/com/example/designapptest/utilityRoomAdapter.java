@@ -13,17 +13,17 @@ import java.util.List;
 public class utilityRoomAdapter extends BaseAdapter {
     private Context context;
     private int layout;
-    private List<utilityRoomModel> utilityRoom;
+    private List<utilityRoomModel> lstUtilityRoom;
 
     public utilityRoomAdapter(Context context, int layout, List<utilityRoomModel> utilityRoom) {
         this.context = context;
         this.layout = layout;
-        this.utilityRoom = utilityRoom;
+        this.lstUtilityRoom = utilityRoom;
     }
 
     @Override
     public int getCount() {
-        return this.utilityRoom.size();
+        return this.lstUtilityRoom.size();
     }
 
     @Override
@@ -41,10 +41,10 @@ public class utilityRoomAdapter extends BaseAdapter {
         LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView= inflater.inflate(layout,null);
         //anh xa
-        ImageView img=(ImageView) convertView.findViewById(R.id.img_utility);
-        TextView name=(TextView) convertView.findViewById(R.id.txt_nameUtility);
+        ImageView img=(ImageView) convertView.findViewById(R.id.img_utility_rom_detail);
+        TextView name=(TextView) convertView.findViewById(R.id.txt_nameUtility_utility_room_detail);
         //gan gia tri
-        utilityRoomModel itemUtilityRoom = utilityRoom.get(position);
+        utilityRoomModel itemUtilityRoom = lstUtilityRoom.get(position);
         img.setImageResource(itemUtilityRoom.getImage());
         name.setText(itemUtilityRoom.getName());
 
