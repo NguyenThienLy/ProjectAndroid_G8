@@ -1,2 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="stringTitlePushRoom">Post your room</string>
+    <string name="stringLocationPushRoom">Location</string>
+    <string name="stringInformationPushRoom">Information</string>
+    <string name="stringUtilityPushRoom">Utility</string>
+    <string name="stringConfirmPushRoom">Confirm</string>
+    <string name="stringCityPushRoom">City</string>
+    <string name="stringDistrictPushRoom">District</string>
+    <string name="stringWardPushRoom">Ward</string>
+    <string name="stringStreetPushRoom">Street</string>
+    <string name="stringNoPushRoom">No</string>
+    <string name="stringExampleStreetPushRoom">Example: Nguyen Van Cu</string>
+    <string name="stringExampleNoPushRoom">Example: 224</string>
+    <string name="stringNameButtonNextPushRoom">Next ></string>
+    <string name="stringTypePushRoom">Type</string>
+    <string name="stringType1PushRoom">Room for rent</string>
+    <string name="stringType2PushRoom">Dorm</string>
+    <string name="stringType3PushRoom">Twin residential block</string>
+    <string name="stringType4PushRoom">Apartment</string>
+    <string name="stringNumberPushRoom">Number</string>
+    <string name="stringAreaPushRoom">Area of room</string>
+    <string name="stringPricePushRoom">Price ($/room)</string>
+    <string name="stringElectricPushRoom">Electric bill ($/kg)</string>
+    <string name="stringWaterPushRoom">Water bill ($/m3)</string>
+    <string name="stringInternetPushRoom">Internet ($/month)</string>
+    <string name="stringFreePushRoom">Free</string>
+    <string name="stringParkCarPushRoom">Car park</string>
+    <string name="stringNumberHelpPushRoom">Enter number of rooms you have</string>
+    <string name="stringAreaHelpPushRoom">Enter area of room(m2)</string>
+    <string name="stringPriceHelpPushRoom">Enter price</string>
+    <string name="stringUpLoadImagePushRoom">Upload images from your photo library</string>
+    <string name="stringTakePicturePushRoom">Take a picture</string>
+    <string name="stringImagesPushRoom">Images</string>
+    <string name="stringUtilitiesPushRoom">Utilities</string>
+    <string name="stringWCPushRoom">Toilet</string>
+    <string name="stringWifiPushRoom">Wifi</string>
+    <string name="stringBedPushRoom">Bed</string>
+    <string name="stringFridgePushRoom">Fridge</string>
+    <string name="stringWardrobePushRoom">Wardrobe</string>
+    <string name="stringPetPushRoom">Pet</string>
+    <string name="stringWindowPushRoom">Window</string>
+    <string name="stringConfirmInfPushRoom">Confirm information</string>
+    <string name="stringPhonePushRoom">Your phone</string>
+    <string name="stringEnterPhonePushRoom">Enter your phone</string>
+    <string name="stringTitleConfirmPushRoom">Title</string>
+    <string name="stringTitleHelpPushRoom">Enter your title</string>
+    <string name="stringDescribePushRoom">Describe</string>
+    <string name="stringDescribeConfirmPushRoom">Describe your room</string>
+    <string name="stringOpenTimePushRoom">Open time</string>
+    <string name="stringCloseTimePushRoom">Closed time</string>
+    <string name="stringPostPushRoom">Post</string>
+
+
+</resources>
