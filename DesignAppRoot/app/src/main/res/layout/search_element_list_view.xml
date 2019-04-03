@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/r_btn_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Vị trí"
+        android:textColor="#666666"
+        android:textSize="20px"
+        android:textAlignment="center"
+        android:paddingTop="15px"
+        android:paddingBottom="15px"/>
+</LinearLayout>
