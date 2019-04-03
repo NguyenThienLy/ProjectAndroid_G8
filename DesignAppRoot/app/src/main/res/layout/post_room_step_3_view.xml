@@ -239,7 +239,7 @@
                 </RelativeLayout>
             </LinearLayout>
             <Button
-                android:id="@+id/btn_nextStep3_push_room"
+                android:id="@+id/btn_nextStep3_post_room"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="@string/stringNameButtonNextPushRoom"

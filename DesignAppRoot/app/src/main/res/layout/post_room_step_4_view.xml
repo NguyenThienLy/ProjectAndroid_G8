@@ -112,185 +112,111 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/stringTypePushRoom"
+                    android:text="@string/stringConfirmInfPushRoom"
                     android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <RadioButton
-                        android:id="@+id/rBtn_type1_push_room"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/stringType1PushRoom" />
-
-                    <RadioButton
-                        android:id="@+id/rBtn_type2_push_room"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/stringType2PushRoom" />
-
-                    <RadioButton
-                        android:id="@+id/rBtn_type3_push_room"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/stringType3PushRoom" />
-
-                    <RadioButton
-                        android:id="@+id/rBtn_type4_push_room"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/stringType4PushRoom" />
-                </RadioGroup>
-
+                    android:textStyle="bold"
+                    android:textSize="16dp"/>
                 <TextView
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/stringNumberPushRoom"
+                    android:text="@string/stringPhonePushRoom"
                     android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-
+                    android:textStyle="bold"/>
                 <EditText
-                    android:id="@+id/edt_numberRoom_push_room"
+                    android:id="@+id/edt_phone_push_room"
                     android:layout_width="330dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/custom_spinner_rim"
+                    android:hint="@string/stringEnterPhonePushRoom"
                     android:gravity="center"
-                    android:hint="@string/stringNumberHelpPushRoom"
-                    android:textColor="@android:color/black" />
-
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/custom_spinner_rim"/>
                 <TextView
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/stringAreaPushRoom"
+                    android:text="@string/stringTitleConfirmPushRoom"
                     android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-
+                    android:textStyle="bold"/>
                 <EditText
-                    android:id="@+id/edt_areaRoom_push_room"
+                    android:id="@+id/edt_titleConfirm_push_room"
                     android:layout_width="330dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/custom_spinner_rim"
+                    android:hint="@string/stringTitleHelpPushRoom"
                     android:gravity="center"
-                    android:hint="@string/stringAreaHelpPushRoom"
-                    android:textColor="@android:color/black" />
-
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/custom_spinner_rim"/>
                 <TextView
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/stringPricePushRoom"
+                    android:text="@string/stringDescribePushRoom"
                     android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-
+                    android:textStyle="bold"/>
                 <EditText
-                    android:id="@+id/edt_priceRoom_push_room"
+                    android:id="@+id/edt_describe_push_room"
                     android:layout_width="330dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/custom_spinner_rim"
+                    android:hint="@string/stringDescribeConfirmPushRoom"
                     android:gravity="center"
-                    android:hint="@string/stringPriceHelpPushRoom"
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/stringElectricPushRoom"
                     android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-
+                    android:background="@drawable/custom_spinner_rim"/>
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/edt_electricBill_push_room"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:hint="@string/stringPriceHelpPushRoom" />
-
-                    <RadioButton
-                        android:id="@+id/rBtn_freeElectric_push_room"
+                    <TextView
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_toRightOf="@+id/edt_electricBill_push_room"
-                        android:text="@string/stringFreePushRoom" />
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/stringWaterPushRoom"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
+                        android:text="@string/stringOpenTimePushRoom"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"/>
                     <EditText
-                        android:id="@+id/edt_waterBill_push_room"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:hint="@string/stringPriceHelpPushRoom" />
+                        android:id="@+id/edt_openTime_push_room"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        android:background="@drawable/custom_spinner_rim"/>
 
-                    <RadioButton
-                        android:id="@+id/rBtn_freeWater_push_room"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="100dp"
                         android:layout_marginTop="15dp"
-                        android:layout_toRightOf="@+id/edt_waterBill_push_room"
-                        android:text="@string/stringFreePushRoom" />
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/stringInternetPushRoom"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                        android:text="@string/stringCloseTimePushRoom"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:layout_toRightOf="@+id/edt_openTime_push_room"/>
                     <EditText
-                        android:id="@+id/edt_internet_push_room"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:hint="@string/stringPriceHelpPushRoom" />
-
-                    <RadioButton
-                        android:id="@+id/rBtn_freeInternet_push_room"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_toRightOf="@+id/edt_internet_push_room"
-                        android:text="@string/stringFreePushRoom" />
+                        android:id="@+id/edt_closeTime_push_room"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginLeft="100dp"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        android:background="@drawable/custom_spinner_rim"
+                        android:layout_toRightOf="@+id/edt_openTime_push_room"/>
                 </RelativeLayout>
                 <Button
-                    android:id="@+id/btn_nextStep2_push_room"
+                    android:id="@+id/btn_nextStep4_post_room"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/stringNameButtonNextPushRoom"
+                    android:text="@string/stringPostPushRoom"
                     android:layout_marginTop="40dp"
                     android:textColor="@android:color/holo_blue_bright"
                     android:layout_gravity="center"
-                    android:background="@drawable/custom_rim"
-                    android:layout_marginBottom="20dp"
-                    />
-
+                    android:background="@drawable/custom_rim"/>
             </LinearLayout>
 
         </LinearLayout>

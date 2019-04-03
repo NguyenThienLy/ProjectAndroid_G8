@@ -27,7 +27,7 @@
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/txt_quantityMember"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_back_100" />
+                    android:src="@drawable/ic_svg_back_100" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -124,7 +124,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_toRightOf="@+id/txt_quantityMember"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_male_100" />
+                        android:src="@drawable/ic_svg_male_100" />
 
                     <ImageView
                         android:id="@+id/img_comment"

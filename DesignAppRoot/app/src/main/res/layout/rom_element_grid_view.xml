@@ -40,7 +40,7 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/txt_quantityMember"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_male_50"
+            android:src="@drawable/ic_svg_male_100"
             android:layout_marginLeft="2dp"
             />
 
@@ -51,7 +51,7 @@
             android:layout_marginTop="7dp"
             android:layout_toLeftOf="@+id/txt_quantityComment"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_comment_26"
+            android:src="@drawable/ic_svg_comment_100"
             android:layout_marginRight="2dp"
             />
 
