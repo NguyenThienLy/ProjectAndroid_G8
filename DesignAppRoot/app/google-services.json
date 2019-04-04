@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "115253171209",
+    "firebase_url": "https://findroomforrent-5bea0.firebaseio.com",
+    "project_id": "findroomforrent-5bea0",
+    "storage_bucket": "findroomforrent-5bea0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115253171209:android:fa4f2171709a5941",
+        "android_client_info": {
+          "package_name": "com.example.designapptest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115253171209-5lh7untr71lajbh6d8g5b07lcjq1e9ui.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.designapptest",
+            "certificate_hash": "c8b90567853edeb31fefe308fed808c253313fdf"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFIhxYDW-5RAKVl2RIz7ri6ronz6Y8iE0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115253171209-btommndpageggkndsf241vvnsns3u3vd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
