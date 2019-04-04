@@ -38,26 +38,46 @@ public class commentRoomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView= inflater.inflate(layout,null);
-        //anh xa
-        ImageView img = (ImageView) convertView.findViewById(R.id.img_avt_comment_room_detail);
-        TextView name = (TextView) convertView.findViewById(R.id.txt_name_comment_room_detail);
-        TextView quantityLike = (TextView) convertView.findViewById(R.id.txt_quantityLike_comment_room_detail);
-        TextView rate = (TextView) convertView.findViewById(R.id.txt_rate_comment_room_detail);
-        TextView headComment = (TextView) convertView.findViewById(R.id.txt_headComment_comment_room_detail);
-        TextView mainComment = (TextView) convertView.findViewById(R.id.txt_mainComment_comment_room_detail);
+        View view = convertView;
+
+        if (view == null) {
+
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(layout, null);
+
+            ViewHolder holder = new ViewHolder();
+
+            holder.img = (ImageView) view.findViewById(R.id.img_avt_comment_room_detail);
+            holder.name = (TextView) view.findViewById(R.id.txt_name_comment_room_detail);
+            holder.quantityLike = (TextView) view.findViewById(R.id.txt_quantityLike_comment_room_detail);
+            holder.rate = (TextView) view.findViewById(R.id.txt_rate_comment_room_detail);
+            holder.headComment = (TextView) view.findViewById(R.id.txt_headComment_comment_room_detail);
+            holder.mainComment = (TextView) view.findViewById(R.id.txt_mainComment_comment_room_detail);
+
+            view.setTag(holder);
+        }
 
         //gan gia tri
         commentRoomModel itemCommentRoom = lstCommentRoom.get(position);
 
-        img.setImageResource(itemCommentRoom.getImage());
-        name.setText(itemCommentRoom.getName());
-        quantityLike.setText(String.valueOf(itemCommentRoom.getQuantityLike()));
-        rate.setText(String.valueOf(itemCommentRoom.getRate()));
-        headComment.setText(itemCommentRoom.getHeadComment());
-        mainComment.setText(itemCommentRoom.getMainComment());
+        ViewHolder holder = (ViewHolder) view.getTag();
 
-        return convertView;
+        holder.img.setImageResource(itemCommentRoom.getImage());
+        holder.name.setText(itemCommentRoom.getName());
+        holder.quantityLike.setText(String.valueOf(itemCommentRoom.getQuantityLike()));
+        holder.rate.setText(String.valueOf(itemCommentRoom.getRate()));
+        holder.headComment.setText(itemCommentRoom.getHeadComment());
+        holder.mainComment.setText(itemCommentRoom.getMainComment());
+
+        return view;
+    }
+
+    class ViewHolder {
+        ImageView img;
+        TextView name;
+        TextView quantityLike;
+        TextView rate;
+        TextView headComment;
+        TextView mainComment;
     }
 }

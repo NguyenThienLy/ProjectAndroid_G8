@@ -18,7 +18,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="650px"
                     android:layout_gravity="top"
-                    android:src="@drawable/background_banner_1"
+                    android:src="@drawable/bg_jpg_banner_1"
                     android:scaleType="fitXY"/>
                 <LinearLayout
                     android:layout_width="440px"

@@ -35,12 +35,27 @@ public class searchAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView= inflater.inflate(layout,null);
-        //anh xa
-        TextView type=(TextView) convertView.findViewById(R.id.r_btn_search);
-        //gan gia tri
-        type.setText(typeSearch[position]);
-        return convertView;
+        View view = convertView;
+
+        if (view == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(layout, null);
+
+            ViewHolder holder = new ViewHolder();
+
+            holder.type = (TextView) view.findViewById(R.id.r_btn_search);
+
+            view.setTag(holder);
+        }
+
+        ViewHolder holder = (ViewHolder) view.getTag();
+
+        holder.type.setText(typeSearch[position]);
+
+        return view;
+    }
+
+    class ViewHolder {
+        TextView type;
     }
 }

@@ -20,7 +20,7 @@ public class detailRoom extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rom_detail_view);
+        setContentView(R.layout.room_detail_view);
 
         initControl();
 
@@ -60,12 +60,12 @@ public class detailRoom extends Activity {
     private void initDataSameCriteria() {
         lstSameCriteriaRoom = new ArrayList<>();
 
-        lstSameCriteriaRoom.add(new roomModel(R.drawable.room_1,"Cho thuê phòng trọ giá rẻ","2.5 triệu/phòng","54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 8, 256, "PHÒNG TRỌ"));
-        lstSameCriteriaRoom.add(new roomModel(R.drawable.room_1,"Cho thuê phòng trọ giá rẻ","3.5 triệu/phòng","54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 6, 18, "PHÒNG TRỌ"));
-        lstSameCriteriaRoom.add(new roomModel(R.drawable.room_1,"Cho thuê phòng trọ giá rẻ","2.5 triệu/phòng","54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 5, 365, "CHUNG CƯ"));
-        lstSameCriteriaRoom.add(new roomModel(R.drawable.room_1,"Cho thuê phòng trọ giá rẻ","3.5 triệu/phòng","54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 4, 256, "PHÒNG TRỌ"));
-        lstSameCriteriaRoom.add(new roomModel(R.drawable.room_1,"Cho thuê phòng trọ giá rẻ","2.5 triệu/phòng","54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 6, 28, "KÍ TÚC XÁ"));
-        lstSameCriteriaRoom.add(new roomModel(R.drawable.room_1,"Cho thuê phòng trọ giá rẻ","3.5 triệu/phòng","54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 7, 147, "PHÒNG TRỌ"));
+        lstSameCriteriaRoom.add(new roomModel(R.drawable.avt_jpg_room,"Cho thuê phòng trọ giá rẻ","2.5 triệu/phòng","54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 8, 256, "PHÒNG TRỌ"));
+        lstSameCriteriaRoom.add(new roomModel(R.drawable.avt_jpg_room,"Cho thuê phòng trọ giá rẻ","3.5 triệu/phòng","54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 6, 18, "PHÒNG TRỌ"));
+        lstSameCriteriaRoom.add(new roomModel(R.drawable.avt_jpg_room,"Cho thuê phòng trọ giá rẻ","2.5 triệu/phòng","54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 5, 365, "CHUNG CƯ"));
+        lstSameCriteriaRoom.add(new roomModel(R.drawable.avt_jpg_room,"Cho thuê phòng trọ giá rẻ","3.5 triệu/phòng","54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 4, 256, "PHÒNG TRỌ"));
+        lstSameCriteriaRoom.add(new roomModel(R.drawable.avt_jpg_room,"Cho thuê phòng trọ giá rẻ","2.5 triệu/phòng","54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 6, 28, "KÍ TÚC XÁ"));
+        lstSameCriteriaRoom.add(new roomModel(R.drawable.avt_jpg_room,"Cho thuê phòng trọ giá rẻ","3.5 triệu/phòng","54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 7, 147, "PHÒNG TRỌ"));
     }
 
     private void initDataComment() {

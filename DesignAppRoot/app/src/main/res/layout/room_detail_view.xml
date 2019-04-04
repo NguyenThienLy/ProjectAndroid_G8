@@ -56,7 +56,7 @@
                         android:layout_weight="1"
                         android:padding="1dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/banner" />
+                        android:src="@drawable/bg_jpg_banner_1" />
 
                     <ImageView
                         android:layout_width="0dp"
@@ -64,7 +64,7 @@
                         android:layout_weight="1"
                         android:padding="1dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/banner" />
+                        android:src="@drawable/bg_jpg_banner_2" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -78,7 +78,7 @@
                         android:layout_weight="1"
                         android:padding="1dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/banner" />
+                        android:src="@drawable/bg_jpg_banner_1" />
 
                     <ImageView
                         android:layout_width="0dp"
@@ -86,13 +86,14 @@
                         android:layout_weight="1"
                         android:padding="1dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/banner" />
+                        android:src="@drawable/bg_jpg_banner_2" />
                 </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp">
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp">
 
                     <TextView
                         android:id="@+id/txt_type"
@@ -152,7 +153,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:text="@string/stringName"
                     android:textColor="@android:color/background_dark"
                     android:textSize="25sp" />
@@ -265,7 +267,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -366,7 +369,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:text="@string/stringNote"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
@@ -374,7 +378,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:text="@string/stringQuantity"
                     android:textColor="@color/colorGrayType2"
                     android:textSize="12sp" />
@@ -382,6 +387,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -467,7 +473,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:text="@string/stringUtilities"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
@@ -476,8 +483,7 @@
                     android:id="@+id/grV_utiliti_rom_detail"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:layout_margin="5dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_margin="10dp"
                     android:columnWidth="80dp"
                     android:gravity="center"
                     android:numColumns="auto_fit"
@@ -527,7 +533,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:text="@string/stringAdress"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
@@ -536,7 +543,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_margin="5dp">
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -556,7 +566,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_margin="5dp">
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -615,7 +628,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:text="@string/stringDetail"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
@@ -623,7 +637,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:text="Liên hệ: 0966.332.775 - 0969.676.678 Thắng Điện: 3500k/kWH, nước 100.000đ/người, internet: 100.000đ/phòng Địa chỉ: 113 Trần Kế Xương. P7, Phú Nhuận"
                     android:textSize="15sp" />
 
@@ -670,7 +687,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:text="@string/stringEvaluate"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
@@ -851,8 +869,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -875,7 +893,10 @@
                     android:id="@+id/lst_comment_rom_detail"
                     android:layout_width="match_parent"
                     android:layout_height="620dp"
-                    android:layout_margin="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:gravity="center"></ListView>
 
 
@@ -922,7 +943,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:text="@string/stringSameCriteria"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
@@ -931,9 +953,8 @@
                     android:id="@+id/grV_sameCriteria_rom_detail"
                     android:layout_width="match_parent"
                     android:layout_height="700dp"
-                    android:layout_margin="5dp"
-                    android:layout_marginTop="10dp"
-                    android:columnWidth="170dp"
+                    android:layout_margin="10dp"
+                    android:columnWidth="175dp"
                     android:gravity="center"
                     android:numColumns="auto_fit"
                     android:stretchMode="spacingWidth"

@@ -46,6 +46,8 @@ public class MainActivity extends Activity{
 
         initDataRoom();
 
+        initDataLocation();
+
         adapter();
 
         search();
@@ -72,16 +74,20 @@ public class MainActivity extends Activity{
     private void initDataRoom() {
         mydata = new ArrayList<>();
 
-        mydata.add(new roomModel(R.drawable.image_room, "Cho thuê phòng trọ giá rẻ", "2.5 triệu/phòng", "54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 8, 256, "PHÒNG TRỌ"));
-        mydata.add(new roomModel(R.drawable.image_room, "Cho thuê phòng trọ giá rẻ", "3.5 triệu/phòng", "54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 6, 18, "PHÒNG TRỌ"));
-        mydata.add(new roomModel(R.drawable.image_room, "Cho thuê phòng trọ giá rẻ", "2.5 triệu/phòng", "54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 5, 365, "CHUNG CƯ"));
-        mydata.add(new roomModel(R.drawable.image_room, "Cho thuê phòng trọ giá rẻ", "3.5 triệu/phòng", "54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 4, 256, "PHÒNG TRỌ"));
-        mydata.add(new roomModel(R.drawable.image_room, "Cho thuê phòng trọ giá rẻ", "2.5 triệu/phòng", "54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 6, 28, "KÍ TÚC XÁ"));
-        mydata.add(new roomModel(R.drawable.image_room, "Cho thuê phòng trọ giá rẻ", "3.5 triệu/phòng", "54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 7, 147, "PHÒNG TRỌ"));
-        datalocation = new ArrayList<locationModel>();
-        datalocation.add(new locationModel(R.drawable.image_binh_thanh, "Bình Thạnh", "6856 phòng"));
-        datalocation.add(new locationModel(R.drawable.image_thu_duc, "Quận 1", "4875 phòng"));
-        datalocation.add(new locationModel(R.drawable.image_quan_nhat, "Thủ Đức", "4229 phòng"));
+        mydata.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "2.5 triệu/phòng", "54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 8, 256, "PHÒNG TRỌ"));
+        mydata.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "3.5 triệu/phòng", "54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 6, 18, "PHÒNG TRỌ"));
+        mydata.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "2.5 triệu/phòng", "54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 5, 365, "CHUNG CƯ"));
+        mydata.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "3.5 triệu/phòng", "54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 4, 256, "PHÒNG TRỌ"));
+        mydata.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "2.5 triệu/phòng", "54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 6, 28, "KÍ TÚC XÁ"));
+        mydata.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "3.5 triệu/phòng", "54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 7, 147, "PHÒNG TRỌ"));
+    }
+
+    private void initDataLocation() {
+        datalocation = new ArrayList<>();
+
+        datalocation.add(new locationModel(R.drawable.avt_jpg_room, "Bình Thạnh", "6856 phòng"));
+        datalocation.add(new locationModel(R.drawable.avt_jpg_room, "Quận 1", "4875 phòng"));
+        datalocation.add(new locationModel(R.drawable.avt_jpg_room, "Thủ Đức", "4229 phòng"));
     }
 
     private void adapter() {

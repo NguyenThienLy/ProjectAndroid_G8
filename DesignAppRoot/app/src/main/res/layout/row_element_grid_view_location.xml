@@ -7,7 +7,7 @@
         android:layout_width="225px"
         android:layout_height="200px"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/image_binh_thanh"
+        android:src="@drawable/avt_jpg_room"
         android:scaleType="fitXY"/>
     <LinearLayout
         android:background="#4D000000"

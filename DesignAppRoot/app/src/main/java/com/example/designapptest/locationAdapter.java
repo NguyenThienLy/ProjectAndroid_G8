@@ -13,17 +13,18 @@ import java.util.List;
 public class locationAdapter extends BaseAdapter {
     private Context context;
     private int layout;
-    private List<locationModel> location;
+    private List<locationModel> lstLocation;
 
-    public locationAdapter(Context context, int layout, List<locationModel> location) {
+    public locationAdapter(Context context, int layout, List<locationModel> lstLocation) {
         this.context = context;
         this.layout = layout;
-        this.location = location;
+        this.lstLocation = lstLocation;
     }
 
     @Override
     public int getCount() {
-        return location.size();
+
+        return this.lstLocation.size();
     }
 
     @Override
@@ -38,17 +39,37 @@ public class locationAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView= inflater.inflate(layout,null);
-        //anh xa
-        ImageView image=(ImageView) convertView.findViewById(R.id.img_location);
-        TextView name=(TextView) convertView.findViewById(R.id.txt_name_location);
-        TextView room=(TextView) convertView.findViewById(R.id.txt_room_location);
+        View view = convertView;
+
+        if (view == null) {
+
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(layout, null);
+
+            ViewHolder holder = new ViewHolder();
+
+            holder.image = (ImageView) view.findViewById(R.id.img_location);
+            holder.name = (TextView) view.findViewById(R.id.txt_name_location);
+            holder.room = (TextView) view.findViewById(R.id.txt_room_location);
+
+            view.setTag(holder);
+        }
+
         //gan gia tri
-        locationModel itemlocation=location.get(position);
-        image.setImageResource(itemlocation.getImage());
-        name.setText(itemlocation.getName());
-        room.setText(itemlocation.getRoom());
-        return convertView;
+        locationModel itemLocation = lstLocation.get(position);
+
+        ViewHolder holder = (ViewHolder) view.getTag();
+
+        holder.image.setImageResource(itemLocation.getImage());
+        holder.name.setText(itemLocation.getName());
+        holder.room.setText(itemLocation.getRoom());
+
+        return view;
+    }
+
+    class ViewHolder {
+        ImageView image;
+        TextView name;
+        TextView room;
     }
 }

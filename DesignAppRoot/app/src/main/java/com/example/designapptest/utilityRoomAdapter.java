@@ -38,16 +38,32 @@ public class utilityRoomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView= inflater.inflate(layout,null);
-        //anh xa
-        ImageView img=(ImageView) convertView.findViewById(R.id.img_utility_rom_detail);
-        TextView name=(TextView) convertView.findViewById(R.id.txt_nameUtility_utility_room_detail);
-        //gan gia tri
-        utilityRoomModel itemUtilityRoom = lstUtilityRoom.get(position);
-        img.setImageResource(itemUtilityRoom.getImage());
-        name.setText(itemUtilityRoom.getName());
+        View view = convertView;
 
-        return convertView;
+        if (view == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(layout, null);
+
+            ViewHolder holder = new ViewHolder();
+
+            holder.img = (ImageView) view.findViewById(R.id.img_utility_rom_detail);
+            holder.name = (TextView) view.findViewById(R.id.txt_nameUtility_utility_room_detail);
+
+            view.setTag(holder);
+        }
+
+        utilityRoomModel itemUtilityRoom = lstUtilityRoom.get(position);
+
+        ViewHolder holder = (ViewHolder) view.getTag();
+
+        holder.img.setImageResource(itemUtilityRoom.getImage());
+        holder.name.setText(itemUtilityRoom.getName());
+
+        return view;
+    }
+
+    class ViewHolder {
+        ImageView img;
+        TextView name;
     }
 }
