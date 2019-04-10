@@ -16,10 +16,12 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,7 +52,7 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         //Khởi tạo firebaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
         //Text Đăng xuất
-        //firebaseAuth.signOut();
+        firebaseAuth.signOut();
 
         btnLoginWithGoogle = (ImageButton)findViewById(R.id.btnImg_google_login);
         btnLoginWithGoogle.setOnClickListener(this);
@@ -74,9 +76,9 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
 
     //Tạo client đăng nhập bằng google
     private void CreateClientLoginWithGoogle(){
-        //Tạo ra google sign
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder()
-                .requestIdToken(getString(R.string.default_web_client_id))
+        //Chú ý chỗ lấy id web này.....:( 8 tiếng để tìm ra lỗi ở đây
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("115253171209-ii7mjp8rj6r0mqsnl5ei2arne611gmpe.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -116,6 +118,19 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
                 Toast.makeText(this,tokenID.toString(),Toast.LENGTH_LONG).show();
                 CheckLoginFirebase(tokenID);
             }
+//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+//            try {
+//                // Google Sign In was successful, authenticate with Firebase
+//                GoogleSignInAccount account = task.getResult(ApiException.class);
+//                Toast.makeText(this,"dang nhap thanh cong o day",Toast.LENGTH_LONG).show();
+//                //firebaseAuthWithGoogle(account);
+//            } catch (ApiException e) {
+//                Toast.makeText(this,"dang nhap that bai o day",Toast.LENGTH_LONG).show();
+//                // Google Sign In failed, update UI appropriately
+//                Log.w("loginfalse", "Google sign in failed", e);
+//                // ...
+//            }
+
         }
     }
 
