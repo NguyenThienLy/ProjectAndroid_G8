@@ -21,6 +21,14 @@
             "package_name": "com.example.designapptest",
             "certificate_hash": "c8b90567853edeb31fefe308fed808c253313fdf"
           }
+        },
+        {
+          "client_id": "115253171209-a4lutrnh9kjp9k40ktoklbti5mo0uu3i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.designapptest",
+            "certificate_hash": "94dc1636a53d9b0c03383cc70b31f21a83e3f40f"
+          }
         }
       ],
       "api_key": [
