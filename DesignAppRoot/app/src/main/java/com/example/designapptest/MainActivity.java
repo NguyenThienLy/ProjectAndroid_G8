@@ -24,11 +24,12 @@ public class MainActivity extends Activity{
 
     //Qui thêm vào
     RecyclerView recyclerMainRoom;
+    RecyclerView recyclerGridMainRoom;
     MainActivityController mainActivityController;
     ProgressBar progressBarMain;
     //End Qui thêm vào
 
-    GridView grVRoom;
+   // GridView grVRoom;
     GridView grVLocation;
 
     //ListView lstVRoom;
@@ -71,7 +72,7 @@ public class MainActivity extends Activity{
     }
 
     private void initControl() {
-        grVRoom = (GridView) findViewById(R.id.grV_room);
+        //grVRoom = (GridView) findViewById(R.id.grV_room);
         grVLocation = (GridView) findViewById(R.id.grV_location);
 
         btnChooseSearch = (Button) findViewById(R.id.btn_choose_search);
@@ -85,6 +86,7 @@ public class MainActivity extends Activity{
 
         //Qui them vào
         recyclerMainRoom = (RecyclerView)findViewById(R.id.recycler_Main_Room);
+        recyclerGridMainRoom = (RecyclerView)findViewById(R.id.recycler_Grid_Main_Room);
         progressBarMain = (ProgressBar)findViewById(R.id.Progress_Main);
     }
 
@@ -108,13 +110,13 @@ public class MainActivity extends Activity{
     }
 
     private void adapter() {
-        roomAdapterGid = new roomAdapter(this, R.layout.room_element_grid_view, mydata);
-        roomAdapterList = new roomAdapter(this, R.layout.room_element_list_view, mydata);
+       // roomAdapterGid = new roomAdapter(this, R.layout.room_element_grid_view, mydata);
+        //roomAdapterList = new roomAdapter(this, R.layout.room_element_list_view, mydata);
         suggestAdapterList = new suggestAdapter(this, R.layout.suggest_element_list_view, mydata);
         locationAdapter = new locationAdapter(this, R.layout.row_element_grid_view_location, datalocation);
         searchAdapter = new searchAdapter(this, R.layout.search_element_list_view, dataSearch);
 
-        grVRoom.setAdapter(roomAdapterGid);
+        //grVRoom.setAdapter(roomAdapterGid);
         //lstVRoom.setAdapter(roomAdapterList);
         grVLocation.setAdapter(locationAdapter);
         lstVSearch.setAdapter(searchAdapter);
@@ -189,13 +191,13 @@ public class MainActivity extends Activity{
 //            }
 //        });
 
-        grVRoom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), detailRoom.class);
-                startActivity(intent);
-            }
-        });
+//        grVRoom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(getApplicationContext(), detailRoom.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     private void postRoom() {
@@ -218,7 +220,7 @@ public class MainActivity extends Activity{
         super.onStart();
 
         mainActivityController = new MainActivityController(this);
-        mainActivityController.ListMainRoom(recyclerMainRoom,progressBarMain);
+        mainActivityController.ListMainRoom(recyclerMainRoom,recyclerGridMainRoom,progressBarMain);
 
     }
     //End load dữ liệu vào danh sách trong lần đầu chạy

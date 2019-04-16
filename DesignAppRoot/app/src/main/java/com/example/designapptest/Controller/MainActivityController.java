@@ -1,6 +1,7 @@
 package com.example.designapptest.Controller;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,17 +24,28 @@ public class MainActivityController {
         roomModel = new RoomModel();
     }
 
-    public void ListMainRoom(RecyclerView recyclerMainRoom, final ProgressBar progressBarMain){
+    public void ListMainRoom(RecyclerView recyclerMainRoom,RecyclerView recyclerViewGridMainRoom ,final ProgressBar progressBarMain){
         final List<RoomModel> roomModelList = new ArrayList<>();
 
+        //Tạo layout cho danh sách trọ tìm kiếm nhiều nhất
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-
         recyclerMainRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
         final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(roomModelList, R.layout.room_element_list_view);
         //Cài adapter cho recycle
         recyclerMainRoom.setAdapter(adapterRecyclerMainRoom);
+        //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
+
+        //Tạo layout cho danh sách trọ được hiển thị theo dạng grid phía dưới
+        RecyclerView.LayoutManager layoutManagerGrid = new GridLayoutManager(context,2);
+        recyclerViewGridMainRoom.setLayoutManager(layoutManagerGrid);
+
+        //Tạo adapter cho recycle view
+        final AdapterRecyclerMainRoom adapterRecyclerGridMainRoom = new AdapterRecyclerMainRoom(roomModelList, R.layout.room_element_grid_view);
+        //Cài adapter cho recycle
+        recyclerViewGridMainRoom.setAdapter(adapterRecyclerGridMainRoom);
+        //End Tạo layout cho danh sách trọ được hiển thị theo dạng grid phía dưới
 
         //Tạo interface để truyền dữ liệu lên từ model
         IMainRoomModel iMainRoomModel = new IMainRoomModel() {
@@ -44,6 +56,7 @@ public class MainActivityController {
 
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerMainRoom.notifyDataSetChanged();
+                adapterRecyclerGridMainRoom.notifyDataSetChanged();
                 progressBarMain.setVisibility(View.GONE);
             }
         };

@@ -155,20 +155,39 @@
                 android:drawableLeft="@drawable/ic_svg_badge_24px"
                 android:paddingLeft="15dp"
                 android:paddingRight="10dp"/>
-            <GridView
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:id="@+id/grV_room"
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="700dp"
-                android:numColumns="auto_fit"
+
+            <!--Hiển thị danh sách trọ random-->
+            <android.support.v7.widget.RecyclerView
                 android:columnWidth="175dp"
                 android:verticalSpacing="20dp"
                 android:stretchMode="spacingWidth"
+                android:layout_marginBottom="100dp"
                 android:gravity="center"
-                >
-            </GridView>
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:id="@+id/recycler_Grid_Main_Room"
+                android:numColumns="auto_fit"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+            <!--End Hiển thị danh sách trọ random-->
+
+            <!--<GridView-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:id="@+id/grV_room"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="700dp"-->
+                <!--android:numColumns="auto_fit"-->
+                <!--android:columnWidth="175dp"-->
+                <!--android:verticalSpacing="20dp"-->
+                <!--android:stretchMode="spacingWidth"-->
+                <!--android:gravity="center"-->
+                <!--&gt;-->
+            <!--</GridView>-->
         </LinearLayout>
     </ScrollView>
     <LinearLayout
