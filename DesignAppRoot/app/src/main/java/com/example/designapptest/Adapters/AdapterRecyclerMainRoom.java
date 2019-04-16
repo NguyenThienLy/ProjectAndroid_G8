@@ -32,8 +32,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         this.RoomModelList = RoomModelList;
         this.resource = resource;
     }
-
-
+    
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment;
@@ -74,7 +73,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         viewHolder.txtAddress.setText(roomModel.getAddress());
         viewHolder.txtPrice.setText(String.valueOf(roomModel.getRentalCosts()));
         viewHolder.txtArea.setText(roomModel.getLength()+"x"+roomModel.getWidth());
-        viewHolder.txtQuantityComment.setText("5");
+        viewHolder.txtQuantityComment.setText("0");
 
         //Gán hình cho giới tính
         if(roomModel.isGender()==true){
@@ -83,6 +82,12 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
             viewHolder.imgGender.setImageResource(R.drawable.ic_svg_female_100);
         }
         //End Gán giá trị cho giới tính
+
+        //Gán giá trị cho số lượt bình luận
+        if(roomModel.getListCommentRoom().size()>0){
+            viewHolder.txtQuantityComment.setText(roomModel.getListCommentRoom().size()+"");
+        }
+        //End gán giá trị cho số lượng bình luận
 
         //Dowload hình ảnh cho room
         if(roomModel.getListImageRoom().size()>0){
@@ -108,7 +113,6 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
             });
 
         }
-
         //End Dowload hình ảnh cho room
     }
 

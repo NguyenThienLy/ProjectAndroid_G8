@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomModel {
-    String address,describe,name,owner,timeCreated;
-    long currentNumber,maxNumber;
-    double latitude,longtitude,length,width,rentalCosts;
+    String address, describe, name, owner, timeCreated;
+    long currentNumber, maxNumber;
+    double latitude, longtitude, length, width, rentalCosts;
     boolean authentication;
     boolean gender;
 
@@ -31,6 +31,17 @@ public class RoomModel {
 
     //Lưu mảng tên hình trên firebase
     private List<String> listImageRoom;
+
+    //Lưu mảng comment của phòng trọ
+    List<CommentModel> listCommentRoom;
+
+    public List<CommentModel> getListCommentRoom() {
+        return listCommentRoom;
+    }
+
+    public void setListCommentRoom(List<CommentModel> listCommentRoom) {
+        this.listCommentRoom = listCommentRoom;
+    }
 
     public String getRoomID() {
         return roomID;
@@ -90,15 +101,14 @@ public class RoomModel {
         this.gender = gender;
     }
 
-    //Biến lưu root của firebase
-    DatabaseReference nodeRoot;
+    //Biến lưu root của firebase, lưu ý để biến là private
+    private DatabaseReference nodeRoot;
 
     //Lưu ý phải có hàm khởi tạo rỗng
-    public RoomModel(){
+    public RoomModel() {
         //Trả về node root của database
         nodeRoot = FirebaseDatabase.getInstance().getReference();
     }
-
 
     public String getAddress() {
         return address;
@@ -204,7 +214,7 @@ public class RoomModel {
         this.authentication = authentication;
     }
 
-    public void ListRoom(final IMainRoomModel mainRoomModelInterface){
+    public void ListRoom(final IMainRoomModel mainRoomModelInterface) {
 
         //Tạo listen cho firebase
         ValueEventListener valueEventListener = new ValueEventListener() {
@@ -214,7 +224,7 @@ public class RoomModel {
                 DataSnapshot dataSnapshotRoom = dataSnapshot.child("Room");
 
                 //Duyệt hết trong danh sách phòng trọ
-                for(DataSnapshot valueRoom:dataSnapshotRoom.getChildren()){
+                for (DataSnapshot valueRoom : dataSnapshotRoom.getChildren()) {
                     //Lấy ra giá trị ép kiểu qua kiểu RoomModel
                     RoomModel roomModel = valueRoom.getValue(RoomModel.class);
                     //Set mã phòng trọ
@@ -226,7 +236,8 @@ public class RoomModel {
                     DataSnapshot dataSnapshotImageRoom = dataSnapshot.child("RoomImages").child(valueRoom.getKey());
                     List<String> tempImageList = new ArrayList<String>();
                     //Duyêt tất cả các giá trị của node tương ứng
-                    for(DataSnapshot valueImage:dataSnapshotImageRoom.getChildren()){
+                    for (DataSnapshot valueImage : dataSnapshotImageRoom.getChildren()) {
+
                         tempImageList.add(valueImage.getValue(String.class));
                     }
 
@@ -234,6 +245,28 @@ public class RoomModel {
                     roomModel.setListImageRoom(tempImageList);
 
                     //End Thêm tên danh sách tên hình vào phòng trọ
+
+                    //Thêm danh sách bình luận của phòng trọ
+
+                    DataSnapshot dataSnapshotCommentRoom = dataSnapshot.child("RoomComments").child(valueRoom.getKey());
+                    List<CommentModel> tempCommentList = new ArrayList<CommentModel>();
+                    //Duyệt tất cả các giá trị trong node tương ứng
+                    for (DataSnapshot CommentValue : dataSnapshotCommentRoom.getChildren()) {
+                        CommentModel commentModel = CommentValue.getValue(CommentModel.class);
+
+                        //Duyệt user tương ứng để lấy ra thông tin user bình luận
+
+                        UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
+                        commentModel.setUserComment(tempUser);
+
+                        //End duyệt user tương ứng để lấy ra thông tin user bình luận
+
+                        tempCommentList.add(commentModel);
+                    }
+
+                    roomModel.setListCommentRoom(tempCommentList);
+
+                    //End Thêm danh sách bình luận của phòng trọ
 
                     //Kích hoạt interface
                     mainRoomModelInterface.getListMainRoom(roomModel);
