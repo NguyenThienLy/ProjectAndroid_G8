@@ -99,17 +99,40 @@
                 android:drawableLeft="@drawable/ic_svg_bed_24px"
                 android:paddingLeft="15dp"
                 android:paddingRight="10dp"/>
-            <ListView
-                android:background="#ffffff"
+
+            <!--List hiển thị danh sách phòng trọ-->
+            <!--<ListView-->
+                <!--android:background="#ffffff"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:id="@+id/lstV_room"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="750dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:gravity="center">-->
+            <!--</ListView>-->
+            <!--End List hiển thị danh sách phòng trọ-->
+
+            <!-- Recyclerview để text -->
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_Main_Room"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:id="@+id/lstV_room"
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="750dp"
                 android:layout_alignParentBottom="true"
-                android:gravity="center">
-            </ListView>
+                android:gravity="center"
+                >
+
+            </android.support.v7.widget.RecyclerView>
+
+            <!-- End recyclerview để text-->
+
+
             <Button
                 android:layout_width="200px"
                 android:layout_height="60px"

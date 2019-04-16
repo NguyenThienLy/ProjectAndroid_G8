@@ -104,32 +104,20 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
     protected void onActivityResult(int requestCode, int resultCode,Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //Kiểm tra nếu resultcode trả về là của client Login with google
-        Toast.makeText(this,"khong chay vao ham nay",Toast.LENGTH_LONG).show();
+
         if(requestCode==REQUEST_CODE_LOGIN_WITH_GOOGLE){
-            Toast.makeText(this,"co chay vao ham nay",Toast.LENGTH_LONG).show();
+
 
             if(resultCode == RESULT_OK){
-                Toast.makeText(this,"ham nay thi khong chay sao",Toast.LENGTH_LONG).show();
+
                 GoogleSignInResult signInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
                 //Lấy ra account google được đăng nhập
                 GoogleSignInAccount account = signInResult.getSignInAccount();
                 //Lấy ra token của account google
                 String tokenID = account.getIdToken();
-                Toast.makeText(this,tokenID.toString(),Toast.LENGTH_LONG).show();
+
                 CheckLoginFirebase(tokenID);
             }
-//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//            try {
-//                // Google Sign In was successful, authenticate with Firebase
-//                GoogleSignInAccount account = task.getResult(ApiException.class);
-//                Toast.makeText(this,"dang nhap thanh cong o day",Toast.LENGTH_LONG).show();
-//                //firebaseAuthWithGoogle(account);
-//            } catch (ApiException e) {
-//                Toast.makeText(this,"dang nhap that bai o day",Toast.LENGTH_LONG).show();
-//                // Google Sign In failed, update UI appropriately
-//                Log.w("loginfalse", "Google sign in failed", e);
-//                // ...
-//            }
 
         }
     }

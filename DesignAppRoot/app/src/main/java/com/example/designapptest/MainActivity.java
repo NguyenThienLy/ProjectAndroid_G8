@@ -3,6 +3,8 @@ package com.example.designapptest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -12,13 +14,22 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 
+import com.example.designapptest.Controller.MainActivityController;
+import com.example.designapptest.Model.RoomModel;
+
 import java.util.ArrayList;
 
 public class MainActivity extends Activity{
+
+    //Qui thêm vào
+    RecyclerView recyclerMainRoom;
+    MainActivityController mainActivityController;
+    //End Qui thêm vào
+
     GridView grVRoom;
     GridView grVLocation;
 
-    ListView lstVRoom;
+    //ListView lstVRoom;
     ListView lstVSuggest;
     ListView lstVSearch;
 
@@ -64,11 +75,14 @@ public class MainActivity extends Activity{
         btnChooseSearch = (Button) findViewById(R.id.btn_choose_search);
         btnPostRoom = (Button) findViewById(R.id.btn_postRoom_main_room);
 
-        lstVRoom = (ListView) findViewById(R.id.lstV_room);
+        //lstVRoom = (ListView) findViewById(R.id.lstV_room);
         lstVSearch = (ListView) findViewById(R.id.lstV_search);
         lstVSuggest = (ListView) findViewById(R.id.lstV_suggest);
 
         edTSearch = (EditText) findViewById(R.id.edT_search);
+
+        //Qui them vào
+        recyclerMainRoom = (RecyclerView)findViewById(R.id.recycler_Main_Room);
     }
 
     private void initDataRoom() {
@@ -98,7 +112,7 @@ public class MainActivity extends Activity{
         searchAdapter = new searchAdapter(this, R.layout.search_element_list_view, dataSearch);
 
         grVRoom.setAdapter(roomAdapterGid);
-        lstVRoom.setAdapter(roomAdapterList);
+        //lstVRoom.setAdapter(roomAdapterList);
         grVLocation.setAdapter(locationAdapter);
         lstVSearch.setAdapter(searchAdapter);
         lstVSuggest.setAdapter(suggestAdapterList);
@@ -164,13 +178,13 @@ public class MainActivity extends Activity{
     }
 
     private void elementRoom() {
-        lstVRoom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), detailRoom.class);
-                startActivity(intent);
-            }
-        });
+//        lstVRoom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(getApplicationContext(), detailRoom.class);
+//                startActivity(intent);
+//            }
+//        });
 
         grVRoom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -194,4 +208,15 @@ public class MainActivity extends Activity{
     private void test() {
 
     }
+
+    //Load dữ liệu vào List danh sách trong lần đầu chạy
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mainActivityController = new MainActivityController(this);
+        mainActivityController.ListMainRoom(recyclerMainRoom);
+
+    }
+    //End load dữ liệu vào danh sách trong lần đầu chạy
 }
