@@ -1,239 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="35dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="344dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
+            android:text="@string/stringCityPushRoom"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <Spinner
+                android:id="@+id/spn_city_push_room"
+                android:layout_width="330dp"
+                android:layout_height="40dp"
+                android:background="@drawable/custom_spinner_rim" />
+
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-                 <TextView
-                android:layout_width="300dp"
-                android:layout_height="match_parent"
-                android:text="@string/stringTitlePushRoom"
-                     android:layout_marginLeft="50dp"
-                     android:textColor="@android:color/black"
-                android:gravity="center"
-                android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/btn_cancel_push_room"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Cancel"
-                    android:background="@android:color/white"/>
-            </LinearLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="@drawable/custom_rim"
-                >
-                <ImageButton
-                    android:id="@+id/btnImg_location_push_room"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_placeholder"
-                    android:background="@drawable/custom_rim"
-                    android:layout_marginLeft="28dp"
-                    android:layout_marginTop="10dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:text="@string/stringLocationPushRoom"
-                    android:layout_below="@+id/btnImg_location_push_room"/>
-                <ImageButton
-                    android:id="@+id/btnImg_information_push_room"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_svg_information_24"
-                    android:background="@drawable/custom_rim"
-                    android:layout_marginLeft="70dp"
-                    android:layout_toRightOf="@+id/btnImg_location_push_room"
-                    android:layout_marginTop="10dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stringInformationPushRoom"
-                    android:layout_marginLeft="50dp"
-                    android:layout_below="@+id/btnImg_information_push_room"
-                    android:layout_toRightOf="@id/btnImg_location_push_room"/>
-                <ImageButton
-                    android:id="@+id/btnImg_utility_push_room"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_svg_utility_24"
-                    android:background="@drawable/custom_rim"
-                    android:layout_marginLeft="70dp"
-                    android:layout_toRightOf="@+id/btnImg_information_push_room"
-                    android:layout_marginTop="10dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stringUtilityPushRoom"
-                    android:layout_marginLeft="70dp"
-                    android:layout_below="@+id/btnImg_utility_push_room"
-                    android:layout_toRightOf="@id/btnImg_information_push_room"/>
-                <ImageButton
-                    android:id="@+id/btnImg_confirm_push_room"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_svg_confirm_24"
-                    android:background="@drawable/custom_rim"
-                    android:layout_marginLeft="70dp"
-                    android:layout_toRightOf="@+id/btnImg_utility_push_room"
-                    android:layout_marginTop="10dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stringConfirmPushRoom"
-                    android:layout_marginLeft="60dp"
-                    android:layout_below="@+id/btnImg_utility_push_room"
-                    android:layout_toRightOf="@id/btnImg_utility_push_room"/>
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="336dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="50dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="344dp"
-                    android:layout_height="match_parent"
-                    android:text="@string/stringCityPushRoom"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp">
-                    <Spinner
-                        android:id="@+id/spn_city_push_room"
-                        android:layout_width="330dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/custom_spinner_rim" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_svg_dropdown_24"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="20dp"/>
-                </RelativeLayout>
-                <TextView
-                    android:layout_width="344dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/stringDistrictPushRoom"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp">
-                    <Spinner
-                        android:id="@+id/spn_district_push_room"
-                        android:layout_width="330dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/custom_spinner_rim" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_svg_dropdown_24"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="20dp"/>
-                </RelativeLayout>
-                <TextView
-                    android:layout_width="344dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/stringWardPushRoom"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp">
-                    <Spinner
-                        android:id="@+id/spn_ward_push_room"
-                        android:layout_width="330dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/custom_spinner_rim" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_svg_dropdown_24"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="20dp"/>
-                </RelativeLayout>
-                <TextView
-                    android:layout_width="344dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/stringStreetPushRoom"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-                <EditText
-                    android:id="@+id/edt_street_push_room"
-                    android:layout_width="330dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
-                    android:hint="@string/stringExampleStreetPushRoom"
-                    android:gravity="center"
-                    android:textColor="@android:color/black"
-                    android:background="@drawable/custom_spinner_rim"/>
-
-                <TextView
-                    android:layout_width="344dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/stringNoPushRoom"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-                <EditText
-                    android:id="@+id/edt_no_push_room"
-                    android:layout_width="330dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
-                    android:hint="@string/stringExampleNoPushRoom"
-                    android:gravity="center"
-                    android:textColor="@android:color/black"
-                    android:background="@drawable/custom_spinner_rim"/>
-                <Button
-                    android:id="@+id/btn_nextStep1_post_room"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stringNameButtonNextPushRoom"
-                    android:layout_marginTop="40dp"
-                    android:textColor="@android:color/holo_blue_bright"
-                    android:layout_gravity="center"
-                    android:background="@drawable/custom_rim"
-                    />
-
-            </LinearLayout>
-
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_svg_dropdown_24" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/stringDistrictPushRoom"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
+            <Spinner
+                android:id="@+id/spn_district_push_room"
+                android:layout_width="330dp"
+                android:layout_height="40dp"
+                android:background="@drawable/custom_spinner_rim" />
 
-    </ScrollView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_svg_dropdown_24" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/stringWardPushRoom"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <Spinner
+                android:id="@+id/spn_ward_push_room"
+                android:layout_width="330dp"
+                android:layout_height="40dp"
+                android:background="@drawable/custom_spinner_rim" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_svg_dropdown_24" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/stringStreetPushRoom"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edt_street_push_room"
+            android:layout_width="330dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custom_spinner_rim"
+            android:gravity="center"
+            android:hint="@string/stringExampleStreetPushRoom"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/stringNoPushRoom"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edt_no_push_room"
+            android:layout_width="330dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custom_spinner_rim"
+            android:gravity="center"
+            android:hint="@string/stringExampleNoPushRoom"
+            android:textColor="@android:color/black" />
+
+        <Button
+            android:id="@+id/btn_nextStep1_post_room"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/custom_rim"
+            android:text="@string/stringNameButtonNextPushRoom"
+            android:textColor="@android:color/holo_blue_bright" />
+    </LinearLayout>
 
 </LinearLayout>
