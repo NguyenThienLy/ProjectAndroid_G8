@@ -19,6 +19,11 @@ public class RoomModel {
     double latitude, longtitude, length, width, rentalCosts;
     boolean authentication;
     boolean gender;
+    //id để generate từ firebase
+    String typeID;
+
+    //String để lấy giá trị từ ID
+    String roomType;
 
     //Đánh giá của người xem trọ
     long medium;
@@ -34,6 +39,22 @@ public class RoomModel {
 
     //Lưu mảng comment của phòng trọ
     List<CommentModel> listCommentRoom;
+
+    public String getTypeID() {
+        return typeID;
+    }
+
+    public void setTypeID(String typeID) {
+        this.typeID = typeID;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
 
     public List<CommentModel> getListCommentRoom() {
         return listCommentRoom;
@@ -230,6 +251,14 @@ public class RoomModel {
                     //Set mã phòng trọ
                     roomModel.setRoomID(valueRoom.getKey());
 
+                    //Set loại phòng trọ
+                    String tempType = dataSnapshot.child("RoomTypes")
+                            .child(roomModel.getTypeID())
+                            .getValue(String.class);
+
+                    Log.d("kiem tra", tempType);
+                    roomModel.setRoomType(tempType);
+
                     //Thêm tên danh sách tên hình vào phòng trọ
 
                     //Duyệt vào node RoomImages trên firebase và duyệt vào node có mã room tương ứng
@@ -253,12 +282,10 @@ public class RoomModel {
                     //Duyệt tất cả các giá trị trong node tương ứng
                     for (DataSnapshot CommentValue : dataSnapshotCommentRoom.getChildren()) {
                         CommentModel commentModel = CommentValue.getValue(CommentModel.class);
-
+                        commentModel.setCommentID(CommentValue.getKey());
                         //Duyệt user tương ứng để lấy ra thông tin user bình luận
-
                         UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
                         commentModel.setUserComment(tempUser);
-
                         //End duyệt user tương ứng để lấy ra thông tin user bình luận
 
                         tempCommentList.add(commentModel);

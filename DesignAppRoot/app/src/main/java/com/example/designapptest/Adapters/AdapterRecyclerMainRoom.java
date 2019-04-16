@@ -32,10 +32,10 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         this.RoomModelList = RoomModelList;
         this.resource = resource;
     }
-    
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment;
+        TextView txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment,txtType;
         ImageView imgRoom,imgGender;
 
         public ViewHolder(@NonNull View itemView) {
@@ -50,6 +50,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
             txtQuantityComment = (TextView) itemView.findViewById(R.id.txt_quantityComment);
             imgRoom = (ImageView)itemView.findViewById(R.id.img_room);
             imgGender = (ImageView)itemView.findViewById(R.id.img_gender);
+            txtType=(TextView)itemView.findViewById(R.id.txt_type);
         }
     }
 
@@ -68,12 +69,13 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         RoomModel roomModel = RoomModelList.get(i);
 
         //Gán các giá trị vào giao diện
-        viewHolder.txtName.setText(roomModel.getName());
+        viewHolder.txtName.setText(roomModel.getDescribe());
         viewHolder.txtMaxNumber.setText(String.valueOf((int) roomModel.getMaxNumber()));
         viewHolder.txtAddress.setText(roomModel.getAddress());
-        viewHolder.txtPrice.setText(String.valueOf(roomModel.getRentalCosts()));
-        viewHolder.txtArea.setText(roomModel.getLength()+"x"+roomModel.getWidth());
+        viewHolder.txtPrice.setText(String.valueOf(roomModel.getRentalCosts()) +"đ/Phòng");
+        viewHolder.txtArea.setText(roomModel.getLength()+"m"+"x"+roomModel.getWidth()+"m");
         viewHolder.txtQuantityComment.setText("0");
+        viewHolder.txtType.setText(roomModel.getRoomType());
 
         //Gán hình cho giới tính
         if(roomModel.isGender()==true){

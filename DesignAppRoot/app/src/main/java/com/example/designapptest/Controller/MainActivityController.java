@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
 import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
@@ -21,7 +23,7 @@ public class MainActivityController {
         roomModel = new RoomModel();
     }
 
-    public void ListMainRoom(RecyclerView recyclerMainRoom){
+    public void ListMainRoom(RecyclerView recyclerMainRoom, final ProgressBar progressBarMain){
         final List<RoomModel> roomModelList = new ArrayList<>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -42,6 +44,7 @@ public class MainActivityController {
 
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerMainRoom.notifyDataSetChanged();
+                progressBarMain.setVisibility(View.GONE);
             }
         };
 

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.example.designapptest.Controller.MainActivityController;
 import com.example.designapptest.Model.RoomModel;
@@ -24,6 +25,7 @@ public class MainActivity extends Activity{
     //Qui thêm vào
     RecyclerView recyclerMainRoom;
     MainActivityController mainActivityController;
+    ProgressBar progressBarMain;
     //End Qui thêm vào
 
     GridView grVRoom;
@@ -83,6 +85,7 @@ public class MainActivity extends Activity{
 
         //Qui them vào
         recyclerMainRoom = (RecyclerView)findViewById(R.id.recycler_Main_Room);
+        progressBarMain = (ProgressBar)findViewById(R.id.Progress_Main);
     }
 
     private void initDataRoom() {
@@ -215,7 +218,7 @@ public class MainActivity extends Activity{
         super.onStart();
 
         mainActivityController = new MainActivityController(this);
-        mainActivityController.ListMainRoom(recyclerMainRoom);
+        mainActivityController.ListMainRoom(recyclerMainRoom,progressBarMain);
 
     }
     //End load dữ liệu vào danh sách trong lần đầu chạy

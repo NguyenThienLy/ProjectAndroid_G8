@@ -7,9 +7,18 @@ public class CommentModel {
     String time;
     String user;
     long likes,stars;
+    String commentID;
 
     //Chủ bình luận
     UserModel userComment;
+
+    public String getCommentID() {
+        return commentID;
+    }
+
+    public void setCommentID(String commentID) {
+        this.commentID = commentID;
+    }
 
     public String getUser() {
         return user;
