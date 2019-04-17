@@ -215,6 +215,7 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center">
                 <Button
+                    android:id="@+id/btn_Map_View"
                     android:layout_marginTop="7dp"
                     android:layout_width="70dp"
                     android:layout_height="35dp"

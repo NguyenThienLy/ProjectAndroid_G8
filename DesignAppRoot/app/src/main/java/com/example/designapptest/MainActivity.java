@@ -47,6 +47,8 @@ public class MainActivity extends Activity{
 
     Button btnChooseSearch;
     Button btnPostRoom;
+    //Qui them vao
+    Button btnMapView;
 
     String[] dataSearch = {"Vị trí", "Giá cả", "Số người", "Tiện nghi", "Map"};
     EditText edTSearch;
@@ -77,6 +79,9 @@ public class MainActivity extends Activity{
 
         btnChooseSearch = (Button) findViewById(R.id.btn_choose_search);
         btnPostRoom = (Button) findViewById(R.id.btn_postRoom_main_room);
+
+        //qui them vao
+        btnMapView =(Button)findViewById(R.id.btn_Map_View);
 
         //lstVRoom = (ListView) findViewById(R.id.lstV_room);
         lstVSearch = (ListView) findViewById(R.id.lstV_search);
@@ -205,6 +210,15 @@ public class MainActivity extends Activity{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), postRoomAdapter.class);
+                startActivity(intent);
+            }
+        });
+
+        //Qui them vao de test
+        btnMapView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),MapView.class);
                 startActivity(intent);
             }
         });
