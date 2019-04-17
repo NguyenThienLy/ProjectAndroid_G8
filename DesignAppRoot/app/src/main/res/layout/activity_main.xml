@@ -13,89 +13,97 @@
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="650px">
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="650px"
+                    android:layout_height="350dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:layout_gravity="top"
+                    android:scaleType="fitXY"
                     android:src="@drawable/bg_jpg_banner_1"
-                    android:scaleType="fitXY"/>
+                    android:layout_alignParentLeft="true" />
                 <LinearLayout
-                    android:layout_width="440px"
-                    android:layout_height="70px"
+                    android:id="@+id/box_search"
+                    android:layout_width="220dp"
+                    android:layout_height="35dp"
                     android:orientation="horizontal"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="100dp"
                     android:background="@drawable/frame">
                     <Button
                         android:id="@+id/btn_choose_search"
-                        android:layout_width="80px"
-                        android:layout_height="60px"
+                        android:layout_width="40dp"
+                        android:layout_height="35dp"
                         android:background="@drawable/frame"
                         android:drawableLeft="@drawable/ic_svg_location_search_24px"
-                        android:paddingLeft="30px"
-                        android:layout_marginTop="5px"/>
+                        android:paddingLeft="12dp"
+                        android:layout_marginTop="1dp"/>
                     <EditText
                         android:id="@+id/edT_search"
-                        android:layout_width="350px"
-                        android:layout_height="60px"
+                        android:layout_width="160dp"
+                        android:layout_height="35dp"
                         android:background="@drawable/frame"
-                        android:textSize="20px"
+                        android:textSize="12dp"
                         android:textColor="@android:color/darker_gray"
                         android:hint="Where do you need?"
                         android:paddingLeft="10px" />
                 </LinearLayout>
+
                 <ListView
                     android:id="@+id/lstV_search"
-                    android:layout_width="440px"
-                    android:layout_height="350px"
-                    android:background="@drawable/frame"
+                    android:layout_width="220dp"
+                    android:layout_height="175dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="280px"
-                    android:visibility="invisible">
-                </ListView>
+                    android:background="@drawable/frame"
+                    android:layout_below="@id/box_search"
+                    android:layout_marginTop="5dp"
+                    android:visibility="invisible"></ListView>
+
                 <ListView
                     android:id="@+id/lstV_suggest"
-                    android:layout_width="440px"
-                    android:layout_height="350px"
-                    android:background="@drawable/frame"
+                    android:layout_width="220dp"
+                    android:layout_height="175dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="280px"
-                    android:visibility="invisible">
-                </ListView>
+                    android:layout_below="@id/box_search"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/frame"
+                    android:visibility="invisible"></ListView>
             </RelativeLayout>
             <Button
-                android:layout_width="200px"
-                android:layout_height="60px"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_button"
                 android:text="Top Location"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
-                android:textSize="16px"
+                android:textSize="10dp"
                 android:drawableLeft="@drawable/ic_svg_location_24px"
-                android:paddingLeft="15dp"
-                android:paddingRight="10dp"/>
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"/>
             <GridView
-                android:layout_marginTop="20dp"
                 android:id="@+id/grV_location"
                 android:layout_width="match_parent"
-                android:layout_height="200px"
-                android:numColumns="auto_fit"
-                android:paddingLeft="12dp"
-                android:columnWidth="225px">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:numColumns="3">
+
             </GridView>
+
             <Button
-                android:layout_width="200px"
-                android:layout_height="60px"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_button"
                 android:text="Top Room"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
-                android:textSize="16px"
+                android:textSize="10dp"
                 android:drawableLeft="@drawable/ic_svg_bed_24px"
                 android:paddingLeft="15dp"
                 android:paddingRight="10dp"/>
@@ -129,7 +137,7 @@
                 android:id="@+id/recycler_Main_Room"
 
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="900dp"
                 android:layout_marginTop="20dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -143,15 +151,15 @@
 
 
             <Button
-                android:layout_width="200px"
-                android:layout_height="60px"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/custom_button"
                 android:text="New Room"
                 android:textAllCaps="false"
                 android:textColor="#ffffff"
-                android:textSize="16px"
+                android:textSize="10dp"
                 android:drawableLeft="@drawable/ic_svg_badge_24px"
                 android:paddingLeft="15dp"
                 android:paddingRight="10dp"/>

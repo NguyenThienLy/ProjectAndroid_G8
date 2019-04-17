@@ -1,116 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="175dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/cardViewRoomList">
 
     <LinearLayout
-        android:layout_width="175dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        android:padding="5dp">
         <ImageView
             android:id="@+id/img_room"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:scaleType="fitXY" />
-
+            android:scaleType="fitXY"
+            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
                 android:id="@+id/txt_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="right"
                 android:text="KÍ TÚC XÁ"
+                android:textSize="10dp"
+                android:gravity="right"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="18px" />
-
+                android:layout_marginTop="5dp"/>
             <TextView
                 android:id="@+id/txt_quantityMember"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/txt_type"
                 android:text="8"
+                android:textSize="10dp"
+                android:layout_toRightOf="@+id/txt_type"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="18px" />
-
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"/>
             <ImageView
                 android:id="@+id/img_gender"
                 android:layout_width="13dp"
                 android:layout_height="13dp"
-                android:layout_marginLeft="2dp"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/txt_quantityMember"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_svg_male_100" />
-
+                android:src="@drawable/ic_svg_male_100"
+                android:layout_marginLeft="2dp"
+                />
             <ImageView
                 android:id="@+id/img_comment"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginTop="7dp"
-                android:layout_marginRight="2dp"
                 android:layout_toLeftOf="@+id/txt_quantityComment"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_svg_comment_100" />
+                android:src="@drawable/ic_svg_comment_100"
+                android:layout_marginRight="2dp"
+                />
 
             <TextView
                 android:id="@+id/txt_quantityComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
                 android:text="329"
+                android:textSize="10dp"
+                android:layout_alignParentRight="true"
                 android:textColor="#00BFFF"
-                android:textSize="18px" />
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                />
             />
 
         </RelativeLayout>
-
         <TextView
             android:id="@+id/txt_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:text="Cho thuê phòng trọ giá rẻ"
+            android:textSize="15dp"
             android:textColor="@android:color/background_dark"
-            android:textSize="30px"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginTop="2dp"/>
         />
-
         <RelativeLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/txt_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="right"
                 android:text="2.5 triệu / phòng"
+                android:textSize="12dp"
+                android:gravity="right"
                 android:textColor="#00BFFF"
-                android:textSize="22px" />
+                android:layout_marginTop="5dp"/>
             />
-
             <TextView
                 android:id="@+id/txt_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="5dp"
                 android:text="5m x 4m"
+                android:textSize="12dp"
+                android:layout_alignParentRight="true"
                 android:textColor="#666666"
-                android:textSize="22px" />
+                android:layout_marginTop="5dp"/>
             />
         </RelativeLayout>
 
@@ -118,11 +113,11 @@
             android:id="@+id/txt_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:lineSpacingExtra="6dp"
             android:text="127 An Dương Vương, Bình Tân, TP Hồ Chí Minh"
+            android:textSize="12dp"
+            android:lineSpacingExtra="6dp"
             android:textColor="#666666"
-            android:textSize="22px" />
+            android:layout_marginTop="5dp"/>
         />
     </LinearLayout>
 </android.support.v7.widget.CardView>

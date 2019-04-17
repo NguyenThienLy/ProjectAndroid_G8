@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:text="Vị trí"
         android:textColor="#666666"
-        android:textSize="20px"
+        android:textSize="12dp"
         android:textAlignment="center"
-        android:paddingTop="15px"
-        android:paddingBottom="15px"/>
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"/>
 </LinearLayout>
