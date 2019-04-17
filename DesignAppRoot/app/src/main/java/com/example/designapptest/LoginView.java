@@ -1,6 +1,7 @@
 package com.example.designapptest;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -32,17 +34,24 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginView extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener
-,FirebaseAuth.AuthStateListener{
+        , FirebaseAuth.AuthStateListener {
 
-    public static int REQUEST_CODE_LOGIN_WITH_GOOGLE=99;
+    public static int REQUEST_CODE_LOGIN_WITH_GOOGLE = 99;
     //Biến kiểm tra xem đang login kiểu nào: google, facebook, tài khoản app
-    public static int CHECK_TYPE_PROVIDER_LOGIN=0;
-    public static int CODE_PROVIDER_LOGIN_WITH_GOOGLE=1;
-    public static int CODE_PROVIDER_LOGIN_WITH_FACEBOOK=2;
+    public static int CHECK_TYPE_PROVIDER_LOGIN = 0;
+    public static int CODE_PROVIDER_LOGIN_WITH_GOOGLE = 1;
+    public static int CODE_PROVIDER_LOGIN_WITH_FACEBOOK = 2;
 
     ImageButton btnLoginWithGoogle;
     GoogleApiClient apiClient;
     FirebaseAuth firebaseAuth;
+
+    Button btn_signUp;
+    Button btn_login;
+
+    EditText edt_username_login;
+    EditText edt_password_login;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +63,16 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         //Text Đăng xuất
         firebaseAuth.signOut();
 
-        btnLoginWithGoogle = (ImageButton)findViewById(R.id.btnImg_google_login);
+        btnLoginWithGoogle = (ImageButton) findViewById(R.id.btnImg_google_login);
+        btn_signUp = (Button) findViewById(R.id.btn_signUp);
+        btn_login = (Button) findViewById(R.id.btn_login);
+        edt_username_login = (EditText) findViewById(R.id.edt_username_login);
+        edt_password_login = (EditText) findViewById(R.id.edt_password_login);
+        progressDialog = new ProgressDialog(LoginView.this);
+
         btnLoginWithGoogle.setOnClickListener(this);
+        btn_signUp.setOnClickListener(this);
+        btn_login.setOnClickListener(this);
 
         CreateClientLoginWithGoogle();
     }
@@ -75,7 +92,7 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
     }
 
     //Tạo client đăng nhập bằng google
-    private void CreateClientLoginWithGoogle(){
+    private void CreateClientLoginWithGoogle() {
         //Chú ý chỗ lấy id web này.....:( 8 tiếng để tìm ra lỗi ở đây
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("115253171209-ii7mjp8rj6r0mqsnl5ei2arne611gmpe.apps.googleusercontent.com")
@@ -84,31 +101,31 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
 
         //Tạo ra sign client
         apiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this,this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
                 .build();
     }
     //end Tạo client đăng nhập bằng google
 
     //Đăng nhập vào tài khoản google
-    private void LoginGoogle(GoogleApiClient apiClient){
+    private void LoginGoogle(GoogleApiClient apiClient) {
         //set code
-        CHECK_TYPE_PROVIDER_LOGIN=CODE_PROVIDER_LOGIN_WITH_GOOGLE;
+        CHECK_TYPE_PROVIDER_LOGIN = CODE_PROVIDER_LOGIN_WITH_GOOGLE;
         Intent ILoginGoogle = Auth.GoogleSignInApi.getSignInIntent(apiClient);
         //Hiển thị client google để đăng nhập
-        startActivityForResult(ILoginGoogle,REQUEST_CODE_LOGIN_WITH_GOOGLE);
+        startActivityForResult(ILoginGoogle, REQUEST_CODE_LOGIN_WITH_GOOGLE);
     }
     //end Đăng nhập vào tài khoản google
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //Kiểm tra nếu resultcode trả về là của client Login with google
 
-        if(requestCode==REQUEST_CODE_LOGIN_WITH_GOOGLE){
+        if (requestCode == REQUEST_CODE_LOGIN_WITH_GOOGLE) {
 
 
-            if(resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
 
                 GoogleSignInResult signInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
                 //Lấy ra account google được đăng nhập
@@ -123,9 +140,9 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
     }
 
     //Lấy token id và đăng nhập vào firebase
-    private void CheckLoginFirebase(String tokenID){
-        if(CHECK_TYPE_PROVIDER_LOGIN == CODE_PROVIDER_LOGIN_WITH_GOOGLE){
-            AuthCredential authCredential = GoogleAuthProvider.getCredential(tokenID,null);
+    private void CheckLoginFirebase(String tokenID) {
+        if (CHECK_TYPE_PROVIDER_LOGIN == CODE_PROVIDER_LOGIN_WITH_GOOGLE) {
+            AuthCredential authCredential = GoogleAuthProvider.getCredential(tokenID, null);
             //SignIn to firebase
             firebaseAuth.signInWithCredential(authCredential);
         }
@@ -137,12 +154,38 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    private void login() {
+        progressDialog.setMessage("Logging in...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+
+        String username = edt_username_login.getText().toString();
+        String password = edt_password_login.getText().toString();
+
+        firebaseAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (!task.isSuccessful()) {
+                    progressDialog.dismiss();
+                    Toast.makeText(LoginView.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        switch (id){
+        switch (id) {
             case R.id.btnImg_google_login:
-                    LoginGoogle(apiClient);
+                LoginGoogle(apiClient);
+                break;
+            case R.id.btn_signUp:
+                Intent iSignup = new Intent(LoginView.this, SignUpView.class);
+                startActivity(iSignup);
+                break;
+            case R.id.btn_login:
+                login();
                 break;
         }
     }
@@ -150,11 +193,14 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if(user!=null){
+        if (user != null) {
+            progressDialog.dismiss();
+            Toast.makeText(LoginView.this, "Sign in successful", Toast.LENGTH_SHORT).show();
+
             //Load trang chủ
-            Intent intent = new Intent(this,MainActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-        }else{
+        } else {
 
         }
     }
