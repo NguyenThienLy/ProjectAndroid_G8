@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -90,7 +91,7 @@
                     android:id="@+id/edt_openTime_push_room"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                 android:layout_marginTop="10dp"
+                    android:layout_marginTop="10dp"
 
                     android:gravity="center"
                     android:textColor="@android:color/black"
@@ -124,7 +125,7 @@
                     android:textColor="@android:color/black"
                     android:background="@drawable/custom_spinner_rim"
                     />
-                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
         <Button
             android:id="@+id/btn_nextStep4_post_room"
@@ -136,5 +137,8 @@
             android:layout_gravity="center"
             android:background="@drawable/custom_rim"/>
     </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+
+
 
 </LinearLayout>

@@ -204,7 +204,7 @@ public class MainActivity extends Activity{
         btnPostRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), postRoomStep1.class);
+                Intent intent = new Intent(getApplicationContext(), postRoomAdapter.class);
                 startActivity(intent);
             }
         });

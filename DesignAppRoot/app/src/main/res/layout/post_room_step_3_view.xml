@@ -3,8 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -97,7 +98,7 @@
                     android:layout_toRightOf="@+id/btn_wc_push_room"
                     android:layout_weight="1"
                     android:paddingLeft="10dp"
-                />
+                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -125,7 +126,7 @@
                     android:text="@string/stringBedPushRoom"
                     android:background="@drawable/custom_rim"
                     android:layout_toRightOf="@+id/btn_clock_push_room"
-                   android:layout_weight="1"
+                    android:layout_weight="1"
                     android:paddingLeft="10dp"
                     android:layout_marginTop="10dp"/>
             </LinearLayout>
@@ -156,7 +157,7 @@
                     android:text="@string/stringWardrobePushRoom"
                     android:background="@drawable/custom_rim"
                     android:layout_toRightOf="@+id/btn_fridge_push_room"
-                   android:layout_weight="1"
+                    android:layout_weight="1"
                     android:layout_below="@+id/btn_bed_push_room"
                     android:paddingLeft="10dp"
                     android:layout_marginTop="10dp"/>
@@ -195,16 +196,19 @@
             </LinearLayout>
         </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_nextStep3_post_room"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="@string/stringNameButtonNextPushRoom"
-        android:layout_marginTop="40dp"
-        android:textColor="@android:color/holo_blue_bright"
-        android:layout_gravity="center"
-        android:background="@drawable/custom_rim"
-        android:layout_marginBottom="20dp"
-        />
+        <Button
+            android:id="@+id/btn_nextStep3_post_room"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/stringNameButtonNextPushRoom"
+            android:layout_marginTop="40dp"
+            android:textColor="@android:color/holo_blue_bright"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_rim"
+            android:layout_marginBottom="20dp"
+            />
     </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+
+
 </LinearLayout>

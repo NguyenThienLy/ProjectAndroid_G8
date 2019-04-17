@@ -131,9 +131,7 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager_post_room"
@@ -141,7 +139,5 @@
             android:layout_height="match_parent">
 
         </android.support.v4.view.ViewPager>
-</ScrollView>
-
 
 </LinearLayout>
