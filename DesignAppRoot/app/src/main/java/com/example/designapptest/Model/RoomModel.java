@@ -1,5 +1,7 @@
 package com.example.designapptest.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -13,7 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomModel {
+public class RoomModel implements Parcelable { // Linh thêm
     String address, describe, name, owner, timeCreated;
     long currentNumber, maxNumber;
     double latitude, longtitude, length, width, rentalCosts;
@@ -34,11 +36,57 @@ public class RoomModel {
     //Mã Phòng trọ
     String roomID;
 
+    // Lưu dnh sách tiện nghi phòng trọ
+    List<ConvenientModel> listConvenientRoom;
+
     //Lưu mảng tên hình trên firebase
     private List<String> listImageRoom;
 
     //Lưu mảng comment của phòng trọ
     List<CommentModel> listCommentRoom;
+
+    protected RoomModel(Parcel in) {
+        address = in.readString();
+        describe = in.readString();
+        name = in.readString();
+        owner = in.readString();
+        timeCreated = in.readString();
+        currentNumber = in.readLong();
+        maxNumber = in.readLong();
+        latitude = in.readDouble();
+        longtitude = in.readDouble();
+        length = in.readDouble();
+        width = in.readDouble();
+        rentalCosts = in.readDouble();
+        authentication = in.readByte() != 0;
+        gender = in.readByte() != 0;
+        typeID = in.readString();
+        roomType = in.readString();
+        medium = in.readLong();
+        great = in.readLong();
+        prettyGood = in.readLong();
+        bad = in.readLong();
+        roomID = in.readString();
+        listImageRoom = in.createStringArrayList();
+
+        listConvenientRoom = new ArrayList<ConvenientModel>();
+        in.readTypedList(listConvenientRoom, ConvenientModel.CREATOR);
+
+        listCommentRoom = new ArrayList<CommentModel>();
+        in.readTypedList(listCommentRoom, CommentModel.CREATOR);
+    }
+
+    public static final Creator<RoomModel> CREATOR = new Creator<RoomModel>() {
+        @Override
+        public RoomModel createFromParcel(Parcel in) {
+            return new RoomModel(in);
+        }
+
+        @Override
+        public RoomModel[] newArray(int size) {
+            return new RoomModel[size];
+        }
+    };
 
     public String getTypeID() {
         return typeID;
@@ -54,6 +102,14 @@ public class RoomModel {
 
     public void setRoomType(String roomType) {
         this.roomType = roomType;
+    }
+
+    public List<ConvenientModel> getListConvenientRoom() {
+        return listConvenientRoom;
+    }
+
+    public void setListConvenientRoom(List<ConvenientModel> listConvenientRoom) {
+        this.listConvenientRoom = listConvenientRoom;
     }
 
     public List<CommentModel> getListCommentRoom() {
@@ -266,7 +322,6 @@ public class RoomModel {
                     List<String> tempImageList = new ArrayList<String>();
                     //Duyêt tất cả các giá trị của node tương ứng
                     for (DataSnapshot valueImage : dataSnapshotImageRoom.getChildren()) {
-
                         tempImageList.add(valueImage.getValue(String.class));
                     }
 
@@ -295,6 +350,23 @@ public class RoomModel {
 
                     //End Thêm danh sách bình luận của phòng trọ
 
+                    //Thêm danh sách tiện nghi của phòng trọ
+
+                    DataSnapshot dataSnapshotConvenientRoom = dataSnapshot.child("RoomConvenients").child(valueRoom.getKey());
+                    List<ConvenientModel> tempConvenientList = new ArrayList<ConvenientModel>();
+                    //Duyệt tất cả các giá trị trong node tương ứng
+                    for (DataSnapshot valueConvenient : dataSnapshotConvenientRoom.getChildren()) {
+                        String convenientId = valueConvenient.getValue(String.class);
+                        ConvenientModel convenientModel = dataSnapshot.child("Convenients").child(convenientId).getValue(ConvenientModel.class);
+                        convenientModel.setConvenientID(convenientId);
+
+                        tempConvenientList.add(convenientModel);
+                    }
+
+                    roomModel.setListConvenientRoom(tempConvenientList);
+
+                    //End Thêm danh sách tiện nghi của phòng trọ
+
                     //Kích hoạt interface
                     mainRoomModelInterface.getListMainRoom(roomModel);
                 }
@@ -310,4 +382,36 @@ public class RoomModel {
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(address);
+        dest.writeString(describe);
+        dest.writeString(name);
+        dest.writeString(owner);
+        dest.writeString(timeCreated);
+        dest.writeLong(currentNumber);
+        dest.writeLong(maxNumber);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longtitude);
+        dest.writeDouble(length);
+        dest.writeDouble(width);
+        dest.writeDouble(rentalCosts);
+        dest.writeByte((byte) (authentication ? 1 : 0));
+        dest.writeByte((byte) (gender ? 1 : 0));
+        dest.writeString(typeID);
+        dest.writeString(roomType);
+        dest.writeLong(medium);
+        dest.writeLong(great);
+        dest.writeLong(prettyGood);
+        dest.writeLong(bad);
+        dest.writeString(roomID);
+        dest.writeStringList(listImageRoom);
+        dest.writeTypedList(listConvenientRoom);
+        dest.writeTypedList(listCommentRoom);
+    }
 }

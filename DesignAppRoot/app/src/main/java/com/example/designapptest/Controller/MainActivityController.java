@@ -32,7 +32,7 @@ public class MainActivityController {
         recyclerMainRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(roomModelList, R.layout.room_element_list_view);
+        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view);
         //Cài adapter cho recycle
         recyclerMainRoom.setAdapter(adapterRecyclerMainRoom);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
@@ -42,7 +42,7 @@ public class MainActivityController {
         recyclerViewGridMainRoom.setLayoutManager(layoutManagerGrid);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerGridMainRoom = new AdapterRecyclerMainRoom(roomModelList, R.layout.room_element_grid_view);
+        final AdapterRecyclerMainRoom adapterRecyclerGridMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_grid_view);
         //Cài adapter cho recycle
         recyclerViewGridMainRoom.setAdapter(adapterRecyclerGridMainRoom);
         //End Tạo layout cho danh sách trọ được hiển thị theo dạng grid phía dưới

@@ -51,8 +51,8 @@ public class commentRoomAdapter extends BaseAdapter {
             holder.name = (TextView) view.findViewById(R.id.txt_name_comment_room_detail);
             holder.quantityLike = (TextView) view.findViewById(R.id.txt_quantityLike_comment_room_detail);
             holder.rate = (TextView) view.findViewById(R.id.txt_rate_comment_room_detail);
-            holder.headComment = (TextView) view.findViewById(R.id.txt_headComment_comment_room_detail);
-            holder.mainComment = (TextView) view.findViewById(R.id.txt_mainComment_comment_room_detail);
+            holder.headComment = (TextView) view.findViewById(R.id.txt_title_comment_room_detail);
+            holder.mainComment = (TextView) view.findViewById(R.id.txt_content_comment_room_detail);
 
             view.setTag(holder);
         }
