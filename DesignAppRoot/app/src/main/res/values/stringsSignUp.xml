@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="stringRequestSignUp">Fill in your info to sign up</string>
-    <string name="stringNameSignUp">Name</string>
-    <string name="stringPassSignUp">Password</string>
-    <string name="stringAddressSignUp">Address</string>
     <string name="stringEmailSignUp">Email</string>
+    <string name="stringPassSignUp">Password</string>
+    <string name="stringRetypePassSignUp">Retype Password</string>
+    <string name="stringNameSignUp">Name</string>
+    <string name="stringAddressSignUp">Address</string>
+    <string name="stringPhoneSignUp">Phone number</string>
     <string name="stringBtnSigUp">Sign up</string>
 </resources>

@@ -5,7 +5,7 @@
     android:background="@drawable/bg_png_signup_100">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/colorGrayType2"
         android:layout_marginTop="100dp"
@@ -22,16 +22,17 @@
             android:layout_marginTop="15dp"
             />
         <EditText
-            android:id="@+id/edt_name_signUp"
+            android:id="@+id/edt_email_signUp"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@android:color/white"
-            android:hint="@string/stringNameSignUp"
-            android:textColor="@color/colorGrayType1"
+            android:hint="@string/stringEmailSignUp"
+            android:textColor="@android:color/darker_gray"
             android:gravity="center"
+            android:inputType="textEmailAddress"
             />
         <EditText
             android:id="@+id/edt_password_signUp"
@@ -44,31 +45,80 @@
             android:hint="@string/stringPassSignUp"
             android:textColor="@android:color/darker_gray"
             android:gravity="center"
+            android:inputType="textPassword"
             />
         <EditText
-            android:id="@+id/edt_address_signUp"
+            android:id="@+id/edt_retype_password_signUp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@android:color/white"
-            android:hint="@string/stringAddressSignUp"
+            android:hint="@string/stringRetypePassSignUp"
             android:textColor="@android:color/darker_gray"
+            android:gravity="center"
+            android:inputType="textPassword"
+            />
+        <EditText
+            android:id="@+id/edt_name_signUp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@android:color/white"
+            android:hint="@string/stringNameSignUp"
+            android:textColor="@color/colorGrayType1"
             android:gravity="center"
             />
         <EditText
-            android:id="@+id/edt_email_signUp"
+            android:id="@+id/edt_phone_signUp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@android:color/white"
-            android:hint="@string/stringEmailSignUp"
+            android:hint="@string/stringPhoneSignUp"
             android:textColor="@android:color/darker_gray"
             android:gravity="center"
+            android:inputType="phone"
             />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:background="@android:color/white"
+            >
+
+            <TextView
+                android:layout_width="95dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:hint="@string/stringPhoneSignUp"
+                android:text="Gender"
+                android:textSize="18dp" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/rad_gender_female_signUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Female"/>
+                <RadioButton
+                    android:id="@+id/rad_gender_male_signUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Male"/>
+            </RadioGroup>
+        </LinearLayout>
         <Button
             android:id="@+id/btn_signUp"
             android:layout_width="100dp"
@@ -79,6 +129,7 @@
             android:layout_gravity="center"
             android:textColor="@android:color/white"
             android:layout_marginTop="45dp"
+            android:layout_marginBottom="20dp"
             />
     </LinearLayout>
 

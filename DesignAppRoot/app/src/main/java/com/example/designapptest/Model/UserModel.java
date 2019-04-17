@@ -2,12 +2,18 @@ package com.example.designapptest.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class UserModel implements Parcelable { // Linh thêm
     //Các thuộc tính để render dữ liệu từ fire base
 
     String avatar,name,phoneNumber;
-    boolean isOwner,gender;
+    boolean owner,gender;
 
     //End Các thuộc tính để render dữ liệu từ fire base
 
@@ -18,7 +24,7 @@ public class UserModel implements Parcelable { // Linh thêm
         avatar = in.readString();
         name = in.readString();
         phoneNumber = in.readString();
-        isOwner = in.readByte() != 0;
+        owner = in.readByte() != 0;
         gender = in.readByte() != 0;
         userID = in.readString();
     }
@@ -60,11 +66,11 @@ public class UserModel implements Parcelable { // Linh thêm
     }
 
     public boolean isOwner() {
-        return isOwner;
+        return owner;
     }
 
     public void setOwner(boolean owner) {
-        isOwner = owner;
+        owner = owner;
     }
 
     public boolean isGender() {
@@ -98,8 +104,20 @@ public class UserModel implements Parcelable { // Linh thêm
         dest.writeString(avatar);
         dest.writeString(name);
         dest.writeString(phoneNumber);
-        dest.writeByte((byte) (isOwner ? 1 : 0));
+        dest.writeByte((byte) (owner ? 1 : 0));
         dest.writeByte((byte) (gender ? 1 : 0));
         dest.writeString(userID);
+    }
+
+    public void addUser(UserModel newUserModel, String uid) {
+        DatabaseReference nodeUser = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+        nodeUser.setValue(newUserModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()) {
+
+                }
+            }
+        });
     }
 }
