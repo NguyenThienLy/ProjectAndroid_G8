@@ -46,7 +46,7 @@ public class utilityRoomAdapter extends BaseAdapter {
 
             ViewHolder holder = new ViewHolder();
 
-            holder.img = (ImageView) view.findViewById(R.id.img_utility_rom_detail);
+            holder.img = (ImageView) view.findViewById(R.id.img_utility_room_detail);
             holder.name = (TextView) view.findViewById(R.id.txt_nameUtility_utility_room_detail);
 
             view.setTag(holder);

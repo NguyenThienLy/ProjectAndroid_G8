@@ -1,9 +1,12 @@
 package com.example.designapptest.Adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.util.Log;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
+import com.example.designapptest.detailRoom;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -27,8 +31,11 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
     List<RoomModel> RoomModelList;
     //Là biến lưu giao diện custom của từng row
     int resource;
+    // Linh thêm
+    Context context;
 
-    public AdapterRecyclerMainRoom(List<RoomModel> RoomModelList, int resource) {
+    public AdapterRecyclerMainRoom(Context context, List<RoomModel> RoomModelList, int resource) {
+        this.context = context;
         this.RoomModelList = RoomModelList;
         this.resource = resource;
     }
@@ -37,6 +44,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
         TextView txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment,txtType;
         ImageView imgRoom,imgGender;
+        CardView cardViewRoomList;
 
         public ViewHolder(@NonNull View itemView) {
 
@@ -51,6 +59,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
             imgRoom = (ImageView)itemView.findViewById(R.id.img_room);
             imgGender = (ImageView)itemView.findViewById(R.id.img_gender);
             txtType=(TextView)itemView.findViewById(R.id.txt_type);
+            cardViewRoomList = (CardView) itemView.findViewById(R.id.cardViewRoomList);
         }
     }
 
@@ -66,7 +75,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
     @Override
     public void onBindViewHolder(@NonNull final AdapterRecyclerMainRoom.ViewHolder viewHolder, int i) {
         //Lấy giá trị trong list
-        RoomModel roomModel = RoomModelList.get(i);
+        final RoomModel roomModel = RoomModelList.get(i);
 
         //Gán các giá trị vào giao diện
         viewHolder.txtName.setText(roomModel.getDescribe());
@@ -116,6 +125,16 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
         }
         //End Dowload hình ảnh cho room
+
+        // Đăng kí sự kiện click cho cardView // Linh thêm
+        viewHolder.cardViewRoomList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iDetailRoom = new Intent(context, detailRoom.class);
+                iDetailRoom.putExtra("phongtro", roomModel);
+                context.startActivity(iDetailRoom);
+            }
+        });
     }
 
     @Override

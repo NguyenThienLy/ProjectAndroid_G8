@@ -1,6 +1,9 @@
 package com.example.designapptest.Model;
 
-public class CommentModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class CommentModel implements Parcelable { // Linh thêm
 
     String title;
     String content;
@@ -11,6 +14,29 @@ public class CommentModel {
 
     //Chủ bình luận
     UserModel userComment;
+
+    protected CommentModel(Parcel in) {
+        title = in.readString();
+        content = in.readString();
+        time = in.readString();
+        user = in.readString();
+        likes = in.readLong();
+        stars = in.readLong();
+        commentID = in.readString();
+        userComment = in.readParcelable(UserModel.class.getClassLoader());
+    }
+
+    public static final Creator<CommentModel> CREATOR = new Creator<CommentModel>() {
+        @Override
+        public CommentModel createFromParcel(Parcel in) {
+            return new CommentModel(in);
+        }
+
+        @Override
+        public CommentModel[] newArray(int size) {
+            return new CommentModel[size];
+        }
+    };
 
     public String getCommentID() {
         return commentID;
@@ -76,4 +102,24 @@ public class CommentModel {
         this.stars = stars;
     }
 
+    public CommentModel() {
+
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(content);
+        dest.writeString(time);
+        dest.writeString(user);
+        dest.writeLong(likes);
+        dest.writeLong(stars);
+        dest.writeString(commentID);
+        dest.writeParcelable(userComment, flags);
+    }
 }
