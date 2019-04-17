@@ -3,33 +3,26 @@ package com.example.designapptest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
-public class postRoomStep2 extends Activity {
-    Button btnStep2PostRoom;
+public class postRoomStep2 extends Fragment{
+
+    public postRoomStep2(){
+
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.post_room_step_2_view);
-
-        initControl();
-
-        nextStep();
+//
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.post_room_step_2_view, container, false);
     }
 
-    private void initControl() {
-        btnStep2PostRoom = (Button) findViewById(R.id.btn_nextStep2_post_room);
-    }
 
-    private  void nextStep() {
-        btnStep2PostRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), postRoomStep3.class);
-                startActivity(intent);
-            }
-        });
-    }
 }
