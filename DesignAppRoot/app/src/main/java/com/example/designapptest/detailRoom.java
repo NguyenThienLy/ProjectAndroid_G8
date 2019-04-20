@@ -1,20 +1,29 @@
 package com.example.designapptest;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.GridView;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
 import com.example.designapptest.Adapters.AdapterRecyclerConvenient;
+import com.example.designapptest.Adapters.AdapterViewPagerImageShow;
+import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Model.RoomModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,23 +38,28 @@ public class detailRoom extends Activity {
             txt_roomPrice, txt_roomStatus, txt_roomArea, txt_roomAddress, txt_roomDescription,
             txt_roomGreatReview, txt_roomPrettyGoodReview, txt_roomMediumReview, txt_roomBadReview,
             txt_quantityComment_2;
-    ImageView img_roomGender, img_room1, img_room2, img_room3, img_room4;
-    List<ImageView> listImageRoom;
-    //GridView grVUtilitiyRoomDetail;
-    GridView grVSameCriteriaRoomDetail;
 
-    //ListView lstVCommentRoomDetail;
+    ImageView img_roomGender, img_room1, img_room2, img_room3, img_room4;
+
+    List<ImageView> listImageRoom;
+
+    // Các recycler.
     RecyclerView recycler_comment_room_detail;
     AdapterRecyclerComment adapterRecyclerComment;
 
-    //ArrayList<utilityRoomModel> lstUtilityRoom;
     RecyclerView recycler_convenients_room_detail;
     AdapterRecyclerConvenient adapterRecyclerConvenient;
 
-    ArrayList<roomModel> lstSameCriteriaRoom;
-    //ArrayList<commentRoomModel> lstCommentRoom;
-
     RoomModel roomModel;
+
+    // Hiển thị hình ảnh phòng trọ chế độ xem.
+    Dialog dialogShowImage;
+    Button btnCloseShowImage;
+    ViewPager viewPagerShowImage;
+    TextView txtPositionImage;
+
+    int maxImageInRoom;
+    int indexImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +69,8 @@ public class detailRoom extends Activity {
         roomModel = getIntent().getParcelableExtra("phongtro");
 
         initControl();
-//
-//        initDataUtilitiy();
-//
-//        initDataSameCriteria();
-//
-//        initDataComment();
-//
-//        adapter();
+
+        loadProgress();
     }
 
     @Override
@@ -70,6 +78,13 @@ public class detailRoom extends Activity {
         super.onStart();
 
         initData();
+
+        clickShowImage();
+    }
+
+    private void loadProgress() {
+        for (ImageView imageView : listImageRoom)
+         classFunctionStatic.showProgress(this, imageView);
     }
 
     private void initControl() {
@@ -93,15 +108,14 @@ public class detailRoom extends Activity {
         img_room2 = (ImageView) findViewById(R.id.img_room2);
         img_room3 = (ImageView) findViewById(R.id.img_room3);
         img_room4 = (ImageView) findViewById(R.id.img_room4);
+
         listImageRoom = new ArrayList<ImageView>();
+
         listImageRoom.add(img_room1);
         listImageRoom.add(img_room2);
         listImageRoom.add(img_room3);
         listImageRoom.add(img_room4);
 
-        //grVUtilitiyRoomDetail = (GridView) findViewById(R.id.grV_utiliti_rom_detail);
-        grVSameCriteriaRoomDetail = (GridView) findViewById(R.id.grV_sameCriteria_room_detail);
-        //lstVCommentRoomDetail = (ListView) findViewById(R.id.lst_comment_room_detail);
         recycler_comment_room_detail = (RecyclerView) findViewById(R.id.recycler_comment_room_detail);
         recycler_convenients_room_detail = (RecyclerView) findViewById(R.id.recycler_convenients_room_detail);
     }
@@ -146,26 +160,7 @@ public class detailRoom extends Activity {
 
         //Download hình ảnh cho room
         for (int i = 0; i < roomModel.getListImageRoom().size(); i++) {
-            StorageReference storageReference = FirebaseStorage
-                    .getInstance().getReference()
-                    .child("Images")
-                    .child(roomModel.getListImageRoom().get(i));
-
-            final long ONE_MEGABYTE = 1024 * 1024;
-            final int position = i;
-            storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    //Tạo ảnh bitmap từ byte
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    listImageRoom.get(position).setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-                }
-            });
+            downloadImageForImageControl(listImageRoom.get(i), i);
         }
         // End download hình ảnh cho room
 
@@ -184,55 +179,127 @@ public class detailRoom extends Activity {
         adapterRecyclerConvenient.notifyDataSetChanged();
     }
 
-    private void initDataUtilitiy() {
-//        lstUtilityRoom = new ArrayList<>();
-//
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_aircondition_100, "Máy lạnh"));
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_wc_100, "WC riêng"));
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_motobike_100, "Chỗ để xe"));
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_wifi_100, "Wifi"));
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_clock_100, "Tự do"));
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_keyhome_100, "Chủ riêng"));
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_fridge_100, "Tủ lạnh"));
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_washmachine_100, "Máy giặt"));
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_security_100, "An ninh"));
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_bed_100, "Giường"));
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_cupboard_100, "Tủ để đồ"));
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_window_100, "Cửa số"));
-//        lstUtilityRoom.add(new utilityRoomModel(R.drawable.ic_svg_waterheater_100, "Máy nước nóng"));
+    // Hàm tải ảnh từ firebase về theo image control và vị trí ảnh cần lấy trên firebase.
+    private void downloadImageForImageControl(final ImageView imageDownload, final int positionDownload) {
+        StorageReference storageReference = FirebaseStorage
+                .getInstance().getReference()
+                .child("Images")
+                .child(roomModel.getListImageRoom().get(positionDownload));
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+
+        storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                //Tạo ảnh bitmap từ byte
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imageDownload.setImageBitmap(bitmap);
+                imageDownload.setVisibility(View.VISIBLE);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
     }
 
-    private void initDataSameCriteria() {
-        lstSameCriteriaRoom = new ArrayList<>();
+    private void clickShowImage() {
+        img_room1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageDialogCustom();
+                indexImage = 0;
+            }
+        });
 
-        lstSameCriteriaRoom.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "2.5 triệu/phòng", "54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 8, 256, "PHÒNG TRỌ"));
-        lstSameCriteriaRoom.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "3.5 triệu/phòng", "54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 6, 18, "PHÒNG TRỌ"));
-        lstSameCriteriaRoom.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "2.5 triệu/phòng", "54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 5, 365, "CHUNG CƯ"));
-        lstSameCriteriaRoom.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "3.5 triệu/phòng", "54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 4, 256, "PHÒNG TRỌ"));
-        lstSameCriteriaRoom.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "2.5 triệu/phòng", "54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 6, 28, "KÍ TÚC XÁ"));
-        lstSameCriteriaRoom.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "3.5 triệu/phòng", "54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 7, 147, "PHÒNG TRỌ"));
+        img_room2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageDialogCustom();
+                indexImage = 1;
+            }
+        });
+
+        img_room3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageDialogCustom();
+                indexImage = 2;
+            }
+        });
+
+        img_room4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImageDialogCustom();
+                indexImage = 3;
+            }
+        });
     }
 
-    private void initDataComment() {
-//        lstCommentRoom = new ArrayList<>();
-//
-//        lstCommentRoom.add(new commentRoomModel(R.drawable.ic_svg_avt_01_100,"Nguyễn Thiên Lý",5,7, "Phòng rất tốt", "Mình tới tìm phòng này thì thấy phòng đăng khá đúng với thông tin trên app, khá hài lòng"));
-//        lstCommentRoom.add(new commentRoomModel(R.drawable.ic_svg_avt_02_100,"Trần Khánh Linh",7,7, "Cảm thấy rất tuyệt vời", "Rất hài lòng...."));
-//        lstCommentRoom.add(new commentRoomModel(R.drawable.ic_svg_avt_03_100,"Trần Nhất Sinh",12,7, "Chỗ ở không đúng mô tả", "Chỗ này mình tới rồi mọi người không đúng như mô tả đâu mn ơi"));
-//        lstCommentRoom.add(new commentRoomModel(R.drawable.ic_svg_avt_04_100,"Lê Tường Qui",3,7, "Chỗ ở tệ", "Chỗ ở quá chật thiếu nhiều các tiện ít mà giá còn đắt hơn chỗ khác nữa chứ!!"));
+    private void showPostionImage(int position) {
+        txtPositionImage.setText(String.valueOf(position) + "/" + String.valueOf(maxImageInRoom));
     }
 
-    private void adapter() {
-        //utilityRoomAdapter adapterUtilityRoom = new utilityRoomAdapter(this, R.layout.utility_element_grid_rom_detail_view, lstUtilityRoom);
-        roomAdapter adapterRoom = new roomAdapter(this, R.layout.rom_element_grid_view, lstSameCriteriaRoom);
-        //commentRoomAdapter adapterComment = new commentRoomAdapter(this, R.layout.comment_element_grid_room_detail_view, lstCommentRoom);
 
-        //grVUtilitiyRoomDetail.setAdapter(adapterUtilityRoom);
-        grVSameCriteriaRoomDetail.setAdapter(adapterRoom);
-        //lstVCommentRoomDetail.setAdapter(adapterComment);
+    private void showImageDialogCustom() {
+        maxImageInRoom = roomModel.getListImageRoom().size();
 
-        //grVUtilitiyRoomDetail.setClickable(false);
-        grVSameCriteriaRoomDetail.setClickable(false);
-        //lstVCommentRoomDetail.setClickable(false);
+        dialogShowImage = new Dialog(detailRoom.this);
+        dialogShowImage.setContentView(R.layout.dialog_show_image_detail_room);
+
+        // Các control chế độ xem ảnh phòng trọ.
+        viewPagerShowImage = (ViewPager) dialogShowImage.findViewById(R.id.viewPager_showImage_detail_room);
+        btnCloseShowImage = (Button) dialogShowImage.findViewById(R.id.btn_closeShowImage_detail_room);
+        txtPositionImage = (TextView) dialogShowImage.findViewById(R.id.txt_positionImage_detail_room);
+
+        // Truyền dữ liệu qua view pager show image.
+        AdapterViewPagerImageShow adapterViewPagerImageShow = new AdapterViewPagerImageShow(this, roomModel.getListImageRoom());
+        viewPagerShowImage.setAdapter(adapterViewPagerImageShow);
+
+        // Hiển thị lúc ban đầu.
+        showPostionImage(1);
+
+        viewPagerShowImage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+                int index = viewPagerShowImage.getCurrentItem();
+                showPostionImage(index + 1);
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+
+        // Kết thúc chế độ xem ảnh phòng trọ.
+        btnCloseShowImage.setEnabled(true);
+        btnCloseShowImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogShowImage.cancel();
+            }
+        });
+
+
+        // Tùy chính lại dialog gồm giao diện, match parent width, height và chuyển background trong suốt.
+        dialogShowImage.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialogShowImage.getWindow().setDimAmount(0.9f);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialogShowImage.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+
+        dialogShowImage.show();
     }
 }

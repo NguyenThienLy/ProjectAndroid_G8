@@ -26,6 +26,7 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/txt_quantityMember"
                         android:scaleType="fitXY"
                         android:src="@drawable/ic_svg_back_100" />
@@ -58,7 +59,7 @@
                             android:layout_weight="1"
                             android:padding="1dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/bg_jpg_banner_1" />
+                            android:src="@drawable/progress_gift_loading_image" />
 
                         <ImageView
                             android:id="@+id/img_room2"
@@ -67,7 +68,7 @@
                             android:layout_weight="1"
                             android:padding="1dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/bg_jpg_banner_2" />
+                            android:src="@drawable/progress_gift_loading_image" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -82,7 +83,7 @@
                             android:layout_weight="1"
                             android:padding="1dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/bg_jpg_banner_1" />
+                            android:src="@drawable/progress_gift_loading_image" />
 
                         <ImageView
                             android:id="@+id/img_room4"
@@ -91,7 +92,7 @@
                             android:layout_weight="1"
                             android:padding="1dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/bg_jpg_banner_2" />
+                            android:src="@drawable/progress_gift_loading_image" />
                     </LinearLayout>
 
                     <RelativeLayout
