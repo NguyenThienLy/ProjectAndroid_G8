@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 import com.example.designapptest.detailRoom;
@@ -78,6 +79,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         final RoomModel roomModel = RoomModelList.get(i);
 
         //Gán các giá trị vào giao diện
+        classFunctionStatic.showProgress(context, viewHolder.imgRoom);
         viewHolder.txtName.setText(roomModel.getDescribe());
         viewHolder.txtMaxNumber.setText(String.valueOf((int) roomModel.getMaxNumber()));
         viewHolder.txtAddress.setText(roomModel.getAddress());

@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,13 +16,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
 import com.example.designapptest.Adapters.AdapterRecyclerConvenient;
+import com.example.designapptest.Adapters.AdapterViewPagerImageShow;
+import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Model.RoomModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,7 +55,7 @@ public class detailRoom extends Activity {
     // Hiển thị hình ảnh phòng trọ chế độ xem.
     Dialog dialogShowImage;
     Button btnCloseShowImage;
-    ImageView imgShowImage;
+    ViewPager viewPagerShowImage;
     TextView txtPositionImage;
 
     int maxImageInRoom;
@@ -67,6 +69,8 @@ public class detailRoom extends Activity {
         roomModel = getIntent().getParcelableExtra("phongtro");
 
         initControl();
+
+        loadProgress();
     }
 
     @Override
@@ -76,6 +80,11 @@ public class detailRoom extends Activity {
         initData();
 
         clickShowImage();
+    }
+
+    private void loadProgress() {
+        for (ImageView imageView : listImageRoom)
+         classFunctionStatic.showProgress(this, imageView);
     }
 
     private void initControl() {
@@ -185,6 +194,7 @@ public class detailRoom extends Activity {
                 //Tạo ảnh bitmap từ byte
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 imageDownload.setImageBitmap(bitmap);
+                imageDownload.setVisibility(View.VISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -228,11 +238,10 @@ public class detailRoom extends Activity {
         });
     }
 
-    private void showPostionImage() {
-        txtPositionImage.setText(String.valueOf(indexImage + 1) + "/" + String.valueOf(maxImageInRoom));
+    private void showPostionImage(int position) {
+        txtPositionImage.setText(String.valueOf(position) + "/" + String.valueOf(maxImageInRoom));
     }
 
-    private float x1, x2;
 
     private void showImageDialogCustom() {
         maxImageInRoom = roomModel.getListImageRoom().size();
@@ -241,15 +250,34 @@ public class detailRoom extends Activity {
         dialogShowImage.setContentView(R.layout.dialog_show_image_detail_room);
 
         // Các control chế độ xem ảnh phòng trọ.
-        imgShowImage = (ImageView) dialogShowImage.findViewById(R.id.img_showImage_detail_room);
+        viewPagerShowImage = (ViewPager) dialogShowImage.findViewById(R.id.viewPager_showImage_detail_room);
         btnCloseShowImage = (Button) dialogShowImage.findViewById(R.id.btn_closeShowImage_detail_room);
         txtPositionImage = (TextView) dialogShowImage.findViewById(R.id.txt_positionImage_detail_room);
 
-        // Tải ảnh theo vị trí.
-        downloadImageForImageControl(imgShowImage, indexImage);
+        // Truyền dữ liệu qua view pager show image.
+        AdapterViewPagerImageShow adapterViewPagerImageShow = new AdapterViewPagerImageShow(this, roomModel.getListImageRoom());
+        viewPagerShowImage.setAdapter(adapterViewPagerImageShow);
 
-        // Hiển thị vị trí ảnh đang xem trên tổng số ảnh.
-        showPostionImage();
+        // Hiển thị lúc ban đầu.
+        showPostionImage(1);
+
+        viewPagerShowImage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+                int index = viewPagerShowImage.getCurrentItem();
+                showPostionImage(index + 1);
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
         // Kết thúc chế độ xem ảnh phòng trọ.
         btnCloseShowImage.setEnabled(true);
@@ -260,44 +288,6 @@ public class detailRoom extends Activity {
             }
         });
 
-        imgShowImage.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        x1 = event.getX();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        x2 = event.getX();
-                        float deltaX = x2 - x1;
-                        if (deltaX < 0) {
-                            if (indexImage < maxImageInRoom - 1) {
-                                indexImage++;
-
-                                // Tải ảnh theo vị trí.
-                                downloadImageForImageControl(imgShowImage, indexImage);
-
-                                // Hiển thị vị trí ảnh đang xem trên tổng số ảnh.
-                                showPostionImage();
-                            }
-                            break;
-                        } else if (deltaX > 0) {
-                            if (indexImage > 0) {
-                                indexImage--;
-
-                                // Tải ảnh theo vị trí.
-                                downloadImageForImageControl(imgShowImage, indexImage);
-
-                                // Hiển thị vị trí ảnh đang xem trên tổng số ảnh.
-                                showPostionImage();
-                            }
-                        }
-                        break;
-                }
-
-                return true;
-            }
-        });
 
         // Tùy chính lại dialog gồm giao diện, match parent width, height và chuyển background trong suốt.
         dialogShowImage.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));

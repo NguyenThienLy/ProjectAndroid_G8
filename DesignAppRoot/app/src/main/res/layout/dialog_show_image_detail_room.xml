@@ -17,15 +17,20 @@
             android:layout_margin="5dp"
             android:textStyle="bold"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/img_showImage_detail_room"
+    <LinearLayout
+        android:id="@+id/lnLt_ShowImage_detail_rooom"
         android:layout_width="match_parent"
-        android:layout_centerInParent="true"
-        android:contentDescription="@string/app_name"
-        android:layout_height="400dp" />
+        android:layout_height="400dp"
+        android:layout_centerInParent="true">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager_showImage_detail_room"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
