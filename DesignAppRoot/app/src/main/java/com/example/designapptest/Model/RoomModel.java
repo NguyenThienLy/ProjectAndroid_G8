@@ -16,11 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomModel implements Parcelable { // Linh thêm
-    String address, describe, name, owner, timeCreated;
+    String describe, name, owner, timeCreated;
     long currentNumber, maxNumber;
     double latitude, longtitude, length, width, rentalCosts;
     boolean authentication;
     boolean gender;
+
+    //Update 21/4/2019 by qui: chia address ra nhỏ để fillter
+
+    String apartmentNumber,county,street,ward,city;
+
+    //End Update 21/4/2019
+
     //id để generate từ firebase
     String typeID;
 
@@ -36,6 +43,9 @@ public class RoomModel implements Parcelable { // Linh thêm
     //Mã Phòng trọ
     String roomID;
 
+    //Chủ phòng trọ
+    UserModel roomOwner;
+
     // Lưu dnh sách tiện nghi phòng trọ
     List<ConvenientModel> listConvenientRoom;
 
@@ -46,7 +56,7 @@ public class RoomModel implements Parcelable { // Linh thêm
     List<CommentModel> listCommentRoom;
 
     protected RoomModel(Parcel in) {
-        address = in.readString();
+
         describe = in.readString();
         name = in.readString();
         owner = in.readString();
@@ -67,6 +77,16 @@ public class RoomModel implements Parcelable { // Linh thêm
         prettyGood = in.readLong();
         bad = in.readLong();
         roomID = in.readString();
+
+        //update 14/4/2019
+        apartmentNumber = in.readString();
+        county = in.readString();
+        street = in.readString();
+        ward = in.readString();
+        city = in.readString();
+        roomOwner = in.readParcelable(UserModel.class.getClassLoader());
+        //end update 14/4/2019
+
         listImageRoom = in.createStringArrayList();
 
         listConvenientRoom = new ArrayList<ConvenientModel>();
@@ -87,6 +107,54 @@ public class RoomModel implements Parcelable { // Linh thêm
             return new RoomModel[size];
         }
     };
+
+    public UserModel getRoomOwner() {
+        return roomOwner;
+    }
+
+    public void setRoomOwner(UserModel roomOwner) {
+        this.roomOwner = roomOwner;
+    }
+
+    public String getApartmentNumber() {
+        return apartmentNumber;
+    }
+
+    public void setApartmentNumber(String apartmentNumber) {
+        this.apartmentNumber = apartmentNumber;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getWard() {
+        return ward;
+    }
+
+    public void setWard(String ward) {
+        this.ward = ward;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public String getTypeID() {
         return typeID;
@@ -185,14 +253,6 @@ public class RoomModel implements Parcelable { // Linh thêm
     public RoomModel() {
         //Trả về node root của database
         nodeRoot = FirebaseDatabase.getInstance().getReference();
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getDescribe() {
@@ -367,6 +427,12 @@ public class RoomModel implements Parcelable { // Linh thêm
 
                     //End Thêm danh sách tiện nghi của phòng trọ
 
+                    //Thêm thông tin chủ sở hữu cho phòng trọ
+                    UserModel tempUser = dataSnapshot.child("Users").child(roomModel.getOwner()).getValue(UserModel.class);
+                    roomModel.setRoomOwner(tempUser);
+                    
+                    //End thêm thông tin chủ sở hữu cho phòng trọ
+
                     //Kích hoạt interface
                     mainRoomModelInterface.getListMainRoom(roomModel);
                 }
@@ -389,7 +455,6 @@ public class RoomModel implements Parcelable { // Linh thêm
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(address);
         dest.writeString(describe);
         dest.writeString(name);
         dest.writeString(owner);
@@ -410,6 +475,16 @@ public class RoomModel implements Parcelable { // Linh thêm
         dest.writeLong(prettyGood);
         dest.writeLong(bad);
         dest.writeString(roomID);
+
+        //update 21/4/2019
+        dest.writeString(apartmentNumber);
+        dest.writeString(county);
+        dest.writeString(street);
+        dest.writeString(ward);
+        dest.writeString(city);
+        dest.writeParcelable(roomOwner,flags);
+        //end update 21/4/2019
+
         dest.writeStringList(listImageRoom);
         dest.writeTypedList(listConvenientRoom);
         dest.writeTypedList(listCommentRoom);

@@ -82,11 +82,16 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         classFunctionStatic.showProgress(context, viewHolder.imgRoom);
         viewHolder.txtName.setText(roomModel.getDescribe());
         viewHolder.txtMaxNumber.setText(String.valueOf((int) roomModel.getMaxNumber()));
-        viewHolder.txtAddress.setText(roomModel.getAddress());
         viewHolder.txtPrice.setText(String.valueOf(roomModel.getRentalCosts()) +"đ/Phòng");
         viewHolder.txtArea.setText(roomModel.getLength()+"m"+"x"+roomModel.getWidth()+"m");
         viewHolder.txtQuantityComment.setText("0");
         viewHolder.txtType.setText(roomModel.getRoomType());
+
+        //Set address for room
+        String longAddress = roomModel.getApartmentNumber() +" "+roomModel.getStreet()+", "
+                +roomModel.getWard()+", "+roomModel.getCounty()+", "+roomModel.getCity();
+        viewHolder.txtAddress.setText(longAddress);
+        //End Set address for room
 
         //Gán hình cho giới tính
         if(roomModel.isGender()==true){

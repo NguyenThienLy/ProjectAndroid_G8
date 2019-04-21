@@ -37,7 +37,7 @@ public class detailRoom extends Activity {
     TextView txt_roomType, txt_roomMaxNumber, txt_quantityComment, txt_roomName,
             txt_roomPrice, txt_roomStatus, txt_roomArea, txt_roomAddress, txt_roomDescription,
             txt_roomGreatReview, txt_roomPrettyGoodReview, txt_roomMediumReview, txt_roomBadReview,
-            txt_quantityComment_2;
+            txt_quantityComment_2,txt_RoomPhoneNumber;
 
     ImageView img_roomGender, img_room1, img_room2, img_room3, img_room4;
 
@@ -102,6 +102,7 @@ public class detailRoom extends Activity {
         txt_roomMediumReview = (TextView) findViewById(R.id.txt_roomMediumReview);
         txt_roomBadReview = (TextView) findViewById(R.id.txt_roomBadReview);
         txt_quantityComment_2 = (TextView) findViewById(R.id.txt_quantityComment_2);
+        txt_RoomPhoneNumber = (TextView)findViewById(R.id.txt_room_phonenumber);
 
         img_roomGender = (ImageView) findViewById(R.id.img_roomGender);
         img_room1 = (ImageView) findViewById(R.id.img_room1);
@@ -128,6 +129,7 @@ public class detailRoom extends Activity {
         txt_quantityComment_2.setText("0");
         txt_roomName.setText(roomModel.getName());
         txt_roomPrice.setText(String.valueOf(roomModel.getRentalCosts()) + "tr/ phòng");
+        txt_RoomPhoneNumber.setText(roomModel.getRoomOwner().getPhoneNumber());
 
         if (((int) roomModel.getCurrentNumber()) < ((int) roomModel.getMaxNumber())) {
             txt_roomStatus.setText("Còn");
@@ -136,12 +138,17 @@ public class detailRoom extends Activity {
         }
 
         txt_roomArea.setText(roomModel.getLength() + "m" + " x " + roomModel.getWidth() + "m");
-        txt_roomAddress.setText(roomModel.getAddress());
         txt_roomDescription.setText(roomModel.getDescribe());
         txt_roomGreatReview.setText(roomModel.getGreat() + "");
         txt_roomPrettyGoodReview.setText(roomModel.getPrettyGood() + "");
         txt_roomMediumReview.setText(roomModel.getMedium() + "");
         txt_roomBadReview.setText(roomModel.getBad() + "");
+
+        //Set address for room
+        String longAddress = roomModel.getApartmentNumber() +" "+roomModel.getStreet()+", "
+                +roomModel.getWard()+", "+roomModel.getCounty()+", "+roomModel.getCity();
+        txt_roomAddress.setText(longAddress);
+        //End set address for room
 
         //Gán giá trị cho số lượt bình luận
         if (roomModel.getListCommentRoom().size() > 0) {
