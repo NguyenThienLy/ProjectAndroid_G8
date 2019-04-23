@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/custom_background_navigation"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/txt_quantityMember"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_svg_back_white_100"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/stringHeaderCommentAndReview"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="14dp"
+                android:paddingTop="10dp"
+                />
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:background="@drawable/custom_background_navigation"
+                android:text="Đăng"
+                android:textAllCaps="false"
+                android:textSize="14dp"
+                android:textColor="@android:color/white"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cho thuê phòng cao cấp quận 7"
+            android:textSize="18dp"
+            android:paddingLeft="10dp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:textColor="#666666"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="127 Âu Cơ, Quận Tân Bình, Tp.HCM"
+            android:textSize="14dp"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#999999"/>
+        <EditText
+            android:background="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:hint="Tiêu đề bình luận( Không bắt buộc )"
+            android:textSize="14dp"
+            android:textColorHint="#999999"/>
+        <TextView
+            android:id="@+id/txt_scores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đánh giá: 0/10"
+            android:textSize="14dp"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#999999"/>
+        <GridView
+            android:id="@+id/grV_star"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:numColumns="10">
+        </GridView>
+        <EditText
+            android:background="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:lines="10"
+            android:maxLines="10"
+            android:minLines="4"
+            android:gravity="top"
+            android:scrollbars="vertical"
+            android:layout_marginTop="4dp"
+            android:padding="10dp"
+            android:hint="Bình luận trên 100 từ, đúng chính tả, ngôn từ văn hóa, không spam, trên tiêu chí góp y"
+            android:textSize="14dp"
+            android:lineSpacingExtra="5dp"
+            android:textColorHint="#999999"/>
+    </LinearLayout>
+</RelativeLayout>
