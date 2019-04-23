@@ -14,7 +14,8 @@
     <string name="stringAdress">Địa chỉ</string>
     <string name="stringDetail">Chi tiết</string>
     <string name="stringCallBookRoom">Gọi đặt phòng</string>
-    <string name="stringPostRoom">Viết bình luận</string>
+    <string name="stringPostComment">Viết bình luận</string>
+    <string name="stringPost">Đăng</string>
     <string name="stringViewAll">Xem tất cả</string>
     <string name="stringCheckMap">Check map</string>
     <string name="stringSameCriteria">Cùng tiêu chí</string>
