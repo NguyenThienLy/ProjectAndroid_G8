@@ -43,7 +43,7 @@ public class detailRoom extends Activity {
             txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview,
             txtQuantityComment_2,txtRoomPhoneNumber;
 
-    Button btnCallPhone;
+    Button btnCallPhone, btnPostRoom, btnViewAll;
 
     ImageView imgRoomGender, imgRoom1, imgRoom2, imgRoom3, imgRoom4;
 
@@ -87,7 +87,11 @@ public class detailRoom extends Activity {
 
         clickCallPhone();
 
+        clickPostRoom();
+
         clickShowImage();
+
+
     }
 
     private void loadProgress() {
@@ -114,6 +118,8 @@ public class detailRoom extends Activity {
         txtRoomPhoneNumber = (TextView)findViewById(R.id.txt_room_phonenumber);
 
         btnCallPhone = (Button) findViewById(R.id.btn_callPhone) ;
+        btnPostRoom = (Button) findViewById(R.id.btn_postComment) ;
+        btnViewAll = (Button) findViewById(R.id.btn_viewAll) ;
 
         imgRoomGender = (ImageView) findViewById(R.id.img_roomGender);
         imgRoom1 = (ImageView) findViewById(R.id.img_room1);
@@ -229,8 +235,19 @@ public class detailRoom extends Activity {
             @Override
             public void onClick(View v) {
                 String strPhoneNumbet = roomModel.getRoomOwner().getPhoneNumber();
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", strPhoneNumbet, null));
-                startActivity(intent);
+                Intent intentCall = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", strPhoneNumbet, null));
+                startActivity(intentCall);
+            }
+        });
+    }
+
+    // Hàm viết hiển thị màn hình viết bình luận.
+    private  void clickPostRoom() {
+        btnPostRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentPostRoom = new Intent(detailRoom.this, commentAndRateModel.class);
+                startActivity(intentPostRoom);
             }
         });
     }
