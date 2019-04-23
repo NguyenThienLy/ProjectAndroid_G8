@@ -615,6 +615,7 @@
                         android:orientation="horizontal">
 
                         <Button
+                            android:id="@+id/btn_callPhone"
                             android:layout_width="120dp"
                             android:layout_height="30dp"
                             android:background="@drawable/custom_button_call_room_detail"

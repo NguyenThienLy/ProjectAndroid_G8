@@ -2,10 +2,14 @@ package com.example.designapptest;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CallLog;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,12 +38,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class detailRoom extends Activity {
-    TextView txt_roomType, txt_roomMaxNumber, txt_quantityComment, txt_roomName,
-            txt_roomPrice, txt_roomStatus, txt_roomArea, txt_roomAddress, txt_roomDescription,
-            txt_roomGreatReview, txt_roomPrettyGoodReview, txt_roomMediumReview, txt_roomBadReview,
-            txt_quantityComment_2,txt_RoomPhoneNumber;
+    TextView txtRoomType, txtRoomMaxNumber, txtQuantityComment, txtRoomName,
+            txtRoomPrice, txtRoomStatus, txtRoomArea, txtRoomAddress, txtRoomDescription,
+            txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview,
+            txtQuantityComment_2,txtRoomPhoneNumber;
 
-    ImageView img_roomGender, img_room1, img_room2, img_room3, img_room4;
+    Button btnCallPhone;
+
+    ImageView imgRoomGender, imgRoom1, imgRoom2, imgRoom3, imgRoom4;
 
     List<ImageView> listImageRoom;
 
@@ -79,6 +85,8 @@ public class detailRoom extends Activity {
 
         initData();
 
+        clickCallPhone();
+
         clickShowImage();
     }
 
@@ -87,81 +95,85 @@ public class detailRoom extends Activity {
          classFunctionStatic.showProgress(this, imageView);
     }
 
+    // Khởi tạo các control trong room detail.
     private void initControl() {
-        txt_roomType = (TextView) findViewById(R.id.txt_roomType);
-        txt_roomMaxNumber = (TextView) findViewById(R.id.txt_roomMaxNumber);
-        txt_quantityComment = (TextView) findViewById(R.id.txt_quantityComment);
-        txt_roomName = (TextView) findViewById(R.id.txt_roomName);
-        txt_roomPrice = (TextView) findViewById(R.id.txt_roomPrice);
-        txt_roomStatus = (TextView) findViewById(R.id.txt_roomStatus);
-        txt_roomArea = (TextView) findViewById(R.id.txt_roomArea);
-        txt_roomAddress = (TextView) findViewById(R.id.txt_roomAddress);
-        txt_roomDescription = (TextView) findViewById(R.id.txt_roomDescription);
-        txt_roomGreatReview = (TextView) findViewById(R.id.txt_roomGreatReview);
-        txt_roomPrettyGoodReview = (TextView) findViewById(R.id.txt_roomPrettyGoodReview);
-        txt_roomMediumReview = (TextView) findViewById(R.id.txt_roomMediumReview);
-        txt_roomBadReview = (TextView) findViewById(R.id.txt_roomBadReview);
-        txt_quantityComment_2 = (TextView) findViewById(R.id.txt_quantityComment_2);
-        txt_RoomPhoneNumber = (TextView)findViewById(R.id.txt_room_phonenumber);
+        txtRoomType = (TextView) findViewById(R.id.txt_roomType);
+        txtRoomMaxNumber = (TextView) findViewById(R.id.txt_roomMaxNumber);
+        txtQuantityComment = (TextView) findViewById(R.id.txt_quantityComment);
+        txtRoomName = (TextView) findViewById(R.id.txt_roomName);
+        txtRoomPrice = (TextView) findViewById(R.id.txt_roomPrice);
+        txtRoomStatus = (TextView) findViewById(R.id.txt_roomStatus);
+        txtRoomArea = (TextView) findViewById(R.id.txt_roomArea);
+        txtRoomAddress = (TextView) findViewById(R.id.txt_roomAddress);
+        txtRoomDescription = (TextView) findViewById(R.id.txt_roomDescription);
+        txtRoomGreatReview = (TextView) findViewById(R.id.txt_roomGreatReview);
+        txtRoomPrettyGoodReview = (TextView) findViewById(R.id.txt_roomPrettyGoodReview);
+        txtRoomMediumReview = (TextView) findViewById(R.id.txt_roomMediumReview);
+        txtRoomBadReview = (TextView) findViewById(R.id.txt_roomBadReview);
+        txtQuantityComment_2 = (TextView) findViewById(R.id.txt_quantityComment_2);
+        txtRoomPhoneNumber = (TextView)findViewById(R.id.txt_room_phonenumber);
 
-        img_roomGender = (ImageView) findViewById(R.id.img_roomGender);
-        img_room1 = (ImageView) findViewById(R.id.img_room1);
-        img_room2 = (ImageView) findViewById(R.id.img_room2);
-        img_room3 = (ImageView) findViewById(R.id.img_room3);
-        img_room4 = (ImageView) findViewById(R.id.img_room4);
+        btnCallPhone = (Button) findViewById(R.id.btn_callPhone) ;
+
+        imgRoomGender = (ImageView) findViewById(R.id.img_roomGender);
+        imgRoom1 = (ImageView) findViewById(R.id.img_room1);
+        imgRoom2 = (ImageView) findViewById(R.id.img_room2);
+        imgRoom3 = (ImageView) findViewById(R.id.img_room3);
+        imgRoom4 = (ImageView) findViewById(R.id.img_room4);
 
         listImageRoom = new ArrayList<ImageView>();
 
-        listImageRoom.add(img_room1);
-        listImageRoom.add(img_room2);
-        listImageRoom.add(img_room3);
-        listImageRoom.add(img_room4);
+        listImageRoom.add(imgRoom1);
+        listImageRoom.add(imgRoom2);
+        listImageRoom.add(imgRoom3);
+        listImageRoom.add(imgRoom4);
 
         recycler_comment_room_detail = (RecyclerView) findViewById(R.id.recycler_comment_room_detail);
         recycler_convenients_room_detail = (RecyclerView) findViewById(R.id.recycler_convenients_room_detail);
     }
 
+    // Khởi tạo các giá trị cho các control.
     private void initData() {
         //Gán các giá trị vào giao diện
-        txt_roomType.setText(roomModel.getRoomType());
-        txt_roomMaxNumber.setText(String.valueOf((int) roomModel.getMaxNumber()));
-        txt_quantityComment.setText("0");
-        txt_quantityComment_2.setText("0");
-        txt_roomName.setText(roomModel.getName());
-        txt_roomPrice.setText(String.valueOf(roomModel.getRentalCosts()) + "tr/ phòng");
-        txt_RoomPhoneNumber.setText(roomModel.getRoomOwner().getPhoneNumber());
+        txtRoomType.setText(roomModel.getRoomType());
+        txtRoomMaxNumber.setText(String.valueOf((int) roomModel.getMaxNumber()));
+        txtQuantityComment.setText("0");
+        txtQuantityComment_2.setText("0");
+        txtRoomName.setText(roomModel.getName());
+        txtRoomPrice.setText(String.valueOf(roomModel.getRentalCosts()) + "tr/ phòng");
+        txtRoomPhoneNumber.setText(roomModel.getRoomOwner().getPhoneNumber());
 
         if (((int) roomModel.getCurrentNumber()) < ((int) roomModel.getMaxNumber())) {
-            txt_roomStatus.setText("Còn");
+            txtRoomStatus.setText("Còn");
         } else {
-            txt_roomStatus.setText("Hết");
+            txtRoomStatus.setText("Hết");
         }
 
-        txt_roomArea.setText(roomModel.getLength() + "m" + " x " + roomModel.getWidth() + "m");
-        txt_roomDescription.setText(roomModel.getDescribe());
-        txt_roomGreatReview.setText(roomModel.getGreat() + "");
-        txt_roomPrettyGoodReview.setText(roomModel.getPrettyGood() + "");
-        txt_roomMediumReview.setText(roomModel.getMedium() + "");
-        txt_roomBadReview.setText(roomModel.getBad() + "");
+        txtRoomArea.setText(roomModel.getLength() + "m" + " x " + roomModel.getWidth() + "m");
+        txtRoomDescription.setText(roomModel.getDescribe());
+        txtRoomGreatReview.setText(roomModel.getGreat() + "");
+        txtRoomPrettyGoodReview.setText(roomModel.getPrettyGood() + "");
+        txtRoomMediumReview.setText(roomModel.getMedium() + "");
+        txtRoomBadReview.setText(roomModel.getBad() + "");
 
         //Set address for room
         String longAddress = roomModel.getApartmentNumber() +" "+roomModel.getStreet()+", "
                 +roomModel.getWard()+", "+roomModel.getCounty()+", "+roomModel.getCity();
-        txt_roomAddress.setText(longAddress);
+        txtRoomAddress.setText(longAddress);
         //End set address for room
 
         //Gán giá trị cho số lượt bình luận
         if (roomModel.getListCommentRoom().size() > 0) {
-            txt_quantityComment.setText(roomModel.getListCommentRoom().size() + "");
-            txt_quantityComment_2.setText(roomModel.getListCommentRoom().size() + "");
+            txtQuantityComment.setText(roomModel.getListCommentRoom().size() + "");
+            txtQuantityComment_2.setText(roomModel.getListCommentRoom().size() + "");
         }
         //End gán giá trị cho số lượng bình luận
 
         //Gán hình cho giới tính
         if (roomModel.isGender()) {
-            img_roomGender.setImageResource(R.drawable.ic_svg_male_100);
+            imgRoomGender.setImageResource(R.drawable.ic_svg_male_100);
         } else {
-            img_roomGender.setImageResource(R.drawable.ic_svg_female_100);
+            imgRoomGender.setImageResource(R.drawable.ic_svg_female_100);
         }
         //End Gán giá trị cho giới tính
 
@@ -211,8 +223,21 @@ public class detailRoom extends Activity {
         });
     }
 
+    // Hàm gọi điện thoại cho chủ phòng trọ.
+    private void clickCallPhone() {
+        btnCallPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strPhoneNumbet = roomModel.getRoomOwner().getPhoneNumber();
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", strPhoneNumbet, null));
+                startActivity(intent);
+            }
+        });
+    }
+
+    // Hàm hiển thị ảnh phòng trọ chế độ xem.
     private void clickShowImage() {
-        img_room1.setOnClickListener(new View.OnClickListener() {
+        imgRoom1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showImageDialogCustom();
@@ -220,7 +245,7 @@ public class detailRoom extends Activity {
             }
         });
 
-        img_room2.setOnClickListener(new View.OnClickListener() {
+        imgRoom2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showImageDialogCustom();
@@ -228,7 +253,7 @@ public class detailRoom extends Activity {
             }
         });
 
-        img_room3.setOnClickListener(new View.OnClickListener() {
+        imgRoom3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showImageDialogCustom();
@@ -236,7 +261,7 @@ public class detailRoom extends Activity {
             }
         });
 
-        img_room4.setOnClickListener(new View.OnClickListener() {
+        imgRoom4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showImageDialogCustom();
@@ -245,11 +270,12 @@ public class detailRoom extends Activity {
         });
     }
 
+    // Hàm hiển thị vị trí ảnh trên tống số.
     private void showPostionImage(int position) {
         txtPositionImage.setText(String.valueOf(position) + "/" + String.valueOf(maxImageInRoom));
     }
 
-
+    // Hàm tạo ra custom dialong và các tác vụ liên quan.
     private void showImageDialogCustom() {
         maxImageInRoom = roomModel.getListImageRoom().size();
 
