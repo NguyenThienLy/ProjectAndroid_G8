@@ -11,15 +11,15 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.example.designapptest.Adapters.AdapterRecyclerRateStar;
+import com.example.designapptest.Adapters.AdapterGridRateStar;
 
 import java.util.ArrayList;
 
 public class commentAndRateStep1 extends Fragment {
     int scores;
 
-    RecyclerView recycler_rate_star;
-    AdapterRecyclerRateStar adapterRecyclerRateStar;
+    GridView grvStar;
+    AdapterGridRateStar adapterGridRateStar;
 
     ArrayList<Integer> lstStar;
 
@@ -50,7 +50,7 @@ public class commentAndRateStep1 extends Fragment {
     }
 
     private void initControl() {
-        recycler_rate_star = (RecyclerView) viewCommentAndRateStep1.findViewById(R.id.recycler_rate_star);
+        grvStar = (GridView) viewCommentAndRateStep1.findViewById(R.id.grV_star);
         txtScores = (TextView) viewCommentAndRateStep1.findViewById(R.id.txt_scores);
     }
 
@@ -69,22 +69,17 @@ public class commentAndRateStep1 extends Fragment {
     }
 
     private void setAdapter() {
-        RecyclerView.LayoutManager layoutManagerComment = new LinearLayoutManager((commentAndRateMain)getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recycler_rate_star.setLayoutManager(layoutManagerComment);
-        adapterRecyclerRateStar = new AdapterRecyclerRateStar((commentAndRateMain)getContext(), R.layout.rate_star_grid_view, lstStar);
-        recycler_rate_star.setAdapter(adapterRecyclerRateStar);
-        adapterRecyclerRateStar.notifyDataSetChanged();
+        adapterGridRateStar = new AdapterGridRateStar((commentAndRateMain)getContext(), R.layout.rate_star_grid_view, lstStar);
+        grvStar.setAdapter(adapterGridRateStar);
     }
 
     private void chooseStar() {
-//        recycler_rate_star.setItem(new AdapterView.OnItemClickListener() {
-//               @Override
-//               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                   rateStar(position);
-//               }
-//           }
-//        );
-
+        grvStar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                rateStar(position);
+            }
+        });
     }
 
     private void rateStar(int position) {
@@ -100,7 +95,7 @@ public class commentAndRateStep1 extends Fragment {
             }
         }
 
-        adapterRecyclerRateStar = new AdapterRecyclerRateStar((commentAndRateMain)getContext(), R.layout.rate_star_grid_view, lstStar);
-        recycler_rate_star.setAdapter(adapterRecyclerRateStar);
+        adapterGridRateStar = new AdapterGridRateStar((commentAndRateMain)getContext(), R.layout.rate_star_grid_view, lstStar);
+        grvStar.setAdapter(adapterGridRateStar);
     }
 }

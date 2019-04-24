@@ -29,4 +29,6 @@
     <string name="stringMedium">Vừa</string>
     <string name="stringWide">Rộng</string>
     <string name="stringComment">Bình luận:</string>
+    <string name="stringNoteComment">Bình luận trên 100 từ, đúng chính tả, ngôn từ văn hóa, không spam, trên tiêu chí góp ý</string>
+    <string name="stringNoteTitle">Tiêu đề bình luận (Bắt buộc)</string>
 </resources>

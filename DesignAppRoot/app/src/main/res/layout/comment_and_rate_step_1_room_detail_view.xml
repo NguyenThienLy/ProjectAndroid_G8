@@ -30,7 +30,7 @@
         android:inputType="textMultiLine"
         android:layout_marginTop="10dp"
         android:padding="10dp"
-        android:hint="Tiêu đề bình luận( Không bắt buộc )"
+        android:hint="@string/stringNoteTitle"
         android:textSize="14dp"
         android:textColorHint="#999999"/>
     <TextView
@@ -42,14 +42,14 @@
         android:paddingLeft="10dp"
         android:layout_marginTop="5dp"
         android:textColor="#999999"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_rate_star"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager" >
-    </android.support.v7.widget.RecyclerView>
+    <GridView
+        android:id="@+id/grV_star"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:numColumns="10">
+    </GridView>
+
     <EditText
         android:background="#FFFFFF"
         android:layout_width="match_parent"
@@ -62,7 +62,7 @@
         android:scrollbars="vertical"
         android:layout_marginTop="4dp"
         android:padding="10dp"
-        android:hint="Bình luận trên 100 từ, đúng chính tả, ngôn từ văn hóa, không spam, trên tiêu chí góp y"
+        android:hint="@string/stringNoteComment"
         android:textSize="14dp"
         android:lineSpacingExtra="5dp"
         android:textColorHint="#999999"/>
