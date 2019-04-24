@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cho thuê phòng cao cấp quận 7"
+        android:textSize="18dp"
+        android:paddingLeft="10dp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:textColor="#666666"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="127 Âu Cơ, Quận Tân Bình, Tp.HCM"
+        android:textSize="14dp"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textColor="#999999"/>
+    <EditText
+        android:background="#FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:hint="@string/stringNoteTitle"
+        android:textSize="14dp"
+        android:textColorHint="#999999"/>
+    <TextView
+        android:id="@+id/txt_scores"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đánh giá: 0/10"
+        android:textSize="14dp"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textColor="#999999"/>
+    <GridView
+        android:id="@+id/grV_star"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:numColumns="10">
+    </GridView>
+
+    <EditText
+        android:background="#FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:lines="10"
+        android:maxLines="10"
+        android:minLines="4"
+        android:gravity="top"
+        android:scrollbars="vertical"
+        android:layout_marginTop="4dp"
+        android:padding="10dp"
+        android:hint="@string/stringNoteComment"
+        android:textSize="14dp"
+        android:lineSpacingExtra="5dp"
+        android:textColorHint="#999999"/>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_postComment"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/custom_button_check_map_detail"
+            android:text="@string/stringPost"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>
+

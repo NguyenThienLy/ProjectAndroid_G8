@@ -58,7 +58,6 @@ public class AdapterRecyclerConvenient extends RecyclerView.Adapter<AdapterRecyc
 
         int resourceId = context.getResources().getIdentifier(convenientModel.getImageName(), "drawable", contextMain.getPackageName());
         viewHolder.img_utility_room_detail.setImageResource(resourceId);
-
     }
 
     @Override

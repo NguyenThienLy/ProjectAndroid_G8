@@ -1,21 +1,24 @@
-package com.example.designapptest;
+package com.example.designapptest.Adapters;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.example.designapptest.R;
+
 
 import java.util.List;
 
-public class rateStarAdapter extends BaseAdapter {
+public class AdapterGridRateStar extends BaseAdapter {
     private Context context;
     private int layout;
     private List<Integer> lstStar;
 
-    public rateStarAdapter(Context context, int layout, List<Integer> lstStar) {
+    public AdapterGridRateStar(Context context, int layout, List<Integer> lstStar) {
         this.context = context;
         this.layout = layout;
         this.lstStar = lstStar;
@@ -45,14 +48,14 @@ public class rateStarAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(layout, null);
 
-            rateStarAdapter.ViewHolder holder = new rateStarAdapter.ViewHolder();
+            AdapterGridRateStar.ViewHolder holder = new AdapterGridRateStar.ViewHolder();
 
             holder.img = (ImageView) view.findViewById(R.id.img_star);
             view.setTag(holder);
         }
 
         //gan gia tri
-        rateStarAdapter.ViewHolder holder = (rateStarAdapter.ViewHolder) view.getTag();
+        AdapterGridRateStar.ViewHolder holder = (AdapterGridRateStar.ViewHolder) view.getTag();
 
         holder.img.setImageResource(lstStar.get(position));
         return view;

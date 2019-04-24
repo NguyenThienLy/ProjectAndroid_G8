@@ -8,20 +8,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CallLog;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
@@ -37,13 +34,13 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class detailRoom extends Activity {
+public class detailRoom extends AppCompatActivity {
     TextView txtRoomType, txtRoomMaxNumber, txtQuantityComment, txtRoomName,
             txtRoomPrice, txtRoomStatus, txtRoomArea, txtRoomAddress, txtRoomDescription,
             txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview,
             txtQuantityComment_2,txtRoomPhoneNumber;
 
-    Button btnCallPhone, btnPostRoom, btnViewAll;
+    Button btnCallPhone, btnPostComment, btnViewAll;
 
     ImageView imgRoomGender, imgRoom1, imgRoom2, imgRoom3, imgRoom4;
 
@@ -87,10 +84,9 @@ public class detailRoom extends Activity {
 
         clickCallPhone();
 
-        clickPostRoom();
+        clickPostComment();
 
         clickShowImage();
-
 
     }
 
@@ -118,7 +114,7 @@ public class detailRoom extends Activity {
         txtRoomPhoneNumber = (TextView)findViewById(R.id.txt_room_phonenumber);
 
         btnCallPhone = (Button) findViewById(R.id.btn_callPhone) ;
-        btnPostRoom = (Button) findViewById(R.id.btn_postComment) ;
+        btnPostComment = (Button) findViewById(R.id.btn_postComment) ;
         btnViewAll = (Button) findViewById(R.id.btn_viewAll) ;
 
         imgRoomGender = (ImageView) findViewById(R.id.img_roomGender);
@@ -236,18 +232,30 @@ public class detailRoom extends Activity {
             public void onClick(View v) {
                 String strPhoneNumbet = roomModel.getRoomOwner().getPhoneNumber();
                 Intent intentCall = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", strPhoneNumbet, null));
+
+                intentCall.putExtra("phongtro", roomModel);
                 startActivity(intentCall);
             }
         });
     }
 
     // Hàm viết hiển thị màn hình viết bình luận.
-    private  void clickPostRoom() {
-        btnPostRoom.setOnClickListener(new View.OnClickListener() {
+    private  void clickPostComment() {
+        btnPostComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentPostRoom = new Intent(detailRoom.this, commentAndRateModel.class);
-                startActivity(intentPostRoom);
+                Intent intentCommentAndRate = new Intent(detailRoom.this, commentAndRateMain.class);
+                intentCommentAndRate.putExtra("phongtro", roomModel);
+                startActivity(intentCommentAndRate);
+            }
+        });
+
+        btnViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentCommentAndRate = new Intent(detailRoom.this, commentAndRateMain.class);
+                intentCommentAndRate.putExtra("phongtro", roomModel);
+                startActivity(intentCommentAndRate);
             }
         });
     }
