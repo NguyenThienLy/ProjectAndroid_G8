@@ -1,5 +1,6 @@
 package com.example.designapptest;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
+import com.example.designapptest.Controller.CommentController;
 import com.example.designapptest.Model.RoomModel;
 
 public class commentAndRateStep2 extends Fragment {
@@ -19,6 +21,9 @@ public class commentAndRateStep2 extends Fragment {
 
     RoomModel roomModel;
 
+    SharedPreferences sharedPreferences;
+    CommentController commentController;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -26,6 +31,7 @@ public class commentAndRateStep2 extends Fragment {
         // Inflate the layout for this fragment
         viewCommentAndRateStep2 = inflater.inflate(R.layout.comment_and_rate_step_2_room_detail_view, container, false);
         roomModel = ((commentAndRateMain)this.getActivity()).getRoomModelInfo();
+        sharedPreferences = ((commentAndRateMain) this.getActivity()).getSharedPreferences();
 
         initControl();
 
@@ -43,10 +49,12 @@ public class commentAndRateStep2 extends Fragment {
     }
 
     private void setAdapter() {
-        RecyclerView.LayoutManager layoutManagerComment = new LinearLayoutManager((commentAndRateMain)getContext());
-        recycler_comment_room_detail_all.setLayoutManager(layoutManagerComment);
-        adapterRecyclerComment = new AdapterRecyclerComment((commentAndRateMain)getContext(), R.layout.comment_element_grid_room_detail_view, roomModel.getListCommentRoom());
-        recycler_comment_room_detail_all.setAdapter(adapterRecyclerComment);
-        adapterRecyclerComment.notifyDataSetChanged();
+//        RecyclerView.LayoutManager layoutManagerComment = new LinearLayoutManager((commentAndRateMain)getContext());
+//        recycler_comment_room_detail_all.setLayoutManager(layoutManagerComment);
+//        adapterRecyclerComment = new AdapterRecyclerComment((commentAndRateMain)getContext(), R.layout.comment_element_grid_room_detail_view, roomModel.getListCommentRoom(), sharedPreferences);
+//        recycler_comment_room_detail_all.setAdapter(adapterRecyclerComment);
+//        adapterRecyclerComment.notifyDataSetChanged();
+        commentController = new CommentController((commentAndRateMain)this.getActivity(), sharedPreferences);
+        commentController.ListRoomComments(recycler_comment_room_detail_all, roomModel);
     }
 }
