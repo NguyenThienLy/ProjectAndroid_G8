@@ -3,6 +3,7 @@ package com.example.designapptest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
@@ -25,6 +26,7 @@ import com.example.designapptest.Adapters.AdapterRecyclerComment;
 import com.example.designapptest.Adapters.AdapterRecyclerConvenient;
 import com.example.designapptest.Adapters.AdapterViewPagerImageShow;
 import com.example.designapptest.ClassOther.classFunctionStatic;
+import com.example.designapptest.Controller.CommentController;
 import com.example.designapptest.Model.RoomModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -64,12 +66,16 @@ public class detailRoom extends AppCompatActivity {
     int maxImageInRoom;
     int indexImage;
 
+    SharedPreferences sharedPreferences;
+    CommentController commentController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.room_detail_view);
 
         roomModel = getIntent().getParcelableExtra("phongtro");
+        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
 
         initControl();
 
@@ -164,13 +170,6 @@ public class detailRoom extends AppCompatActivity {
         txtRoomAddress.setText(longAddress);
         //End set address for room
 
-        //Gán giá trị cho số lượt bình luận
-        if (roomModel.getListCommentRoom().size() > 0) {
-            txtQuantityComment.setText(roomModel.getListCommentRoom().size() + "");
-            txtQuantityComment_2.setText(roomModel.getListCommentRoom().size() + "");
-        }
-        //End gán giá trị cho số lượng bình luận
-
         //Gán hình cho giới tính
         if (roomModel.isGender()) {
             imgRoomGender.setImageResource(R.drawable.ic_svg_male_100);
@@ -186,11 +185,20 @@ public class detailRoom extends AppCompatActivity {
         // End download hình ảnh cho room
 
         // Load danh sách bình luận của phòng trọ
-        RecyclerView.LayoutManager layoutManagerComment = new LinearLayoutManager(this);
-        recycler_comment_room_detail.setLayoutManager(layoutManagerComment);
-        adapterRecyclerComment = new AdapterRecyclerComment(this, R.layout.comment_element_grid_room_detail_view, roomModel.getListCommentRoom());
-        recycler_comment_room_detail.setAdapter(adapterRecyclerComment);
-        adapterRecyclerComment.notifyDataSetChanged();
+//        RecyclerView.LayoutManager layoutManagerComment = new LinearLayoutManager(this);
+//        recycler_comment_room_detail.setLayoutManager(layoutManagerComment);
+//        adapterRecyclerComment = new AdapterRecyclerComment(this, R.layout.comment_element_grid_room_detail_view, roomModel.getListCommentRoom(), sharedPreferences);
+//        recycler_comment_room_detail.setAdapter(adapterRecyclerComment);
+//        adapterRecyclerComment.notifyDataSetChanged();
+        commentController = new CommentController(this, sharedPreferences);
+        commentController.ListRoomComments(recycler_comment_room_detail, roomModel);
+
+        //Gán giá trị cho số lượt bình luận
+        if (roomModel.getListCommentRoom().size() > 0) {
+            txtQuantityComment.setText(roomModel.getListCommentRoom().size() + "");
+            txtQuantityComment_2.setText(roomModel.getListCommentRoom().size() + "");
+        }
+        //End gán giá trị cho số lượng bình luận
 
         // Load danh sách tiện nghi của phòng trọ
         RecyclerView.LayoutManager layoutManagerConvenient = new GridLayoutManager(this, 3);

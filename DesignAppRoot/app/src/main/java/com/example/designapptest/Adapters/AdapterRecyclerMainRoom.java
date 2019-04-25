@@ -102,8 +102,10 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         //End Gán giá trị cho giới tính
 
         //Gán giá trị cho số lượt bình luận
-        if(roomModel.getListCommentRoom().size()>0){
-            viewHolder.txtQuantityComment.setText(roomModel.getListCommentRoom().size()+"");
+        if (roomModel.getListCommentRoom() != null) {
+            if(roomModel.getListCommentRoom().size() > 0){
+                viewHolder.txtQuantityComment.setText(roomModel.getListCommentRoom().size()+"");
+            }
         }
         //End gán giá trị cho số lượng bình luận
 

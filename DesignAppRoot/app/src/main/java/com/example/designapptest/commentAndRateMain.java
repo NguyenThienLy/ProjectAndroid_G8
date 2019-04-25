@@ -1,5 +1,6 @@
 package com.example.designapptest;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -19,6 +20,7 @@ public class commentAndRateMain extends AppCompatActivity {
     TabLayout tabLayoutCommentAndRate;
 
     RoomModel roomModel;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class commentAndRateMain extends AppCompatActivity {
         setContentView(R.layout.comment_and_rate_main_room_detail);
 
         roomModel = getIntent().getParcelableExtra("phongtro");
+        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
 
         loadControl();
     }
@@ -33,6 +36,8 @@ public class commentAndRateMain extends AppCompatActivity {
     public RoomModel getRoomModelInfo() {
         return roomModel;
     }
+
+    public SharedPreferences getSharedPreferences() { return sharedPreferences; }
 
     private void loadControl() {
         viewPagerCommentAndRate = (ViewPager) findViewById(R.id.viewpager_commentAndRate_room_detail);

@@ -392,21 +392,21 @@ public class RoomModel implements Parcelable { // Linh thêm
 
                     //Thêm danh sách bình luận của phòng trọ
 
-                    DataSnapshot dataSnapshotCommentRoom = dataSnapshot.child("RoomComments").child(valueRoom.getKey());
-                    List<CommentModel> tempCommentList = new ArrayList<CommentModel>();
-                    //Duyệt tất cả các giá trị trong node tương ứng
-                    for (DataSnapshot CommentValue : dataSnapshotCommentRoom.getChildren()) {
-                        CommentModel commentModel = CommentValue.getValue(CommentModel.class);
-                        commentModel.setCommentID(CommentValue.getKey());
-                        //Duyệt user tương ứng để lấy ra thông tin user bình luận
-                        UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
-                        commentModel.setUserComment(tempUser);
-                        //End duyệt user tương ứng để lấy ra thông tin user bình luận
-
-                        tempCommentList.add(commentModel);
-                    }
-
-                    roomModel.setListCommentRoom(tempCommentList);
+//                    DataSnapshot dataSnapshotCommentRoom = dataSnapshot.child("RoomComments").child(valueRoom.getKey());
+//                    List<CommentModel> tempCommentList = new ArrayList<CommentModel>();
+//                    //Duyệt tất cả các giá trị trong node tương ứng
+//                    for (DataSnapshot CommentValue : dataSnapshotCommentRoom.getChildren()) {
+//                        CommentModel commentModel = CommentValue.getValue(CommentModel.class);
+//                        commentModel.setCommentID(CommentValue.getKey());
+//                        //Duyệt user tương ứng để lấy ra thông tin user bình luận
+//                        UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
+//                        commentModel.setUserComment(tempUser);
+//                        //End duyệt user tương ứng để lấy ra thông tin user bình luận
+//
+//                        tempCommentList.add(commentModel);
+//                    }
+//
+//                    roomModel.setListCommentRoom(tempCommentList);
 
                     //End Thêm danh sách bình luận của phòng trọ
 

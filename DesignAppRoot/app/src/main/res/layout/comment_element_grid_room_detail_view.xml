@@ -127,6 +127,7 @@
             android:src="@drawable/ic_svg_like_blue_100" />
 
         <TextView
+            android:id="@+id/txt_like_comment_room_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"

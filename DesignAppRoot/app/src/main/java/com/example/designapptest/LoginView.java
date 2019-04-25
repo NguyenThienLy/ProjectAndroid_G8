@@ -3,6 +3,7 @@ package com.example.designapptest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
@@ -53,6 +54,8 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
     EditText edt_password_login;
     ProgressDialog progressDialog;
 
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +65,8 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         firebaseAuth = FirebaseAuth.getInstance();
         //Text Đăng xuất
         firebaseAuth.signOut();
+        // Lưu mã user đăng nhập vào app
+        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
 
         btnLoginWithGoogle = (ImageButton) findViewById(R.id.btnImg_google_login);
         btn_signUp = (Button) findViewById(R.id.btn_signUp);
@@ -196,6 +201,11 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         if (user != null) {
             progressDialog.dismiss();
             Toast.makeText(LoginView.this, "Sign in successful", Toast.LENGTH_SHORT).show();
+
+            // Lưu lại mã user đăng nhập vào app
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("currentUserId", user.getUid());
+            editor.commit();
 
             //Load trang chủ
             Intent intent = new Intent(this, MainActivity.class);
