@@ -76,6 +76,7 @@ public class detailRoom extends AppCompatActivity {
 
         roomModel = getIntent().getParcelableExtra("phongtro");
         sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
+        commentController = new CommentController(this, sharedPreferences);
 
         initControl();
 
@@ -178,21 +179,6 @@ public class detailRoom extends AppCompatActivity {
         }
         //End Gán giá trị cho giới tính
 
-        //Download hình ảnh cho room
-        for (int i = 0; i < roomModel.getListImageRoom().size(); i++) {
-            downloadImageForImageControl(listImageRoom.get(i), i);
-        }
-        // End download hình ảnh cho room
-
-        // Load danh sách bình luận của phòng trọ
-//        RecyclerView.LayoutManager layoutManagerComment = new LinearLayoutManager(this);
-//        recycler_comment_room_detail.setLayoutManager(layoutManagerComment);
-//        adapterRecyclerComment = new AdapterRecyclerComment(this, R.layout.comment_element_grid_room_detail_view, roomModel.getListCommentRoom(), sharedPreferences);
-//        recycler_comment_room_detail.setAdapter(adapterRecyclerComment);
-//        adapterRecyclerComment.notifyDataSetChanged();
-        commentController = new CommentController(this, sharedPreferences);
-        commentController.ListRoomComments(recycler_comment_room_detail, roomModel);
-
         //Gán giá trị cho số lượt bình luận
         if (roomModel.getListCommentRoom().size() > 0) {
             txtQuantityComment.setText(roomModel.getListCommentRoom().size() + "");
@@ -200,10 +186,26 @@ public class detailRoom extends AppCompatActivity {
         }
         //End gán giá trị cho số lượng bình luận
 
+        //Download hình ảnh cho room
+        for (int i = 0; i < roomModel.getListImageRoom().size(); i++) {
+            downloadImageForImageControl(listImageRoom.get(i), i);
+        }
+        // End download hình ảnh cho room
+
+        // Load danh sách bình luận của phòng trọ
+        commentController.sortListComments(roomModel.getListCommentRoom());
+        RecyclerView.LayoutManager layoutManagerComment = new LinearLayoutManager(this);
+        recycler_comment_room_detail.setLayoutManager(layoutManagerComment);
+        adapterRecyclerComment = new AdapterRecyclerComment(this, R.layout.comment_element_grid_room_detail_view,
+                roomModel.getListCommentRoom(), roomModel.getRoomID(), sharedPreferences, false);
+        recycler_comment_room_detail.setAdapter(adapterRecyclerComment);
+        adapterRecyclerComment.notifyDataSetChanged();
+
         // Load danh sách tiện nghi của phòng trọ
         RecyclerView.LayoutManager layoutManagerConvenient = new GridLayoutManager(this, 3);
         recycler_convenients_room_detail.setLayoutManager(layoutManagerConvenient);
-        adapterRecyclerConvenient = new AdapterRecyclerConvenient(this, getApplicationContext(), R.layout.utility_element_grid_rom_detail_view, roomModel.getListConvenientRoom());
+        adapterRecyclerConvenient = new AdapterRecyclerConvenient(this, getApplicationContext(),
+                R.layout.utility_element_grid_rom_detail_view, roomModel.getListConvenientRoom());
         recycler_convenients_room_detail.setAdapter(adapterRecyclerConvenient);
         adapterRecyclerConvenient.notifyDataSetChanged();
     }
@@ -321,7 +323,8 @@ public class detailRoom extends AppCompatActivity {
         txtPositionImage = (TextView) dialogShowImage.findViewById(R.id.txt_positionImage_detail_room);
 
         // Truyền dữ liệu qua view pager show image.
-        AdapterViewPagerImageShow adapterViewPagerImageShow = new AdapterViewPagerImageShow(this, roomModel.getListImageRoom());
+        AdapterViewPagerImageShow adapterViewPagerImageShow = new AdapterViewPagerImageShow(this,
+                roomModel.getListImageRoom());
         viewPagerShowImage.setAdapter(adapterViewPagerImageShow);
 
         // Hiển thị lúc ban đầu.

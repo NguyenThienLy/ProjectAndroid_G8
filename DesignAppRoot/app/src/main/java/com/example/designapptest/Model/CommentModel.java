@@ -7,7 +7,6 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
-import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.example.designapptest.Controller.Interfaces.IRoomCommentModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,7 +16,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class CommentModel implements Parcelable { // Linh thêm
@@ -188,7 +193,7 @@ public class CommentModel implements Parcelable { // Linh thêm
         };
 
         //Gán sự kiện listen cho nodeRoot
-        nodeRoom.addListenerForSingleValueEvent(valueEventListener);
+        nodeRoom.addValueEventListener(valueEventListener);
     }
 
     public void ListMyRoomComments(final IRoomCommentModel roomCommentModelInterface, final RoomModel roomModel, final SharedPreferences sharedPreferences) {
@@ -210,7 +215,7 @@ public class CommentModel implements Parcelable { // Linh thêm
                             CommentModel commentModel = CommentValue.getValue(CommentModel.class);
                             commentModel.setCommentID(CommentValue.getKey());
 
-                            if(currentUserId.equals(commentModel.getUser())) {
+                            if (currentUserId.equals(commentModel.getUser())) {
                                 //Duyệt user tương ứng để lấy ra thông tin user bình luận
                                 UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
                                 commentModel.setUserComment(tempUser);
@@ -234,7 +239,7 @@ public class CommentModel implements Parcelable { // Linh thêm
         };
 
         //Gán sự kiện listen cho nodeRoot
-        nodeRoom.addListenerForSingleValueEvent(valueEventListener);
+        nodeRoom.addValueEventListener(valueEventListener);
     }
 
     public void addComment(CommentModel newCommentModel, String roomId, final Context context) {
@@ -250,4 +255,6 @@ public class CommentModel implements Parcelable { // Linh thêm
             }
         });
     }
+
+
 }
