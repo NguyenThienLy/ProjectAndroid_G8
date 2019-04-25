@@ -1,6 +1,5 @@
 package com.example.designapptest;
 
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -101,7 +100,7 @@ public class commentAndRateStep1 extends Fragment {
 
     private void initStar() {
         lstStar = new ArrayList<>();
-        lstStar.add(R.drawable.ic_svg_star_gray_100);
+        lstStar.add(R.drawable.ic_svg_star_yellow_100);
         lstStar.add(R.drawable.ic_svg_star_gray_100);
         lstStar.add(R.drawable.ic_svg_star_gray_100);
         lstStar.add(R.drawable.ic_svg_star_gray_100);
@@ -119,6 +118,9 @@ public class commentAndRateStep1 extends Fragment {
     }
 
     private void chooseStar() {
+        scores = 1;
+        txtVScores.setText("Đánh giá: " + String.valueOf(scores) + "/10");
+
         grvStar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

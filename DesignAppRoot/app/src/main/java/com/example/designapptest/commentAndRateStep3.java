@@ -3,13 +3,11 @@ package com.example.designapptest;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.designapptest.Adapters.AdapterRecyclerComment;
 import com.example.designapptest.Controller.CommentController;
 import com.example.designapptest.Model.RoomModel;
 
@@ -17,7 +15,6 @@ public class commentAndRateStep3  extends Fragment {
     View viewCommentAndRateStep3;
 
     RecyclerView recycler_my_comment_room_detail;
-    AdapterRecyclerComment adapterRecyclerComment;
 
     RoomModel roomModel;
 
@@ -50,13 +47,8 @@ public class commentAndRateStep3  extends Fragment {
         recycler_my_comment_room_detail = (RecyclerView) viewCommentAndRateStep3.findViewById(R.id.recycler_my_comment_and_rate);
     }
 
-    private void setAdapter() {
-//        RecyclerView.LayoutManager layoutManagerComment = new LinearLayoutManager((commentAndRateMain)getContext());
-//        recycler_my_comment_room_detail.setLayoutManager(layoutManagerComment);
-//        adapterRecyclerComment = new AdapterRecyclerComment((commentAndRateMain)getContext(), R.layout.comment_element_grid_room_detail_view, roomModel.getListCommentRoom(), sharedPreferences);
-//        recycler_my_comment_room_detail.setAdapter(adapterRecyclerComment);
-//        adapterRecyclerComment.notifyDataSetChanged();
+    public void setAdapter() {
         commentController = new CommentController((commentAndRateMain)this.getActivity(), sharedPreferences);
-        commentController.ListMyRoomComments(recycler_my_comment_room_detail, roomModel, sharedPreferences);
+        commentController.ListMyRoomComments(recycler_my_comment_room_detail, roomModel);
     }
 }

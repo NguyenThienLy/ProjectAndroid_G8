@@ -37,12 +37,17 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
     int layout;
     List<CommentModel> CommentModelList;
     SharedPreferences sharedPreferences;
+    String roomId;
+    Boolean isShowAll;
 
-    public AdapterRecyclerComment(Context context, int layout, List<CommentModel> CommentModelList, SharedPreferences sharedPreferences) {
+    public AdapterRecyclerComment(Context context, int layout, List<CommentModel> CommentModelList, String roomId,
+                                  SharedPreferences sharedPreferences, Boolean isShowAll) {
         this.context = context;
         this.layout = layout;
         this.CommentModelList = CommentModelList;
         this.sharedPreferences = sharedPreferences;
+        this.roomId = roomId;
+        this.isShowAll = isShowAll;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -108,16 +113,16 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
         });
         //End Dowload hình ảnh cho user
 
-        //
-        DatabaseReference nodeInteractiveComment = FirebaseDatabase.getInstance().getReference().child("InteractiveComment");
+        //Hiển thị nút Like this hay Liked comment đối với user đăng nhập app.
+        DatabaseReference nodeInteractiveComment = FirebaseDatabase.getInstance().getReference()
+                .child("InteractiveComment").child(commentModel.getCommentID());
         final String userId = sharedPreferences.getString("currentUserId", "");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DataSnapshot dataSnapshotLikedComment = dataSnapshot.child(commentModel.getCommentID());
                 viewHolder.txt_like_comment_room_detail.setText("Like this");
 
-                for (DataSnapshot valueUserLikeComment : dataSnapshotLikedComment.getChildren()) {
+                for (DataSnapshot valueUserLikeComment : dataSnapshot.getChildren()) {
                     String userLikeCommentId = valueUserLikeComment.getKey();
                     if (userLikeCommentId.equals(userId)) {
                         viewHolder.txt_like_comment_room_detail.setText("Liked");
@@ -133,11 +138,11 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
         };
         nodeInteractiveComment.addValueEventListener(valueEventListener);
 
-        // Bấm thích
+        // Bấm thích/ ko thích, lưu dữ liệu vào InteractiveComment
         viewHolder.txt_like_comment_room_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                likeComment(commentModel, viewHolder.txt_like_comment_room_detail);
+                likeComment(commentModel, viewHolder.txt_like_comment_room_detail, viewHolder.txt_quantityLike_comment_room_detail);
             }
         });
     }
@@ -145,35 +150,62 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
     @Override
     public int getItemCount() {
         int comments = CommentModelList.size();
-        if (comments > 5) {
-            return 5;
+        if (isShowAll == false) {
+            if (comments > 5) {
+                return 5;
+            } else {
+                return comments;
+            }
         } else {
             return comments;
         }
     }
 
-    private void likeComment(CommentModel commentModel, TextView txtLikeComment) {
-        DatabaseReference nodeInteractiveComment = FirebaseDatabase.getInstance().getReference().child("InteractiveComment");
+    private void likeComment(CommentModel commentModel, TextView txtLikeComment, final TextView txtQuantityLikeComment) {
+        DatabaseReference nodeInteractiveComment = FirebaseDatabase.getInstance().getReference()
+                .child("InteractiveComment");
         String userId = sharedPreferences.getString("currentUserId", "");
-        String commentId = commentModel.getCommentID();
+        final String commentId = commentModel.getCommentID();
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String date = df.format(Calendar.getInstance().getTime());
 
-        if(txtLikeComment.getText().toString().equals("Like this")) {
+        if (txtLikeComment.getText().toString().equals("Like this")) {
+            // Thêm dữ liệu vào InteractiveComment.
             nodeInteractiveComment.child(commentId).child(userId).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        // Cập nhật số lượt thích.
+                        DatabaseReference nodeRoomComments = FirebaseDatabase.getInstance().getReference()
+                                .child("RoomComments");
 
+                        final long likes = Long.valueOf(txtQuantityLikeComment.getText().toString()) + 1;
+                        nodeRoomComments.child(roomId).child(commentId).child("likes").setValue(likes).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                txtQuantityLikeComment.setText(likes + "");
+                            }
+                        });
                     }
                 }
             });
-        } else {
+        } else if (txtLikeComment.getText().toString().equals("Liked")) {
+            // Xóa dữ liệu khỏi InteractiveComment
             nodeInteractiveComment.child(commentId).child(userId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        // Cập nhật số lượt thích.
+                        DatabaseReference nodeRoomComments = FirebaseDatabase.getInstance().getReference()
+                                .child("RoomComments");
 
+                        final long likes = Long.valueOf(txtQuantityLikeComment.getText().toString()) - 1;
+                        nodeRoomComments.child(roomId).child(commentId).child("likes").setValue(likes).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                txtQuantityLikeComment.setText(likes + "");
+                            }
+                        });
                     }
                 }
             });

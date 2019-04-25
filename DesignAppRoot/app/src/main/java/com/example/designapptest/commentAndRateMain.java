@@ -1,19 +1,14 @@
 package com.example.designapptest;
 
 import android.content.SharedPreferences;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
 
 import com.example.designapptest.Adapters.AdapterViewPagerCommentAndRate;
 import com.example.designapptest.Model.RoomModel;
-import com.google.firebase.database.core.view.View;
 
 public class commentAndRateMain extends AppCompatActivity {
     ViewPager viewPagerCommentAndRate;
@@ -21,6 +16,7 @@ public class commentAndRateMain extends AppCompatActivity {
 
     RoomModel roomModel;
     SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +33,9 @@ public class commentAndRateMain extends AppCompatActivity {
         return roomModel;
     }
 
-    public SharedPreferences getSharedPreferences() { return sharedPreferences; }
+    public SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
+    }
 
     private void loadControl() {
         viewPagerCommentAndRate = (ViewPager) findViewById(R.id.viewpager_commentAndRate_room_detail);
@@ -45,7 +43,7 @@ public class commentAndRateMain extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        AdapterViewPagerCommentAndRate adapterViewPagerCommentAndRate = new AdapterViewPagerCommentAndRate(fragmentManager);
+        final AdapterViewPagerCommentAndRate adapterViewPagerCommentAndRate = new AdapterViewPagerCommentAndRate(fragmentManager);
 
         viewPagerCommentAndRate.setAdapter(adapterViewPagerCommentAndRate);
         tabLayoutCommentAndRate.setupWithViewPager(viewPagerCommentAndRate);
@@ -53,7 +51,29 @@ public class commentAndRateMain extends AppCompatActivity {
         viewPagerCommentAndRate.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayoutCommentAndRate));
         tabLayoutCommentAndRate.setTabsFromPagerAdapter(adapterViewPagerCommentAndRate);
         tabLayoutCommentAndRate.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPagerCommentAndRate));
+
+        viewPagerCommentAndRate.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                if (i == 1) {
+                    commentAndRateStep2 fragment = (commentAndRateStep2) adapterViewPagerCommentAndRate.getItem(i);
+                    fragment.setAdapter();
+                } else if (i == 2) {
+                    commentAndRateStep3 fragment = (commentAndRateStep3) adapterViewPagerCommentAndRate.getItem(i);
+                    fragment.setAdapter();
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
-
-
 }
