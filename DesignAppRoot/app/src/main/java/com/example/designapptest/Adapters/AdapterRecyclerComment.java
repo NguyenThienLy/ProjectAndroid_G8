@@ -1,6 +1,7 @@
 package com.example.designapptest.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
@@ -13,11 +14,21 @@ import android.widget.TextView;
 
 import com.example.designapptest.Model.CommentModel;
 import com.example.designapptest.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecyclerComment.ViewHolder> {
@@ -25,18 +36,25 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
     Context context;
     int layout;
     List<CommentModel> CommentModelList;
+    SharedPreferences sharedPreferences;
+    String roomId;
+    Boolean isShowAll;
 
-    public AdapterRecyclerComment(Context context, int layout, List<CommentModel> CommentModelList) {
+    public AdapterRecyclerComment(Context context, int layout, List<CommentModel> CommentModelList, String roomId,
+                                  SharedPreferences sharedPreferences, Boolean isShowAll) {
         this.context = context;
         this.layout = layout;
         this.CommentModelList = CommentModelList;
+        this.sharedPreferences = sharedPreferences;
+        this.roomId = roomId;
+        this.isShowAll = isShowAll;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img_avt_comment_room_detail;
         TextView txt_name_comment_room_detail, txt_quantityLike_comment_room_detail,
                 txt_rate_comment_room_detail, txt_title_comment_room_detail, txt_content_comment_room_detail,
-                txt_time_comment_room_detail;
+                txt_time_comment_room_detail, txt_like_comment_room_detail;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -48,6 +66,7 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
             txt_title_comment_room_detail = (TextView) itemView.findViewById(R.id.txt_title_comment_room_detail);
             txt_content_comment_room_detail = (TextView) itemView.findViewById(R.id.txt_content_comment_room_detail);
             txt_time_comment_room_detail = (TextView) itemView.findViewById(R.id.txt_time_comment_room_detail);
+            txt_like_comment_room_detail = (TextView) itemView.findViewById(R.id.txt_like_comment_room_detail);
         }
     }
 
@@ -93,17 +112,103 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
             }
         });
         //End Dowload hình ảnh cho user
+
+        //Hiển thị nút Like this hay Liked comment đối với user đăng nhập app.
+        DatabaseReference nodeInteractiveComment = FirebaseDatabase.getInstance().getReference()
+                .child("InteractiveComment").child(commentModel.getCommentID());
+        final String userId = sharedPreferences.getString("currentUserId", "");
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                viewHolder.txt_like_comment_room_detail.setText("Like this");
+
+                for (DataSnapshot valueUserLikeComment : dataSnapshot.getChildren()) {
+                    String userLikeCommentId = valueUserLikeComment.getKey();
+                    if (userLikeCommentId.equals(userId)) {
+                        viewHolder.txt_like_comment_room_detail.setText("Liked");
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        nodeInteractiveComment.addValueEventListener(valueEventListener);
+
+        // Bấm thích/ ko thích, lưu dữ liệu vào InteractiveComment
+        viewHolder.txt_like_comment_room_detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                likeComment(commentModel, viewHolder.txt_like_comment_room_detail, viewHolder.txt_quantityLike_comment_room_detail);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         int comments = CommentModelList.size();
-        if (comments > 5) {
-            return 5;
+        if (isShowAll == false) {
+            if (comments > 5) {
+                return 5;
+            } else {
+                return comments;
+            }
         } else {
             return comments;
         }
     }
 
+    private void likeComment(CommentModel commentModel, TextView txtLikeComment, final TextView txtQuantityLikeComment) {
+        DatabaseReference nodeInteractiveComment = FirebaseDatabase.getInstance().getReference()
+                .child("InteractiveComment");
+        String userId = sharedPreferences.getString("currentUserId", "");
+        final String commentId = commentModel.getCommentID();
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String date = df.format(Calendar.getInstance().getTime());
 
+        if (txtLikeComment.getText().toString().equals("Like this")) {
+            // Thêm dữ liệu vào InteractiveComment.
+            nodeInteractiveComment.child(commentId).child(userId).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        // Cập nhật số lượt thích.
+                        DatabaseReference nodeRoomComments = FirebaseDatabase.getInstance().getReference()
+                                .child("RoomComments");
+
+                        final long likes = Long.valueOf(txtQuantityLikeComment.getText().toString()) + 1;
+                        nodeRoomComments.child(roomId).child(commentId).child("likes").setValue(likes).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                txtQuantityLikeComment.setText(likes + "");
+                            }
+                        });
+                    }
+                }
+            });
+        } else if (txtLikeComment.getText().toString().equals("Liked")) {
+            // Xóa dữ liệu khỏi InteractiveComment
+            nodeInteractiveComment.child(commentId).child(userId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        // Cập nhật số lượt thích.
+                        DatabaseReference nodeRoomComments = FirebaseDatabase.getInstance().getReference()
+                                .child("RoomComments");
+
+                        final long likes = Long.valueOf(txtQuantityLikeComment.getText().toString()) - 1;
+                        nodeRoomComments.child(roomId).child(commentId).child("likes").setValue(likes).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                txtQuantityLikeComment.setText(likes + "");
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
 }

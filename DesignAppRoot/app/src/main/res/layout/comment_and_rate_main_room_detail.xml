@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.TabLayout
+        app:tabTextAppearance="@style/CustomTextAppearance"
+        android:background="@android:color/white"
+        android:layout_alignParentTop="true"
+        android:id="@+id/tablayout_commentAndRate_room_detail"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textAllCaps="false"
+        app:tabSelectedTextColor="@android:color/holo_blue_bright">
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:layout_below="@id/tablayout_commentAndRate_room_detail"
+        android:id="@+id/viewpager_commentAndRate_room_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

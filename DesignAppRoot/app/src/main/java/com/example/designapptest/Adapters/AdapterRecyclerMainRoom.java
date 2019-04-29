@@ -43,8 +43,8 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment,txtType;
-        ImageView imgRoom,imgGender;
+        TextView txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment, txtType;
+        ImageView imgRoom, imgGender;
         CardView cardViewRoomList;
 
         public ViewHolder(@NonNull View itemView) {
@@ -57,9 +57,9 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
             txtAddress = (TextView) itemView.findViewById(R.id.txt_address);
             txtArea = (TextView) itemView.findViewById(R.id.txt_area);
             txtQuantityComment = (TextView) itemView.findViewById(R.id.txt_quantityComment);
-            imgRoom = (ImageView)itemView.findViewById(R.id.img_room);
-            imgGender = (ImageView)itemView.findViewById(R.id.img_gender);
-            txtType=(TextView)itemView.findViewById(R.id.txt_type);
+            imgRoom = (ImageView) itemView.findViewById(R.id.img_room);
+            imgGender = (ImageView) itemView.findViewById(R.id.img_gender);
+            txtType = (TextView) itemView.findViewById(R.id.txt_type);
             cardViewRoomList = (CardView) itemView.findViewById(R.id.cardViewRoomList);
         }
     }
@@ -82,33 +82,34 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         classFunctionStatic.showProgress(context, viewHolder.imgRoom);
         viewHolder.txtName.setText(roomModel.getDescribe());
         viewHolder.txtMaxNumber.setText(String.valueOf((int) roomModel.getMaxNumber()));
-        viewHolder.txtPrice.setText(String.valueOf(roomModel.getRentalCosts()) +"đ/Phòng");
-        viewHolder.txtArea.setText(roomModel.getLength()+"m"+"x"+roomModel.getWidth()+"m");
+        viewHolder.txtPrice.setText(String.valueOf(roomModel.getRentalCosts()) + "đ/Phòng");
+        viewHolder.txtArea.setText(roomModel.getLength() + "m" + "x" + roomModel.getWidth() + "m");
         viewHolder.txtQuantityComment.setText("0");
         viewHolder.txtType.setText(roomModel.getRoomType());
 
         //Set address for room
-        String longAddress = roomModel.getApartmentNumber() +" "+roomModel.getStreet()+", "
-                +roomModel.getWard()+", "+roomModel.getCounty()+", "+roomModel.getCity();
+        String longAddress = roomModel.getApartmentNumber() + " " + roomModel.getStreet() + ", "
+                + roomModel.getWard() + ", " + roomModel.getCounty() + ", " + roomModel.getCity();
         viewHolder.txtAddress.setText(longAddress);
         //End Set address for room
 
         //Gán hình cho giới tính
-        if(roomModel.isGender()==true){
+        if (roomModel.isGender() == true) {
             viewHolder.imgGender.setImageResource(R.drawable.ic_svg_male_100);
-        }else{
+        } else {
             viewHolder.imgGender.setImageResource(R.drawable.ic_svg_female_100);
         }
         //End Gán giá trị cho giới tính
 
         //Gán giá trị cho số lượt bình luận
-        if(roomModel.getListCommentRoom().size()>0){
-            viewHolder.txtQuantityComment.setText(roomModel.getListCommentRoom().size()+"");
+        if (roomModel.getListCommentRoom().size() > 0) {
+            viewHolder.txtQuantityComment.setText(roomModel.getListCommentRoom().size() + "");
         }
+
         //End gán giá trị cho số lượng bình luận
 
         //Dowload hình ảnh cho room
-        if(roomModel.getListImageRoom().size()>0){
+        if (roomModel.getListImageRoom().size() > 0) {
 
             StorageReference storageReference = FirebaseStorage
                     .getInstance().getReference()
@@ -120,7 +121,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
                 @Override
                 public void onSuccess(byte[] bytes) {
                     //Tạo ảnh bitmap từ byte
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     viewHolder.imgRoom.setImageBitmap(bitmap);
                 }
             }).addOnFailureListener(new OnFailureListener() {

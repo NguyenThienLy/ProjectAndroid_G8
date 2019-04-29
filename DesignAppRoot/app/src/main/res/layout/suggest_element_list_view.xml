@@ -23,7 +23,9 @@
             android:text="Cho thuê phòng trọ mới"
             android:layout_marginLeft="10px"
             android:textSize="18px"
-            android:layout_marginTop="10px"/>
+            android:layout_marginTop="10px"
+            android:maxLines="2"
+            android:ellipsize="end"/>
         <TextView
             android:id="@+id/txtV_address"
             android:layout_width="match_parent"
@@ -34,6 +36,8 @@
             android:layout_marginTop="10px"
             android:layout_marginLeft="10px"
             android:paddingRight="10px"
+            android:maxLines="2"
+            android:ellipsize="end"
             />
     </LinearLayout>
 </LinearLayout>

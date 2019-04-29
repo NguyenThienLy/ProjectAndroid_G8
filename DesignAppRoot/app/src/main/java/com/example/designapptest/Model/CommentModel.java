@@ -1,7 +1,29 @@
 package com.example.designapptest.Model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.widget.Toast;
+
+import com.example.designapptest.Controller.Interfaces.IRoomCommentModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 public class CommentModel implements Parcelable { // Linh thêm
 
@@ -9,7 +31,7 @@ public class CommentModel implements Parcelable { // Linh thêm
     String content;
     String time;
     String user;
-    long likes,stars;
+    long likes, stars;
     String commentID;
 
     //Chủ bình luận
@@ -102,8 +124,12 @@ public class CommentModel implements Parcelable { // Linh thêm
         this.stars = stars;
     }
 
-    public CommentModel() {
+    //Biến lưu root của firebase, lưu ý để biến là private
+    private DatabaseReference nodeRoom;
 
+    public CommentModel() {
+        //Trả về node comment của database
+        nodeRoom = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -122,4 +148,113 @@ public class CommentModel implements Parcelable { // Linh thêm
         dest.writeString(commentID);
         dest.writeParcelable(userComment, flags);
     }
+
+    public void ListRoomComments(final IRoomCommentModel roomCommentModelInterface, final RoomModel roomModel) {
+        //Tạo listen cho firebase
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Thêm danh sách bình luận của phòng trọ
+                DataSnapshot dataSnapshotRoomComments = dataSnapshot.child("RoomComments");
+
+                List<CommentModel> tempCommentList = new ArrayList<CommentModel>();
+                //Duyệt tất cả các giá trị trong node tương ứng
+                for (DataSnapshot RoomCommentsValue : dataSnapshotRoomComments.getChildren()) {
+                    String roomId = RoomCommentsValue.getKey();
+
+                    if (roomModel.getRoomID().equals(roomId)) {
+                        DataSnapshot dataSnapshotComment = dataSnapshotRoomComments.child(roomId);
+                        for (DataSnapshot CommentValue : dataSnapshotComment.getChildren()) {
+                            CommentModel commentModel = CommentValue.getValue(CommentModel.class);
+                            commentModel.setCommentID(CommentValue.getKey());
+
+                            //Duyệt user tương ứng để lấy ra thông tin user bình luận
+                            UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
+                            commentModel.setUserComment(tempUser);
+                            //End duyệt user tương ứng để lấy ra thông tin user bình luận
+
+                            tempCommentList.add(commentModel);
+
+                            //Kích hoạt interface
+                            roomCommentModelInterface.getListRoomComments(commentModel);
+                        }
+
+                        roomModel.setListCommentRoom(tempCommentList);
+                        break;
+                    }
+                }
+                //End Thêm danh sách bình luận của phòng trọ
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        //Gán sự kiện listen cho nodeRoot
+        nodeRoom.addValueEventListener(valueEventListener);
+    }
+
+    public void ListMyRoomComments(final IRoomCommentModel roomCommentModelInterface, final RoomModel roomModel, final SharedPreferences sharedPreferences) {
+        //Tạo listen cho firebase
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Thêm danh sách bình luận của phòng trọ
+                DataSnapshot dataSnapshotRoomComments = dataSnapshot.child("RoomComments");
+                String currentUserId = sharedPreferences.getString("currentUserId", "");
+
+                //Duyệt tất cả các giá trị trong node tương ứng
+                for (DataSnapshot RoomCommentsValue : dataSnapshotRoomComments.getChildren()) {
+                    String roomId = RoomCommentsValue.getKey();
+
+                    if (roomModel.getRoomID().equals(roomId)) {
+                        DataSnapshot dataSnapshotComment = dataSnapshotRoomComments.child(roomId);
+                        for (DataSnapshot CommentValue : dataSnapshotComment.getChildren()) {
+                            CommentModel commentModel = CommentValue.getValue(CommentModel.class);
+                            commentModel.setCommentID(CommentValue.getKey());
+
+                            if (currentUserId.equals(commentModel.getUser())) {
+                                //Duyệt user tương ứng để lấy ra thông tin user bình luận
+                                UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
+                                commentModel.setUserComment(tempUser);
+                                //End duyệt user tương ứng để lấy ra thông tin user bình luận
+
+                                //Kích hoạt interface
+                                roomCommentModelInterface.getListRoomComments(commentModel);
+                            }
+                        }
+
+                        break;
+                    }
+                }
+                //End Thêm danh sách bình luận của phòng trọ
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        //Gán sự kiện listen cho nodeRoot
+        nodeRoom.addValueEventListener(valueEventListener);
+    }
+
+    public void addComment(CommentModel newCommentModel, String roomId, final Context context) {
+        DatabaseReference nodeComment = FirebaseDatabase.getInstance().getReference().child("RoomComments");
+        String commentId = nodeComment.child(roomId).push().getKey();
+
+        nodeComment.child(roomId).child(commentId).setValue(newCommentModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(context, "Post comment successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
 }

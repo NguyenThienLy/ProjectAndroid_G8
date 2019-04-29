@@ -14,6 +14,9 @@
     <string name="stringAdress">Địa chỉ</string>
     <string name="stringDetail">Chi tiết</string>
     <string name="stringCallBookRoom">Gọi đặt phòng</string>
+    <string name="stringPostComment">Viết bình luận</string>
+    <string name="stringPost">Đăng</string>
+    <string name="stringViewAll">Xem tất cả</string>
     <string name="stringCheckMap">Check map</string>
     <string name="stringSameCriteria">Cùng tiêu chí</string>
     <string name="stringLike">Like this</string>
@@ -26,4 +29,6 @@
     <string name="stringMedium">Vừa</string>
     <string name="stringWide">Rộng</string>
     <string name="stringComment">Bình luận:</string>
+    <string name="stringNoteComment">Bình luận trên 100 từ, đúng chính tả, ngôn từ văn hóa, không spam, trên tiêu chí góp ý</string>
+    <string name="stringNoteTitle">Tiêu đề bình luận (Bắt buộc)</string>
 </resources>

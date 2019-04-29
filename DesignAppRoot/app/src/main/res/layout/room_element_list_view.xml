@@ -35,7 +35,7 @@
                     android:gravity="right"
                     android:text="KÍ TÚC XÁ"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="10dp" />
+                    android:textSize="12dp" />
                 />
 
                 <TextView
@@ -47,22 +47,22 @@
                     android:layout_toRightOf="@+id/txt_type"
                     android:text="8"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="10dp" />
+                    android:textSize="12dp" />
 
                 <ImageView
                     android:id="@+id/img_gender"
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="7dp"
                     android:layout_toRightOf="@+id/txt_quantityMember"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_svg_male_100" />
 
                 <ImageView
                     android:id="@+id/img_comment"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginRight="2dp"
                     android:layout_toLeftOf="@+id/txt_quantityComment"
@@ -74,11 +74,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="4dp"
                     android:text="329"
                     android:layout_marginLeft="2dp"
                     android:textColor="@android:color/holo_blue_bright"
-                    android:textSize="10dp" />
+                    android:textSize="12dp"
+                    android:layout_marginRight="5dp"/>
                 />
 
             </RelativeLayout>
@@ -91,7 +92,10 @@
                 android:text="Cho thuê phòng trọ giá rẻ"
                 android:textColor="@android:color/background_dark"
                 android:textSize="16dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginRight="5dp"/>
             />
 
             <RelativeLayout
@@ -103,7 +107,7 @@
                     android:id="@+id/txt_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="3dp"
                     android:gravity="right"
                     android:text="2.5 triệu / phòng"
                     android:textColor="#00BFFF"
@@ -115,10 +119,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="3dp"
                     android:text="5m x 4m"
                     android:textColor="#666666"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:layout_marginRight="5dp"/>
                 />
             </RelativeLayout>
 
@@ -129,7 +134,11 @@
                 android:layout_marginTop="5dp"
                 android:text="127 An Dương Vương, Bình Tân, TP Hồ Chí Minh"
                 android:textColor="#666666"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginRight="5dp"/>
             />
         </LinearLayout>
     </LinearLayout>
