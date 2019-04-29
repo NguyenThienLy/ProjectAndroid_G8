@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -61,13 +62,15 @@ public class detailRoom extends AppCompatActivity {
     Dialog dialogShowImage;
     Button btnCloseShowImage;
     ViewPager viewPagerShowImage;
-    TextView txtPositionImage;
+    TextView txtPositionImage,txtMoreImg;
 
     int maxImageInRoom;
     int indexImage;
 
     SharedPreferences sharedPreferences;
     CommentController commentController;
+
+    FrameLayout frLoutContain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,8 @@ public class detailRoom extends AppCompatActivity {
         initControl();
 
         loadProgress();
+
+        setMoreImageForLastCard();
     }
 
     @Override
@@ -129,6 +134,9 @@ public class detailRoom extends AppCompatActivity {
         imgRoom2 = (ImageView) findViewById(R.id.img_room2);
         imgRoom3 = (ImageView) findViewById(R.id.img_room3);
         imgRoom4 = (ImageView) findViewById(R.id.img_room4);
+
+        txtMoreImg = findViewById(R.id.txt_more_img);
+        frLoutContain = findViewById(R.id.fr_lout_contain);
 
         listImageRoom = new ArrayList<ImageView>();
 
@@ -187,7 +195,7 @@ public class detailRoom extends AppCompatActivity {
         //End gán giá trị cho số lượng bình luận
 
         //Download hình ảnh cho room
-        for (int i = 0; i < roomModel.getListImageRoom().size(); i++) {
+        for (int i = 0; i < 4; i++) {
             downloadImageForImageControl(listImageRoom.get(i), i);
         }
         // End download hình ảnh cho room
@@ -308,6 +316,18 @@ public class detailRoom extends AppCompatActivity {
     // Hàm hiển thị vị trí ảnh trên tống số.
     private void showPostionImage(int position) {
         txtPositionImage.setText(String.valueOf(position) + "/" + String.valueOf(maxImageInRoom));
+    }
+
+    //Hàm hiển thị cộng thêm hình ở thẻ cuối
+    private void setMoreImageForLastCard(){
+        int size = roomModel.getListImageRoom().size();
+        if(size>4){
+            txtMoreImg.setText("+" + (size - 4));
+            frLoutContain.setBackgroundResource(R.color.colorTransParrent);
+        }else {
+            txtMoreImg.setText("");
+            frLoutContain.setBackgroundResource(R.color.colorWhile100);
+        }
     }
 
     // Hàm tạo ra custom dialong và các tác vụ liên quan.

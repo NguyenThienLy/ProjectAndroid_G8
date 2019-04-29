@@ -84,15 +84,35 @@
                             android:padding="1dp"
                             android:scaleType="fitXY"
                             android:src="@drawable/progress_gift_loading_image" />
-
-                        <ImageView
-                            android:id="@+id/img_room4"
+                        <FrameLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:padding="1dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/progress_gift_loading_image" />
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/img_room4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="1dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/progress_gift_loading_image" />
+                            <FrameLayout
+                                android:id="@+id/fr_lout_contain"
+                                android:background="@color/colorTransParrent"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:id="@+id/txt_more_img"
+                                    android:layout_gravity="center"
+                                    android:text="+19"
+                                    android:textColor="#fff"
+                                    android:textSize="30sp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                            </FrameLayout>
+                        </FrameLayout>
+
+
                     </LinearLayout>
 
                     <RelativeLayout
