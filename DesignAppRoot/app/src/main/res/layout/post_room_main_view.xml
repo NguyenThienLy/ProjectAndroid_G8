@@ -24,7 +24,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="Cancel"
+                    android:text="Hủy"
                     android:background="@android:color/white"/>
             </LinearLayout>
             <LinearLayout
@@ -49,6 +49,8 @@
                         android:layout_marginTop="10dp"
                         />
                     <TextView
+                        android:textColor="@color/colorGray"
+                        android:id="@+id/txt_location_push_room"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -72,6 +74,8 @@
                         android:layout_marginTop="10dp"
                         android:layout_gravity="center"/>
                     <TextView
+                        android:id="@+id/txt_infomation_push_room"
+                        android:textColor="@color/colorGray"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/stringInformationPushRoom"
@@ -97,11 +101,12 @@
                         android:layout_marginTop="10dp"
                         android:layout_gravity="center"/>
                     <TextView
-                        android:layout_width="60dp"
+                        android:id="@+id/txt_utility_push_room"
+                        android:textColor="@color/colorGray"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/stringUtilityPushRoom"
                         android:layout_gravity="center"
-                        android:paddingLeft="12dp"
                         android:layout_below="@+id/btnImg_utility_push_room"></TextView>
                 </LinearLayout>
 
@@ -122,6 +127,8 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"/>
                     <TextView
+                        android:id="@+id/txt_comfirm_push_room"
+                        android:textColor="@color/colorGray"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/stringConfirmPushRoom"

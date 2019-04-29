@@ -1,6 +1,9 @@
 package com.example.designapptest;
 
 import android.app.Activity;
+import android.app.Service;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,47 +11,203 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class postRoomAdapter extends AppCompatActivity {// chưa test
+import com.example.designapptest.Controller.Interfaces.ICallBackPostRoom;
+
+public class postRoomAdapter extends AppCompatActivity implements ICallBackPostRoom, View.OnClickListener {// chưa test
+
+    public static final String PREFS_DATA_NAME = "DataRoomPrefs";
+    ImageButton btnImgLocationPushRoom, btnImgInformationPushRoom, btnImgUtilityPushRoom, btnImgConfirmPushRoom;
+    TextView txtLocationPushRoom, txtInfomationPushRoom, txtUtilityPushRoom, txtComfirmPushRoom;
+
+    //Lấy ra background blue
+    Drawable blueDraw;
+    Drawable grayDraw;
+    //Lấy ra màu text
+    int blue_color;
+    int gray_color;
+
+    //Biến kiểm tra quá trình điền thông tin đã xong hay chưa
+    private boolean isCompleteLocation, isCompleteInfomation, isCompleteUtility, isCompleteConfirm;
+    //End Biến kiểm tra quá trình điền thông tin đã xong hay chưa
 
     private ViewPager pager;
-   // private  TabLayout tabLayout;
+
+    // private  TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_room_main_view);
+        initControl();
+        getColor();
         addControl();
     }
-    private void addControl(){
+
+    private void getColor() {
+        //Lấy ra background blue
+        blueDraw = getResources().getDrawable(R.drawable.custom_rim_blue);
+        grayDraw = getResources().getDrawable(R.drawable.custom_rim);
+        //Lấy ra màu text
+        blue_color = Color.parseColor("#3498db");
+        gray_color = Color.parseColor("#666666");
+    }
+
+    private void changeColor(boolean isComplete, String FragName) {
+        switch (FragName) {
+            case postRoomStep1.FRAG_NAME:
+                if (isComplete) {
+                    btnImgLocationPushRoom.setBackground(blueDraw);
+                    txtLocationPushRoom.setTextColor(blue_color);
+                } else {
+                    btnImgLocationPushRoom.setBackground(grayDraw);
+                    txtLocationPushRoom.setTextColor(gray_color);
+                }
+                break;
+            case postRoomStep2.FRAG_NAME:
+                if (isComplete) {
+                    btnImgInformationPushRoom.setBackground(blueDraw);
+                    txtInfomationPushRoom.setTextColor(blue_color);
+                } else {
+                    btnImgInformationPushRoom.setBackground(grayDraw);
+                    txtInfomationPushRoom.setTextColor(gray_color);
+                }
+                break;
+
+            case postRoomStep3.FRAG_NAME:
+                if (isComplete) {
+                    btnImgUtilityPushRoom.setBackground(blueDraw);
+                    txtUtilityPushRoom.setTextColor(blue_color);
+                } else {
+                    btnImgUtilityPushRoom.setBackground(grayDraw);
+                    txtUtilityPushRoom.setTextColor(gray_color);
+                }
+                break;
+
+            case postRoomStep4.FRAG_NAME:
+                if (isComplete) {
+                    btnImgConfirmPushRoom.setBackground(blueDraw);
+                    txtComfirmPushRoom.setTextColor(blue_color);
+                } else {
+                    btnImgConfirmPushRoom.setBackground(grayDraw);
+                    txtComfirmPushRoom.setTextColor(gray_color);
+                }
+                break;
+        }
+
+    }
+
+    private void initControl() {
+        txtLocationPushRoom = findViewById(R.id.txt_location_push_room);
+        txtComfirmPushRoom = findViewById(R.id.txt_comfirm_push_room);
+        txtInfomationPushRoom = findViewById(R.id.txt_infomation_push_room);
+        txtUtilityPushRoom = findViewById(R.id.txt_utility_push_room);
+
+        btnImgLocationPushRoom = findViewById(R.id.btnImg_location_push_room);
+        btnImgConfirmPushRoom = findViewById(R.id.btnImg_confirm_push_room);
+        btnImgUtilityPushRoom = findViewById(R.id.btnImg_utility_push_room);
+        btnImgInformationPushRoom = findViewById(R.id.btnImg_information_push_room);
+
+        btnImgLocationPushRoom.setOnClickListener(this);
+        btnImgConfirmPushRoom.setOnClickListener(this);
+        btnImgUtilityPushRoom.setOnClickListener(this);
+        btnImgInformationPushRoom.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id){
+            case R.id.btnImg_location_push_room:
+                setCurrentPage(0);
+                break;
+            case R.id.btnImg_information_push_room:
+                setCurrentPage(1);
+                break;
+            case R.id.btnImg_utility_push_room:
+                setCurrentPage(2);
+                break;
+            case R.id.btnImg_confirm_push_room:
+                setCurrentPage(3);
+                break;
+        }
+    }
+
+    private void addControl() {
         pager = (ViewPager) findViewById(R.id.viewpager_post_room);
-      //  tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        //  tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         FragmentManager manager = getSupportFragmentManager();
         PagerAdapter adapter = new PagerAdapter(manager);
         pager.setAdapter(adapter);
-     //   tabLayout.setupWithViewPager(pager);
-      //  pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-     //   tabLayout.setTabsFromPagerAdapter(adapter);//deprecated
-     //   tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
     }
-    public class PagerAdapter extends FragmentStatePagerAdapter{
+
+    //Hàm truyền dữ liệu từ Fragment qua activity
+    @Override
+    public void onMsgFromFragToPostRoom(String sender, boolean isComplete) {
+        if (sender == postRoomStep1.FRAG_NAME) {
+            isCompleteLocation = isComplete;
+        } else if (sender == postRoomStep2.FRAG_NAME) {
+            isCompleteInfomation = isComplete;
+
+        } else if (sender == postRoomStep3.FRAG_NAME) {
+            isCompleteUtility = isComplete;
+
+        } else if (sender == postRoomStep4.FRAG_NAME) {
+            isCompleteConfirm = isComplete;
+        }
+        //Thay doi mau cho nut
+        changeColor(isComplete,sender);
+
+    }
+
+    @Override
+    public boolean isStepOneComplete() {
+        return isCompleteLocation;
+    }
+
+    @Override
+    public boolean isStepTwoComplete() {
+        return isCompleteInfomation;
+    }
+
+    @Override
+    public boolean isStepTreeComplete() {
+        return isCompleteUtility;
+    }
+
+    //Hàm thay đổi page
+    @Override
+    public void setCurrentPage(int position) {
+        pager.setCurrentItem(position);
+    }
+
+    public class PagerAdapter extends FragmentStatePagerAdapter {
         PagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
+
         @Override
         public Fragment getItem(int position) {
-            Fragment frag=null;
-            switch (position){
+            Fragment frag = null;
+            switch (position) {
                 case 0:
                     frag = new postRoomStep1();
+
                     break;
                 case 1:
                     frag = new postRoomStep2();
                     break;
                 case 2:
                     frag = new postRoomStep3();
+
                     break;
                 case 3:
-                    frag=new postRoomStep4();
+                    frag = new postRoomStep4();
                     break;
             }
             return frag;
@@ -58,21 +217,5 @@ public class postRoomAdapter extends AppCompatActivity {// chưa test
         public int getCount() {
             return 4;
         }
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            String title = "";
-//            switch (position){
-//                case 0:
-//                    title = "One";
-//                    break;
-//                case 1:
-//                    title = "Two";
-//                    break;
-//                case 2:
-//                    title = "Three";
-//                    break;
-//            }
-//            return title;
-//        }
     }
 }
