@@ -430,7 +430,7 @@ public class RoomModel implements Parcelable { // Linh thêm
                     //Thêm thông tin chủ sở hữu cho phòng trọ
                     UserModel tempUser = dataSnapshot.child("Users").child(roomModel.getOwner()).getValue(UserModel.class);
                     roomModel.setRoomOwner(tempUser);
-                    
+
                     //End thêm thông tin chủ sở hữu cho phòng trọ
 
                     //Kích hoạt interface

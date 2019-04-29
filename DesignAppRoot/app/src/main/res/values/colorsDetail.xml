@@ -5,4 +5,5 @@
     <color name="colorRateMedium">#666</color>
     <color name="colorRateBad">#f00</color>
     <color name="colorSpaceVer">#ddd</color>
+    <color name="colorGray">#666666</color>
 </resources>
