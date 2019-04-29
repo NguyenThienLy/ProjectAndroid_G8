@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.designapptest.Controller.Interfaces.IRoomCommentModel;
@@ -154,10 +155,14 @@ public class CommentModel implements Parcelable { // Linh thêm
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // refresh lại list comment thành rỗng.
+                roomCommentModelInterface.refreshListRoomComments();
+
                 //Thêm danh sách bình luận của phòng trọ
                 DataSnapshot dataSnapshotRoomComments = dataSnapshot.child("RoomComments");
 
                 List<CommentModel> tempCommentList = new ArrayList<CommentModel>();
+
                 //Duyệt tất cả các giá trị trong node tương ứng
                 for (DataSnapshot RoomCommentsValue : dataSnapshotRoomComments.getChildren()) {
                     String roomId = RoomCommentsValue.getKey();
@@ -201,6 +206,9 @@ public class CommentModel implements Parcelable { // Linh thêm
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Refresh lại list comment của tôi thành rỗng.
+                roomCommentModelInterface.refreshListRoomComments();
+
                 //Thêm danh sách bình luận của phòng trọ
                 DataSnapshot dataSnapshotRoomComments = dataSnapshot.child("RoomComments");
                 String currentUserId = sharedPreferences.getString("currentUserId", "");

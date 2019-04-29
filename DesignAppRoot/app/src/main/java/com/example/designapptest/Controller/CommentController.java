@@ -56,6 +56,11 @@ public class CommentController {
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerComment.notifyDataSetChanged();
             }
+
+            @Override
+            public void refreshListRoomComments() {
+                commentModelList.clear();
+            }
         };
 
         //Gọi hàm lấy dữ liệu trong model
@@ -86,6 +91,11 @@ public class CommentController {
 
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerComment.notifyDataSetChanged();
+            }
+
+            @Override
+            public void refreshListRoomComments() {
+                commentModelList.clear();
             }
         };
 
