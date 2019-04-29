@@ -43,6 +43,9 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
     public static int CODE_PROVIDER_LOGIN_WITH_GOOGLE = 1;
     public static int CODE_PROVIDER_LOGIN_WITH_FACEBOOK = 2;
 
+    public static final String SHARE_UID = "currentUserId";
+    public static final String PREFS_DATA_NAME = "currentUserId";
+
     ImageButton btnLoginWithGoogle;
     GoogleApiClient apiClient;
     FirebaseAuth firebaseAuth;
@@ -66,7 +69,7 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         //Text Đăng xuất
         firebaseAuth.signOut();
         // Lưu mã user đăng nhập vào app
-        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(PREFS_DATA_NAME, MODE_PRIVATE);
 
         btnLoginWithGoogle = (ImageButton) findViewById(R.id.btnImg_google_login);
         btn_signUp = (Button) findViewById(R.id.btn_signUp);
@@ -204,8 +207,10 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
 
             // Lưu lại mã user đăng nhập vào app
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("currentUserId", user.getUid());
+            editor.putString(SHARE_UID, user.getUid());
             editor.commit();
+
+            Log.d("kiem tra", user.getUid());
 
             //Load trang chủ
             Intent intent = new Intent(this, MainActivity.class);

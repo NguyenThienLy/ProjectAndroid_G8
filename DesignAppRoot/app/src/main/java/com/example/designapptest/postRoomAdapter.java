@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.designapptest.Controller.Interfaces.ICallBackPostRoom;
 
+import java.util.HashMap;
+
 public class postRoomAdapter extends AppCompatActivity implements ICallBackPostRoom, View.OnClickListener {// chưa test
 
     public static final String PREFS_DATA_NAME = "DataRoomPrefs";
@@ -187,30 +189,38 @@ public class postRoomAdapter extends AppCompatActivity implements ICallBackPostR
     }
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
+        private HashMap<Integer, Fragment> fragmentHashMap = new HashMap<>();
         PagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 
         @Override
         public Fragment getItem(int position) {
-            Fragment frag = null;
+            Fragment fragment = null;
+
+            //Check neu da put vao trong hashmap tuc la da khoi tao gia tri thi tra ve trong hashmap
+            if (fragmentHashMap.get(position) != null) {
+                return fragmentHashMap.get(position);
+            }
             switch (position) {
                 case 0:
-                    frag = new postRoomStep1();
-
+                    fragment = new postRoomStep1();
+                    fragmentHashMap.put(0, fragment);
                     break;
                 case 1:
-                    frag = new postRoomStep2();
+                    fragment = new postRoomStep2();
+                    fragmentHashMap.put(1, fragment);
                     break;
                 case 2:
-                    frag = new postRoomStep3();
-
+                    fragment = new postRoomStep3();
+                    fragmentHashMap.put(2, fragment);
                     break;
                 case 3:
-                    frag = new postRoomStep4();
+                    fragment = new postRoomStep4();
+                    fragmentHashMap.put(3, fragment);
                     break;
             }
-            return frag;
+            return fragment;
         }
 
         @Override

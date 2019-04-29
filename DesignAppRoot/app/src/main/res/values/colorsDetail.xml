@@ -6,4 +6,6 @@
     <color name="colorRateBad">#f00</color>
     <color name="colorSpaceVer">#ddd</color>
     <color name="colorGray">#666666</color>
+    <color name="colorTransParrent">#801A1010</color>
+    <color name="colorWhile100">#00FFFFFF</color>
 </resources>

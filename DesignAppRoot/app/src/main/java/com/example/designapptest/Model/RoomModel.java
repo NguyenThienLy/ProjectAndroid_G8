@@ -1,18 +1,29 @@
 package com.example.designapptest.Model;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.ListView;
 
 import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class RoomModel implements Parcelable { // Linh thêm
@@ -488,5 +499,72 @@ public class RoomModel implements Parcelable { // Linh thêm
         dest.writeStringList(listImageRoom);
         dest.writeTypedList(listConvenientRoom);
         dest.writeTypedList(listCommentRoom);
+    }
+
+
+    //Hàm thêm phòng mới
+    public void addRoom(RoomModel roomModel, List<String> listConvenient, List<String> listPathImage
+            , float electricBill, float warterBill, float InternetBill, float parkingBill) {
+        DatabaseReference nodeRoom = nodeRoot.child("Room");
+
+        //Lấy Key push động vào firebase
+        String RoomID = nodeRoom.push().getKey();
+
+        //push vào node room
+        nodeRoom.child(RoomID).setValue(roomModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                //Thêm danh sách tiện ích
+                for(String dataConvenient:listConvenient){
+                    nodeRoot.child("RoomConvenients").child(RoomID).push().setValue(dataConvenient);
+                }
+                //End thêm danh sách tiện ích
+
+                //Thêm chi tiết các giá phòng
+                addDetailtRoomPrice(RoomID,electricBill,warterBill,InternetBill,parkingBill, (float) roomModel.getRentalCosts());
+                //End thêm chi tiết các giá phòng
+
+                //Lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
+                DateFormat df = new SimpleDateFormat("ddMMyyyyHHmmss");
+                String date = df.format(Calendar.getInstance().getTime());
+                //End lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
+
+                //Tải hình lên
+                for(String pathImage:listPathImage){
+                    Uri file = Uri.fromFile(new File(pathImage));
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                            .child("Images/"+date+file.getLastPathSegment());
+                    storageReference.putFile(file).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                        }
+                    });
+
+                }
+                //End tải hình lên
+
+                //Thêm hình danh sách hình vào node roomimage
+                for(String pathImage:listPathImage){
+                    Uri file = Uri.fromFile(new File(pathImage));
+                    nodeRoot.child("RoomImages").child(RoomID).push().setValue(date+file.getLastPathSegment());
+                }
+                //End thêm hình danh sách hình vào node roomimage
+            }
+        });
+    }
+
+    //Hàm thêm vào chi tiết giá cả của phòng
+    private void addDetailtRoomPrice(String roomID,float electricBill, float warterBill, float InternetBill, float parkingBill,float roomBill){
+        //Thêm tiền nước
+        nodeRoot.child("RoomPrice").child(roomID).child("IDRPT0").setValue(warterBill);
+        //Thêm tiền điện
+        nodeRoot.child("RoomPrice").child(roomID).child("IDRPT3").setValue(electricBill);
+        //Thêm tiền mạng
+        nodeRoot.child("RoomPrice").child(roomID).child("IDRPT1").setValue(InternetBill);
+        //Thêm tiền giữ xe
+        nodeRoot.child("RoomPrice").child(roomID).child("IDRPT2").setValue(parkingBill);
+        //Thêm tiền phòng
+        nodeRoot.child("RoomPrice").child(roomID).child("IDRPT4").setValue(roomBill);
     }
 }
