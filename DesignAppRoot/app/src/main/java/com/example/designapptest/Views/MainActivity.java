@@ -130,14 +130,11 @@ public class MainActivity extends Activity{
     }
 
     private void adapter() {
-       // roomAdapterGid = new roomAdapter(this, R.layout.room_element_grid_view, mydata);
-        //roomAdapterList = new roomAdapter(this, R.layout.room_element_list_view, mydata);
+
         suggestAdapterList = new suggestAdapter(this, R.layout.suggest_element_list_view, mydata);
         locationAdapter = new locationAdapter(this, R.layout.row_element_grid_view_location, datalocation);
         searchAdapter = new searchAdapter(this, R.layout.search_element_list_view, dataSearch);
 
-        //grVRoom.setAdapter(roomAdapterGid);
-        //lstVRoom.setAdapter(roomAdapterList);
         grVLocation.setAdapter(locationAdapter);
         lstVSearch.setAdapter(searchAdapter);
         lstVSuggest.setAdapter(suggestAdapterList);
@@ -203,21 +200,7 @@ public class MainActivity extends Activity{
     }
 
     private void elementRoom() {
-//        lstVRoom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(getApplicationContext(), detailRoom.class);
-//                startActivity(intent);
-//            }
-//        });
 
-//        grVRoom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(getApplicationContext(), detailRoom.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     private void postRoom() {
@@ -278,6 +261,8 @@ public class MainActivity extends Activity{
         mainActivityController = new MainActivityController(this);
         mainActivityController.ListMainRoom(recyclerMainRoom,recyclerGridMainRoom,progressBarMain);
 
+        //Load top địa điểm nhiều phòng
+        mainActivityController.loadTopLocation();
     }
     //End load dữ liệu vào danh sách trong lần đầu chạy
 }

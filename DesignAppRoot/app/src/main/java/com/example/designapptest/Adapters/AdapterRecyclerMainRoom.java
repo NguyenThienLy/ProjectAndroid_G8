@@ -77,7 +77,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
         //Gán các giá trị vào giao diện
         classFunctionStatic.showProgress(context, viewHolder.imgRoom);
-        viewHolder.txtName.setText(roomModel.getDescribe());
+        viewHolder.txtName.setText(roomModel.getName());
         viewHolder.txtMaxNumber.setText(String.valueOf((int) roomModel.getMaxNumber()));
         viewHolder.txtPrice.setText(String.valueOf(roomModel.getRentalCosts()) + "đ/Phòng");
         viewHolder.txtArea.setText(roomModel.getLength() + "m" + "x" + roomModel.getWidth() + "m");

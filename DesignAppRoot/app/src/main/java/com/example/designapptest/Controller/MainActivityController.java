@@ -4,12 +4,12 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
 import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
+import com.example.designapptest.Model.LocationModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 
@@ -19,9 +19,11 @@ import java.util.List;
 public class MainActivityController {
     Context context;
     RoomModel roomModel;
+    LocationModel locationModel;
     public MainActivityController(Context context){
         this.context=context;
         roomModel = new RoomModel();
+        locationModel = new LocationModel();
     }
 
     public void ListMainRoom(RecyclerView recyclerMainRoom,RecyclerView recyclerViewGridMainRoom ,final ProgressBar progressBarMain){
@@ -63,7 +65,9 @@ public class MainActivityController {
 
         //Gọi hàm lấy dữ liệu trong model
         roomModel.ListRoom(iMainRoomModel);
+    }
 
-
+    public void loadTopLocation(){
+        locationModel.topLocation();
     }
 }
