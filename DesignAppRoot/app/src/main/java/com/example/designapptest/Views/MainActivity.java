@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.designapptest.Controller.MainActivityController;
 import com.example.designapptest.R;
@@ -62,7 +64,7 @@ public class MainActivity extends Activity{
     EditText edTSearch;
 
     //Them vao de test
-    private FusedLocationProviderClient client;
+     FusedLocationProviderClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,14 +214,14 @@ public class MainActivity extends Activity{
             }
         });
 
-        //Qui them vao de test
+        //Qui them vao de test'ca
         btnMapView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //Kiểm tra quuyền
                 if(ActivityCompat.checkSelfPermission(MainActivity.this, ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
+
                     return;
                 }
                 else{

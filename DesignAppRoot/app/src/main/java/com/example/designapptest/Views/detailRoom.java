@@ -43,7 +43,7 @@ public class detailRoom extends AppCompatActivity {
             txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview,
             txtQuantityComment_2,txtRoomPhoneNumber;
 
-    Button btnCallPhone, btnPostComment, btnViewAll;
+    Button btnCallPhone, btnDirectMap, btnPostComment, btnViewAll;
 
     ImageView imgRoomGender, imgRoom1, imgRoom2, imgRoom3, imgRoom4;
 
@@ -96,6 +96,8 @@ public class detailRoom extends AppCompatActivity {
 
         clickCallPhone();
 
+        clickDirectMap();
+
         clickPostComment();
 
         clickShowImage();
@@ -125,7 +127,8 @@ public class detailRoom extends AppCompatActivity {
         txtQuantityComment_2 = (TextView) findViewById(R.id.txt_quantityComment_2);
         txtRoomPhoneNumber = (TextView)findViewById(R.id.txt_room_phonenumber);
 
-        btnCallPhone = (Button) findViewById(R.id.btn_callPhone) ;
+        btnCallPhone = (Button) findViewById(R.id.btn_callPhone);
+        btnDirectMap = (Button) findViewById(R.id.btn_directMap);
         btnPostComment = (Button) findViewById(R.id.btn_postComment) ;
         btnViewAll = (Button) findViewById(R.id.btn_viewAll) ;
 
@@ -251,6 +254,20 @@ public class detailRoom extends AppCompatActivity {
                 String strPhoneNumbet = roomModel.getRoomOwner().getPhoneNumber();
                 Intent intentCall = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", strPhoneNumbet, null));
                 startActivity(intentCall);
+            }
+        });
+    }
+
+    // Hàm hiển thị bản đồ chỉ đường.
+    private  void clickDirectMap() {
+        btnDirectMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String stringRoomName= roomModel.getName();
+
+                Intent intentDirectMap = new Intent(detailRoom.this, directMapRoomDetail.class);
+                intentDirectMap.putExtra("phongtro", roomModel);
+                startActivity(intentDirectMap);
             }
         });
     }
