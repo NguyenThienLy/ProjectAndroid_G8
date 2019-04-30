@@ -1,4 +1,4 @@
-package com.example.designapptest;
+package com.example.designapptest.Views;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,6 +17,8 @@ import com.example.designapptest.Adapters.AdapterGridRateStar;
 import com.example.designapptest.Controller.CommentController;
 import com.example.designapptest.Model.CommentModel;
 import com.example.designapptest.Model.RoomModel;
+import com.example.designapptest.R;
+import com.example.designapptest.Views.commentAndRateMain;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;

@@ -1,4 +1,4 @@
-package com.example.designapptest;
+package com.example.designapptest.Views;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.example.designapptest.Controller.CommentController;
 import com.example.designapptest.Model.RoomModel;
+import com.example.designapptest.R;
+import com.example.designapptest.Views.commentAndRateMain;
 
 public class commentAndRateStep2 extends Fragment {
     View viewCommentAndRateStep2;

@@ -2,8 +2,11 @@ package com.example.designapptest.Views;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
-
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,8 +20,13 @@ import android.widget.ProgressBar;
 
 import com.example.designapptest.Controller.MainActivityController;
 import com.example.designapptest.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends Activity{
 
@@ -53,6 +61,9 @@ public class MainActivity extends Activity{
     String[] dataSearch = {"Vị trí", "Giá cả", "Số người", "Tiện nghi", "Map"};
     EditText edTSearch;
 
+    //Them vao de test
+    private FusedLocationProviderClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +82,10 @@ public class MainActivity extends Activity{
         elementRoom();
 
         postRoom();
+
+        //Them vao de test
+        requestPermission();
+        client = LocationServices.getFusedLocationProviderClient(this);
     }
 
     private void initControl() {
@@ -218,16 +233,43 @@ public class MainActivity extends Activity{
         btnMapView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MapView.class);
-                startActivity(intent);
+
+                //Kiểm tra quuyền
+                if(ActivityCompat.checkSelfPermission(MainActivity.this, ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+                    return;
+                }
+                else{
+                    //Neu du quyen thi lay toa do ma show map
+                    client.getLastLocation().addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if(location!=null){
+                                double srLatitude = location.getLatitude();
+                                double srLongtitude =location.getLongitude();
+
+                                drawGoogleMap(srLatitude,srLongtitude,10.772413,106.673585);
+                            }
+                            else {
+
+                            }
+                        }
+                    });
+                }
             }
         });
     }
 
-    private void test() {
-
+    private void drawGoogleMap(double srLatitude,double srLongtitude,double desLatitude,double desLongtitude){
+        Uri gmmIntentUri = Uri.parse("http://maps.google.com/maps?saddr="+srLatitude+","+srLongtitude+"&daddr="+desLatitude+","+desLongtitude);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 
+    private void requestPermission(){
+        ActivityCompat.requestPermissions(this,new String[]{ACCESS_FINE_LOCATION},1);
+    }
     //Load dữ liệu vào List danh sách trong lần đầu chạy
     @Override
     protected void onStart() {

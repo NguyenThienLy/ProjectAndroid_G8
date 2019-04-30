@@ -1,7 +1,6 @@
-package com.example.designapptest;
+package com.example.designapptest.Views;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,11 +16,15 @@ import android.widget.Toast;
 
 import com.example.designapptest.Controller.PostRoomStep4Controller;
 import com.example.designapptest.Model.RoomModel;
+import com.example.designapptest.R;
+import com.example.designapptest.Views.LoginView;
+import com.example.designapptest.Views.postRoomAdapter;
+import com.example.designapptest.Views.postRoomStep1;
+import com.example.designapptest.Views.postRoomStep2;
+import com.example.designapptest.Views.postRoomStep3;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;

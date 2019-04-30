@@ -1,4 +1,4 @@
-package com.example.designapptest;
+package com.example.designapptest.Views;
 
 import android.Manifest;
 import android.content.Intent;
@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerLoadImage;
 import com.example.designapptest.Model.loadImageModel;
+import com.example.designapptest.R;
 import com.google.android.gms.common.util.CollectionUtils;
 
 import java.util.ArrayList;

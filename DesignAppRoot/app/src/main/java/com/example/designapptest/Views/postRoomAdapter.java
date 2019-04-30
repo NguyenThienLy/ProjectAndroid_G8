@@ -1,23 +1,19 @@
-package com.example.designapptest;
+package com.example.designapptest.Views;
 
-import android.app.Activity;
-import android.app.Service;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.designapptest.Controller.Interfaces.ICallBackPostRoom;
+import com.example.designapptest.R;
 
 import java.util.HashMap;
 

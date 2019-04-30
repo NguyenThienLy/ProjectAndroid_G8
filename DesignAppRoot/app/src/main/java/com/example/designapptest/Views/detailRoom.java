@@ -1,4 +1,4 @@
-package com.example.designapptest;
+package com.example.designapptest.Views;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -28,7 +28,7 @@ import com.example.designapptest.Adapters.AdapterViewPagerImageShow;
 import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Controller.CommentController;
 import com.example.designapptest.Model.RoomModel;
-import com.example.designapptest.Views.commentAndRateMain;
+import com.example.designapptest.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;

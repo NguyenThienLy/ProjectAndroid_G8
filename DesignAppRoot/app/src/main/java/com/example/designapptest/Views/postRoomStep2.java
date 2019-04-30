@@ -1,8 +1,6 @@
-package com.example.designapptest;
+package com.example.designapptest.Views;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,8 +12,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+
+import com.example.designapptest.R;
+import com.example.designapptest.Views.postRoomAdapter;
 
 public class postRoomStep2 extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 

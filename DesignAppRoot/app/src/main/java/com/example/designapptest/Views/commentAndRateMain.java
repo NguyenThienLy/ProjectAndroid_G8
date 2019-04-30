@@ -1,4 +1,4 @@
-package com.example.designapptest;
+package com.example.designapptest.Views;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.designapptest.Adapters.AdapterViewPagerCommentAndRate;
 import com.example.designapptest.Model.RoomModel;
+import com.example.designapptest.R;
 
 public class commentAndRateMain extends AppCompatActivity {
     ViewPager viewPagerCommentAndRate;

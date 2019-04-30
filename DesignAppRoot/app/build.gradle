@@ -46,6 +46,12 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     // thu vien load anh gift
     implementation 'com.github.bumptech.glide:glide:4.9.0'
+
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+
+
+    //Khong them kieu nay thi bi loi khong hieu ly do
+
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 }
 
