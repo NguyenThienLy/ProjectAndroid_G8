@@ -250,8 +250,6 @@ public class detailRoom extends AppCompatActivity {
             public void onClick(View v) {
                 String strPhoneNumbet = roomModel.getRoomOwner().getPhoneNumber();
                 Intent intentCall = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", strPhoneNumbet, null));
-
-                intentCall.putExtra("phongtro", roomModel);
                 startActivity(intentCall);
             }
         });
