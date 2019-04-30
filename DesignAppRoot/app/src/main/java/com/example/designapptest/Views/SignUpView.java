@@ -1,4 +1,4 @@
-package com.example.designapptest;
+package com.example.designapptest.Views;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.designapptest.Controller.UserController;
 import com.example.designapptest.Model.UserModel;
+import com.example.designapptest.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

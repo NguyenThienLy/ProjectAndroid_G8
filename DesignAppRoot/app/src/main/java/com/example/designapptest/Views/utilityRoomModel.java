@@ -1,4 +1,4 @@
-package com.example.designapptest;
+package com.example.designapptest.Views;
 
 public class utilityRoomModel {
     private int image;

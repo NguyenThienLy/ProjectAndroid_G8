@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.designapptest.commentAndRateStep1;
-import com.example.designapptest.commentAndRateStep2;
-import com.example.designapptest.commentAndRateStep3;
+import com.example.designapptest.Views.commentAndRateStep1;
+import com.example.designapptest.Views.commentAndRateStep2;
+import com.example.designapptest.Views.commentAndRateStep3;
 
 import java.util.HashMap;
 

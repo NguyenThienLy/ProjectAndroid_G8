@@ -1,4 +1,4 @@
-package com.example.designapptest;
+package com.example.designapptest.Views;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.designapptest.Controller.MainActivityController;
-import com.example.designapptest.Model.RoomModel;
+import com.example.designapptest.R;
 
 import java.util.ArrayList;
 
@@ -41,8 +41,8 @@ public class MainActivity extends Activity{
 
     roomAdapter roomAdapterGid;
     roomAdapter roomAdapterList;
-    locationAdapter locationAdapter;
-    searchAdapter searchAdapter;
+    com.example.designapptest.Views.locationAdapter locationAdapter;
+    com.example.designapptest.Views.searchAdapter searchAdapter;
     suggestAdapter suggestAdapterList;
 
     Button btnChooseSearch;
@@ -218,7 +218,7 @@ public class MainActivity extends Activity{
         btnMapView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),MapView.class);
+                Intent intent = new Intent(getApplicationContext(), MapView.class);
                 startActivity(intent);
             }
         });

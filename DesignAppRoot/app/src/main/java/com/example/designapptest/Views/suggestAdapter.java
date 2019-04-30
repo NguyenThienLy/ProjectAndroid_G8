@@ -1,4 +1,4 @@
-package com.example.designapptest;
+package com.example.designapptest.Views;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.designapptest.R;
+import com.example.designapptest.Views.roomModel;
 
 import java.util.List;
 
