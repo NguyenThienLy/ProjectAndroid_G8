@@ -5,13 +5,16 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 
 import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
+import com.example.designapptest.Controller.Interfaces.ILocationModel;
 import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.example.designapptest.Model.LocationModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
+import com.example.designapptest.Views.locationAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +70,25 @@ public class MainActivityController {
         roomModel.ListRoom(iMainRoomModel);
     }
 
-    public void loadTopLocation(){
-        locationModel.topLocation();
+    public void loadTopLocation(GridView grVLocation){
+
+        //Tạo mới mảng cho gridview
+        List<LocationModel> datalocation = new ArrayList<LocationModel>();
+
+        //Tạo adapter cho gridview
+        locationAdapter adapter = new locationAdapter(context, R.layout.row_element_grid_view_location, datalocation);
+        grVLocation.setAdapter(adapter);
+
+        //Tạo mới interface đề truyền dữ liệu lên từ model
+        ILocationModel iLocationModel = new ILocationModel() {
+            @Override
+            public void getListTopRoom(List<LocationModel> topLocation) {
+                datalocation.addAll(topLocation);
+                adapter.notifyDataSetChanged();
+            }
+        };
+
+        //Gọi hàm lấy dữ liệu và truyền vào interface
+        locationModel.topLocation(iLocationModel);
     }
 }
