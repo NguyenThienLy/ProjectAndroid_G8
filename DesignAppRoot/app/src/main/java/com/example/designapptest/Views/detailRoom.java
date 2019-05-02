@@ -3,12 +3,9 @@ package com.example.designapptest.Views;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -29,10 +26,7 @@ import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Controller.CommentController;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -223,27 +217,7 @@ public class detailRoom extends AppCompatActivity {
 
     // Hàm tải ảnh từ firebase về theo image control và vị trí ảnh cần lấy trên firebase.
     private void downloadImageForImageControl(final ImageView imageDownload, final int positionDownload) {
-        StorageReference storageReference = FirebaseStorage
-                .getInstance().getReference()
-                .child("Images")
-                .child(roomModel.getListImageRoom().get(positionDownload));
-
-        final long ONE_MEGABYTE = 1024 * 1024;
-
-        storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                //Tạo ảnh bitmap từ byte
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                imageDownload.setImageBitmap(bitmap);
-                imageDownload.setVisibility(View.VISIBLE);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
+        Picasso.get().load(roomModel.getListImageRoom().get(positionDownload)).into(imageDownload);
     }
 
     // Hàm gọi điện thoại cho chủ phòng trọ.
