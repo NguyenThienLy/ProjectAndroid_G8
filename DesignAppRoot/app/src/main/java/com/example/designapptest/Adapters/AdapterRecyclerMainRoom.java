@@ -2,8 +2,6 @@ package com.example.designapptest.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,14 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 import com.example.designapptest.Views.detailRoom;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -76,7 +70,8 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         final RoomModel roomModel = RoomModelList.get(i);
 
         //Gán các giá trị vào giao diện
-        classFunctionStatic.showProgress(context, viewHolder.imgRoom);
+        //classFunctionStatic.showProgress(context, viewHolder.imgRoom);
+
         viewHolder.txtName.setText(roomModel.getName());
         viewHolder.txtMaxNumber.setText(String.valueOf((int) roomModel.getMaxNumber()));
         viewHolder.txtPrice.setText(String.valueOf(roomModel.getRentalCosts()) + "đ/Phòng");
@@ -105,30 +100,38 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
         //End gán giá trị cho số lượng bình luận
 
+
+            //Download ảnh dùng picaso cho đỡ lag
+        Picasso.get().load(roomModel.getListImageRoom().get(0)).into(viewHolder.imgRoom);
+        //Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/findroomforrent-5bea0.appspot.com/o/Images%2Freceived-405711336891277_1555296117.jpg?alt=media&token=c27bd472-7a97-47dc-9f48-706b202929ce").into(viewHolder.imgRoom);
+
+
         //Dowload hình ảnh cho room
-        if (roomModel.getListImageRoom().size() > 0) {
-
-            StorageReference storageReference = FirebaseStorage
-                    .getInstance().getReference()
-                    .child("Images")
-                    .child(roomModel.getListImageRoom().get(0));
-
-            final long ONE_MEGABYTE = 1024 * 1024;
-            storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    //Tạo ảnh bitmap từ byte
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    viewHolder.imgRoom.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-                }
-            });
-
-        }
+//        if (roomModel.getListImageRoom().size() > 0) {
+//
+//            StorageReference storageReference = FirebaseStorage
+//                    .getInstance().getReference()
+//                    .child("Images")
+//                    .child(roomModel.getListImageRoom().get(0));
+//
+//            final long ONE_MEGABYTE = 1024 * 1024;
+//            storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+//                @Override
+//                public void onSuccess(byte[] bytes) {
+//                    //Tạo ảnh bitmap từ byte
+//                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                    viewHolder.imgRoom.setImageBitmap(bitmap);
+//                    Log.d("check 9", "onSuccess: ");
+//
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//
+//                }
+//            });
+//
+//        }
         //End Dowload hình ảnh cho room
 
         // Đăng kí sự kiện click cho cardView // Linh thêm

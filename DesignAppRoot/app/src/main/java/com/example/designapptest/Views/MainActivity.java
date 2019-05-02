@@ -47,10 +47,7 @@ public class MainActivity extends Activity{
     ListView lstVSearch;
 
     ArrayList<roomModel> mydata;
-    ArrayList<locationModel> datalocation;
 
-    roomAdapter roomAdapterGid;
-    roomAdapter roomAdapterList;
     com.example.designapptest.Views.locationAdapter locationAdapter;
     com.example.designapptest.Views.searchAdapter searchAdapter;
     suggestAdapter suggestAdapterList;
@@ -73,10 +70,6 @@ public class MainActivity extends Activity{
 
         initControl();
 
-        initDataRoom();
-
-        initDataLocation();
-
         adapter();
 
         search();
@@ -91,7 +84,7 @@ public class MainActivity extends Activity{
     }
 
     private void initControl() {
-        //grVRoom = (GridView) findViewById(R.id.grV_room);
+
         grVLocation = (GridView) findViewById(R.id.grV_location);
 
         btnChooseSearch = (Button) findViewById(R.id.btn_choose_search);
@@ -100,7 +93,6 @@ public class MainActivity extends Activity{
         //qui them vao
         btnMapView =(Button)findViewById(R.id.btn_Map_View);
 
-        //lstVRoom = (ListView) findViewById(R.id.lstV_room);
         lstVSearch = (ListView) findViewById(R.id.lstV_search);
         lstVSuggest = (ListView) findViewById(R.id.lstV_suggest);
 
@@ -112,34 +104,14 @@ public class MainActivity extends Activity{
         progressBarMain = (ProgressBar)findViewById(R.id.Progress_Main);
     }
 
-    private void initDataRoom() {
-        mydata = new ArrayList<>();
-
-        mydata.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "2.5 triệu/phòng", "54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 8, 256, "PHÒNG TRỌ"));
-        mydata.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "3.5 triệu/phòng", "54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 6, 18, "PHÒNG TRỌ"));
-        mydata.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "2.5 triệu/phòng", "54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 5, 365, "CHUNG CƯ"));
-        mydata.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "3.5 triệu/phòng", "54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 4, 256, "PHÒNG TRỌ"));
-        mydata.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "2.5 triệu/phòng", "54 Âu Cơ, Bình Thạnh, TP Hồ Chí Minh", 6, 28, "KÍ TÚC XÁ"));
-        mydata.add(new roomModel(R.drawable.avt_jpg_room, "Cho thuê phòng trọ giá rẻ", "3.5 triệu/phòng", "54 Âu Cơ, Quận 11, TP Hồ Chí Minh", 7, 147, "PHÒNG TRỌ"));
-    }
-
-    private void initDataLocation() {
-        datalocation = new ArrayList<>();
-
-        datalocation.add(new locationModel(R.drawable.avt_jpg_room, "Bình Thạnh", "6856 phòng"));
-        datalocation.add(new locationModel(R.drawable.avt_jpg_room, "Quận 1", "4875 phòng"));
-        datalocation.add(new locationModel(R.drawable.avt_jpg_room, "Thủ Đức", "4229 phòng"));
-    }
-
     private void adapter() {
 
         suggestAdapterList = new suggestAdapter(this, R.layout.suggest_element_list_view, mydata);
-        locationAdapter = new locationAdapter(this, R.layout.row_element_grid_view_location, datalocation);
+
         searchAdapter = new searchAdapter(this, R.layout.search_element_list_view, dataSearch);
 
-        grVLocation.setAdapter(locationAdapter);
         lstVSearch.setAdapter(searchAdapter);
-        lstVSuggest.setAdapter(suggestAdapterList);
+        //lstVSuggest.setAdapter(suggestAdapterList);
     }
 
     private void search() {
@@ -232,11 +204,9 @@ public class MainActivity extends Activity{
                             if(location!=null){
                                 double srLatitude = location.getLatitude();
                                 double srLongtitude =location.getLongitude();
-
                                 drawGoogleMap(srLatitude,srLongtitude,10.772413,106.673585);
                             }
                             else {
-
                             }
                         }
                     });
@@ -264,7 +234,7 @@ public class MainActivity extends Activity{
         mainActivityController.ListMainRoom(recyclerMainRoom,recyclerGridMainRoom,progressBarMain);
 
         //Load top địa điểm nhiều phòng
-        mainActivityController.loadTopLocation();
+        mainActivityController.loadTopLocation(grVLocation);
     }
     //End load dữ liệu vào danh sách trong lần đầu chạy
 }
