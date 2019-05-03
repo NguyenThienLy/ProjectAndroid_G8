@@ -4,8 +4,6 @@ public abstract class myFilter {
     protected String id;
     protected String name;
 
-
-
     public String getId() {
         return id;
     }
@@ -21,4 +19,6 @@ public abstract class myFilter {
     public void setName(String name) {
         this.name = name;
     }
+
+    public abstract void replace(myFilter filter);
 }
