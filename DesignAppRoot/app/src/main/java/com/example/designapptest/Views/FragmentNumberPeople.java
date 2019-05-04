@@ -10,8 +10,6 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.designapptest.ClassOther.TypeFilter;
-import com.example.designapptest.ClassOther.myFilter;
 import com.example.designapptest.R;
 
 
@@ -92,8 +90,6 @@ public class FragmentNumberPeople extends Fragment implements View.OnClickListen
 
 
     public void mycheck(){
-        TypeFilter typeFilter = new TypeFilter();
 
-        myFilter a = typeFilter;
     }
 }
