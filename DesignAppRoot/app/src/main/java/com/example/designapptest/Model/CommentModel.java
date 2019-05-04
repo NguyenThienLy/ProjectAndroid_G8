@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.designapptest.Controller.Interfaces.IRoomCommentModel;
@@ -250,7 +251,8 @@ public class CommentModel implements Parcelable { // Linh thêm
         nodeRoom.addValueEventListener(valueEventListener);
     }
 
-    public void addComment(CommentModel newCommentModel, String roomId, final Context context) {
+    public void addComment(CommentModel newCommentModel, String roomId, final Context context,
+                           TextView txtTitle, TextView txtContent) {
         DatabaseReference nodeComment = FirebaseDatabase.getInstance().getReference().child("RoomComments");
         String commentId = nodeComment.child(roomId).push().getKey();
 
@@ -259,10 +261,12 @@ public class CommentModel implements Parcelable { // Linh thêm
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Post comment successfully", Toast.LENGTH_SHORT).show();
+
+                    //
+                    txtTitle.setText("");
+                    txtContent.setText("");
                 }
             }
         });
     }
-
-
 }

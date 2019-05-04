@@ -69,6 +69,14 @@
         <!-- <activity android:name=".postRoomStep2" /> -->
         <!-- <activity android:name=".postRoomStep3" /> -->
         <!-- <activity android:name=".postRoomStep4" /> -->
+        <activity android:name=".Views.favoriteRoomsView">
+
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity android:name=".Views.postRoomAdapter">
 
              <!--<intent-filter>-->

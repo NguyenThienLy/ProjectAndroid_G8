@@ -24,6 +24,7 @@ import com.example.designapptest.Adapters.AdapterRecyclerConvenient;
 import com.example.designapptest.Adapters.AdapterViewPagerImageShow;
 import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Controller.CommentController;
+import com.example.designapptest.Controller.MainActivityController;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 import com.squareup.picasso.Picasso;
@@ -37,9 +38,9 @@ public class detailRoom extends AppCompatActivity {
             txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview,
             txtQuantityComment_2,txtRoomPhoneNumber;
 
-    Button btnCallPhone, btnDirectMap, btnPostComment, btnViewAll;
+    Button btnCallPhone, btnDirectMap, btnPostComment, btnViewAll, btnFavoriteRooms;
 
-    ImageView imgRoomGender, imgRoom1, imgRoom2, imgRoom3, imgRoom4;
+    ImageView imgRoomGender, imgRoom1, imgRoom2, imgRoom3, imgRoom4, imgFavorite;
 
     List<ImageView> listImageRoom;
 
@@ -63,6 +64,7 @@ public class detailRoom extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     CommentController commentController;
+    MainActivityController mainActivityController;
 
     FrameLayout frLoutContain;
 
@@ -74,6 +76,7 @@ public class detailRoom extends AppCompatActivity {
         roomModel = getIntent().getParcelableExtra("phongtro");
         sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
         commentController = new CommentController(this, sharedPreferences);
+        mainActivityController = new MainActivityController(this, sharedPreferences);
 
         initControl();
 
@@ -95,6 +98,10 @@ public class detailRoom extends AppCompatActivity {
         clickPostComment();
 
         clickShowImage();
+
+        clickAddToFavorite();
+
+        clickShowFavoriteRooms();
 
     }
 
@@ -125,12 +132,15 @@ public class detailRoom extends AppCompatActivity {
         btnDirectMap = (Button) findViewById(R.id.btn_directMap);
         btnPostComment = (Button) findViewById(R.id.btn_postComment) ;
         btnViewAll = (Button) findViewById(R.id.btn_viewAll) ;
+        btnFavoriteRooms = (Button) findViewById(R.id.btn_favorite_rooms);
 
         imgRoomGender = (ImageView) findViewById(R.id.img_roomGender);
         imgRoom1 = (ImageView) findViewById(R.id.img_room1);
         imgRoom2 = (ImageView) findViewById(R.id.img_room2);
         imgRoom3 = (ImageView) findViewById(R.id.img_room3);
         imgRoom4 = (ImageView) findViewById(R.id.img_room4);
+
+        imgFavorite = (ImageView) findViewById(R.id.img_favorite);
 
         txtMoreImg = findViewById(R.id.txt_more_img);
         frLoutContain = findViewById(R.id.fr_lout_contain);
@@ -213,6 +223,17 @@ public class detailRoom extends AppCompatActivity {
                 R.layout.utility_element_grid_rom_detail_view, roomModel.getListConvenientRoom());
         recycler_convenients_room_detail.setAdapter(adapterRecyclerConvenient);
         adapterRecyclerConvenient.notifyDataSetChanged();
+
+        // Set trọ yêu thích ?
+        imgFavorite.setImageResource(R.drawable.ic_favorite);
+        imgFavorite.setTag(R.drawable.ic_favorite);
+        for(String roomId : RoomModel.myFavoriteRooms) {
+            if(roomId.equals(roomModel.getRoomID())) {
+                imgFavorite.setImageResource(R.drawable.ic_favorite_red);
+                imgFavorite.setTag(R.drawable.ic_favorite_red);
+                break;
+            }
+        }
     }
 
     // Hàm tải ảnh từ firebase về theo image control và vị trí ảnh cần lấy trên firebase.
@@ -253,6 +274,7 @@ public class detailRoom extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intentCommentAndRate = new Intent(detailRoom.this, commentAndRateMain.class);
                 intentCommentAndRate.putExtra("phongtro", roomModel);
+                intentCommentAndRate.putExtra("currentPage", 0);
                 startActivity(intentCommentAndRate);
             }
         });
@@ -262,6 +284,7 @@ public class detailRoom extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intentCommentAndRate = new Intent(detailRoom.this, commentAndRateMain.class);
                 intentCommentAndRate.putExtra("phongtro", roomModel);
+                intentCommentAndRate.putExtra("currentPage", 1);
                 startActivity(intentCommentAndRate);
             }
         });
@@ -379,5 +402,31 @@ public class detailRoom extends AppCompatActivity {
         window.setAttributes(lp);
 
         dialogShowImage.show();
+    }
+
+    private void clickAddToFavorite() {
+        imgFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String roomId = roomModel.getRoomID();
+                Integer resource = (Integer) imgFavorite.getTag();
+
+                if(resource == R.drawable.ic_favorite) {
+                    mainActivityController.addToFavoriteRooms(roomId, detailRoom.this, sharedPreferences, imgFavorite);
+                } else if (resource == R.drawable.ic_favorite_red) {
+                    mainActivityController.removeFromFavoriteRooms(roomId, detailRoom.this, sharedPreferences, imgFavorite);
+                }
+            }
+        });
+    }
+
+    private void clickShowFavoriteRooms() {
+        btnFavoriteRooms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentFavoriteRooms = new Intent(detailRoom.this, favoriteRoomsView.class);
+                startActivity(intentFavoriteRooms);
+            }
+        });
     }
 }

@@ -1,13 +1,17 @@
 package com.example.designapptest.Model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
+import com.example.designapptest.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -65,6 +69,8 @@ public class RoomModel implements Parcelable { // Linh thêm
 
     //Lưu mảng comment của phòng trọ
     List<CommentModel> listCommentRoom;
+
+    public static List<String> myFavoriteRooms = new ArrayList<String>();
 
     protected RoomModel(Parcel in) {
 
@@ -368,6 +374,9 @@ public class RoomModel implements Parcelable { // Linh thêm
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Xoá list favorite room để add lại khi user xóa hoặc thêm lại favorite room ở favoriteRoomView
+                mainRoomModelInterface.refreshListFavoriteRoom();
+
                 //Duyệt vào node Room trên firebase
                 DataSnapshot dataSnapshotRoom = dataSnapshot.child("Room");
 
@@ -456,7 +465,7 @@ public class RoomModel implements Parcelable { // Linh thêm
         };
 
         //Gán sự kiện listen cho nodeRoot
-        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+        nodeRoot.addValueEventListener(valueEventListener);
     }
 
     @Override
@@ -566,5 +575,207 @@ public class RoomModel implements Parcelable { // Linh thêm
         nodeRoot.child("RoomPrice").child(roomID).child("IDRPT2").setValue(parkingBill);
         //Thêm tiền phòng
         nodeRoot.child("RoomPrice").child(roomID).child("IDRPT4").setValue(roomBill);
+    }
+
+    public static void getListFavoriteRoomsId(SharedPreferences sharedPreferences) {
+        String currentUserId = sharedPreferences.getString("currentUserId", "");
+
+        //Tạo listen cho firebase
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Thêm danh sách id trọ yêu thích
+
+                RoomModel.myFavoriteRooms.clear();
+
+                Log.d("check", "fav room id");
+
+                //Duyệt tất cả các giá trị trong node tương ứng
+                for (DataSnapshot favoriteRoom : dataSnapshot.getChildren()) {
+                    String roomId = favoriteRoom.getKey();
+                    RoomModel.myFavoriteRooms.add(roomId);
+                }
+                //End thêm danh sách id trọ yêu thích
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        //Gán sự kiện listen cho nodeRoot
+        DatabaseReference node = FirebaseDatabase.getInstance().getReference();
+        node.child("FavoriteRooms").child(currentUserId).addValueEventListener(valueEventListener);
+    }
+
+    public void getListFavoriteRooms(final IMainRoomModel iMainRoomModel, final SharedPreferences sharedPreferences) {
+        //Tạo listen cho firebase
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String currentUserId = sharedPreferences.getString("currentUserId", "");
+
+                iMainRoomModel.refreshListFavoriteRoom();
+
+//                //Thêm danh sách id trọ yêu thích
+//                List<String> listFavoriteRoomsId = new ArrayList<String>();
+//
+//                DataSnapshot dataSnapshotFavoriteRooms = dataSnapshot.child("FavoriteRooms").child(currentUserId);
+//
+//                //Duyệt tất cả các giá trị trong node tương ứng
+//                for (DataSnapshot favoriteRoom : dataSnapshotFavoriteRooms.getChildren()) {
+//                    String roomId = favoriteRoom.getKey();
+//                    listFavoriteRoomsId.add(roomId);
+//                }
+//                //End thêm danh sách id trọ yêu thích
+
+                // Lấy danh sách id trọ yêu thích
+//                List<String> listFavoriteRoomsId = new ArrayList<String>();
+//                listFavoriteRoomsId = listFavoriteRoomsId;
+
+                //Thêm danh sách trọ yêu thích
+
+                DataSnapshot dataSnapshotRoom = dataSnapshot.child("Room");
+
+                Log.d("check", "fav room");
+
+                //Duyệt tất cả các giá trị trong node tương ứng
+                for(String favoriteRoomId : myFavoriteRooms) {
+                    for (DataSnapshot roomValue : dataSnapshotRoom.getChildren()) {
+                        String roomId = roomValue.getKey();
+
+                        if (roomId.equals(favoriteRoomId)) {
+                            //Lấy ra giá trị ép kiểu qua kiểu RoomModel
+                            RoomModel roomModel = roomValue.getValue(RoomModel.class);
+
+                            //Set mã phòng trọ
+                            roomModel.setRoomID(roomId);
+
+                            //Set loại phòng trọ
+                            String tempType = dataSnapshot.child("RoomTypes")
+                                    .child(roomModel.getTypeID())
+                                    .getValue(String.class);
+
+                            roomModel.setRoomType(tempType);
+
+
+                            //Thêm tên danh sách đường dẫn hình vào phòng trọ
+
+                            //Duyệt vào node RoomImages trên firebase và duyệt vào node có mã room tương ứng
+                            DataSnapshot dataSnapshotImageRoom = dataSnapshot.child("RoomImages").child(roomId);
+
+                            List<String> tempImageList = new ArrayList<String>();
+
+                            //Duyêt tất cả các giá trị của node tương ứng
+                            for (DataSnapshot valueImage : dataSnapshotImageRoom.getChildren()) {
+                                tempImageList.add(valueImage.getValue(String.class));
+                            }
+
+                            //set mảng đường dẫn hình vào list
+                            roomModel.setListImageRoom(tempImageList);
+
+                            //End Thêm tên danh sách đường dẫn hình vào phòng trọ
+
+
+                            //Thêm danh sách bình luận của phòng trọ
+
+                            DataSnapshot dataSnapshotCommentRoom = dataSnapshot.child("RoomComments").child(roomId);
+                            List<CommentModel> tempCommentList = new ArrayList<CommentModel>();
+
+                            //Duyệt tất cả các giá trị trong node tương ứng
+                            for (DataSnapshot CommentValue : dataSnapshotCommentRoom.getChildren()) {
+                                CommentModel commentModel = CommentValue.getValue(CommentModel.class);
+                                commentModel.setCommentID(CommentValue.getKey());
+
+                                //Duyệt user tương ứng để lấy ra thông tin user bình luận
+                                UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
+                                commentModel.setUserComment(tempUser);
+                                //End duyệt user tương ứng để lấy ra thông tin user bình luận
+
+                                tempCommentList.add(commentModel);
+                            }
+
+                            roomModel.setListCommentRoom(tempCommentList);
+
+                            //End Thêm danh sách bình luận của phòng trọ
+
+
+                            //Thêm danh sách tiện nghi của phòng trọ
+
+                            DataSnapshot dataSnapshotConvenientRoom = dataSnapshot.child("RoomConvenients").child(roomId);
+                            List<ConvenientModel> tempConvenientList = new ArrayList<ConvenientModel>();
+                            //Duyệt tất cả các giá trị trong node tương ứng
+                            for (DataSnapshot valueConvenient : dataSnapshotConvenientRoom.getChildren()) {
+                                String convenientId = valueConvenient.getValue(String.class);
+                                ConvenientModel convenientModel = dataSnapshot.child("Convenients").child(convenientId).getValue(ConvenientModel.class);
+                                convenientModel.setConvenientID(convenientId);
+
+                                tempConvenientList.add(convenientModel);
+                            }
+
+                            roomModel.setListConvenientRoom(tempConvenientList);
+
+                            //End Thêm danh sách tiện nghi của phòng trọ
+
+
+                            //Thêm thông tin chủ sở hữu cho phòng trọ
+                            UserModel tempUser = dataSnapshot.child("Users").child(roomModel.getOwner()).getValue(UserModel.class);
+                            roomModel.setRoomOwner(tempUser);
+
+                            //End thêm thông tin chủ sở hữu cho phòng trọ
+
+                            //Kích hoạt interface
+                            iMainRoomModel.getListMainRoom(roomModel);
+
+                            break;
+                        }
+                    }
+                }
+                //End Thêm danh sách trọ yêu thích
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        //Gán sự kiện listen cho nodeRoot
+        nodeRoot.addValueEventListener(valueEventListener);
+    }
+
+    public void addToFavoriteRooms(String roomId, final Context context, SharedPreferences sharedPreferences, final ImageView imageView) {
+        String currentUserId = sharedPreferences.getString("currentUserId", "");
+        DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference().child("FavoriteRooms");
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String date = df.format(Calendar.getInstance().getTime());
+
+        nodeFavoriteRooms.child(currentUserId).child(roomId).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(context, "Add to favorite rooms successfully", Toast.LENGTH_SHORT).show();
+                    imageView.setImageResource(R.drawable.ic_favorite_red);
+                    imageView.setTag(R.drawable.ic_favorite_red);
+                }
+            }
+        });
+    }
+
+    public void removeFromFavoriteRooms(String roomId, final Context context, SharedPreferences sharedPreferences, final ImageView imageView) {
+        String currentUserId = sharedPreferences.getString("currentUserId", "");
+        DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference().child("FavoriteRooms");
+
+        nodeFavoriteRooms.child(currentUserId).child(roomId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(context, "Remove from favorite rooms successfully", Toast.LENGTH_SHORT).show();
+                    imageView.setImageResource(R.drawable.ic_favorite);
+                    imageView.setTag(R.drawable.ic_favorite);
+                }
+            }
+        });
     }
 }

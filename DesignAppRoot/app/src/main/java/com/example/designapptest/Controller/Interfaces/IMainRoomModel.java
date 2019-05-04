@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IMainRoomModel {
     public void getListMainRoom(RoomModel valueRoom);
+    public void refreshListFavoriteRoom();
 }
