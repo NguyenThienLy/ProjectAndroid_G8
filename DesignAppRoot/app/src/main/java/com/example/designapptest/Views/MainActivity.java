@@ -11,7 +11,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,7 +18,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.designapptest.Controller.MainActivityController;
 import com.example.designapptest.Model.RoomModel;
@@ -56,6 +54,7 @@ public class MainActivity extends Activity{
 
     Button btnChooseSearch;
     Button btnPostRoom;
+    Button btnFindRoom;
     //Qui them vao
     Button btnMapView;
     // Linh thêm
@@ -91,6 +90,7 @@ public class MainActivity extends Activity{
         client = LocationServices.getFusedLocationProviderClient(this);
 
         clickShowFavoriteRooms();
+        clickFindRoom();
     }
 
     private void initControl() {
@@ -101,6 +101,7 @@ public class MainActivity extends Activity{
         btnPostRoom = (Button) findViewById(R.id.btn_postRoom_main_room);
         // Linh thêm
         btnFavoriteRooms = (Button) findViewById(R.id.btn_favorite_rooms);
+        btnFindRoom = findViewById(R.id.btn_find_room);
 
         //qui them vao
         btnMapView =(Button)findViewById(R.id.btn_Map_View);
@@ -244,6 +245,16 @@ public class MainActivity extends Activity{
             public void onClick(View v) {
                 Intent intentFavoriteRooms = new Intent(MainActivity.this, favoriteRoomsView.class);
                 startActivity(intentFavoriteRooms);
+            }
+        });
+    }
+
+    private void clickFindRoom(){
+        btnFindRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentFindRooms = new Intent(MainActivity.this, FindRoom.class);
+                startActivity(intentFindRooms);
             }
         });
     }
