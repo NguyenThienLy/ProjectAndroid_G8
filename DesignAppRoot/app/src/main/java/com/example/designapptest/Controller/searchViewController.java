@@ -21,13 +21,22 @@ public class searchViewController {
 
     public void loadSearchRoom(){
 
+
+        //Tạo listener cho firebase
         ISearchRoomModel searchRoomModelInterface = new ISearchRoomModel() {
+            int i =0;
             @Override
             public void sendDataRoom(RoomModel roomModel) {
+                //Tăng kết quả lên mỗi lần có room mới được tải về
+                i++;
+                //Set text hiển thị
+
+                //Add thêm vào recycler view
 
             }
         };
 
+        //Thêm sự kiện listenner cho noderoot
         searchRoomModel.searchRoom(searchRoomModelInterface);
     }
 }
