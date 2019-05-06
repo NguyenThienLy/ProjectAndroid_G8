@@ -16,6 +16,7 @@ public class commentAndRateMain extends AppCompatActivity {
     TabLayout tabLayoutCommentAndRate;
 
     RoomModel roomModel;
+    int currentPagePosition;
     SharedPreferences sharedPreferences;
 
 
@@ -25,6 +26,7 @@ public class commentAndRateMain extends AppCompatActivity {
         setContentView(R.layout.comment_and_rate_main_room_detail);
 
         roomModel = getIntent().getParcelableExtra("phongtro");
+        currentPagePosition = getIntent().getIntExtra("currentPage", 0);
         sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
 
         loadControl();
@@ -47,6 +49,9 @@ public class commentAndRateMain extends AppCompatActivity {
         final AdapterViewPagerCommentAndRate adapterViewPagerCommentAndRate = new AdapterViewPagerCommentAndRate(fragmentManager);
 
         viewPagerCommentAndRate.setAdapter(adapterViewPagerCommentAndRate);
+        // Linh thêm
+        viewPagerCommentAndRate.setCurrentItem(currentPagePosition);
+
         tabLayoutCommentAndRate.setupWithViewPager(viewPagerCommentAndRate);
 
         viewPagerCommentAndRate.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayoutCommentAndRate));

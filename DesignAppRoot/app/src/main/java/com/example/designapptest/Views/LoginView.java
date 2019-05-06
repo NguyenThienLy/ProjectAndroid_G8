@@ -157,22 +157,26 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
     }
 
     private void login() {
-        progressDialog.setMessage("Logging in...");
-        progressDialog.setIndeterminate(true);
-        progressDialog.show();
-
         String username = edt_username_login.getText().toString();
         String password = edt_password_login.getText().toString();
 
-        firebaseAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (!task.isSuccessful()) {
-                    progressDialog.dismiss();
-                    Toast.makeText(LoginView.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
+        if (username.trim().length() == 0 || password.trim().length() == 0) {
+            Toast.makeText(LoginView.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+        } else {
+            progressDialog.setMessage("Logging in...");
+            progressDialog.setIndeterminate(true);
+            progressDialog.show();
+
+            firebaseAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (!task.isSuccessful()) {
+                        progressDialog.dismiss();
+                        Toast.makeText(LoginView.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
