@@ -42,27 +42,25 @@ public class FindRoomModel implements Parcelable {
     List<ConvenientModel> listConvenientRoom;
 
     // Lưu danh sách các tiện nghi của phòng trọ.
-    List<String> convenients;
+    private List<String> convenients;
 
     // Lưu danh sách các id của vị trí phòng trọ.
-    List<String> location;
+    private List<String> location;
+
 
     protected FindRoomModel(Parcel in) {
         user = in.readString();
+        maxPrice = in.readLong();
+        minPrice = in.readLong();
+        gender = in.readByte() != 0;
         findRoomID = in.readString();
         findRoomOwner = in.readParcelable(UserModel.class.getClassLoader());
-        minPrice = in.readLong();
-        maxPrice = in.readLong();
-        gender = in.readByte() != 0;
-
-        in.readStringList(convenients);
-        in.readStringList(location);
-
-        listConvenientRoom = new ArrayList<ConvenientModel>();
-        in.readTypedList(listConvenientRoom, ConvenientModel.CREATOR);
+        listConvenientRoom = in.createTypedArrayList(ConvenientModel.CREATOR);
+        convenients = in.createStringArrayList();
+        location = in.createStringArrayList();
     }
 
-    public static final Parcelable.Creator<FindRoomModel> CREATOR = new Parcelable.Creator<FindRoomModel>() {
+    public static final Creator<FindRoomModel> CREATOR = new Creator<FindRoomModel>() {
         @Override
         public FindRoomModel createFromParcel(Parcel in) {
             return new FindRoomModel(in);
@@ -212,6 +210,7 @@ public class FindRoomModel implements Parcelable {
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -220,13 +219,13 @@ public class FindRoomModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(user);
-        dest.writeLong(minPrice);
         dest.writeLong(maxPrice);
+        dest.writeLong(minPrice);
         dest.writeByte((byte) (gender ? 1 : 0));
         dest.writeString(findRoomID);
-        dest.writeParcelable(findRoomOwner,flags);
+        dest.writeParcelable(findRoomOwner, flags);
         dest.writeTypedList(listConvenientRoom);
-        dest.writeStringList(location);
         dest.writeStringList(convenients);
+        dest.writeStringList(location);
     }
 }

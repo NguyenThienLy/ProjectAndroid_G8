@@ -248,7 +248,7 @@
                     android:background="@color/colorGrayType2" />
 
                 <Button
-                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_horizontal"
                     android:id="@+id/btn_callPhone"
                     android:layout_width="120dp"
                     android:layout_height="30dp"
@@ -256,6 +256,11 @@
                     android:text="@string/stringContactFindRoomDetail"
                     android:textColor="@android:color/white"
                     android:textSize="15sp" />
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorGrayType2" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

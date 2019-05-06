@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
 import com.example.designapptest.Adapters.AdapterRecyclerConvenient;
+import com.example.designapptest.Adapters.AdapterRecyclerFindRoom;
 import com.example.designapptest.Adapters.AdapterViewPagerImageShow;
 import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Controller.CommentController;
@@ -51,20 +52,20 @@ public class DetailFindRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_room_detail_view);
 
-//        findRoomModel = getIntent().getParcelableExtra("timoghep");
-//
-//        initControl();
-//
-//        loadProgress();
+        findRoomModel = new FindRoomModel();
+        findRoomModel = getIntent().getParcelableExtra(AdapterRecyclerFindRoom.SHARE_FINDROOM);
+
+        initControl();
+
+       // loadProgress();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-//        initData();
-//
-//        clickCallPhone();
+        initData();
+        clickCallPhone();
     }
 
 
@@ -90,7 +91,7 @@ public class DetailFindRoom extends AppCompatActivity {
     // Khởi tạo các giá trị cho các control.
     private void initData() {
         //Gán các giá trị vào giao diện
-        txtNameUser.setText(findRoomModel.getFindRoomOwner().getName());
+ txtNameUser.setText(findRoomModel.getFindRoomOwner().getName());
 
         // Gán giá trị cho khoảng giá cần tìm kiếm.
         txtAboutPrice.setText(String.valueOf((int) findRoomModel.getMinPrice())
@@ -125,8 +126,6 @@ public class DetailFindRoom extends AppCompatActivity {
         //End Gán hình cho giới tính cuả người tìm ở ghép
 
 
-
-
         // Load danh sách tiện nghi của phòng trọ
         RecyclerView.LayoutManager layoutManagerConvenient = new GridLayoutManager(this, 3);
         recycler_convenients_room_detail.setLayoutManager(layoutManagerConvenient);
@@ -134,6 +133,7 @@ public class DetailFindRoom extends AppCompatActivity {
                 R.layout.utility_element_grid_rom_detail_view, findRoomModel.getListConvenientRoom());
         recycler_convenients_room_detail.setAdapter(adapterRecyclerConvenient);
         adapterRecyclerConvenient.notifyDataSetChanged();
+        Picasso.get().load(findRoomModel.getFindRoomOwner().getAvatar()).into(imgAvatarUser);
     }
 
     // Hàm gọi điện thoại cho chủ phòng trọ.

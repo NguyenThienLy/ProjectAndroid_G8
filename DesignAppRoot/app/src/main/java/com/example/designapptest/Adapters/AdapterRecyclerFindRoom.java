@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,10 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class AdapterRecyclerFindRoom extends RecyclerView.Adapter<AdapterRecyclerFindRoom.ViewHolder> {
+
+    // ID object truyen qua find room detail.
+    public final static String SHARE_FINDROOM = "FINDROOM";
+
     List<FindRoomModel> findRoomModelList;
     //Là biến lưu giao diện custom của từng row
     int resource;
@@ -100,12 +105,13 @@ public class AdapterRecyclerFindRoom extends RecyclerView.Adapter<AdapterRecycle
         Picasso.get().load(findRoomModel.getFindRoomOwner().getAvatar()).into(viewHolder.imgAvatarUser);
         //Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/findroomforrent-5bea0.appspot.com/o/Images%2Freceived-405711336891277_1555296117.jpg?alt=media&token=c27bd472-7a97-47dc-9f48-706b202929ce").into(viewHolder.imgRoom);
 
-        viewHolder.imgAvatarUser.setOnClickListener(new View.OnClickListener() {
+        viewHolder.cardViewFindRoomList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iDetailFindRoom = new Intent(context, DetailFindRoom.class);
                 // Lỗi ở đây !!1
-                //iDetailFindRoom.putExtra("timoghep", findRoomModel);
+                iDetailFindRoom.putExtra(SHARE_FINDROOM, findRoomModel);
+                Log.d("check", findRoomModel.getMaxPrice()+"");
                 context.startActivity(iDetailFindRoom);
             }
         });
