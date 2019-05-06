@@ -8,6 +8,16 @@ public class PriceFilter extends  myFilter {
         return minPrice;
     }
 
+    public PriceFilter(){
+
+    }
+
+    public PriceFilter(float minPrice, float maxPrice) {
+        this.name = minPrice+" triệu - "+maxPrice+" triệu";
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
+    }
+
     public void setMinPrice(float minPrice) {
         this.minPrice = minPrice;
     }

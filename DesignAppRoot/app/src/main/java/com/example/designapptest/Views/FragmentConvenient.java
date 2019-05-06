@@ -48,6 +48,8 @@ public class FragmentConvenient extends Fragment {
 
         AdapterRecyclerChBoxConvenient adapterRecyclerChBoxConvenient = new AdapterRecyclerChBoxConvenient(getContext(),R.layout.convenient_chbox_element_recyclerview,convenientFilterList);
         recyclerConvenient.setAdapter(adapterRecyclerChBoxConvenient);
+
+
     }
 
     private void initData(){

@@ -8,22 +8,36 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import com.example.designapptest.Adapters.AdapterRecyclerFilter;
+import com.example.designapptest.ClassOther.myFilter;
+import com.example.designapptest.Controller.Interfaces.ICallBackSearchView;
+import com.example.designapptest.Controller.searchViewController;
 import com.example.designapptest.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class searchView extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class searchView extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, ICallBackSearchView {
 
     //Lưu lại trạng thái của 4 fragment thay vì tạo mới
     private HashMap<Integer, Fragment> fragmentHashMap = new HashMap<>();
 
     CheckBox chBoxPrice,chBoxConvenient,chBoxType,chBoxNumber;
-    RecyclerView recyclerFilter;
+    RecyclerView recyclerFilter,recyclerSearchRoom;
+    TextView txtNumberRoom;
+    Button btnsSubmit;
+    EditText edTSearch;
+
     FrameLayout fragmentContainer;
 
     Drawable blueUp;
@@ -32,12 +46,18 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
     int blueColor;
     int grayColor;
 
+    List<myFilter> filterList;
+    AdapterRecyclerFilter adapterRecyclerFilter;
+
+    String district;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_view);
 
+        initData();
         initControl();
         getColor();
 
@@ -51,7 +71,15 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
         grayColor= getResources().getColor(R.color.unsuccess);
     }
 
+    private void initData(){
+        filterList = new ArrayList<myFilter>();
+    }
+
     private void initControl(){
+        edTSearch = findViewById(R.id.edT_search);
+
+        txtNumberRoom =findViewById(R.id.txt_number);
+
         chBoxPrice=findViewById(R.id.chBox_price);
         chBoxConvenient=findViewById(R.id.chBox_convenient);
         chBoxType=findViewById(R.id.chBox_type);
@@ -68,38 +96,61 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
         chBoxNumber.setOnCheckedChangeListener(this);
 
         fragmentContainer = findViewById(R.id.fragment_container);
+
+        recyclerFilter = findViewById(R.id.recycler_filter);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL);
+        recyclerFilter.setLayoutManager(staggeredGridLayoutManager);
+
+        adapterRecyclerFilter = new AdapterRecyclerFilter(this,R.layout.search_filter_element_recyclerview,filterList);
+        recyclerFilter.setAdapter(adapterRecyclerFilter);
+
+        recyclerSearchRoom = findViewById(R.id.recycler_search_room);
+
+        btnsSubmit = findViewById(R.id.btn_submit);
+        btnsSubmit.setOnClickListener(this);
+
+    }
+
+    private void getDataFromControl(){
+        district = edTSearch.getText().toString();
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        boolean isChecked = ((CheckBox)v).isChecked();
-        if(isChecked){
-            //Hiện fragment
-            fragmentContainer.setVisibility(View.VISIBLE);
+        if(id == R.id.btn_submit) {
+            getDataFromControl();
+            callSearchRoomController();
+        }
+        else{
+            boolean isChecked = ((CheckBox)v).isChecked();
+            if(isChecked){
+                //Hiện fragment
+                fragmentContainer.setVisibility(View.VISIBLE);
 
-            //Replace fragment
-            switch (id){
-                case R.id.chBox_price:
-                    GroupCheckbox(0);
-                    changeFragment(0);
-                    break;
-                case R.id.chBox_convenient:
-                    GroupCheckbox(1);
-                    changeFragment(1);
-                    break;
-                case R.id.chBox_type:
-                    GroupCheckbox(2);
-                    changeFragment(2);
-                    break;
-                case R.id.chBox_number:
-                    GroupCheckbox(3);
-                    changeFragment(3);
-                    break;
+                //Replace fragment
+                switch (id){
+                    case R.id.chBox_price:
+                        GroupCheckbox(0);
+                        changeFragment(0);
+                        break;
+                    case R.id.chBox_convenient:
+                        GroupCheckbox(1);
+                        changeFragment(1);
+                        break;
+                    case R.id.chBox_type:
+                        GroupCheckbox(2);
+                        changeFragment(2);
+                        break;
+                    case R.id.chBox_number:
+                        GroupCheckbox(3);
+                        changeFragment(3);
+                        break;
+                }
+            }else {
+                //Ẩn fragment
+                fragmentContainer.setVisibility(View.GONE);
             }
-        }else {
-            //Ẩn fragment
-            fragmentContainer.setVisibility(View.GONE);
         }
     }
 
@@ -200,4 +251,27 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
         fragmentTransaction.commit();
     }
 
+
+    @Override
+    public void addFilter(myFilter filter) {
+        filterList.add(filter);
+        adapterRecyclerFilter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void replaceFilter(myFilter filter) {
+
+    }
+
+    @Override
+    public void removeFilter(myFilter filter) {
+        filterList.remove(filter);
+        adapterRecyclerFilter.notifyDataSetChanged();
+    }
+
+    //Hàm gọi hàm tìm kiếm trong controller
+    private void callSearchRoomController(){
+        searchViewController controller = new searchViewController(this,district,filterList);
+        controller.loadSearchRoom();
+    }
 }

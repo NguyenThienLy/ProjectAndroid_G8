@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.designapptest.ClassOther.GenderFilter;
 import com.example.designapptest.R;
 
 
@@ -20,6 +21,7 @@ public class FragmentNumberPeople extends Fragment implements View.OnClickListen
     ImageButton btnDecrease,btnPlus;
     RadioButton radMale,radFemale;
     int currentNumber = 2;
+    GenderFilter currentFilter = null;
 
     public FragmentNumberPeople() {
         // Required empty public constructor
@@ -62,6 +64,7 @@ public class FragmentNumberPeople extends Fragment implements View.OnClickListen
             case R.id.btn_plus:
                 currentNumber++;
                 txtNumber.setText(currentNumber+"");
+                senData();
                 if(currentNumber >= 2){
                     btnDecrease.setEnabled(true);
                 }
@@ -69,6 +72,7 @@ public class FragmentNumberPeople extends Fragment implements View.OnClickListen
             case R.id.btn_decrease:
                 currentNumber--;
                 txtNumber.setText(currentNumber+"");
+                senData();
                 if(currentNumber < 2){
                     btnDecrease.setEnabled(false);
                 }
@@ -78,18 +82,15 @@ public class FragmentNumberPeople extends Fragment implements View.OnClickListen
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        int id = buttonView.getId();
-        switch (id){
-            case R.id.rad_female:
-                break;
-            case R.id.rad_male:
-
-                break;
-        }
+        senData();
     }
 
 
-    public void mycheck(){
-
+    private void senData() {
+        if (currentFilter != null) {
+            ((searchView) getContext()).removeFilter(currentFilter);
+        }
+        currentFilter = new GenderFilter(currentNumber, radMale.isChecked());
+        ((searchView) getContext()).addFilter(currentFilter);
     }
 }

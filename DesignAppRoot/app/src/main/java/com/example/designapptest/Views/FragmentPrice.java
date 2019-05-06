@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.designapptest.ClassOther.PriceFilter;
 import com.example.designapptest.R;
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
@@ -19,6 +20,8 @@ public class FragmentPrice extends Fragment {
     View view;
     float minPrice,maxPrice;
     TextView txtMinPrice,txtMaxPrice;
+
+    PriceFilter priceFilter = null;
 
     public FragmentPrice() {
         // Required empty public constructor
@@ -66,6 +69,9 @@ public class FragmentPrice extends Fragment {
                 txtMinPrice.setText(minPrice +" triệu");
                 txtMaxPrice.setText(maxPrice+" triệu");
                 //End hiển thị ra cho user
+
+                //Gửi dữ liệu qua searchview
+                sendData();
             }
         });
 
@@ -73,4 +79,11 @@ public class FragmentPrice extends Fragment {
         RangePrice.setSelectedMaxValue(1);
     }
 
+    private void sendData() {
+        if (priceFilter != null) {
+            ((searchView) getContext()).removeFilter(priceFilter);
+        }
+        priceFilter = new PriceFilter(minPrice, maxPrice);
+        ((searchView) getContext()).addFilter(priceFilter);
+    }
 }
