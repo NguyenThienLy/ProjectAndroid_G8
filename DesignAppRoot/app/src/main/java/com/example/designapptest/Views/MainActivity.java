@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -89,6 +90,7 @@ public class MainActivity extends Activity{
 
         clickShowFavoriteRooms();
         clickFindRoom();
+        clickSearchRoom();
     }
 
     private void initControl() {
@@ -108,6 +110,7 @@ public class MainActivity extends Activity{
        // lstVSuggest = (ListView) findViewById(R.id.lstV_suggest);
 
         edTSearch = (EditText) findViewById(R.id.edT_search);
+
 
         //Qui them vào
         recyclerMainRoom = (RecyclerView)findViewById(R.id.recycler_Main_Room);
@@ -253,6 +256,17 @@ public class MainActivity extends Activity{
             public void onClick(View v) {
                 Intent intentFindRooms = new Intent(MainActivity.this, FindRoom.class);
                 startActivity(intentFindRooms);
+            }
+        });
+    }
+
+    private void clickSearchRoom(){
+        edTSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("checkclick", "onClick: ");
+                Intent intentSearchLocation = new Intent(MainActivity.this,location_search.class);
+                startActivity(intentSearchLocation);
             }
         });
     }
