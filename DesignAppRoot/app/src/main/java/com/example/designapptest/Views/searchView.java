@@ -1,5 +1,6 @@
 package com.example.designapptest.Views;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerFilter;
@@ -37,6 +40,9 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
     TextView txtNumberRoom;
     Button btnsSubmit;
     EditText edTSearch;
+    ImageButton btnDeleteAllFilter ;
+
+    ProgressBar progessBarLoad;
 
     FrameLayout fragmentContainer;
 
@@ -51,12 +57,15 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
 
     String district;
 
+    SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_view);
 
+        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
         initData();
         initControl();
         getColor();
@@ -78,7 +87,13 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
     private void initControl(){
         edTSearch = findViewById(R.id.edT_search);
 
-        txtNumberRoom =findViewById(R.id.txt_number);
+        txtNumberRoom =findViewById(R.id.txt_number_room);
+        //Ẩn text
+
+        progessBarLoad = findViewById(R.id.progess_bar_load);
+
+        //Ẩn lần đầu
+        progessBarLoad.setVisibility(View.GONE);
 
         chBoxPrice=findViewById(R.id.chBox_price);
         chBoxConvenient=findViewById(R.id.chBox_convenient);
@@ -108,6 +123,11 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
 
         btnsSubmit = findViewById(R.id.btn_submit);
         btnsSubmit.setOnClickListener(this);
+        //Ẩn nút bấm lần đầu khởi tạo
+        btnsSubmit.setVisibility(View.GONE);
+
+        btnDeleteAllFilter = findViewById(R.id.btn_delete_all_filter);
+        btnDeleteAllFilter.setOnClickListener(this);
 
     }
 
@@ -122,11 +142,17 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
             getDataFromControl();
             callSearchRoomController();
         }
+        else if(id == R.id.btn_delete_all_filter){
+            removeAllFilter();
+        }
         else{
             boolean isChecked = ((CheckBox)v).isChecked();
             if(isChecked){
                 //Hiện fragment
                 fragmentContainer.setVisibility(View.VISIBLE);
+
+                //Hiện nút bấm
+                btnsSubmit.setVisibility(View.VISIBLE);
 
                 //Replace fragment
                 switch (id){
@@ -150,6 +176,8 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
             }else {
                 //Ẩn fragment
                 fragmentContainer.setVisibility(View.GONE);
+                //Ẩn nút bấm
+                btnsSubmit.setVisibility(View.GONE);
             }
         }
     }
@@ -271,7 +299,17 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
 
     //Hàm gọi hàm tìm kiếm trong controller
     private void callSearchRoomController(){
-        searchViewController controller = new searchViewController(this,district,filterList);
-        controller.loadSearchRoom();
+        //Hiện progess bar
+        progessBarLoad.setVisibility(View.VISIBLE);
+        //Ẩn text
+        txtNumberRoom.setVisibility(View.GONE);
+
+        searchViewController controller = new searchViewController(this,district,filterList,sharedPreferences);
+        controller.loadSearchRoom(recyclerSearchRoom,txtNumberRoom,progessBarLoad);
+    }
+
+    private void removeAllFilter(){
+        filterList.removeAll(filterList);
+        adapterRecyclerFilter.notifyDataSetChanged();
     }
 }
