@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -745,7 +747,7 @@ public class RoomModel implements Parcelable { // Linh thêm
         nodeRoot.addValueEventListener(valueEventListener);
     }
 
-    public void addToFavoriteRooms(String roomId, final Context context, SharedPreferences sharedPreferences, final ImageView imageView) {
+    public void addToFavoriteRooms(String roomId, final Context context, SharedPreferences sharedPreferences, final MenuItem item) {
         String currentUserId = sharedPreferences.getString("currentUserId", "");
         DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference().child("FavoriteRooms");
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -756,14 +758,15 @@ public class RoomModel implements Parcelable { // Linh thêm
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Add to favorite rooms successfully", Toast.LENGTH_SHORT).show();
-                    imageView.setImageResource(R.drawable.ic_favorite_red);
-                    imageView.setTag(R.drawable.ic_favorite_red);
+//                    imageView.setImageResource(R.drawable.ic_favorite_red);
+//                    imageView.setTag(R.drawable.ic_favorite_red);
+                    item.setIcon(R.drawable.ic_favorite_full_white);
                 }
             }
         });
     }
 
-    public void removeFromFavoriteRooms(String roomId, final Context context, SharedPreferences sharedPreferences, final ImageView imageView) {
+    public void removeFromFavoriteRooms(String roomId, final Context context, SharedPreferences sharedPreferences, final MenuItem item) {
         String currentUserId = sharedPreferences.getString("currentUserId", "");
         DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference().child("FavoriteRooms");
 
@@ -772,8 +775,9 @@ public class RoomModel implements Parcelable { // Linh thêm
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Remove from favorite rooms successfully", Toast.LENGTH_SHORT).show();
-                    imageView.setImageResource(R.drawable.ic_favorite);
-                    imageView.setTag(R.drawable.ic_favorite);
+//                    imageView.setImageResource(R.drawable.ic_favorite);
+//                    imageView.setTag(R.drawable.ic_favorite);
+                    item.setIcon(R.drawable.ic_favorite_border_white);
                 }
             }
         });
