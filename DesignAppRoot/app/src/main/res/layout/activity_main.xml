@@ -67,15 +67,15 @@
                         android:layout_marginTop="5dp"
                         android:visibility="invisible"></ListView>
 
-                    <ListView
-                        android:id="@+id/lstV_suggest"
-                        android:layout_width="220dp"
-                        android:layout_height="175dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_below="@id/box_search"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/frame"
-                        android:visibility="invisible"></ListView>
+                    <!--<ListView-->
+                        <!--android:id="@+id/lstV_suggest"-->
+                        <!--android:layout_width="220dp"-->
+                        <!--android:layout_height="175dp"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_below="@id/box_search"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:background="@drawable/frame"-->
+                        <!--android:visibility="invisible"></ListView>-->
                 </RelativeLayout>
                 <Button
                     android:layout_width="100dp"
