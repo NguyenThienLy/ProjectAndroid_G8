@@ -113,6 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageButton
+                    android:id="@+id/btn_delete_all_filter"
                     android:padding="5dp"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/custom_button_delete"
@@ -154,12 +155,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <ProgressBar
+                android:indeterminateDrawable="@drawable/progress"
+                android:id="@+id/progess_bar_load"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <TextView
+                android:textSize="18dp"
                 android:id="@+id/txt_number_room"
-                android:text="235 Kết quả"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"/>
