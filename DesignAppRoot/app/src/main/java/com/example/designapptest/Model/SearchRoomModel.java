@@ -60,7 +60,7 @@ public class SearchRoomModel {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DataSnapshot snapShotLocationRoom = dataSnapshot.child("LocationRoom").child("Quận Gò Vấp");
+                DataSnapshot snapShotLocationRoom = dataSnapshot.child("LocationRoom").child(district);
 
                 for(DataSnapshot snapshotward:snapShotLocationRoom.getChildren()){
                     for (DataSnapshot snapShotStreet:snapshotward.getChildren()){
@@ -133,7 +133,11 @@ public class SearchRoomModel {
             //Lọc dữ liệu theo tiện ích
 
             //Lấy ra danh sách tiện ích của room
-            List<String> lisConvenientID = (List<String>) snapShotRoot.child("RoomConvenients").child(RoomID).getValue();
+            List<String> lisConvenientID = new ArrayList<String>();
+            DataSnapshot NodeRoomConvenient =  snapShotRoot.child("RoomConvenients").child(RoomID);
+            for (DataSnapshot convenientID:NodeRoomConvenient.getChildren()){
+                lisConvenientID.add(convenientID.getValue(String.class));
+            }
 
             //Kiểm tra có chứa đầy đủ điều kiện không
             //Lấy ra danh sách ID tương ứng
@@ -157,7 +161,11 @@ public class SearchRoomModel {
                 //End set loại phòng trọ
 
                 //Lấy ra danh sách link hình của phòng trọ
-                List<String> tempImageList = (List<String>) snapShotRoot.child("RoomImages").child(RoomID).getValue();
+                List<String> tempImageList = new ArrayList<String>();
+                DataSnapshot nodeRoomImage =  snapShotRoot.child("RoomImages").child(RoomID);
+                for (DataSnapshot ImageLink:nodeRoomImage.getChildren()){
+                    tempImageList.add(ImageLink.getValue(String.class));
+                }
                 roomModel.setListImageRoom(tempImageList);
                 //End lấy ra danh sách link hình phòng trọ
 
