@@ -57,6 +57,8 @@ public class MainActivity extends Activity{
     Button btnPostRoom;
     //Qui them vao
     Button btnMapView;
+    //Quang them vao
+    Button btnAccountView;
 
     String[] dataSearch = {"Vị trí", "Giá cả", "Số người", "Tiện nghi", "Map"};
     EditText edTSearch;
@@ -81,6 +83,8 @@ public class MainActivity extends Activity{
 
         elementRoom();
 
+        accountView();
+
         postRoom();
 
         //Them vao de test
@@ -97,6 +101,9 @@ public class MainActivity extends Activity{
 
         //qui them vao
         btnMapView =(Button)findViewById(R.id.btn_Map_View);
+
+        //quang them vao
+        btnAccountView=(Button)findViewById(R.id.btn_Account_View);
 
         //lstVRoom = (ListView) findViewById(R.id.lstV_room);
         lstVSearch = (ListView) findViewById(R.id.lstV_search);
@@ -203,6 +210,17 @@ public class MainActivity extends Activity{
 
     }
 
+    //quang them vao
+    private void accountView(){
+       btnAccountView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Intent intent = new Intent(getApplicationContext(),accountView.class);
+               startActivity(intent);
+           }
+       });
+    }
+    //end quang them vao
     private void postRoom() {
         btnPostRoom.setOnClickListener(new View.OnClickListener() {
             @Override
