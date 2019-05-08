@@ -12,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -217,11 +218,19 @@ public class MainActivityController {
 //        roomModel.getListFavoriteRooms(iMainRoomModel, sharedPreferences);
     }
 
-    public void addToFavoriteRooms(String roomId, Context context, SharedPreferences sharedPreferences, ImageView imageView) {
-        roomModel.addToFavoriteRooms(roomId, context, sharedPreferences, imageView);
+//    public void addToFavoriteRooms(String roomId, Context context, SharedPreferences sharedPreferences, ImageView imageView) {
+//        roomModel.addToFavoriteRooms(roomId, context, sharedPreferences, imageView);
+//    }
+
+    public void addToFavoriteRooms(String roomId, Context context, SharedPreferences sharedPreferences, MenuItem item) {
+        roomModel.addToFavoriteRooms(roomId, context, sharedPreferences, item);
     }
 
-    public void removeFromFavoriteRooms(String roomId, Context context, SharedPreferences sharedPreferences, ImageView imageView) {
-        roomModel.removeFromFavoriteRooms(roomId, context, sharedPreferences, imageView);
+//    public void removeFromFavoriteRooms(String roomId, Context context, SharedPreferences sharedPreferences, ImageView imageView) {
+//        roomModel.removeFromFavoriteRooms(roomId, context, sharedPreferences, imageView);
+//    }
+
+    public void removeFromFavoriteRooms(String roomId, Context context, SharedPreferences sharedPreferences, MenuItem item) {
+        roomModel.removeFromFavoriteRooms(roomId, context, sharedPreferences, item);
     }
 }
