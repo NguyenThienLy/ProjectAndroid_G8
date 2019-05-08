@@ -95,43 +95,40 @@
         </activity>
         <activity android:name=".Views.LoginView">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".Views.SignUpView">
 
-          <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
+          <!--<intent-filter>-->
+             <!--<action android:name="android.intent.action.MAIN" />-->
 
 
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+             <!--<category android:name="android.intent.category.LAUNCHER" />-->
+             <!--</intent-filter>-->
             
         </activity>
         <activity android:name=".Views.FindRoom">
              <intent-filter>
              <action android:name="android.intent.action.MAIN" />
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
 
              <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
         </activity>
 
-        <activity android:name=".Views.DetailFindRoom">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".Views.FindRoomAdd">
 
+        </activity>
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+        <activity android:name=".Views.FindRoomDetail">
+
+        </activity>
+
+        <activity android:name=".Views.FindRoomFilter">
+
         </activity>
     </application>
 

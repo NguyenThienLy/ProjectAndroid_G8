@@ -14,9 +14,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
@@ -33,16 +36,19 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailFindRoom extends AppCompatActivity {
-    TextView txtNameUser, txtAboutPrice, txtLocationSearch, txtWantGender;
+public class FindRoomDetail extends AppCompatActivity {
+    TextView txtNameUser, txtAboutPrice, txtWantGender;
 
     Button btnCallPhone;
 
     ImageView imgGenderUser, imgAvatarUser;
+    GridView grVLocationSearch;
 
     // Các recycler.
     RecyclerView recycler_convenients_room_detail;
     AdapterRecyclerConvenient adapterRecyclerConvenient;
+
+    ProgressBar progressBarFindRoomDetail;
 
     FindRoomModel findRoomModel;
 
@@ -52,8 +58,7 @@ public class DetailFindRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_room_detail_view);
 
-        findRoomModel = new FindRoomModel();
-        findRoomModel = getIntent().getParcelableExtra(AdapterRecyclerFindRoom.SHARE_FINDROOM);
+        getShareInfo();
 
         initControl();
 
@@ -73,41 +78,44 @@ public class DetailFindRoom extends AppCompatActivity {
         classFunctionStatic.showProgress(this, imgAvatarUser);
     }
 
+    private void getShareInfo() {
+        findRoomModel = getIntent().getParcelableExtra(AdapterRecyclerFindRoom.SHARE_FINDROOM);
+    }
+
     // Khởi tạo các control trong room detail.
     private void initControl() {
-        txtNameUser = (TextView) findViewById(R.id.txt_name_user);
-        txtAboutPrice = (TextView) findViewById(R.id.txt_abouPrice);
-        txtLocationSearch = (TextView) findViewById(R.id.txt_locationSearch);
-        txtWantGender = (TextView) findViewById(R.id.txt_wantGender);
+        txtNameUser = (TextView) findViewById(R.id.txt_name_user_find_room_detail);
+        txtAboutPrice = (TextView) findViewById(R.id.txt_abouPrice_find_room_detail);
+        grVLocationSearch = (GridView) findViewById(R.id.grV_locationSearch_find_room_detail);
+        txtWantGender = (TextView) findViewById(R.id.txt_wantGender_find_room_detail);
 
-        btnCallPhone = (Button) findViewById(R.id.btn_callPhone);
+        btnCallPhone = (Button) findViewById(R.id.btn_callPhone_find_room_detail);
 
-        imgGenderUser = (ImageView) findViewById(R.id.img_gender_user);
-        imgAvatarUser = (ImageView) findViewById(R.id.img_avatar_user);
+        imgGenderUser = (ImageView) findViewById(R.id.img_gender_user_find_room_detail);
+        imgAvatarUser = (ImageView) findViewById(R.id.img_avatar_user_find_room_detail);
 
-        recycler_convenients_room_detail = (RecyclerView) findViewById(R.id.recycler_convenients);
+        //progressBarFindRoomDetail = (ProgressBar) findViewById(R.id.progress_find_room_detail);
+
+        recycler_convenients_room_detail = (RecyclerView) findViewById(R.id.recycler_convenients_find_room_detail);
     }
 
     // Khởi tạo các giá trị cho các control.
     private void initData() {
         //Gán các giá trị vào giao diện
- txtNameUser.setText(findRoomModel.getFindRoomOwner().getName());
+        // Gán tên cho người dùng
+        txtNameUser.setText(findRoomModel.getFindRoomOwner().getName());
 
         // Gán giá trị cho khoảng giá cần tìm kiếm.
-        txtAboutPrice.setText(String.valueOf((int) findRoomModel.getMinPrice())
-                + " - " + String.valueOf((int) findRoomModel.getMaxPrice()));
+        txtAboutPrice.setText(String.valueOf( findRoomModel.getMinPrice())
+                + " - " + String.valueOf( findRoomModel.getMaxPrice()));
 
-        // gán giá trị cho vị trí tìm kiếm.
-        int index;
-        String strLocationSearch = "";
-        for (index = 0; index < findRoomModel.getLocation().size(); index++) {
-            if (index != findRoomModel.getLocation().size() - 1)
-                strLocationSearch += findRoomModel.getLocation().get(index) + ", ";
-            else
-                strLocationSearch += findRoomModel.getLocation().get(index);
+        // Chỉ xử lý khi khác null
+        if (findRoomModel.getLocation() != null) {
+            // gán giá trị cho vị trí tìm kiếm.
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.grid_element_find_room_detail, findRoomModel.getLocation());
+            grVLocationSearch.setAdapter(adapter);
+            // End gán giá trị cho vị trí tìm kiếm
         }
-        txtLocationSearch.setText(strLocationSearch);
-        // End gán giá trị cho vị trí tìm kiếm
 
         //Gán hình cho giới tính cần tìm
         if (findRoomModel.isGender()) {
@@ -126,14 +134,21 @@ public class DetailFindRoom extends AppCompatActivity {
         //End Gán hình cho giới tính cuả người tìm ở ghép
 
 
-        // Load danh sách tiện nghi của phòng trọ
-        RecyclerView.LayoutManager layoutManagerConvenient = new GridLayoutManager(this, 3);
-        recycler_convenients_room_detail.setLayoutManager(layoutManagerConvenient);
-        adapterRecyclerConvenient = new AdapterRecyclerConvenient(this, getApplicationContext(),
-                R.layout.utility_element_grid_rom_detail_view, findRoomModel.getListConvenientRoom());
-        recycler_convenients_room_detail.setAdapter(adapterRecyclerConvenient);
-        adapterRecyclerConvenient.notifyDataSetChanged();
+        if (findRoomModel.getListConvenientRoom() != null) {
+            // Load danh sách tiện nghi của phòng trọ
+            RecyclerView.LayoutManager layoutManagerConvenient = new GridLayoutManager(this, 3);
+            recycler_convenients_room_detail.setLayoutManager(layoutManagerConvenient);
+            adapterRecyclerConvenient = new AdapterRecyclerConvenient(this, getApplicationContext(),
+                    R.layout.utility_element_grid_rom_detail_view, findRoomModel.getListConvenientRoom());
+            recycler_convenients_room_detail.setAdapter(adapterRecyclerConvenient);
+            adapterRecyclerConvenient.notifyDataSetChanged();
+        }
+
+        // Hiển thị hình ảnh người dùng.
         Picasso.get().load(findRoomModel.getFindRoomOwner().getAvatar()).into(imgAvatarUser);
+
+        //progressBarFindRoomDetail.setVisibility(View.GONE);
+
     }
 
     // Hàm gọi điện thoại cho chủ phòng trọ.
