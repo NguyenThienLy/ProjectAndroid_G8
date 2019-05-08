@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.designapptest.Controller.Interfaces.IRoomCommentModel;
@@ -126,11 +127,11 @@ public class CommentModel implements Parcelable { // Linh thêm
     }
 
     //Biến lưu root của firebase, lưu ý để biến là private
-    private DatabaseReference nodeRoom;
+    private DatabaseReference nodeRoot;
 
     public CommentModel() {
-        //Trả về node comment của database
-        nodeRoom = FirebaseDatabase.getInstance().getReference();
+        //Trả về node gốc của database
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -198,7 +199,7 @@ public class CommentModel implements Parcelable { // Linh thêm
         };
 
         //Gán sự kiện listen cho nodeRoot
-        nodeRoom.addValueEventListener(valueEventListener);
+        nodeRoot.addValueEventListener(valueEventListener);
     }
 
     public void ListMyRoomComments(final IRoomCommentModel roomCommentModelInterface, final RoomModel roomModel, final SharedPreferences sharedPreferences) {
@@ -247,10 +248,11 @@ public class CommentModel implements Parcelable { // Linh thêm
         };
 
         //Gán sự kiện listen cho nodeRoot
-        nodeRoom.addValueEventListener(valueEventListener);
+        nodeRoot.addValueEventListener(valueEventListener);
     }
 
-    public void addComment(CommentModel newCommentModel, String roomId, final Context context) {
+    public void addComment(CommentModel newCommentModel, String roomId, final Context context,
+                           TextView txtTitle, TextView txtContent) {
         DatabaseReference nodeComment = FirebaseDatabase.getInstance().getReference().child("RoomComments");
         String commentId = nodeComment.child(roomId).push().getKey();
 
@@ -259,10 +261,12 @@ public class CommentModel implements Parcelable { // Linh thêm
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Post comment successfully", Toast.LENGTH_SHORT).show();
+
+                    //
+                    txtTitle.setText("");
+                    txtContent.setText("");
                 }
             }
         });
     }
-
-
 }

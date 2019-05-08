@@ -8,37 +8,57 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:background="@color/colorSpaceVer">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            />
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:orientation="horizontal">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@android:color/white"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:paddingTop="5dp">-->
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@+id/txt_quantityMember"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_svg_back_100" />
+                    <!--<ImageView-->
+                        <!--android:layout_width="40dp"-->
+                        <!--android:layout_height="30dp"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_toRightOf="@+id/txt_quantityMember"-->
+                        <!--android:scaleType="fitXY"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:src="@drawable/ic_svg_back_100" />-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/stringHeader"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorGrayType1"
-                        android:textSize="20sp" />
-                </LinearLayout>
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:text="@string/stringHeader"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/colorGrayType1"-->
+                        <!--android:textSize="20sp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:gravity="center"/>-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/img_favorite"-->
+                        <!--android:layout_width="30dp"-->
+                        <!--android:layout_height="30dp"-->
+                        <!--android:layout_marginRight="20dp"-->
+                        <!--android:scaleType="fitXY"-->
+                        <!--android:src="@drawable/ic_favorite" />-->
+
+                <!--</LinearLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -644,6 +664,7 @@
                             android:textSize="15sp" />
 
                         <Button
+                            android:id="@+id/btn_directMap"
                             android:layout_width="120dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="20dp"
@@ -1076,6 +1097,18 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:drawableTop="@drawable/ic_price_tag"
                 android:text="Price"
+                android:textAllCaps="false"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14px" />
+
+            <Button
+                android:id="@+id/btn_favorite_rooms"
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="7dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableTop="@drawable/ic_favorite"
+                android:text="Favorites"
                 android:textAllCaps="false"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14px" />

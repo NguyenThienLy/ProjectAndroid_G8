@@ -2,9 +2,9 @@ package com.example.designapptest.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,15 +13,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 import com.example.designapptest.Views.detailRoom;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecyclerMainRoom.ViewHolder> {
@@ -31,11 +34,13 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
     int resource;
     // Linh thêm
     Context context;
+    SharedPreferences sharedPreferences;
 
-    public AdapterRecyclerMainRoom(Context context, List<RoomModel> RoomModelList, int resource) {
+    public AdapterRecyclerMainRoom(Context context, List<RoomModel> RoomModelList, int resource, SharedPreferences sharedPreferences) {
         this.context = context;
         this.RoomModelList = RoomModelList;
         this.resource = resource;
+        this.sharedPreferences = sharedPreferences;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -76,7 +81,8 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         final RoomModel roomModel = RoomModelList.get(i);
 
         //Gán các giá trị vào giao diện
-        classFunctionStatic.showProgress(context, viewHolder.imgRoom);
+        //classFunctionStatic.showProgress(context, viewHolder.imgRoom);
+
         viewHolder.txtName.setText(roomModel.getName());
         viewHolder.txtMaxNumber.setText(String.valueOf((int) roomModel.getMaxNumber()));
         viewHolder.txtPrice.setText(String.valueOf(roomModel.getRentalCosts()) + "đ/Phòng");
@@ -105,30 +111,38 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
         //End gán giá trị cho số lượng bình luận
 
+
+            //Download ảnh dùng picaso cho đỡ lag
+        Picasso.get().load(roomModel.getListImageRoom().get(0)).into(viewHolder.imgRoom);
+        //Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/findroomforrent-5bea0.appspot.com/o/Images%2Freceived-405711336891277_1555296117.jpg?alt=media&token=c27bd472-7a97-47dc-9f48-706b202929ce").into(viewHolder.imgRoom);
+
+
         //Dowload hình ảnh cho room
-        if (roomModel.getListImageRoom().size() > 0) {
-
-            StorageReference storageReference = FirebaseStorage
-                    .getInstance().getReference()
-                    .child("Images")
-                    .child(roomModel.getListImageRoom().get(0));
-
-            final long ONE_MEGABYTE = 1024 * 1024;
-            storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    //Tạo ảnh bitmap từ byte
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    viewHolder.imgRoom.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-                }
-            });
-
-        }
+//        if (roomModel.getListImageRoom().size() > 0) {
+//
+//            StorageReference storageReference = FirebaseStorage
+//                    .getInstance().getReference()
+//                    .child("Images")
+//                    .child(roomModel.getListImageRoom().get(0));
+//
+//            final long ONE_MEGABYTE = 1024 * 1024;
+//            storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+//                @Override
+//                public void onSuccess(byte[] bytes) {
+//                    //Tạo ảnh bitmap từ byte
+//                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                    viewHolder.imgRoom.setImageBitmap(bitmap);
+//                    Log.d("check 9", "onSuccess: ");
+//
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//
+//                }
+//            });
+//
+//        }
         //End Dowload hình ảnh cho room
 
         // Đăng kí sự kiện click cho cardView // Linh thêm
@@ -145,5 +159,43 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
     @Override
     public int getItemCount() {
         return RoomModelList.size();
+    }
+
+    public void removeItem(RecyclerView.ViewHolder viewHolder, RecyclerView recyclerView, AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom) {
+        int removedPosition = viewHolder.getAdapterPosition();
+        String roomIdToRemove = RoomModelList.get(removedPosition).getRoomID();
+        removeFavoriteRoom(roomIdToRemove, removedPosition, recyclerView, adapterRecyclerFavoriteRoom);
+    }
+
+    private void removeFavoriteRoom(String roomId, int removedPosition, RecyclerView recyclerView, AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom) {
+        DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference()
+                .child("FavoriteRooms");
+        String userId = sharedPreferences.getString("currentUserId", "");
+
+        nodeFavoriteRooms.child(userId).child(roomId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (RoomModelList.size() == 0) {
+                    adapterRecyclerFavoriteRoom.notifyItemRemoved(removedPosition);
+                }
+
+                Snackbar.make(recyclerView, roomId + " deleted", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        String date = df.format(Calendar.getInstance().getTime());
+
+                        nodeFavoriteRooms.child(userId).child(roomId).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+//                                    recyclerView.scrollToPosition(removedPosition);
+                                }
+                            }
+                        });
+                    }
+                }).show();
+            }
+        });
     }
 }

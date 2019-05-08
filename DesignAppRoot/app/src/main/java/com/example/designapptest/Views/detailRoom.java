@@ -3,17 +3,18 @@ package com.example.designapptest.Views;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,25 +28,28 @@ import com.example.designapptest.Adapters.AdapterRecyclerConvenient;
 import com.example.designapptest.Adapters.AdapterViewPagerImageShow;
 import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Controller.CommentController;
+import com.example.designapptest.Controller.MainActivityController;
+import com.example.designapptest.Controller.ReportedRoomController;
+import com.example.designapptest.Model.ReportedRoomModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class detailRoom extends AppCompatActivity {
+public class detailRoom extends AppCompatActivity implements ReportRoomDialog.ReportRoomDialogListener {
     TextView txtRoomType, txtRoomMaxNumber, txtQuantityComment, txtRoomName,
             txtRoomPrice, txtRoomStatus, txtRoomArea, txtRoomAddress, txtRoomDescription,
             txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview,
-            txtQuantityComment_2,txtRoomPhoneNumber;
+            txtQuantityComment_2, txtRoomPhoneNumber;
 
-    Button btnCallPhone, btnPostComment, btnViewAll;
+    Button btnCallPhone, btnDirectMap, btnPostComment, btnViewAll, btnFavoriteRooms;
 
-    ImageView imgRoomGender, imgRoom1, imgRoom2, imgRoom3, imgRoom4;
+    ImageView imgRoomGender, imgRoom1, imgRoom2, imgRoom3, imgRoom4, imgFavorite;
 
     List<ImageView> listImageRoom;
 
@@ -62,15 +66,21 @@ public class detailRoom extends AppCompatActivity {
     Dialog dialogShowImage;
     Button btnCloseShowImage;
     ViewPager viewPagerShowImage;
-    TextView txtPositionImage,txtMoreImg;
+    TextView txtPositionImage, txtMoreImg;
 
     int maxImageInRoom;
     int indexImage;
 
     SharedPreferences sharedPreferences;
     CommentController commentController;
+    MainActivityController mainActivityController;
+    ReportedRoomController reportedRoomController;
 
     FrameLayout frLoutContain;
+
+    Toolbar toolbar;
+    MenuItem menuItemFavorite;
+    MenuItem menuItemReport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +90,8 @@ public class detailRoom extends AppCompatActivity {
         roomModel = getIntent().getParcelableExtra("phongtro");
         sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
         commentController = new CommentController(this, sharedPreferences);
+        mainActivityController = new MainActivityController(this, sharedPreferences);
+        reportedRoomController = new ReportedRoomController(this, sharedPreferences);
 
         initControl();
 
@@ -96,19 +108,95 @@ public class detailRoom extends AppCompatActivity {
 
         clickCallPhone();
 
+        clickDirectMap();
+
         clickPostComment();
 
         clickShowImage();
 
+//        clickAddToFavorite();
+
+        clickShowFavoriteRooms();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.room_detail_menu, menu);
+
+        menuItemFavorite = menu.findItem(R.id.menu_item_favorite);
+        menuItemReport = menu.findItem(R.id.menu_item_report);
+
+        // Set trọ yêu thích ?
+        menuItemFavorite.setIcon(R.drawable.ic_favorite_border_white);
+        for (String roomId : RoomModel.myFavoriteRooms) {
+            if (roomId.equals(roomModel.getRoomID())) {
+                menuItemFavorite.setIcon(R.drawable.ic_favorite_full_white);
+                break;
+            }
+        }
+
+        menuItemReport.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                openReportDialog();
+
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menu_item_report:
+                return true;
+            case R.id.menu_item_favorite:
+                clickAddToFavorite();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openReportDialog() {
+        ReportRoomDialog reportRoomDialog = new ReportRoomDialog();
+        reportRoomDialog.show(getSupportFragmentManager(), "report room dialog");
+    }
+
+    @Override
+    public void applyText(String reasonReportRoom, String detailedReasonReportRoom) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String date = df.format(Calendar.getInstance().getTime());
+        String userId = sharedPreferences.getString("currentUserId", "");
+
+        ReportedRoomModel reportedRoomModel = new ReportedRoomModel();
+        reportedRoomModel.setReason(reasonReportRoom);
+        reportedRoomModel.setDetail(detailedReasonReportRoom);
+        reportedRoomModel.setTime(date);
+        reportedRoomModel.setUserID(userId);
+
+        reportedRoomController.addReport(reportedRoomModel, roomModel.getRoomID());
     }
 
     private void loadProgress() {
         for (ImageView imageView : listImageRoom)
-         classFunctionStatic.showProgress(this, imageView);
+            classFunctionStatic.showProgress(this, imageView);
     }
 
     // Khởi tạo các control trong room detail.
     private void initControl() {
+        toolbar = findViewById(R.id.toolbar);
+
         txtRoomType = (TextView) findViewById(R.id.txt_roomType);
         txtRoomMaxNumber = (TextView) findViewById(R.id.txt_roomMaxNumber);
         txtQuantityComment = (TextView) findViewById(R.id.txt_quantityComment);
@@ -123,17 +211,21 @@ public class detailRoom extends AppCompatActivity {
         txtRoomMediumReview = (TextView) findViewById(R.id.txt_roomMediumReview);
         txtRoomBadReview = (TextView) findViewById(R.id.txt_roomBadReview);
         txtQuantityComment_2 = (TextView) findViewById(R.id.txt_quantityComment_2);
-        txtRoomPhoneNumber = (TextView)findViewById(R.id.txt_room_phonenumber);
+        txtRoomPhoneNumber = (TextView) findViewById(R.id.txt_room_phonenumber);
 
-        btnCallPhone = (Button) findViewById(R.id.btn_callPhone) ;
-        btnPostComment = (Button) findViewById(R.id.btn_postComment) ;
-        btnViewAll = (Button) findViewById(R.id.btn_viewAll) ;
+        btnCallPhone = (Button) findViewById(R.id.btn_callPhone);
+        btnDirectMap = (Button) findViewById(R.id.btn_directMap);
+        btnPostComment = (Button) findViewById(R.id.btn_postComment);
+        btnViewAll = (Button) findViewById(R.id.btn_viewAll);
+        btnFavoriteRooms = (Button) findViewById(R.id.btn_favorite_rooms);
 
         imgRoomGender = (ImageView) findViewById(R.id.img_roomGender);
         imgRoom1 = (ImageView) findViewById(R.id.img_room1);
         imgRoom2 = (ImageView) findViewById(R.id.img_room2);
         imgRoom3 = (ImageView) findViewById(R.id.img_room3);
         imgRoom4 = (ImageView) findViewById(R.id.img_room4);
+
+        //imgFavorite = (ImageView) findViewById(R.id.img_favorite);
 
         txtMoreImg = findViewById(R.id.txt_more_img);
         frLoutContain = findViewById(R.id.fr_lout_contain);
@@ -151,6 +243,14 @@ public class detailRoom extends AppCompatActivity {
 
     // Khởi tạo các giá trị cho các control.
     private void initData() {
+        // Thiết lập toolbar
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle("Chi tiết phòng");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         //Gán các giá trị vào giao diện
         txtRoomType.setText(roomModel.getRoomType());
         txtRoomMaxNumber.setText(String.valueOf((int) roomModel.getMaxNumber()));
@@ -174,8 +274,8 @@ public class detailRoom extends AppCompatActivity {
         txtRoomBadReview.setText(roomModel.getBad() + "");
 
         //Set address for room
-        String longAddress = roomModel.getApartmentNumber() +" "+roomModel.getStreet()+", "
-                +roomModel.getWard()+", "+roomModel.getCounty()+", "+roomModel.getCity();
+        String longAddress = roomModel.getApartmentNumber() + " " + roomModel.getStreet() + ", "
+                + roomModel.getWard() + ", " + roomModel.getCounty() + ", " + roomModel.getCity();
         txtRoomAddress.setText(longAddress);
         //End set address for room
 
@@ -216,31 +316,22 @@ public class detailRoom extends AppCompatActivity {
                 R.layout.utility_element_grid_rom_detail_view, roomModel.getListConvenientRoom());
         recycler_convenients_room_detail.setAdapter(adapterRecyclerConvenient);
         adapterRecyclerConvenient.notifyDataSetChanged();
+
+        // Set trọ yêu thích ?
+//        imgFavorite.setImageResource(R.drawable.ic_favorite);
+//        imgFavorite.setTag(R.drawable.ic_favorite);
+//        for(String roomId : RoomModel.myFavoriteRooms) {
+//            if(roomId.equals(roomModel.getRoomID())) {
+//                imgFavorite.setImageResource(R.drawable.ic_favorite_red);
+//                imgFavorite.setTag(R.drawable.ic_favorite_red);
+//                break;
+//            }
+//        }
     }
 
     // Hàm tải ảnh từ firebase về theo image control và vị trí ảnh cần lấy trên firebase.
     private void downloadImageForImageControl(final ImageView imageDownload, final int positionDownload) {
-        StorageReference storageReference = FirebaseStorage
-                .getInstance().getReference()
-                .child("Images")
-                .child(roomModel.getListImageRoom().get(positionDownload));
-
-        final long ONE_MEGABYTE = 1024 * 1024;
-
-        storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                //Tạo ảnh bitmap từ byte
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                imageDownload.setImageBitmap(bitmap);
-                imageDownload.setVisibility(View.VISIBLE);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
+        Picasso.get().load(roomModel.getListImageRoom().get(positionDownload)).into(imageDownload);
     }
 
     // Hàm gọi điện thoại cho chủ phòng trọ.
@@ -255,13 +346,28 @@ public class detailRoom extends AppCompatActivity {
         });
     }
 
+    // Hàm hiển thị bản đồ chỉ đường.
+    private void clickDirectMap() {
+        btnDirectMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String stringRoomName = roomModel.getName();
+
+                Intent intentDirectMap = new Intent(detailRoom.this, directMapRoomDetail.class);
+                intentDirectMap.putExtra("phongtro", roomModel);
+                startActivity(intentDirectMap);
+            }
+        });
+    }
+
     // Hàm viết hiển thị màn hình viết bình luận.
-    private  void clickPostComment() {
+    private void clickPostComment() {
         btnPostComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentCommentAndRate = new Intent(detailRoom.this, commentAndRateMain.class);
                 intentCommentAndRate.putExtra("phongtro", roomModel);
+                intentCommentAndRate.putExtra("currentPage", 0);
                 startActivity(intentCommentAndRate);
             }
         });
@@ -271,6 +377,7 @@ public class detailRoom extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intentCommentAndRate = new Intent(detailRoom.this, commentAndRateMain.class);
                 intentCommentAndRate.putExtra("phongtro", roomModel);
+                intentCommentAndRate.putExtra("currentPage", 1);
                 startActivity(intentCommentAndRate);
             }
         });
@@ -317,12 +424,12 @@ public class detailRoom extends AppCompatActivity {
     }
 
     //Hàm hiển thị cộng thêm hình ở thẻ cuối
-    private void setMoreImageForLastCard(){
+    private void setMoreImageForLastCard() {
         int size = roomModel.getListImageRoom().size();
-        if(size>4){
+        if (size > 4) {
             txtMoreImg.setText("+" + (size - 4));
             frLoutContain.setBackgroundResource(R.color.colorTransParrent);
-        }else {
+        } else {
             txtMoreImg.setText("");
             frLoutContain.setBackgroundResource(R.color.colorWhile100);
         }
@@ -388,5 +495,43 @@ public class detailRoom extends AppCompatActivity {
         window.setAttributes(lp);
 
         dialogShowImage.show();
+    }
+
+//    private void clickAddToFavorite() {
+//        imgFavorite.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String roomId = roomModel.getRoomID();
+//                Integer resource = (Integer) imgFavorite.getTag();
+//
+//                if(resource == R.drawable.ic_favorite) {
+//                    mainActivityController.addToFavoriteRooms(roomId, detailRoom.this, sharedPreferences, imgFavorite);
+//                } else if (resource == R.drawable.ic_favorite_red) {
+//                    mainActivityController.removeFromFavoriteRooms(roomId, detailRoom.this, sharedPreferences, imgFavorite);
+//                }
+//            }
+//        });
+//    }
+
+    private void clickAddToFavorite() {
+        String roomId = roomModel.getRoomID();
+
+        if (menuItemFavorite.getIcon().getConstantState().equals(
+                getResources().getDrawable(R.drawable.ic_favorite_border_white).getConstantState()
+        )) {
+            mainActivityController.addToFavoriteRooms(roomId, detailRoom.this, sharedPreferences, menuItemFavorite);
+        } else {
+            mainActivityController.removeFromFavoriteRooms(roomId, detailRoom.this, sharedPreferences, menuItemFavorite);
+        }
+    }
+
+    private void clickShowFavoriteRooms() {
+        btnFavoriteRooms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentFavoriteRooms = new Intent(detailRoom.this, favoriteRoomsView.class);
+                startActivity(intentFavoriteRooms);
+            }
+        });
     }
 }

@@ -67,15 +67,15 @@
                         android:layout_marginTop="5dp"
                         android:visibility="invisible"></ListView>
 
-                    <ListView
-                        android:id="@+id/lstV_suggest"
-                        android:layout_width="220dp"
-                        android:layout_height="175dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_below="@id/box_search"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/frame"
-                        android:visibility="invisible"></ListView>
+                    <!--<ListView-->
+                        <!--android:id="@+id/lstV_suggest"-->
+                        <!--android:layout_width="220dp"-->
+                        <!--android:layout_height="175dp"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_below="@id/box_search"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:background="@drawable/frame"-->
+                        <!--android:visibility="invisible"></ListView>-->
                 </RelativeLayout>
                 <Button
                     android:layout_width="100dp"
@@ -227,15 +227,29 @@
                     android:textAllCaps="false"
                     android:background="?android:attr/selectableItemBackground"/>
                 <Button
+                    android:id="@+id/btn_find_room"
                     android:layout_marginTop="7dp"
                     android:layout_width="70dp"
                     android:layout_height="35dp"
-                    android:drawableTop="@drawable/ic_svg_price_tag_24"
-                    android:text="Price"
+                    android:drawableTop="@drawable/ic_svg_group_user_24_2"
+                    android:text="Ở ghép"
                     android:textColor="@android:color/darker_gray"
                     android:textAllCaps="false"
                     android:textSize="14px"
                     android:background="?android:attr/selectableItemBackground"/>
+
+                <Button
+                    android:id="@+id/btn_favorite_rooms"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="7dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:drawableTop="@drawable/ic_favorite"
+                    android:text="Favorites"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14px" />
+
                 <Button
                     android:id="@+id/btn_Account_View"
                     android:layout_marginTop="7dp"
