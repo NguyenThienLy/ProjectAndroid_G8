@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:background="@drawable/custom_vertical_line"
+                    android:paddingBottom="10dp">
+                    <ImageButton
+                        android:id="@+id/btnImg_cancel_personal_page"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+
+                        android:background="@android:color/white"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="7dp"
+
+
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/stringTitlePersonal"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textSize="10pt"
+                        android:layout_marginTop="5dp"/>
+                  <!--  <CheckBox
+                        android:id="@+id/chBox_edit_personal_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:button="@android:color/transparent"
+                        android:layout_weight="7"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/ic_svg_edit_24"/>-->
+                    <CheckBox
+                        android:id="@+id/chBox_edit_personal_page"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/ic_svg_edit_24"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:button="@android:color/transparent" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/custom_circle_avatar_personal_page"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginTop="20dp">
+                    <com.example.designapptest.ClassOther.ImageConverter
+                        android:id="@+id/img_avt_personal_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+                </RelativeLayout>
+                <TextView
+                    android:id="@+id/txt_change_avt_personal_page"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/holo_blue_bright"
+                android:textSize="10pt"
+                android:layout_below="@+id/img_avt_personal_page" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stringNamePersonal"
+
+                        />
+                    <EditText
+                        android:id="@+id/edt_name_personal_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:enabled="false"
+                        android:background="@drawable/custom_spinner"
+                        />
+                    <TextView
+                        android:id="@+id/tv_gender_personal_page"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stringGenderPersonal"
+                        android:layout_below="@+id/edt_name_personal_page"
+                        android:layout_marginTop="20dp"
+                        />
+                    <Spinner
+                        android:id="@+id/spn_gender_personal_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/tv_gender_personal_page"
+                        android:enabled="false"
+                        android:background="@drawable/custom_spinner"
+                        />
+                    <TextView
+                        android:id="@+id/tv_phone_personal_page"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stringPhonePersonal"
+                        android:layout_below="@+id/spn_gender_personal_page"
+                        android:layout_marginTop="20dp"
+                        />
+                    <EditText
+                        android:id="@+id/edt_phone_personal_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_phone_personal_page"
+                        android:enabled="false"
+                        android:background="@drawable/custom_spinner"
+                        android:layout_marginTop="15dp"/>
+                </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
