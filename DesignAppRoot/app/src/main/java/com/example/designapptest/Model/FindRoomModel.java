@@ -1,14 +1,19 @@
 package com.example.designapptest.Model;
 
+import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.designapptest.Controller.Interfaces.IFindRoomModel;
 import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
+import com.example.designapptest.Views.FindRoom;
+import com.example.designapptest.Views.FindRoomAdd;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +26,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.net.ContentHandler;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +35,7 @@ import java.util.List;
 
 public class FindRoomModel implements Parcelable {
     String user;
-    long maxPrice, minPrice;
+    double maxPrice, minPrice;
     boolean gender;
 
     //Mã tìm ở ghép
@@ -47,17 +53,34 @@ public class FindRoomModel implements Parcelable {
     // Lưu danh sách các id của vị trí phòng trọ.
     private List<String> location;
 
-
     protected FindRoomModel(Parcel in) {
         user = in.readString();
-        maxPrice = in.readLong();
-        minPrice = in.readLong();
+        maxPrice = in.readDouble();
+        minPrice = in.readDouble();
         gender = in.readByte() != 0;
         findRoomID = in.readString();
         findRoomOwner = in.readParcelable(UserModel.class.getClassLoader());
         listConvenientRoom = in.createTypedArrayList(ConvenientModel.CREATOR);
         convenients = in.createStringArrayList();
         location = in.createStringArrayList();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(user);
+        dest.writeDouble(maxPrice);
+        dest.writeDouble(minPrice);
+        dest.writeByte((byte) (gender ? 1 : 0));
+        dest.writeString(findRoomID);
+        dest.writeParcelable(findRoomOwner, flags);
+        dest.writeTypedList(listConvenientRoom);
+        dest.writeStringList(convenients);
+        dest.writeStringList(location);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<FindRoomModel> CREATOR = new Creator<FindRoomModel>() {
@@ -128,21 +151,21 @@ public class FindRoomModel implements Parcelable {
         this.listConvenientRoom = listConvenientRoom;
     }
 
-    public long getMinPrice() {
+    public double getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(long minPrice) {
+    public void setMinPrice(double minPrice) {
 
         this.minPrice = minPrice;
     }
 
-    public long getMaxPrice() {
+    public double getMaxPrice() {
 
         return maxPrice;
     }
 
-    public void setMaxPrice(long maxPrice) {
+    public void setMaxPrice(double maxPrice) {
 
         this.maxPrice = maxPrice;
     }
@@ -154,6 +177,18 @@ public class FindRoomModel implements Parcelable {
     public FindRoomModel() {
         //Trả về node root của database
         nodeRoot = FirebaseDatabase.getInstance().getReference();
+    }
+
+    // Hàm khởi tạo có tham số đầy đủ
+    public FindRoomModel(String user, double minPrice, double maxPrice, boolean gender,
+                         String findRoomID, List<String> convenients, List<String> location) {
+        this.user = user;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
+        this.gender = gender;
+        this.findRoomID = findRoomID;
+        this.convenients = convenients;
+        this.location = location;
     }
 
     public void ListFindRoom(final IFindRoomModel findRoomModelInterface) {
@@ -172,21 +207,26 @@ public class FindRoomModel implements Parcelable {
                     //Set mã phòng trọ
                     findRoomModel.setFindRoomID(valueFindRoom.getKey());
 
-                    //Thêm danh sách tiện nghi của phòng trọ dựa vào danh sách id đã có ở findRoomModel
-                    List<ConvenientModel> tempConvenientList = new ArrayList<ConvenientModel>();
-                    //Duyệt tất cả các giá trị trong node tương ứng
-                    int index;
-                    for (index = 0; index < findRoomModel.getConvenients().size(); index++) {
-                        String convenientId = findRoomModel.getConvenients().get(index);
-                        if (convenientId != null) {
-                            ConvenientModel convenientModel = dataSnapshot.child("Convenients").child(convenientId).getValue(ConvenientModel.class);
-                            convenientModel.setConvenientID(convenientId);
+                    // Chỉ xử lí nếu khác null
+                    if (findRoomModel.getConvenients() != null) {
+                        //Thêm danh sách tiện nghi của phòng trọ dựa vào danh sách id đã có ở findRoomModel
+                        List<ConvenientModel> tempConvenientList = new ArrayList<ConvenientModel>();
+                        //Duyệt tất cả các giá trị trong node tương ứng
+                        int index;
+                        int size = findRoomModel.getConvenients().size();
 
-                            tempConvenientList.add(convenientModel);
+                        for (index = 0; index < size; index++) {
+                            String convenientId = findRoomModel.getConvenients().get(index);
+                            if (convenientId != null) {
+                                ConvenientModel convenientModel = dataSnapshot.child("Convenients").child(convenientId).getValue(ConvenientModel.class);
+                                convenientModel.setConvenientID(convenientId);
+
+                                tempConvenientList.add(convenientModel);
+                            }
                         }
-                    }
 
-                    findRoomModel.setListConvenientRoom(tempConvenientList);
+                        findRoomModel.setListConvenientRoom(tempConvenientList);
+                    }
                     //End Thêm danh sách tiện nghi của phòng trọ
 
                     //Thêm thông tin chủ sở hữu cho phòng trọ
@@ -211,21 +251,19 @@ public class FindRoomModel implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+    public void addFindRoom(final FindRoomModel findRoomModel, final IFindRoomModel findRoomModelInterface) {
+        // Tại sao ở đây nếu dùng notRoot thì nó bằng null
+        DatabaseReference nodeFindRoom = FirebaseDatabase.getInstance().getReference().child("FindRoom");
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(user);
-        dest.writeLong(maxPrice);
-        dest.writeLong(minPrice);
-        dest.writeByte((byte) (gender ? 1 : 0));
-        dest.writeString(findRoomID);
-        dest.writeParcelable(findRoomOwner, flags);
-        dest.writeTypedList(listConvenientRoom);
-        dest.writeStringList(convenients);
-        dest.writeStringList(location);
+        //Lấy Key push động vào firebase
+        String findRoomID = nodeFindRoom.push().getKey();
+
+        //push vào node room
+        nodeFindRoom.child(findRoomID).setValue(findRoomModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                findRoomModelInterface.addSuccessNotify();
+            }
+        });
     }
 }

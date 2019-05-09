@@ -4,10 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.example.designapptest.Controller.Interfaces.IFindRoomAddModel;
+import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class UserModel implements Parcelable { // Linh thêm
     //Các thuộc tính để render dữ liệu từ fire base
@@ -89,9 +94,12 @@ public class UserModel implements Parcelable { // Linh thêm
         this.userID = userID;
     }
 
+    //Biến lưu root của firebase, lưu ý để biến là private
+    private DatabaseReference nodeRoot;
+
     //hàm khởi tạo rỗng
     public UserModel(){
-
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -119,5 +127,27 @@ public class UserModel implements Parcelable { // Linh thêm
                 }
             }
         });
+    }
+
+    // Hàm lấy obj user theo id Lý thêm
+    public void  getUserModel(final IFindRoomAddModel iFindRoomAddModel, final String id) {
+        //Tạo listen cho firebase
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               UserModel  userModel = dataSnapshot.child("Users").child(id).getValue(UserModel.class);
+
+                iFindRoomAddModel.getUserModel(userModel);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        //Gán sự kiện listen cho nodeRoot
+        nodeRoot.addValueEventListener(valueEventListener);
+
     }
 }
