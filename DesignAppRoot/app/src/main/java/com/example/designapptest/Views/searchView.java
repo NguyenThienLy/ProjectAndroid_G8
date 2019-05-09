@@ -1,8 +1,11 @@
 package com.example.designapptest.Views;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,9 +18,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerFilter;
+import com.example.designapptest.Adapters.AdapterRecyclerSuggestions;
 import com.example.designapptest.ClassOther.myFilter;
 import com.example.designapptest.Controller.Interfaces.ICallBackSearchView;
 import com.example.designapptest.Controller.searchViewController;
@@ -29,6 +35,9 @@ import java.util.List;
 
 public class searchView extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, ICallBackSearchView {
 
+    public final static int REQUEST_DISTRICT = 99;
+    public final static String REQUEST = "requestcode";
+
     //Lưu lại trạng thái của 4 fragment thay vì tạo mới
     private HashMap<Integer, Fragment> fragmentHashMap = new HashMap<>();
 
@@ -37,6 +46,10 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
     TextView txtNumberRoom;
     Button btnsSubmit;
     EditText edTSearch;
+    ImageButton btnDeleteAllFilter ;
+    TextView txtCancel;
+
+    ProgressBar progessBarLoad;
 
     FrameLayout fragmentContainer;
 
@@ -51,16 +64,36 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
 
     String district;
 
+    SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_view);
 
+        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
         initData();
         initControl();
+        getDistrict();
         getColor();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //Gọi hàm tìm kiếm
+        callSearchRoomController();
+    }
+
+    private void getDistrict(){
+        Intent intent = getIntent();
+        district = intent.getStringExtra(AdapterRecyclerSuggestions.INTENT_DISTRICT);
+
+        //Set text cho district
+        edTSearch.setText(district);
     }
 
     //Lấy màu từ resource
@@ -75,10 +108,38 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
         filterList = new ArrayList<myFilter>();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_DISTRICT){
+            if(resultCode == RESULT_OK){
+                //Lấy thông tin truyền về
+                district = data.getStringExtra(AdapterRecyclerSuggestions.INTENT_DISTRICT);
+
+                //Set text cho edit text
+                edTSearch.setText(district);
+            }
+        }
+    }
+
     private void initControl(){
         edTSearch = findViewById(R.id.edT_search);
+        edTSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(searchView.this,location_search.class);
+                intent.putExtra(REQUEST,REQUEST_DISTRICT);
+                startActivityForResult(intent,REQUEST_DISTRICT);
+            }
+        });
 
-        txtNumberRoom =findViewById(R.id.txt_number);
+        txtNumberRoom =findViewById(R.id.txt_number_room);
+        //Ẩn text
+
+        progessBarLoad = findViewById(R.id.progess_bar_load);
+
+        //Ẩn lần đầu
+        progessBarLoad.setVisibility(View.GONE);
 
         chBoxPrice=findViewById(R.id.chBox_price);
         chBoxConvenient=findViewById(R.id.chBox_convenient);
@@ -108,6 +169,14 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
 
         btnsSubmit = findViewById(R.id.btn_submit);
         btnsSubmit.setOnClickListener(this);
+        //Ẩn nút bấm lần đầu khởi tạo
+        btnsSubmit.setVisibility(View.GONE);
+
+        btnDeleteAllFilter = findViewById(R.id.btn_delete_all_filter);
+        btnDeleteAllFilter.setOnClickListener(this);
+
+        txtCancel = findViewById(R.id.txt_cancel);
+        txtCancel.setOnClickListener(this);
 
     }
 
@@ -122,11 +191,21 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
             getDataFromControl();
             callSearchRoomController();
         }
+        else if(id == R.id.btn_delete_all_filter){
+            removeAllFilter();
+        }
+        else if(id == R.id.txt_cancel){
+            //Hủy màn hình
+            finish();
+        }
         else{
             boolean isChecked = ((CheckBox)v).isChecked();
             if(isChecked){
                 //Hiện fragment
                 fragmentContainer.setVisibility(View.VISIBLE);
+
+                //Hiện nút bấm
+                btnsSubmit.setVisibility(View.VISIBLE);
 
                 //Replace fragment
                 switch (id){
@@ -150,6 +229,8 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
             }else {
                 //Ẩn fragment
                 fragmentContainer.setVisibility(View.GONE);
+                //Ẩn nút bấm
+                btnsSubmit.setVisibility(View.GONE);
             }
         }
     }
@@ -271,7 +352,17 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
 
     //Hàm gọi hàm tìm kiếm trong controller
     private void callSearchRoomController(){
-        searchViewController controller = new searchViewController(this,district,filterList);
-        controller.loadSearchRoom();
+        //Hiện progess bar
+        progessBarLoad.setVisibility(View.VISIBLE);
+        //Ẩn text
+        txtNumberRoom.setVisibility(View.GONE);
+
+        searchViewController controller = new searchViewController(this,district,filterList,sharedPreferences);
+        controller.loadSearchRoom(recyclerSearchRoom,txtNumberRoom,progessBarLoad);
+    }
+
+    private void removeAllFilter(){
+        filterList.removeAll(filterList);
+        adapterRecyclerFilter.notifyDataSetChanged();
     }
 }

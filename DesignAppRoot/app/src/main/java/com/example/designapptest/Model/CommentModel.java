@@ -127,11 +127,11 @@ public class CommentModel implements Parcelable { // Linh thêm
     }
 
     //Biến lưu root của firebase, lưu ý để biến là private
-    private DatabaseReference nodeRoom;
+    private DatabaseReference nodeRoot;
 
     public CommentModel() {
-        //Trả về node comment của database
-        nodeRoom = FirebaseDatabase.getInstance().getReference();
+        //Trả về node gốc của database
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -199,7 +199,7 @@ public class CommentModel implements Parcelable { // Linh thêm
         };
 
         //Gán sự kiện listen cho nodeRoot
-        nodeRoom.addValueEventListener(valueEventListener);
+        nodeRoot.addValueEventListener(valueEventListener);
     }
 
     public void ListMyRoomComments(final IRoomCommentModel roomCommentModelInterface, final RoomModel roomModel, final SharedPreferences sharedPreferences) {
@@ -248,7 +248,7 @@ public class CommentModel implements Parcelable { // Linh thêm
         };
 
         //Gán sự kiện listen cho nodeRoot
-        nodeRoom.addValueEventListener(valueEventListener);
+        nodeRoot.addValueEventListener(valueEventListener);
     }
 
     public void addComment(CommentModel newCommentModel, String roomId, final Context context,

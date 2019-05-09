@@ -7,12 +7,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.ImageView;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.designapptest.Controller.Interfaces.ICallBackFromAddRoom;
 import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.example.designapptest.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -513,7 +515,7 @@ public class RoomModel implements Parcelable { // Linh thêm
 
     //Hàm thêm phòng mới
     public void addRoom(RoomModel roomModel, List<String> listConvenient, List<String> listPathImage
-            , float electricBill, float warterBill, float InternetBill, float parkingBill) {
+            , float electricBill, float warterBill, float InternetBill, float parkingBill, ICallBackFromAddRoom iCallBackFromAddRoom) {
         DatabaseReference nodeRoom = nodeRoot.child("Room");
 
         //Lấy Key push động vào firebase
@@ -539,26 +541,45 @@ public class RoomModel implements Parcelable { // Linh thêm
                 //End lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
 
                 //Tải hình lên
+                final int[] count = {0};
                 for(String pathImage:listPathImage){
                     Uri file = Uri.fromFile(new File(pathImage));
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference()
                             .child("Images/"+date+file.getLastPathSegment());
-                    storageReference.putFile(file).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    storageReference.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
+                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    //Lấy URL hình mới upload
+                                    String dowloadURL = uri.toString();
+                                    //Push hình vào danh sách hình tương ứng với room
+                                    nodeRoot.child("RoomImages").child(RoomID).push().setValue(dowloadURL);
+                                    count[0]++;
+                                    if(count[0]==listPathImage.size()){
+                                        iCallBackFromAddRoom.stopProgess(true);
+                                    }
+                                }
+                            });
                         }
                     });
 
                 }
                 //End tải hình lên
 
-                //Thêm hình danh sách hình vào node roomimage
-                for(String pathImage:listPathImage){
-                    Uri file = Uri.fromFile(new File(pathImage));
-                    nodeRoot.child("RoomImages").child(RoomID).push().setValue(date+file.getLastPathSegment());
-                }
-                //End thêm hình danh sách hình vào node roomimage
+                //Thêm vào node RoomLocation để filter
+
+                //Cắt bỏ P. trước phường
+                String SplitWarn=roomModel.getWard().substring(2);
+                //Push ID room vào
+                nodeRoot.child("LocationRoom").child(roomModel.getCounty())
+                        .child(SplitWarn)
+                        .child(roomModel.getStreet())
+                        .push().setValue(RoomID);
+
+                //End thêm vào node RoomLocation để filter
             }
         });
     }
@@ -745,7 +766,7 @@ public class RoomModel implements Parcelable { // Linh thêm
         nodeRoot.addValueEventListener(valueEventListener);
     }
 
-    public void addToFavoriteRooms(String roomId, final Context context, SharedPreferences sharedPreferences, final ImageView imageView) {
+    public void addToFavoriteRooms(String roomId, final Context context, SharedPreferences sharedPreferences, final MenuItem item) {
         String currentUserId = sharedPreferences.getString("currentUserId", "");
         DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference().child("FavoriteRooms");
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -756,14 +777,15 @@ public class RoomModel implements Parcelable { // Linh thêm
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Add to favorite rooms successfully", Toast.LENGTH_SHORT).show();
-                    imageView.setImageResource(R.drawable.ic_favorite_red);
-                    imageView.setTag(R.drawable.ic_favorite_red);
+//                    imageView.setImageResource(R.drawable.ic_favorite_red);
+//                    imageView.setTag(R.drawable.ic_favorite_red);
+                    item.setIcon(R.drawable.ic_favorite_full_white);
                 }
             }
         });
     }
 
-    public void removeFromFavoriteRooms(String roomId, final Context context, SharedPreferences sharedPreferences, final ImageView imageView) {
+    public void removeFromFavoriteRooms(String roomId, final Context context, SharedPreferences sharedPreferences, final MenuItem item) {
         String currentUserId = sharedPreferences.getString("currentUserId", "");
         DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference().child("FavoriteRooms");
 
@@ -772,8 +794,9 @@ public class RoomModel implements Parcelable { // Linh thêm
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(context, "Remove from favorite rooms successfully", Toast.LENGTH_SHORT).show();
-                    imageView.setImageResource(R.drawable.ic_favorite);
-                    imageView.setTag(R.drawable.ic_favorite);
+//                    imageView.setImageResource(R.drawable.ic_favorite);
+//                    imageView.setTag(R.drawable.ic_favorite);
+                    item.setIcon(R.drawable.ic_favorite_border_white);
                 }
             }
         });
