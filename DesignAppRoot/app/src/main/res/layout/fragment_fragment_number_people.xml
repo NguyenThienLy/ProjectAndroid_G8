@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Views.FragmentNumberPeople">
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/numberPeopleSearchView" />
+
+            <LinearLayout
+                android:layout_marginRight="30dp"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/btn_decrease"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_svg_subtract_24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/txt_number"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:gravity="center_vertical"
+                    android:textSize="18dp"
+                    android:textColor="@color/success"
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:id="@+id/btn_plus"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_svg_plus_24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:text="@string/genderSearchView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:layout_marginRight="30dp"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/rad_male"
+                    android:textColor="@drawable/custom_radio_text_color"
+                    android:background="@drawable/custom_radio_button_gender"
+                    android:padding="5dp"
+                    android:gravity="center_horizontal"
+                    android:button="@android:color/transparent"
+                    android:text="@string/stringMalePushRoom"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/rad_female"
+                    android:textColor="@drawable/custom_radio_text_color"
+                    android:background="@drawable/custom_radio_button_gender"
+                    android:padding="5dp"
+                    android:gravity="center_horizontal"
+                    android:button="@android:color/transparent"
+                    android:text="@string/stringFemalePushRoom"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
+        </RelativeLayout>
+    </LinearLayout>
+
+</FrameLayout>

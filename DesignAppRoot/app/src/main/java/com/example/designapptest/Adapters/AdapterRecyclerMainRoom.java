@@ -2,7 +2,9 @@ package com.example.designapptest.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,8 +16,15 @@ import android.widget.TextView;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 import com.example.designapptest.Views.detailRoom;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecyclerMainRoom.ViewHolder> {
@@ -25,11 +34,13 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
     int resource;
     // Linh thêm
     Context context;
+    SharedPreferences sharedPreferences;
 
-    public AdapterRecyclerMainRoom(Context context, List<RoomModel> RoomModelList, int resource) {
+    public AdapterRecyclerMainRoom(Context context, List<RoomModel> RoomModelList, int resource, SharedPreferences sharedPreferences) {
         this.context = context;
         this.RoomModelList = RoomModelList;
         this.resource = resource;
+        this.sharedPreferences = sharedPreferences;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -148,5 +159,43 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
     @Override
     public int getItemCount() {
         return RoomModelList.size();
+    }
+
+    public void removeItem(RecyclerView.ViewHolder viewHolder, RecyclerView recyclerView, AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom) {
+        int removedPosition = viewHolder.getAdapterPosition();
+        String roomIdToRemove = RoomModelList.get(removedPosition).getRoomID();
+        removeFavoriteRoom(roomIdToRemove, removedPosition, recyclerView, adapterRecyclerFavoriteRoom);
+    }
+
+    private void removeFavoriteRoom(String roomId, int removedPosition, RecyclerView recyclerView, AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom) {
+        DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference()
+                .child("FavoriteRooms");
+        String userId = sharedPreferences.getString("currentUserId", "");
+
+        nodeFavoriteRooms.child(userId).child(roomId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (RoomModelList.size() == 0) {
+                    adapterRecyclerFavoriteRoom.notifyItemRemoved(removedPosition);
+                }
+
+                Snackbar.make(recyclerView, roomId + " deleted", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        String date = df.format(Calendar.getInstance().getTime());
+
+                        nodeFavoriteRooms.child(userId).child(roomId).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+//                                    recyclerView.scrollToPosition(removedPosition);
+                                }
+                            }
+                        });
+                    }
+                }).show();
+            }
+        });
     }
 }

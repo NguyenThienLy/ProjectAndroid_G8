@@ -2,11 +2,8 @@ package com.example.designapptest.Adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +13,13 @@ import android.widget.TextView;
 import com.example.designapptest.Model.CommentModel;
 import com.example.designapptest.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -92,27 +86,8 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
         viewHolder.txt_content_comment_room_detail.setText(commentModel.getContent());
         viewHolder.txt_time_comment_room_detail.setText(commentModel.getTime());
 
-        //Dowload hình ảnh cho user
-        StorageReference storageReference = FirebaseStorage
-                .getInstance().getReference()
-                .child("Users")
-                .child(commentModel.getUserComment().getAvatar());
-
-        final long ONE_MEGABYTE = 1024 * 1024;
-        storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                //Tạo ảnh bitmap từ byte
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                viewHolder.img_avt_comment_room_detail.setImageBitmap(bitmap);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-        //End Dowload hình ảnh cho user
+        //Download hình ảnh cho user
+        Picasso.get().load(commentModel.getUserComment().getAvatar()).into(viewHolder.img_avt_comment_room_detail);
 
         //Hiển thị nút Like this hay Liked comment đối với user đăng nhập app.
         DatabaseReference nodeInteractiveComment = FirebaseDatabase.getInstance().getReference()

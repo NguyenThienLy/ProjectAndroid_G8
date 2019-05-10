@@ -2,6 +2,7 @@ package com.example.designapptest.Views;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -13,15 +14,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.designapptest.Controller.MainActivityController;
+import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -44,8 +43,8 @@ public class MainActivity extends Activity{
     GridView grVLocation;
 
     //ListView lstVRoom;
-    ListView lstVSuggest;
-    ListView lstVSearch;
+    //ListView lstVSuggest;
+    //ListView lstVSearch;
 
     ArrayList<roomModel> mydata;
 
@@ -55,8 +54,16 @@ public class MainActivity extends Activity{
 
     Button btnChooseSearch;
     Button btnPostRoom;
+    Button btnFindRoom;
     //Qui them vao
     Button btnMapView;
+
+    //Quang them vao
+    Button btnAccountView;
+
+    // Linh thêm
+    Button btnFavoriteRooms;
+
 
     String[] dataSearch = {"Vị trí", "Giá cả", "Số người", "Tiện nghi", "Map"};
     EditText edTSearch;
@@ -64,20 +71,30 @@ public class MainActivity extends Activity{
     //Them vao de test
      FusedLocationProviderClient client;
 
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
+
         initControl();
 
         elementRoom();
+
+        accountView();
 
         postRoom();
 
         //Them vao de test
         requestPermission();
         client = LocationServices.getFusedLocationProviderClient(this);
+
+        clickShowFavoriteRooms();
+        clickFindRoom();
+        clickSearchRoom();
     }
 
     private void initControl() {
@@ -86,12 +103,21 @@ public class MainActivity extends Activity{
 
         btnChooseSearch = (Button) findViewById(R.id.btn_choose_search);
         btnPostRoom = (Button) findViewById(R.id.btn_postRoom_main_room);
+        // Linh thêm
+        btnFavoriteRooms = (Button) findViewById(R.id.btn_favorite_rooms);
+        btnFindRoom = findViewById(R.id.btn_find_room);
 
         //qui them vao
         btnMapView =(Button)findViewById(R.id.btn_Map_View);
 
 
+
+
+        //quang them vao
+        btnAccountView=(Button)findViewById(R.id.btn_Account_View);
+
         edTSearch = (EditText) findViewById(R.id.edT_search);
+
 
         //Qui them vào
         recyclerMainRoom = (RecyclerView)findViewById(R.id.recycler_Main_Room);
@@ -100,10 +126,91 @@ public class MainActivity extends Activity{
     }
 
 
+    private void adapter() {
+
+        suggestAdapterList = new suggestAdapter(this, R.layout.suggest_element_list_view, mydata);
+
+        searchAdapter = new searchAdapter(this, R.layout.search_element_list_view, dataSearch);
+
+        //lstVSearch.setAdapter(searchAdapter);
+        //lstVSuggest.setAdapter(suggestAdapterList);
+    }
+
+    private void search() {
+//        btnChooseSearch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                lstVSearch.setVisibility(View.VISIBLE);
+//            }
+//        });
+
+//        lstVSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                lstVSearch.setVisibility(View.INVISIBLE);
+//                switch (position) {
+//                    case 0: {
+//                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_location_search_24px, 0, 0, 0);
+//                        break;
+//                    }
+//                    case 1: {
+//                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_coin_24px, 0, 0, 0);
+//                        break;
+//                    }
+//                    case 2: {
+//                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_group_24px, 0, 0, 0);
+//                        break;
+//                    }
+//                    case 3: {
+//                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_location_search_24px, 0, 0, 0);
+//                        break;
+//                    }
+//                    case 4: {
+//                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_map_24, 0, 0, 0);
+//                        break;
+//                    }
+//                }
+//            }
+//        });
+
+        edTSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (edTSearch.getText().length() == 0) {
+//                    lstVSuggest.setVisibility(View.INVISIBLE);
+//                } else {
+//                    lstVSuggest.setVisibility(View.VISIBLE);
+//                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+
     private void elementRoom() {
 
     }
 
+    //quang them vao
+    private void accountView(){
+       btnAccountView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Intent intent = new Intent(getApplicationContext(),accountView.class);
+               startActivity(intent);
+           }
+       });
+    }
+    //end quang them vao
     private void postRoom() {
         btnPostRoom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,12 +259,46 @@ public class MainActivity extends Activity{
     private void requestPermission(){
         ActivityCompat.requestPermissions(this,new String[]{ACCESS_FINE_LOCATION},1);
     }
+
+    private void clickShowFavoriteRooms() {
+        btnFavoriteRooms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentFavoriteRooms = new Intent(MainActivity.this, favoriteRoomsView.class);
+                startActivity(intentFavoriteRooms);
+            }
+        });
+    }
+
+    private void clickFindRoom(){
+        btnFindRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentFindRooms = new Intent(MainActivity.this, FindRoom.class);
+                startActivity(intentFindRooms);
+            }
+        });
+    }
+
+    private void clickSearchRoom(){
+        edTSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("checkclick", "onClick: ");
+                Intent intentSearchLocation = new Intent(MainActivity.this,location_search.class);
+                startActivity(intentSearchLocation);
+            }
+        });
+    }
+
     //Load dữ liệu vào List danh sách trong lần đầu chạy
     @Override
     protected void onStart() {
         super.onStart();
 
-        mainActivityController = new MainActivityController(this);
+        RoomModel.getListFavoriteRoomsId(sharedPreferences);
+
+        mainActivityController = new MainActivityController(this, sharedPreferences);
         mainActivityController.ListMainRoom(recyclerMainRoom,recyclerGridMainRoom,progressBarMain);
 
         //Load top địa điểm nhiều phòng

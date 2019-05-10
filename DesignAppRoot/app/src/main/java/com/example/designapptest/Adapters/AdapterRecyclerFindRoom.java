@@ -1,0 +1,156 @@
+package com.example.designapptest.Adapters;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.designapptest.Model.FindRoomModel;
+import com.example.designapptest.R;
+import com.example.designapptest.Views.FindRoomDetail;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
+public class AdapterRecyclerFindRoom extends RecyclerView.Adapter<AdapterRecyclerFindRoom.ViewHolder> {
+
+    // ID object truyen qua find room detail.
+    public final static String SHARE_FINDROOM = "FINDROOM";
+
+    List<FindRoomModel> findRoomModelList;
+    //Là biến lưu giao diện custom của từng row
+    int resource;
+    Context context;
+
+    public AdapterRecyclerFindRoom(Context context, List<FindRoomModel> findRoomModelList, int resource) {
+        this.context = context;
+        this.findRoomModelList = findRoomModelList;
+        this.resource = resource;
+    }
+
+    public void clearApplications() {
+        int size = this.findRoomModelList.size();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                findRoomModelList.remove(0);
+            }
+
+            this.notifyItemRangeRemoved(0, size);
+        }
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView txtNameUser, txtAboutPrice, txtLocationSearch;
+        ImageView imgAvatarUser, imgGenderUser;
+        CardView cardViewFindRoomList;
+
+        public ViewHolder(@NonNull View itemView) {
+
+            super(itemView);
+
+            txtNameUser = (TextView) itemView.findViewById(R.id.txt_name_user);
+            txtAboutPrice = (TextView) itemView.findViewById(R.id.txt_abouPrice);
+            txtLocationSearch = (TextView) itemView.findViewById(R.id.txt_locationSearch);
+            imgAvatarUser = (ImageView) itemView.findViewById(R.id.img_avatar_user);
+            imgGenderUser = (ImageView) itemView.findViewById(R.id.img_gender_user);
+            cardViewFindRoomList = (CardView) itemView.findViewById(R.id.cardViewFindRoomList);
+        }
+    }
+
+    @NonNull
+    @Override
+    public AdapterRecyclerFindRoom.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(resource, viewGroup, false);
+
+        AdapterRecyclerFindRoom.ViewHolder viewHolder = new AdapterRecyclerFindRoom.ViewHolder(view);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull AdapterRecyclerFindRoom.ViewHolder viewHolder, int i) {
+        //Lấy giá trị trong list
+        final FindRoomModel findRoomModel = findRoomModelList.get(i);
+
+        //Gán các giá trị vào giao diện
+        //classFunctionStatic.showProgress(context, viewHolder.imgAvatarUser);
+
+        // Gán tên cho chủ phòng trọ.
+        viewHolder.txtNameUser.setText(findRoomModel.getFindRoomOwner().getName());
+
+        // Gán giá trị cho khoảng giá cần tìm kiếm.
+        viewHolder.txtAboutPrice.setText(String.valueOf(findRoomModel.getMinPrice())
+                + " triệu - " + String.valueOf(findRoomModel.getMaxPrice()) + " triệu");
+
+        // Chỉ xử lí nếu khác null
+        String strLocationSearch = "";
+        if (findRoomModel.getLocation() != null) {
+            // gán giá trị cho vị trí tìm kiếm.
+            int index;
+            int sizeLocationSearchs = findRoomModel.getLocation().size();
+
+
+            for (index = 0; index < sizeLocationSearchs; index++) {
+                if (index != findRoomModel.getLocation().size() - 1)
+                    strLocationSearch += findRoomModel.getLocation().get(index) + ", ";
+                else
+                    strLocationSearch += findRoomModel.getLocation().get(index);
+            }
+        } else {
+            strLocationSearch = "Tất cả";
+        }
+        viewHolder.txtLocationSearch.setText(getTextHide(strLocationSearch));
+
+        //Gán hình cho giới tính
+        if (findRoomModel.getFindRoomOwner().isGender() == true) {
+            viewHolder.imgGenderUser.setImageResource(R.drawable.ic_svg_male_100);
+        } else {
+            viewHolder.imgGenderUser.setImageResource(R.drawable.ic_svg_female_100);
+        }
+        //End Gán giá trị cho giới tính
+
+        //Download ảnh dùng picaso cho đỡ lag
+        Picasso.get().load(findRoomModel.getFindRoomOwner().getAvatar()).into(viewHolder.imgAvatarUser);
+        //Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/findroomforrent-5bea0.appspot.com/o/Images%2Freceived-405711336891277_1555296117.jpg?alt=media&token=c27bd472-7a97-47dc-9f48-706b202929ce").into(viewHolder.imgRoom);
+
+        viewHolder.cardViewFindRoomList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iDetailFindRoom = new Intent(context, FindRoomDetail.class);
+                iDetailFindRoom.putExtra(SHARE_FINDROOM, findRoomModel);
+                context.startActivity(iDetailFindRoom);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return findRoomModelList.size();
+    }
+
+    // Ẩn các text dài hơn kí tự.
+    private String getTextHide(String string) {
+        String result = "";
+
+        if (string.length() >= 24) {
+            int index = 0;
+            for (index = 0; index < 25; index++)
+                result += string.charAt(index);
+
+            result += " ...";
+        }
+        else {
+            return string;
+        }
+
+        return result;
+    }
+
+}
