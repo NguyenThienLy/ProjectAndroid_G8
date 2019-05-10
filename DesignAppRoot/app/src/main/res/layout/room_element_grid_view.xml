@@ -2,20 +2,24 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:id="@+id/cardViewRoomList">
+    android:id="@+id/cardViewRoomList"
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="5dp">
-        <ImageView
+
+        <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/img_room"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:scaleType="fitXY"
-            />
+            app:riv_corner_radius="5dip"
+            app:riv_oval="false" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -78,10 +82,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cho thuê phòng trọ giá rẻ"
-            android:textSize="15dp"
+            android:textSize="14dp"
             android:textColor="@android:color/background_dark"
             android:textStyle="bold"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="5dp"
             android:maxLines="2"
             android:ellipsize="end"/>
         />

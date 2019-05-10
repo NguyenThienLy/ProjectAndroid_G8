@@ -70,6 +70,34 @@ public class MainActivityController {
         roomModel.ListRoom(iMainRoomModel);
     }
 
+    public void ListRoomUser(RecyclerView recyclerMainRoom,String UID){
+        final List<RoomModel> roomModelList = new ArrayList<>();
+
+        //Tạo layout cho danh sách trọ tìm kiếm nhiều nhất
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        recyclerMainRoom.setLayoutManager(layoutManager);
+
+        //Tạo adapter cho recycle view
+        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view);
+        //Cài adapter cho recycle
+        recyclerMainRoom.setAdapter(adapterRecyclerMainRoom);
+        //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
+
+        IMainRoomModel iMainRoomModel = new IMainRoomModel() {
+            @Override
+            public void getListMainRoom(RoomModel valueRoom) {
+                //Thêm vào trong danh sách trọ
+                roomModelList.add(valueRoom);
+
+                //Thông báo là đã có thêm dữ liệu
+                adapterRecyclerMainRoom.notifyDataSetChanged();
+            }
+        };
+
+        //Gọi hàm lấy dữ liệu trong model
+        roomModel.ListRoomUser(iMainRoomModel,UID);
+    }
+
     public void loadTopLocation(GridView grVLocation){
 
         //Tạo mới mảng cho gridview

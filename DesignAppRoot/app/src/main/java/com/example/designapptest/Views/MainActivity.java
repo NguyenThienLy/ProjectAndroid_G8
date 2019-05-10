@@ -3,6 +3,7 @@ package com.example.designapptest.Views;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -70,10 +71,6 @@ public class MainActivity extends Activity{
 
         initControl();
 
-        adapter();
-
-        search();
-
         elementRoom();
 
         postRoom();
@@ -93,8 +90,6 @@ public class MainActivity extends Activity{
         //qui them vao
         btnMapView =(Button)findViewById(R.id.btn_Map_View);
 
-        lstVSearch = (ListView) findViewById(R.id.lstV_search);
-        lstVSuggest = (ListView) findViewById(R.id.lstV_suggest);
 
         edTSearch = (EditText) findViewById(R.id.edT_search);
 
@@ -104,74 +99,6 @@ public class MainActivity extends Activity{
         progressBarMain = (ProgressBar)findViewById(R.id.Progress_Main);
     }
 
-    private void adapter() {
-
-        suggestAdapterList = new suggestAdapter(this, R.layout.suggest_element_list_view, mydata);
-
-        searchAdapter = new searchAdapter(this, R.layout.search_element_list_view, dataSearch);
-
-        lstVSearch.setAdapter(searchAdapter);
-        //lstVSuggest.setAdapter(suggestAdapterList);
-    }
-
-    private void search() {
-        btnChooseSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lstVSearch.setVisibility(View.VISIBLE);
-            }
-        });
-
-        lstVSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                lstVSearch.setVisibility(View.INVISIBLE);
-                switch (position) {
-                    case 0: {
-                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_location_search_24px, 0, 0, 0);
-                        break;
-                    }
-                    case 1: {
-                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_coin_24px, 0, 0, 0);
-                        break;
-                    }
-                    case 2: {
-                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_group_24px, 0, 0, 0);
-                        break;
-                    }
-                    case 3: {
-                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_location_search_24px, 0, 0, 0);
-                        break;
-                    }
-                    case 4: {
-                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_map_24, 0, 0, 0);
-                        break;
-                    }
-                }
-            }
-        });
-
-        edTSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (edTSearch.getText().length() == 0) {
-                    lstVSuggest.setVisibility(View.INVISIBLE);
-                } else {
-                    lstVSuggest.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-    }
 
     private void elementRoom() {
 
