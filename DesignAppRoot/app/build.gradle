@@ -20,6 +20,7 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/fonts'] } }
 }
 
 dependencies {
@@ -30,6 +31,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:16.1.0'
     implementation 'com.google.firebase:firebase-storage:16.1.0'
     implementation 'com.google.firebase:firebase-auth:16.1.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
     //google sign
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
@@ -56,13 +58,14 @@ dependencies {
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
+
+    //thu vien ve bieu do
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     //thu vien CircleImageView
     implementation 'de.hdodenhof:circleimageview:1.2.1'
-
-
-
     //Thu vien range seekbar
     implementation 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
+
 
 }
 

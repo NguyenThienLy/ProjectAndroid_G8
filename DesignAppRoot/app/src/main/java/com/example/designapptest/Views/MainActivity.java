@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -81,10 +82,6 @@ public class MainActivity extends Activity{
 
         initControl();
 
-        adapter();
-
-        search();
-
         elementRoom();
 
         accountView();
@@ -114,13 +111,10 @@ public class MainActivity extends Activity{
         btnMapView =(Button)findViewById(R.id.btn_Map_View);
 
 
+
+
         //quang them vao
         btnAccountView=(Button)findViewById(R.id.btn_Account_View);
-
-        //lstVRoom = (ListView) findViewById(R.id.lstV_room);
-        //lstVSearch = (ListView) findViewById(R.id.lstV_search);
-       // lstVSuggest = (ListView) findViewById(R.id.lstV_suggest);
-
 
         edTSearch = (EditText) findViewById(R.id.edT_search);
 
@@ -130,6 +124,7 @@ public class MainActivity extends Activity{
         recyclerGridMainRoom = (RecyclerView)findViewById(R.id.recycler_Grid_Main_Room);
         progressBarMain = (ProgressBar)findViewById(R.id.Progress_Main);
     }
+
 
     private void adapter() {
 
@@ -199,6 +194,7 @@ public class MainActivity extends Activity{
             }
         });
     }
+
 
     private void elementRoom() {
 

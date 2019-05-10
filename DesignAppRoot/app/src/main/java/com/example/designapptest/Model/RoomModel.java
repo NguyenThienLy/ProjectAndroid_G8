@@ -469,6 +469,113 @@ public class RoomModel implements Parcelable { // Linh thêm
         //Gán sự kiện listen cho nodeRoot
         nodeRoot.addValueEventListener(valueEventListener);
     }
+    public void ListRoomUser(final IMainRoomModel mainRoomModelInterface,String userID) {
+
+        //Tạo listen cho firebase
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DataSnapshot snapshotOwner = dataSnapshot.child("RoomOwner").child(userID);
+
+                for (DataSnapshot snapshotRoomID:snapshotOwner.getChildren()){
+                    String IDromm = snapshotRoomID.getValue(String.class);
+
+                    //Duyệt vào node Room trên firebase
+                    RoomModel roomModel = dataSnapshot.child("Room").child(IDromm).getValue(RoomModel.class);
+                    roomModel.setRoomID(IDromm);
+                    //Duyệt hết trong danh sách phòng trọ
+
+                        //Lấy ra giá trị ép kiểu qua kiểu RoomModel
+
+                        //Set mã phòng trọ
+
+
+                        //Set loại phòng trọ
+                        String tempType = dataSnapshot.child("RoomTypes")
+                                .child(roomModel.getTypeID())
+                                .getValue(String.class);
+
+                        Log.d("kiem tra", tempType);
+                        roomModel.setRoomType(tempType);
+
+                        //Thêm tên danh sách tên hình vào phòng trọ
+
+                        //Duyệt vào node RoomImages trên firebase và duyệt vào node có mã room tương ứng
+                        DataSnapshot dataSnapshotImageRoom = dataSnapshot.child("RoomImages").child(IDromm);
+                        List<String> tempImageList = new ArrayList<String>();
+                        //Duyêt tất cả các giá trị của node tương ứng
+                        for (DataSnapshot valueImage : dataSnapshotImageRoom.getChildren()) {
+                            tempImageList.add(valueImage.getValue(String.class));
+                        }
+
+                        //set mảng hình vào list
+                        roomModel.setListImageRoom(tempImageList);
+
+                        //End Thêm tên danh sách tên hình vào phòng trọ
+
+                        //Thêm danh sách bình luận của phòng trọ
+
+                        DataSnapshot dataSnapshotCommentRoom = dataSnapshot.child("RoomComments").child(IDromm);
+                        List<CommentModel> tempCommentList = new ArrayList<CommentModel>();
+                        //Duyệt tất cả các giá trị trong node tương ứng
+                        for (DataSnapshot CommentValue : dataSnapshotCommentRoom.getChildren()) {
+                            CommentModel commentModel = CommentValue.getValue(CommentModel.class);
+                            commentModel.setCommentID(CommentValue.getKey());
+                            //Duyệt user tương ứng để lấy ra thông tin user bình luận
+                            UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
+                            commentModel.setUserComment(tempUser);
+                            //End duyệt user tương ứng để lấy ra thông tin user bình luận
+
+                            tempCommentList.add(commentModel);
+                        }
+
+                        roomModel.setListCommentRoom(tempCommentList);
+
+                        //End Thêm danh sách bình luận của phòng trọ
+
+                        //Thêm danh sách tiện nghi của phòng trọ
+
+                        DataSnapshot dataSnapshotConvenientRoom = dataSnapshot.child("RoomConvenients").child(IDromm);
+                        List<ConvenientModel> tempConvenientList = new ArrayList<ConvenientModel>();
+                        //Duyệt tất cả các giá trị trong node tương ứng
+                        for (DataSnapshot valueConvenient : dataSnapshotConvenientRoom.getChildren()) {
+                            String convenientId = valueConvenient.getValue(String.class);
+                            ConvenientModel convenientModel = dataSnapshot.child("Convenients").child(convenientId).getValue(ConvenientModel.class);
+                            convenientModel.setConvenientID(convenientId);
+
+                            tempConvenientList.add(convenientModel);
+                        }
+
+                        roomModel.setListConvenientRoom(tempConvenientList);
+
+                        //End Thêm danh sách tiện nghi của phòng trọ
+
+                        //Thêm thông tin chủ sở hữu cho phòng trọ
+                        UserModel tempUser = dataSnapshot.child("Users").child(roomModel.getOwner()).getValue(UserModel.class);
+                        roomModel.setRoomOwner(tempUser);
+
+                        //End thêm thông tin chủ sở hữu cho phòng trọ
+
+                        Log.d("check", roomModel.getOwner());
+                        //Kích hoạt interface
+                        mainRoomModelInterface.getListMainRoom(roomModel);
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        //nodeRoot.child("Room").orderByChild("owner").limitToFirst(2).addListenerForSingleValueEvent(valueEventListener);
+        //Gán sự kiện listen cho nodeRoot
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+
+    }
 
     @Override
     public int describeContents() {
