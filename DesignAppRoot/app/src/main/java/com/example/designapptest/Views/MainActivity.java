@@ -4,14 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,8 +22,6 @@ import com.example.designapptest.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-
-import java.util.ArrayList;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -42,16 +37,6 @@ public class MainActivity extends Activity{
    // GridView grVRoom;
     GridView grVLocation;
 
-    //ListView lstVRoom;
-    //ListView lstVSuggest;
-    //ListView lstVSearch;
-
-    ArrayList<roomModel> mydata;
-
-    com.example.designapptest.Views.locationAdapter locationAdapter;
-    com.example.designapptest.Views.searchAdapter searchAdapter;
-    suggestAdapter suggestAdapterList;
-
     Button btnChooseSearch;
     Button btnPostRoom;
     Button btnFindRoom;
@@ -65,7 +50,6 @@ public class MainActivity extends Activity{
     Button btnFavoriteRooms;
 
 
-    String[] dataSearch = {"Vị trí", "Giá cả", "Số người", "Tiện nghi", "Map"};
     EditText edTSearch;
 
     //Them vao de test
@@ -110,9 +94,6 @@ public class MainActivity extends Activity{
         //qui them vao
         btnMapView =(Button)findViewById(R.id.btn_Map_View);
 
-
-
-
         //quang them vao
         btnAccountView=(Button)findViewById(R.id.btn_Account_View);
 
@@ -124,77 +105,6 @@ public class MainActivity extends Activity{
         recyclerGridMainRoom = (RecyclerView)findViewById(R.id.recycler_Grid_Main_Room);
         progressBarMain = (ProgressBar)findViewById(R.id.Progress_Main);
     }
-
-
-    private void adapter() {
-
-        suggestAdapterList = new suggestAdapter(this, R.layout.suggest_element_list_view, mydata);
-
-        searchAdapter = new searchAdapter(this, R.layout.search_element_list_view, dataSearch);
-
-        //lstVSearch.setAdapter(searchAdapter);
-        //lstVSuggest.setAdapter(suggestAdapterList);
-    }
-
-    private void search() {
-//        btnChooseSearch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                lstVSearch.setVisibility(View.VISIBLE);
-//            }
-//        });
-
-//        lstVSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                lstVSearch.setVisibility(View.INVISIBLE);
-//                switch (position) {
-//                    case 0: {
-//                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_location_search_24px, 0, 0, 0);
-//                        break;
-//                    }
-//                    case 1: {
-//                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_coin_24px, 0, 0, 0);
-//                        break;
-//                    }
-//                    case 2: {
-//                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_group_24px, 0, 0, 0);
-//                        break;
-//                    }
-//                    case 3: {
-//                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_location_search_24px, 0, 0, 0);
-//                        break;
-//                    }
-//                    case 4: {
-//                        btnChooseSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_svg_map_24, 0, 0, 0);
-//                        break;
-//                    }
-//                }
-//            }
-//        });
-
-        edTSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (edTSearch.getText().length() == 0) {
-//                    lstVSuggest.setVisibility(View.INVISIBLE);
-//                } else {
-//                    lstVSuggest.setVisibility(View.VISIBLE);
-//                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-    }
-
 
     private void elementRoom() {
 

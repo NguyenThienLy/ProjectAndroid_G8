@@ -215,7 +215,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Xu hướng tìm kiếm"
+                        android:text="Khu vực có nhiều phòng"
                         android:layout_marginLeft="5dp"
                         android:textSize="14dp"
                         android:textColor="#666666" />
@@ -395,16 +395,6 @@
                     android:layout_height="35dp"
                     android:drawableTop="@drawable/ic_svg_user_24px"
                     android:text="Account"
-                    android:textColor="#666666"
-                    android:textSize="12dp"
-                    android:textAllCaps="false"
-                    android:background="?android:attr/selectableItemBackground"/>
-                <Button
-                    android:layout_marginTop="7dp"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:drawableTop="@drawable/ic_svg_flash_24"
-                    android:text="Quick search"
                     android:textColor="#666666"
                     android:textSize="12dp"
                     android:textAllCaps="false"

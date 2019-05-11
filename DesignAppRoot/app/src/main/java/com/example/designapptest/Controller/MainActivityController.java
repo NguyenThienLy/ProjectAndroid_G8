@@ -15,7 +15,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
@@ -109,7 +108,7 @@ public class MainActivityController {
         recyclerMainRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view);
+        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view,sharedPreferences);
         //Cài adapter cho recycle
         recyclerMainRoom.setAdapter(adapterRecyclerMainRoom);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
@@ -122,6 +121,11 @@ public class MainActivityController {
 
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerMainRoom.notifyDataSetChanged();
+            }
+
+            @Override
+            public void refreshListFavoriteRoom() {
+
             }
         };
 
