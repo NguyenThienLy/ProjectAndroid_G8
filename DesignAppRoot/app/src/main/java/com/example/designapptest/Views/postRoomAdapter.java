@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class postRoomAdapter extends AppCompatActivity implements ICallBackPostR
     //Lấy ra màu text
     int blue_color;
     int gray_color;
+    Toolbar toolbar;
 
     //Biến kiểm tra quá trình điền thông tin đã xong hay chưa
     private boolean isCompleteLocation, isCompleteInfomation, isCompleteUtility, isCompleteConfirm;
@@ -114,6 +116,15 @@ public class postRoomAdapter extends AppCompatActivity implements ICallBackPostR
         btnImgConfirmPushRoom.setOnClickListener(this);
         btnImgUtilityPushRoom.setOnClickListener(this);
         btnImgInformationPushRoom.setOnClickListener(this);
+
+        toolbar = findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle("Đăng phòng của bạn");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
     }
 
@@ -223,5 +234,11 @@ public class postRoomAdapter extends AppCompatActivity implements ICallBackPostR
         public int getCount() {
             return 4;
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

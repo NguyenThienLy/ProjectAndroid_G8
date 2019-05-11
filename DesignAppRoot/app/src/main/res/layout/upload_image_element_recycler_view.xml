@@ -12,10 +12,12 @@
         android:scaleType="centerCrop"/>
 
     <ImageView
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp"
         android:padding="2dp"
         android:id="@+id/img_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        app:srcCompat="@android:drawable/ic_delete" />
+        android:src="@drawable/ic_svg_delete_red_17" />
 </FrameLayout>

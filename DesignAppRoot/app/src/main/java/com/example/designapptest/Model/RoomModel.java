@@ -25,7 +25,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -650,7 +649,7 @@ public class RoomModel implements Parcelable { // Linh thêm
                 //Tải hình lên
                 final int[] count = {0};
                 for(String pathImage:listPathImage){
-                    Uri file = Uri.fromFile(new File(pathImage));
+                    Uri file = Uri.parse(pathImage);
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference()
                             .child("Images/"+date+file.getLastPathSegment());
                     storageReference.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
