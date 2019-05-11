@@ -124,6 +124,9 @@ public class postRoomStep4 extends Fragment implements View.OnClickListener {
         listPathImageChoosed.addAll(setPathImage);
         //End lấy dữ liệu từ fragment 3
 
+        Log.d("listimage", listPathImageChoosed.size()+"");
+        Log.d("check", listPathImageChoosed.get(0));
+
         //Lấy UID
         SharedPreferences sharedPreferences2 = this.getActivity().getSharedPreferences(LoginView.PREFS_DATA_NAME, Context.MODE_PRIVATE);
         UID = sharedPreferences2.getString(LoginView.SHARE_UID,"");

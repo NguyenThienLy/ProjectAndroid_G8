@@ -115,7 +115,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         clickShowImage();
 
 //        clickAddToFavorite();
-        
+
     }
 
     @Override
