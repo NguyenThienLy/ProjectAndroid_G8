@@ -47,7 +47,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
             txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview,
             txtQuantityComment_2, txtRoomPhoneNumber;
 
-    Button btnCallPhone, btnDirectMap, btnPostComment, btnViewAll, btnFavoriteRooms;
+    Button btnCallPhone, btnDirectMap, btnPostComment, btnViewAll;
 
     ImageView imgRoomGender, imgRoom1, imgRoom2, imgRoom3, imgRoom4, imgFavorite;
 
@@ -115,8 +115,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         clickShowImage();
 
 //        clickAddToFavorite();
-
-        clickShowFavoriteRooms();
+        
     }
 
     @Override
@@ -217,7 +216,6 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         btnDirectMap = (Button) findViewById(R.id.btn_directMap);
         btnPostComment = (Button) findViewById(R.id.btn_postComment);
         btnViewAll = (Button) findViewById(R.id.btn_viewAll);
-        btnFavoriteRooms = (Button) findViewById(R.id.btn_favorite_rooms);
 
         imgRoomGender = (ImageView) findViewById(R.id.img_roomGender);
         imgRoom1 = (ImageView) findViewById(R.id.img_room1);
@@ -525,13 +523,4 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         }
     }
 
-    private void clickShowFavoriteRooms() {
-        btnFavoriteRooms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentFavoriteRooms = new Intent(detailRoom.this, favoriteRoomsView.class);
-                startActivity(intentFavoriteRooms);
-            }
-        });
-    }
 }
