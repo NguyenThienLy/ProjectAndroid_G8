@@ -12,11 +12,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Model.FindRoomModel;
 import com.example.designapptest.R;
 import com.example.designapptest.Views.FindRoomDetail;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 public class AdapterRecyclerFindRoom extends RecyclerView.Adapter<AdapterRecyclerFindRoom.ViewHolder> {
@@ -48,7 +55,7 @@ public class AdapterRecyclerFindRoom extends RecyclerView.Adapter<AdapterRecycle
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtNameUser, txtAboutPrice, txtLocationSearch;
+        TextView txtNameUser, txtTimeCreating, txtAboutPrice, txtLocationSearch;
         ImageView imgAvatarUser, imgGenderUser;
         CardView cardViewFindRoomList;
 
@@ -56,6 +63,7 @@ public class AdapterRecyclerFindRoom extends RecyclerView.Adapter<AdapterRecycle
 
             super(itemView);
 
+            txtTimeCreating = (TextView) itemView.findViewById(R.id.txt_timeCreating);
             txtNameUser = (TextView) itemView.findViewById(R.id.txt_name_user);
             txtAboutPrice = (TextView) itemView.findViewById(R.id.txt_abouPrice);
             txtLocationSearch = (TextView) itemView.findViewById(R.id.txt_locationSearch);
@@ -84,6 +92,18 @@ public class AdapterRecyclerFindRoom extends RecyclerView.Adapter<AdapterRecycle
 
         // Gán tên cho chủ phòng trọ.
         viewHolder.txtNameUser.setText(findRoomModel.getFindRoomOwner().getName());
+
+        // Gán thời gian cho tìm ở ghép.
+        // Đổi string date to long.
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date;
+
+        try {
+            date = format.parse(findRoomModel.getTime());
+            viewHolder.txtTimeCreating.setText(classFunctionStatic.getTimeAgo(date.getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // Gán giá trị cho khoảng giá cần tìm kiếm.
         viewHolder.txtAboutPrice.setText(String.valueOf(findRoomModel.getMinPrice())

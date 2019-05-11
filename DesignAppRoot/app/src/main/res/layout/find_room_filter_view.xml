@@ -10,30 +10,10 @@
         android:layout_height="wrap_content"
         android:background="#ffffff">
 
-        <LinearLayout
-            android:id="@+id/lLay_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:background="@android:color/white"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/txt_quantityMember"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_svg_back_100" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/stringFindRoomAdd"
-                android:textAlignment="center"
-                android:textColor="@color/colorGrayType1"
-                android:textSize="20sp" />
-        </LinearLayout>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            />
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -49,7 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="60dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical">
@@ -59,7 +39,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/stringAboutPriceFindRoomFilter"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorGrayType2"
                         android:textSize="18sp" />
 
                     <RelativeLayout
@@ -94,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/stringGenderFindRoomFilter"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorGrayType2"
                         android:textSize="18sp" />
 
                     <RadioGroup
@@ -107,6 +87,7 @@
                             android:id="@+id/rBtn_male_find_room_filter"
                             android:layout_width="wrap_content"
                             android:layout_margin="10dp"
+                            android:textColor="@color/colorGrayType1"
                             android:layout_height="wrap_content"
                             android:text="@string/stringMaleFindRoomFilter" />
 
@@ -115,6 +96,7 @@
                             android:id="@+id/rBtn_female_find_room_filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/colorGrayType1"
                             android:layout_margin="10dp"
                             android:text="@string/stringFeMaleFindRoomFilter" />
 
@@ -125,6 +107,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
+                            android:textColor="@color/colorGrayType1"
                             android:text="@string/stringAllFindRoomFilter" />
                     </RadioGroup>
 
@@ -134,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/stringPositionSearchFindRoomFilter"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorGrayType2"
                         android:textSize="18sp" />
 
                     <LinearLayout
@@ -159,7 +142,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringD1PriceFindRoomFilter" />
+                                android:text="@string/stringD1PriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -175,7 +159,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringD2PriceFindRoomFilter" />
+                                android:text="@string/stringD2PriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -195,7 +180,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringD3PriceFindRoomFilter" />
+                                android:text="@string/stringD3PriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -211,7 +197,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringD4PriceFindRoomFilter" />
+                                android:text="@string/stringD4PriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -231,7 +218,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringD5PriceFindRoomFilter" />
+                                android:text="@string/stringD5PriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -247,7 +235,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringD6PriceFindRoomFilter" />
+                                android:text="@string/stringD6PriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -267,7 +256,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringD7PriceFindRoomFilter" />
+                                android:text="@string/stringD7PriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -283,7 +273,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringD8PriceFindRoomFilter" />
+                                android:text="@string/stringD8PriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -303,7 +294,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringD9PriceFindRoomFilter" />
+                                android:text="@string/stringD9PriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -319,7 +311,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringD10PriceFindRoomFilter" />
+                                android:text="@string/stringD10PriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -339,7 +332,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringD11PriceFindRoomFilter" />
+                                android:text="@string/stringD11PriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -355,7 +349,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringD12PriceFindRoomFilter" />
+                                android:text="@string/stringD12PriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -375,7 +370,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringDThuDucPriceFindRoomFilter" />
+                                android:text="@string/stringDThuDucPriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -391,7 +387,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringBinhTânPriceFindRoomFilter" />
+                                android:text="@string/stringBinhTânPriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -411,7 +408,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringDGovapPriceFindRoomFilter" />
+                                android:text="@string/stringDGovapPriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -427,7 +425,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringDTanBinhPriceFindRoomFilter" />
+                                android:text="@string/stringDTanBinhPriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -447,7 +446,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringDPhuNhuanPriceFindRoomFilter" />
+                                android:text="@string/stringDPhuNhuanPriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -463,7 +463,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringBinhThanhPriceFindRoomFilter" />
+                                android:text="@string/stringBinhThanhPriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -483,7 +484,8 @@
                                 android:button="@android:color/transparent"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringDTanPhuPriceFindRoomFilter" />
+                                android:text="@string/stringDTanPhuPriceFindRoomFilter"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -504,7 +506,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/stringUtilitiesPushRoom"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorGrayType2"
                         android:textSize="18sp" />
 
                     <LinearLayout
@@ -530,7 +532,8 @@
                                 android:drawableLeft="@drawable/ic_svg_wc_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringWCPushRoom" />
+                                android:text="@string/stringWCPushRoom"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -547,7 +550,8 @@
                                 android:drawableLeft="@drawable/ic_svg_wifi_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringWifiPushRoom" />
+                                android:text="@string/stringWifiPushRoom"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -568,7 +572,8 @@
                                 android:drawableLeft="@drawable/ic_svg_clock_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringFreePushRoom" />
+                                android:text="@string/stringFreePushRoom"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -585,7 +590,8 @@
                                 android:drawableLeft="@drawable/ic_svg_bed_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringBedPushRoom" />
+                                android:text="@string/stringBedPushRoom"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -606,7 +612,8 @@
                                 android:drawableLeft="@drawable/ic_svg_fridge_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringFridgePushRoom" />
+                                android:text="@string/stringFridgePushRoom"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -623,7 +630,8 @@
                                 android:drawableLeft="@drawable/ic_svg_wardrobe_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringWardrobePushRoom" />
+                                android:text="@string/stringWardrobePushRoom"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -644,7 +652,8 @@
                                 android:drawableLeft="@drawable/ic_svg_pet_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringPetPushRoom" />
+                                android:text="@string/stringPetPushRoom"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -661,7 +670,8 @@
                                 android:drawableLeft="@drawable/ic_svg_window_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringWindowPushRoom" />
+                                android:text="@string/stringWindowPushRoom"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -682,7 +692,8 @@
                                 android:drawableLeft="@drawable/ic_svg_motobike_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringParkingPushRoom" />
+                                android:text="@string/stringParkingPushRoom"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -699,7 +710,8 @@
                                 android:drawableLeft="@drawable/ic_svg_washmachine_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/StringWashmachinePushRoom" />
+                                android:text="@string/StringWashmachinePushRoom"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -720,6 +732,7 @@
                                 android:drawableLeft="@drawable/ic_svg_waterheater_24"
                                 android:gravity="center"
                                 android:padding="10dp"
+                                android:textColor="@color/colorGrayType1"
                                 android:text="@string/StringWaterheat" />
 
                             <TextView
@@ -737,7 +750,8 @@
                                 android:drawableLeft="@drawable/ic_svg_security_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/StringSecurityPushRoom" />
+                                android:text="@string/StringSecurityPushRoom"
+                                android:textColor="@color/colorGrayType1"/>
 
                         </LinearLayout>
 
@@ -758,7 +772,8 @@
                                 android:drawableLeft="@drawable/ic_svg_aircondition_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="@string/stringAirconditionPushRoom" />
+                                android:text="@string/stringAirconditionPushRoom"
+                                android:textColor="@color/colorGrayType1"/>
 
                             <TextView
                                 android:layout_width="0dp"

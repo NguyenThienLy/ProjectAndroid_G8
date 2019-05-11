@@ -3,6 +3,7 @@ package com.example.designapptest.Views;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -52,6 +54,7 @@ public class FindRoomDetail extends AppCompatActivity {
 
     FindRoomModel findRoomModel;
 
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,12 @@ public class FindRoomDetail extends AppCompatActivity {
         clickCallPhone();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 
     private void loadProgress() {
         classFunctionStatic.showProgress(this, imgAvatarUser);
@@ -84,6 +93,9 @@ public class FindRoomDetail extends AppCompatActivity {
 
     // Khởi tạo các control trong room detail.
     private void initControl() {
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(Color.parseColor("#00DDFF"));
+
         txtNameUser = (TextView) findViewById(R.id.txt_name_user_find_room_detail);
         txtAboutPrice = (TextView) findViewById(R.id.txt_abouPrice_find_room_detail);
         grVLocationSearch = (GridView) findViewById(R.id.grV_locationSearch_find_room_detail);
@@ -101,6 +113,14 @@ public class FindRoomDetail extends AppCompatActivity {
 
     // Khởi tạo các giá trị cho các control.
     private void initData() {
+        // Thiết lập toolbar
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle("Chi tiết tìm ở ghép");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         //Gán các giá trị vào giao diện
         // Gán tên cho người dùng
         txtNameUser.setText(findRoomModel.getFindRoomOwner().getName());

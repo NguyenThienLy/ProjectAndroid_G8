@@ -35,6 +35,7 @@ import java.util.List;
 
 public class FindRoomModel implements Parcelable {
     String user;
+    String time;
     double maxPrice, minPrice;
     boolean gender;
 
@@ -55,6 +56,7 @@ public class FindRoomModel implements Parcelable {
 
     protected FindRoomModel(Parcel in) {
         user = in.readString();
+        time = in.readString();
         maxPrice = in.readDouble();
         minPrice = in.readDouble();
         gender = in.readByte() != 0;
@@ -68,6 +70,7 @@ public class FindRoomModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(user);
+        dest.writeString(time);
         dest.writeDouble(maxPrice);
         dest.writeDouble(minPrice);
         dest.writeByte((byte) (gender ? 1 : 0));
@@ -94,6 +97,14 @@ public class FindRoomModel implements Parcelable {
             return new FindRoomModel[size];
         }
     };
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTimee(String time) {
+        this.time = time;
+    }
 
     public String getUser() {
         return user;
@@ -180,9 +191,10 @@ public class FindRoomModel implements Parcelable {
     }
 
     // Hàm khởi tạo có tham số đầy đủ
-    public FindRoomModel(String user, double minPrice, double maxPrice, boolean gender,
+    public FindRoomModel(String user, String time, double minPrice, double maxPrice, boolean gender,
                          String findRoomID, List<String> convenients, List<String> location) {
         this.user = user;
+        this.time = time;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
         this.gender = gender;
@@ -238,6 +250,9 @@ public class FindRoomModel implements Parcelable {
                     //Kích hoạt interface
                     findRoomModelInterface.getListFindRoom(findRoomModel);
                 }
+
+                //Kích hoạt interface
+                findRoomModelInterface.getSuccessNotify();
             }
 
             @Override
