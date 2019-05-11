@@ -2,8 +2,10 @@ package com.example.designapptest.Views;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -45,6 +47,8 @@ public class FindRoomFilter extends AppCompatActivity {
 
     Context context;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +71,17 @@ public class FindRoomFilter extends AppCompatActivity {
         clickApplyFilter();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
     // Khởi tạo các giá trị cho control
     private void initControl() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(Color.parseColor("#00DDFF"));
+
         // Khoảng giá
         txtMinPrice = findViewById(R.id.txt_min_price_find_room_filter);
         txtMaxPrice = findViewById(R.id.txt_max_price_find_room_filter);
@@ -141,6 +153,14 @@ public class FindRoomFilter extends AppCompatActivity {
 
     // Khởi tạo giá trị cho các control
     private void initData() {
+        // Gán các giá trị toolbar.
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle("Bộ lọc tìm ở ghép");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         minPrice = (float) 0.5;
         maxPrice = 10;
 

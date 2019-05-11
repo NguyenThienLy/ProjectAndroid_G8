@@ -11,11 +11,18 @@ import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerFindRoom;
 import com.example.designapptest.Controller.Interfaces.IFindRoomModel;
+import com.example.designapptest.Model.CommentModel;
 import com.example.designapptest.Model.FindRoomFilterModel;
 import com.example.designapptest.Model.FindRoomModel;
 import com.example.designapptest.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class FindRoomController {
@@ -54,6 +61,8 @@ public class FindRoomController {
                 //Thêm vào trong danh sách trọ
                 findRoomModelist.add(valueRoom);
 
+                sortListComments(findRoomModelist);
+
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerFindRoom.notifyDataSetChanged();
                 progressBarFindRoom.setVisibility(View.GONE);
@@ -66,6 +75,16 @@ public class FindRoomController {
             @Override
             public void addSuccessNotify() {
 
+            }
+
+            @Override
+            public void getSuccessNotify() {
+                // Tải xong dữ liệu
+                progressBarFindRoom.setVisibility(View.GONE);
+
+                // Hiển thị kết quả trả về.
+                lLayHaveResultReturn.setVisibility(View.VISIBLE);
+                txtResultReturn.setText(String.valueOf(findRoomModelist.size()));
             }
         };
 
@@ -85,6 +104,8 @@ public class FindRoomController {
 
         //Tạo layout cho danh sách tìm phòng trọ;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        //((LinearLayoutManager) layoutManager).setReverseLayout(true);
+       // ((LinearLayoutManager) layoutManager).setStackFromEnd(false);
         recyclerFindRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
@@ -144,6 +165,9 @@ public class FindRoomController {
 
                     //Thêm vào trong danh sách trọ
                     findRoomModelistFilter.add(valueRoom);
+
+                    sortListComments(findRoomModelistFilter);
+
                     //Thông báo là đã có thêm dữ liệu
                     adapterRecyclerFindRoomFilter.notifyDataSetChanged();
                     progressBarFindRoom.setVisibility(View.GONE);
@@ -157,6 +181,16 @@ public class FindRoomController {
             @Override
             public void addSuccessNotify() {
 
+            }
+
+            @Override
+            public void getSuccessNotify() {
+                // Tải xong dữ liệu
+                progressBarFindRoom.setVisibility(View.GONE);
+
+                // Hiện thi kết quả trả vể.
+                lLayHaveResultReturn.setVisibility(View.VISIBLE);
+                txtResultReturn.setText(String.valueOf(findRoomModelistFilter.size()));
             }
         };
 
@@ -194,5 +228,29 @@ public class FindRoomController {
         }
 
         return false;
+    }
+
+    public void sortListComments(List<FindRoomModel> listComments) {
+        Collections.sort(listComments, new Comparator<FindRoomModel>() {
+            @Override
+            public int compare(FindRoomModel findRoomModel1, FindRoomModel findRoomModel2) {
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date date1 = null;
+                try {
+                    date1 = df.parse(findRoomModel1.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Date date2 = null;
+                try {
+                    date2 = df.parse(findRoomModel2.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                return date2.compareTo(date1);
+            }
+        });
     }
 }

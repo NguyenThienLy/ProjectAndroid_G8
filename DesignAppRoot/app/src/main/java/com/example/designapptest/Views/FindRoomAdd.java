@@ -2,8 +2,10 @@ package com.example.designapptest.Views;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,7 +23,10 @@ import com.example.designapptest.R;
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class FindRoomAdd extends AppCompatActivity {
@@ -60,6 +65,8 @@ public class FindRoomAdd extends AppCompatActivity {
     // Id Của người dùng hiện tại.
     String currentUserId;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +98,20 @@ public class FindRoomAdd extends AppCompatActivity {
     }
     //End load dữ liệu vào danh sách trong lần đầu chạy
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     private void initControl() {
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(Color.parseColor("#00DDFF"));
+
+        progressBarFindRoomAdd = (ProgressBar)  findViewById(R.id.progress_find_room_add);
+        progressBarFindRoomAdd.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                        android.graphics.PorterDuff.Mode.MULTIPLY);
+
         // Các control của người dùng hiện tại
         imgAvatarUser = (ImageView) findViewById(R.id.img_avatar_user_find_room_add);
         imgGenderUser = (ImageView) findViewById(R.id.img_gender_user_find_room_add);
@@ -163,13 +183,18 @@ public class FindRoomAdd extends AppCompatActivity {
         chBoxArcondition = findViewById(R.id.chBox_arcondition);
 
         btnPostFindRoom = (Button) findViewById(R.id.btn_post_find_room_add);
-
-        progressBarFindRoomAdd = (ProgressBar)  findViewById(R.id.progress_find_room_add);
     }
-
 
     // Khởi tạo giá trị cho các control
     private void initData() {
+        // Thiết lập toolbar
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle("Thêm tìm ở ghép");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         minPrice = (float) 0.5;
         maxPrice = 10;
 
@@ -203,6 +228,10 @@ public class FindRoomAdd extends AppCompatActivity {
     private FindRoomModel getNewFindRoom() {
         // Id của người đăng tìm kiếm ỏ ghép.
         String userID = currentUserId;
+
+        // thời gian đăng.
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String date = df.format(Calendar.getInstance().getTime());
 
         //Tao moi list các tiện nghi
         lstConvenients = new ArrayList<String>();
@@ -277,7 +306,7 @@ public class FindRoomAdd extends AppCompatActivity {
             gender = false;
         }
 
-        FindRoomModel findRoomModel = new FindRoomModel(userID, minPrice, maxPrice, gender, null, lstConvenients, lstLocationSearchs);
+        FindRoomModel findRoomModel = new FindRoomModel(userID, date, minPrice, maxPrice, gender, null, lstConvenients, lstLocationSearchs);
 
         return findRoomModel;
     }

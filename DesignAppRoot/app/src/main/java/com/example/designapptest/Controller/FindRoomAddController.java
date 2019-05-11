@@ -79,6 +79,11 @@ public class FindRoomAddController {
                 // Chuyển về trang hiển thị danh sách file room
                 ((AppCompatActivity)context).finish();
             }
+
+            @Override
+            public void getSuccessNotify() {
+
+            }
         };
 
         //Gọi hàm lấy dữ liệu trong model
