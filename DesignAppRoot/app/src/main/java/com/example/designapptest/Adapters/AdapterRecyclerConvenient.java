@@ -29,14 +29,14 @@ public class AdapterRecyclerConvenient extends RecyclerView.Adapter<AdapterRecyc
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView img_utility_room_detail;
-        TextView txt_nameUtility_utility_room_detail;
+        ImageView imgUtilityRoomDetail;
+        TextView txtNameUtilityRoomDetail;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            img_utility_room_detail = (ImageView) itemView.findViewById(R.id.img_utility_room_detail);
-            txt_nameUtility_utility_room_detail = (TextView) itemView.findViewById(R.id.txt_nameUtility_utility_room_detail);
+            imgUtilityRoomDetail = (ImageView) itemView.findViewById(R.id.img_utility_room_detail);
+            txtNameUtilityRoomDetail = (TextView) itemView.findViewById(R.id.txt_nameUtility_utility_room_detail);
         }
     }
 
@@ -54,17 +54,17 @@ public class AdapterRecyclerConvenient extends RecyclerView.Adapter<AdapterRecyc
         final ConvenientModel convenientModel = ConvenientModelList.get(i);
 
         //Gán các giá trị vào giao diện
-        viewHolder.txt_nameUtility_utility_room_detail.setText(convenientModel.getName());
+        viewHolder.txtNameUtilityRoomDetail.setText(convenientModel.getName());
 
         int resourceId = context.getResources().getIdentifier(convenientModel.getImageName(), "drawable", contextMain.getPackageName());
-        viewHolder.img_utility_room_detail.setImageResource(resourceId);
+        viewHolder.imgUtilityRoomDetail.setImageResource(resourceId);
     }
 
     @Override
     public int getItemCount() {
         int convenients = ConvenientModelList.size();
-        if (convenients > 5) {
-            return 5;
+        if (convenients > 6) {
+            return 6;
         } else {
             return convenients;
         }

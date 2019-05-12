@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.designapptest.Controller.Interfaces.IReportedRoomModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -137,7 +138,7 @@ public class ReportedRoomModel {
         nodeRoot.addValueEventListener(valueEventListener);
     }
 
-    public void addReport(ReportedRoomModel reportedRoomModel, String roomId, final Context context) {
+    public void addReport(ReportedRoomModel reportedRoomModel, String roomId, IReportedRoomModel iReportedRoomModel) {
         DatabaseReference nodeReportedRoom = FirebaseDatabase.getInstance().getReference().child("ReportedRoom");
         String reportId = nodeReportedRoom.child(roomId).push().getKey();
 
@@ -145,7 +146,7 @@ public class ReportedRoomModel {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(context, "Thanks for your report", Toast.LENGTH_SHORT).show();
+                    iReportedRoomModel.makeToast("Cảm ơn bạn đã báo cáo sai phạm");
                 }
             }
         });

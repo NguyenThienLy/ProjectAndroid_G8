@@ -190,6 +190,8 @@ public class CommentModel implements Parcelable { // Linh thêm
                     }
                 }
                 //End Thêm danh sách bình luận của phòng trọ
+
+                roomCommentModelInterface.setView();
             }
 
             @Override
@@ -251,8 +253,7 @@ public class CommentModel implements Parcelable { // Linh thêm
         nodeRoot.addValueEventListener(valueEventListener);
     }
 
-    public void addComment(CommentModel newCommentModel, String roomId, final Context context,
-                           TextView txtTitle, TextView txtContent) {
+    public void addComment(CommentModel newCommentModel, String roomId, IRoomCommentModel iRoomCommentModel) {
         DatabaseReference nodeComment = FirebaseDatabase.getInstance().getReference().child("RoomComments");
         String commentId = nodeComment.child(roomId).push().getKey();
 
@@ -260,11 +261,8 @@ public class CommentModel implements Parcelable { // Linh thêm
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(context, "Post comment successfully", Toast.LENGTH_SHORT).show();
-
-                    //
-                    txtTitle.setText("");
-                    txtContent.setText("");
+                    iRoomCommentModel.makeToast("Đăng bình luận thành công");
+                    iRoomCommentModel.setView();
                 }
             }
         });

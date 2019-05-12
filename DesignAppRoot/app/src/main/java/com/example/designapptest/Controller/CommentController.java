@@ -5,12 +5,15 @@ import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
 import com.example.designapptest.Controller.Interfaces.IRoomCommentModel;
 import com.example.designapptest.Model.CommentModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -34,7 +37,8 @@ public class CommentController {
         this.sharedPreferences = sharedPreferences;
     }
 
-    public void ListRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel) {
+    public void ListRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel, TextView txtRoomGreatReview,
+                                 TextView txtRoomPrettyGoodReview, TextView txtRoomMediumReview, TextView txtRoomBadReview) {
         final List<CommentModel> commentModelList = new ArrayList<CommentModel>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -75,6 +79,37 @@ public class CommentController {
             public void refreshListRoomComments() {
                 commentModelList.clear();
                 myListRoomComments.clear();
+            }
+
+            @Override
+            public void makeToast(String message) {
+
+            }
+
+            @Override
+            public void setView() {
+                // Load số lượng bình luận thuộc từng loại điểm
+                long great, prettyGood, medium, bad;
+                great = prettyGood = medium = bad = 0;
+                for(CommentModel commentModel : commentModelList) {
+                    long stars = commentModel.getStars();
+
+                    if (stars < 4) {
+                        bad += 1;
+                    } else if (stars < 7) {
+                        medium += 1;
+                    } else if (stars < 9) {
+                        prettyGood += 1;
+                    } else {
+                        great += 1;
+                    }
+                }
+
+                txtRoomBadReview.setText(bad + "");
+                txtRoomMediumReview.setText(medium + "");
+                txtRoomPrettyGoodReview.setText(prettyGood + "");
+                txtRoomGreatReview.setText(great + "");
+                // End load số lượng bình luận thuộc từng loại điểm
             }
         };
 
@@ -121,7 +156,30 @@ public class CommentController {
     }
 
     public void addComment(CommentModel newCommentModel, String roomId, TextView txtTitle, TextView txtContent) {
-        commentModel.addComment(newCommentModel, roomId, context, txtTitle, txtContent);
+        IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {
+            @Override
+            public void getListRoomComments(CommentModel valueComment) {
+
+            }
+
+            @Override
+            public void refreshListRoomComments() {
+
+            }
+
+            @Override
+            public void makeToast(String message) {
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void setView() {
+                txtTitle.setText("");
+                txtContent.setText("");
+            }
+        };
+
+        commentModel.addComment(newCommentModel, roomId, iRoomCommentsModel);
     }
 
     public void sortListComments(List<CommentModel> listComments) {

@@ -320,89 +320,16 @@
                         android:layout_marginBottom="5dp"
                         android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycler_price_room_detail"
+                            android:stretchMode="spacingWidthUniform"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_svg_light_100" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="3.5k"
-                                android:textAlignment="center"
-                                android:textColor="@color/colorGrayType1"
-                                android:textSize="13sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_svg_water_100" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="100k"
-                                android:textAlignment="center"
-                                android:textColor="@color/colorGrayType1"
-                                android:textSize="13sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_svg_wifi_100" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="3.5k"
-                                android:textAlignment="center"
-                                android:textColor="#666666"
-                                android:textSize="13sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_svg_motobike_100" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Miễn phí"
-                                android:textAlignment="center"
-                                android:textColor="#666666"
-                                android:textSize="13sp" />
-                        </LinearLayout>
+                        </android.support.v7.widget.RecyclerView>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -530,7 +457,7 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_convenients_room_detail"
-                        android:columnWidth="80dp"
+                        android:columnWidth="100dp"
                         android:verticalSpacing="18dp"
                         android:stretchMode="spacingWidthUniform"
                         android:gravity="center"
@@ -962,7 +889,8 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="5dp"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:background="@color/colorSpaceVer">
 
                     </android.support.v7.widget.RecyclerView>
 
