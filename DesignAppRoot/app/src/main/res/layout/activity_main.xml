@@ -67,146 +67,147 @@
                                 android:layout_marginRight="10dp"
                                 android:src="@drawable/ic_png_search_100"/>
                         </RelativeLayout>
-                        <!--<TableLayout
-                            android:layout_marginTop="20dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp">
-                            <TableRow
-                                android:layout_marginTop="10dp"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal">
-                                <LinearLayout android:layout_width="100dp"
-                                    android:layout_marginRight="10dp"
-                                    android:layout_height="90dp"
-                                    android:orientation="vertical"
-                                    android:background="@drawable/custom_profile">
-                                    <ImageView
-                                        android:layout_width="25dp"
-                                        android:layout_height="25dp"
-                                        android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/img_icon_1"
-                                        android:layout_marginTop="20dp"/>
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Tốc độ"
-                                        android:textSize="12dp"
-                                        android:textStyle="bold"
-                                        android:layout_marginTop="5dp"
-                                        android:textAlignment="center"/>
-                                </LinearLayout>
-                                <LinearLayout android:layout_width="100dp"
-                                    android:layout_height="90dp"
-                                    android:orientation="vertical"
-                                    android:background="@drawable/custom_profile">
-                                    <ImageView
-                                        android:layout_width="25dp"
-                                        android:layout_height="25dp"
-                                        android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/img_icon_2"
-                                        android:layout_marginTop="20dp"/>
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Ứng dụng"
-                                        android:textSize="12dp"
-                                        android:textStyle="bold"
-                                        android:layout_marginTop="5dp"
-                                        android:textAlignment="center"/>
-                                </LinearLayout>
-                                <LinearLayout android:layout_width="100dp"
-                                    android:layout_marginLeft="10dp"
-                                    android:layout_height="90dp"
-                                    android:orientation="vertical"
-                                    android:background="@drawable/custom_profile">
-                                    <ImageView
-                                        android:layout_width="25dp"
-                                        android:layout_height="25dp"
-                                        android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/img_icon_5"
-                                        android:layout_marginTop="20dp"/>
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Tin cậy"
-                                        android:textSize="12dp"
-                                        android:textStyle="bold"
-                                        android:layout_marginTop="5dp"
-                                        android:textAlignment="center"/>
-                                </LinearLayout>
-                            </TableRow>
-                            <TableRow
-                                android:layout_marginTop="10dp"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal">
-                                <LinearLayout android:layout_width="100dp"
-                                    android:layout_marginRight="10dp"
-                                    android:layout_height="90dp"
-                                    android:orientation="vertical"
-                                    android:background="@drawable/custom_profile">
-                                    <ImageView
-                                        android:layout_width="25dp"
-                                        android:layout_height="25dp"
-                                        android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/img_icon_3"
-                                        android:layout_marginTop="20dp"/>
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Giải pháp"
-                                        android:textSize="12dp"
-                                        android:textStyle="bold"
-                                        android:layout_marginTop="5dp"
-                                        android:textAlignment="center"/>
-                                </LinearLayout>
-                                <LinearLayout android:layout_width="100dp"
-                                    android:layout_height="90dp"
-                                    android:orientation="vertical"
-                                    android:background="@drawable/custom_profile">
-                                    <ImageView
-                                        android:layout_width="25dp"
-                                        android:layout_height="25dp"
-                                        android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/img_icon_4"
-                                        android:layout_marginTop="20dp"/>
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Bảo mật"
-                                        android:textSize="12dp"
-                                        android:textStyle="bold"
-                                        android:layout_marginTop="5dp"
-                                        android:textAlignment="center"/>
-                                </LinearLayout>
-                                <LinearLayout android:layout_width="100dp"
-                                    android:layout_marginLeft="10dp"
-                                    android:layout_height="90dp"
-                                    android:orientation="vertical"
-                                    android:background="@drawable/custom_profile">
-                                    <ImageView
-                                        android:layout_width="25dp"
-                                        android:layout_height="25dp"
-                                        android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/img_icon_6"
-                                        android:layout_marginTop="20dp"/>
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Cập nhật"
-                                        android:textSize="12dp"
-                                        android:textStyle="bold"
-                                        android:layout_marginTop="5dp"
-                                        android:textAlignment="center"/>
-                                </LinearLayout>
-                            </TableRow>
-                        </TableLayout>-->
                     </LinearLayout>
                 </RelativeLayout>
+                <TableLayout
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+                    <TableRow
+                        android:layout_marginTop="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
+                        <LinearLayout android:layout_width="100dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_height="90dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/custom_profile">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/img_icon_1"
+                                android:layout_marginTop="20dp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Tốc độ"
+                                android:textSize="12dp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="5dp"
+                                android:textAlignment="center"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_width="100dp"
+                            android:layout_height="90dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/custom_profile">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/img_icon_2"
+                                android:layout_marginTop="20dp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Ứng dụng"
+                                android:textSize="12dp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="5dp"
+                                android:textAlignment="center"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_width="100dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_height="90dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/custom_profile">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/img_icon_5"
+                                android:layout_marginTop="20dp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Tin cậy"
+                                android:textSize="12dp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="5dp"
+                                android:textAlignment="center"/>
+                        </LinearLayout>
+                    </TableRow>
+                    <TableRow
+                        android:layout_marginTop="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
+                        <LinearLayout android:layout_width="100dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_height="90dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/custom_profile">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/img_icon_3"
+                                android:layout_marginTop="20dp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Giải pháp"
+                                android:textSize="12dp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="5dp"
+                                android:textAlignment="center"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_width="100dp"
+                            android:layout_height="90dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/custom_profile">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/img_icon_4"
+                                android:layout_marginTop="20dp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Bảo mật"
+                                android:textSize="12dp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="5dp"
+                                android:textAlignment="center"/>
+                        </LinearLayout>
+                        <LinearLayout android:layout_width="100dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_height="90dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/custom_profile">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/img_icon_6"
+                                android:layout_marginTop="20dp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Cập nhật"
+                                android:textSize="12dp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="5dp"
+                                android:textAlignment="center"/>
+                        </LinearLayout>
+                    </TableRow>
+                </TableLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     android:background="#ffffff">
                     <ImageView
@@ -321,9 +322,10 @@
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp"
                     android:horizontalSpacing="20dp"
                     android:verticalSpacing="30dp">
-
                 </android.support.v7.widget.RecyclerView>
                 <!--End Hiển thị danh sách trọ random-->
 

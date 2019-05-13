@@ -5,15 +5,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/cardViewRoomList"
-    android:padding="0dp"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="5dp"
-    android:layout_marginTop="20px">
-
+    app:cardElevation="0dp"
+    android:paddingRight="5dp"
+    android:paddingLeft="5dp"
+    android:layout_marginTop="10dp">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/img_room"
@@ -114,7 +115,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
                     android:gravity="right"
-                    android:paddingLeft="10dp"
                     android:text="KÍ TÚC XÁ"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="12dp" />
@@ -141,7 +141,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="Cho thuê phòng trọ giá rẻ"
                 android:textColor="#333333"
@@ -156,7 +155,6 @@
                 android:ellipsize="end"
                 android:lineSpacingExtra="3dp"
                 android:maxLines="2"
-                android:paddingLeft="10dp"
                 android:paddingTop="3dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="10dp"
