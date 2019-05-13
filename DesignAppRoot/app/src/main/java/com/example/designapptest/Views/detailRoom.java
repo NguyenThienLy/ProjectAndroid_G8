@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
 import com.example.designapptest.Adapters.AdapterRecyclerConvenient;
+import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
 import com.example.designapptest.Adapters.AdapterRecyclerRoomPrice;
 import com.example.designapptest.Adapters.AdapterViewPagerImageShow;
 import com.example.designapptest.ClassOther.classFunctionStatic;
@@ -63,6 +64,9 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
     RecyclerView recyclerConvenientsRoomDetail;
     AdapterRecyclerConvenient adapterRecyclerConvenient;
 
+    RecyclerView recyclerTheSameRoomDetail;
+    AdapterRecyclerMainRoom adapterRecyclerTheSame;
+
     RecyclerView recyclerPriceRoomDetail;
     AdapterRecyclerRoomPrice adapterRecyclerRoomPrice;
 
@@ -96,8 +100,10 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         roomModel = getIntent().getParcelableExtra("phongtro");
         sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
         commentController = new CommentController(this, sharedPreferences);
+
         mainActivityController = new MainActivityController(this, sharedPreferences);
         reportedRoomController = new ReportedRoomController(this, sharedPreferences);
+
 
         initControl();
 
@@ -119,6 +125,8 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         clickPostComment();
 
         clickShowImage();
+
+        loadTheSameRoom();
 
 //        clickAddToFavorite();
 
@@ -244,6 +252,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         recyclerCommentRoomDetail = (RecyclerView) findViewById(R.id.recycler_comment_room_detail);
         recyclerConvenientsRoomDetail = (RecyclerView) findViewById(R.id.recycler_convenients_room_detail);
         recyclerPriceRoomDetail = (RecyclerView) findViewById(R.id.recycler_price_room_detail);
+        recyclerTheSameRoomDetail = (RecyclerView) findViewById(R.id.recycler_the_same_room_detail);
     }
 
     // Khởi tạo các giá trị cho các control.
@@ -534,4 +543,9 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         }
     }
 
+    // Hàm load các phòng trọ cùng tiêu chí
+    private void loadTheSameRoom() {
+        // Demo chưa lọc các phòng cùng tiêu chí
+        mainActivityController.ListTheSameRoom(recyclerTheSameRoomDetail);
+    }
 }

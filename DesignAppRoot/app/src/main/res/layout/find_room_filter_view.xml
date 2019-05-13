@@ -18,7 +18,7 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lLay_header">
+            android:layout_below="@+id/toolbar">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,7 +29,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="60dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical">
@@ -143,7 +142,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringD1PriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -160,7 +159,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringD2PriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -181,7 +180,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringD3PriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -198,7 +197,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringD4PriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -219,7 +218,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringD5PriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -236,7 +235,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringD6PriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -257,7 +256,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringD7PriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -274,7 +273,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringD8PriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -295,7 +294,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringD9PriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -312,7 +311,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringD10PriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -333,7 +332,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringD11PriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -350,7 +349,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringD12PriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -371,7 +370,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringDThuDucPriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -388,7 +387,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringBinhTânPriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -409,7 +408,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringDGovapPriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -426,7 +425,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringDTanBinhPriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -447,7 +446,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringDPhuNhuanPriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -464,7 +463,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringBinhThanhPriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -485,7 +484,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringDTanPhuPriceFindRoomFilter"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -533,7 +532,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringWCPushRoom"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -551,7 +550,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringWifiPushRoom"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -573,7 +572,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringFreePushRoom"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -591,7 +590,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringBedPushRoom"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -613,7 +612,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringFridgePushRoom"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -631,7 +630,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringWardrobePushRoom"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -653,7 +652,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringPetPushRoom"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -671,7 +670,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringWindowPushRoom"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -693,7 +692,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringParkingPushRoom"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -711,7 +710,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/StringWashmachinePushRoom"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -732,7 +731,7 @@
                                 android:drawableLeft="@drawable/ic_svg_waterheater_24"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:text="@string/StringWaterheat" />
 
                             <TextView
@@ -751,7 +750,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/StringSecurityPushRoom"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                         </LinearLayout>
 
@@ -773,7 +772,7 @@
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/stringAirconditionPushRoom"
-                                android:textColor="@color/colorGrayType1"/>
+                                android:textColor="@drawable/custom_radio_text_color"/>
 
                             <TextView
                                 android:layout_width="0dp"

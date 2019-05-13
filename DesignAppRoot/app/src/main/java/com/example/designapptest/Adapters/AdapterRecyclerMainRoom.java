@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 import com.example.designapptest.Views.detailRoom;
@@ -23,8 +24,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecyclerMainRoom.ViewHolder> {
@@ -45,7 +48,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment, txtType;
+        TextView txtTimeCreated, txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment, txtType;
         ImageView imgRoom, imgGender;
         CardView cardViewRoomList;
 
@@ -53,6 +56,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
             super(itemView);
 
+            txtTimeCreated = (TextView) itemView.findViewById(R.id.txt_timeCreated);
             txtName = (TextView) itemView.findViewById(R.id.txt_name);
             txtMaxNumber = (TextView) itemView.findViewById(R.id.txt_quantityMember);
             txtPrice = (TextView) itemView.findViewById(R.id.txt_price);
@@ -82,6 +86,18 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
         //Gán các giá trị vào giao diện
         //classFunctionStatic.showProgress(context, viewHolder.imgRoom);
+
+        // Gán thời gian cho main room
+        // Đổi string date to long.
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date;
+
+        try {
+            date = format.parse(roomModel.getTimeCreated());
+            viewHolder.txtTimeCreated.setText(classFunctionStatic.getTimeAgo(date.getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         viewHolder.txtName.setText(roomModel.getName());
         viewHolder.txtMaxNumber.setText(String.valueOf((int) roomModel.getMaxNumber()));

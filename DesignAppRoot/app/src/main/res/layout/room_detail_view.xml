@@ -20,6 +20,7 @@
             android:layout_below="@id/toolbar">
 
             <LinearLayout
+                android:background="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -202,7 +203,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/stringName"
-                        android:textColor="@android:color/background_dark"
+                        android:textColor="@color/colorGrayType1"
                         android:textSize="25sp" />
 
                     <LinearLayout
@@ -226,13 +227,14 @@
                                 android:textSize="10sp" />
 
                             <TextView
+                                android:layout_marginTop="5dp"
                                 android:id="@+id/txt_roomPrice"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="4,5 tr/ph"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/holo_blue_bright"
-                                android:textSize="20sp" />
+                                android:textSize="15sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -250,13 +252,14 @@
                                 android:textSize="10sp" />
 
                             <TextView
+                                android:layout_marginTop="5dp"
                                 android:id="@+id/txt_roomStatus"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Còn"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/holo_blue_bright"
-                                android:textSize="20sp" />
+                                android:textSize="15sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -274,13 +277,14 @@
                                 android:textSize="10sp" />
 
                             <TextView
+                                android:layout_marginTop="5dp"
                                 android:id="@+id/txt_roomArea"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="5m x 5m"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/holo_blue_bright"
-                                android:textSize="20sp" />
+                                android:textSize="15sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -298,12 +302,13 @@
                                 android:textSize="10sp" />
 
                             <TextView
+                                android:layout_marginTop="5dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="1 tháng"
                                 android:textAlignment="center"
                                 android:textColor="@android:color/holo_blue_bright"
-                                android:textSize="20sp" />
+                                android:textSize="15sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -348,7 +353,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/stringNote"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorGrayType1"
                         android:textSize="22sp" />
 
                     <TextView
@@ -452,7 +457,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/stringUtilities"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorGrayType1"
                         android:textSize="22sp" />
 
                     <android.support.v7.widget.RecyclerView
@@ -516,7 +521,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/stringAdress"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorGrayType1"
                         android:textSize="22sp" />
 
                     <LinearLayout
@@ -617,7 +622,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/stringDetail"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorGrayType1"
                         android:textSize="22sp" />
 
                     <TextView
@@ -677,7 +682,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/stringEvaluate"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorGrayType1"
                         android:textSize="22sp" />
 
 
@@ -943,19 +948,25 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/stringSameCriteria"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorGrayType1"
                         android:textSize="22sp" />
 
-                    <GridView
-                        android:id="@+id/grV_sameCriteria_room_detail"
-                        android:layout_width="match_parent"
-                        android:layout_height="700dp"
-                        android:layout_margin="10dp"
-                        android:columnWidth="175dp"
-                        android:gravity="center"
-                        android:numColumns="auto_fit"
+                    <!--Hiển thị danh sách trọ random-->
+                    <android.support.v7.widget.RecyclerView
                         android:stretchMode="spacingWidth"
-                        android:verticalSpacing="10dp"></GridView>
+                        android:layout_marginBottom="100dp"
+                        android:gravity="center"
+                        android:id="@+id/recycler_the_same_room_detail"
+                        android:numColumns="2"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:horizontalSpacing="20dp"
+                        android:verticalSpacing="30dp">
+                    </android.support.v7.widget.RecyclerView>
+                    <!--End Hiển thị danh sách trọ random-->
 
                     <View
                         android:layout_width="fill_parent"

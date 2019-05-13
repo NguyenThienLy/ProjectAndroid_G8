@@ -62,7 +62,7 @@ public class roomManagementModel extends AppCompatActivity {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
                 int pos = Math.round(h.getX());
-                Toast.makeText(roomManagementModel.this,nameData[pos],Toast.LENGTH_SHORT).show();
+//                Toast.makeText(roomManagementModel.this,nameData[pos],Toast.LENGTH_SHORT).show();
             }
 
             @Override

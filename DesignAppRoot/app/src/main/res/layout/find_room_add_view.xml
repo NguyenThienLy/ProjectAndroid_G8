@@ -16,7 +16,7 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lLay_header"
+            android:layout_below="@+id/toolbar"
             >
 
             <LinearLayout
@@ -26,7 +26,6 @@
 
                 <!--Processbar-->
                 <ProgressBar
-                    android:layout_marginTop="60dp"
                     android:id="@+id/progress_find_room_add"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
@@ -34,7 +33,7 @@
                 <!--End Processbar-->
 
                 <RelativeLayout
-                    android:layout_marginTop="60dp"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="200dp">
                          <RelativeLayout
@@ -64,7 +63,7 @@
                         android:textColor="@color/colorGrayType1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="30sp"
+                        android:textSize="25sp"
                         android:textStyle="bold"
                         android:text="Nguyễn Thiên Lý"/>
 
@@ -187,7 +186,7 @@
                             android:orientation="horizontal">
                             <CheckBox
                                 android:id="@+id/chBox_D1"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringD1PriceFindRoomAdd"
@@ -206,7 +205,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringD2PriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:padding="10dp"
                                 android:layout_weight="3"
                                 android:layout_width="0dp"
@@ -225,7 +224,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringD3PriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:gravity="center"
                                 android:layout_weight="3"
                                 android:padding="10dp"
@@ -241,7 +240,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringD4PriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:padding="10dp"
                                 android:layout_weight="3"
                                 android:layout_width="0dp"
@@ -260,7 +259,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringD5PriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:gravity="center"
                                 android:layout_weight="3"
                                 android:padding="10dp"
@@ -276,7 +275,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringD6PriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:padding="10dp"
                                 android:layout_weight="3"
                                 android:layout_width="0dp"
@@ -295,7 +294,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringD7PriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:gravity="center"
                                 android:layout_weight="3"
                                 android:padding="10dp"
@@ -311,7 +310,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringD8PriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:padding="10dp"
                                 android:layout_weight="3"
                                 android:layout_width="0dp"
@@ -330,7 +329,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringD9PriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:gravity="center"
                                 android:layout_weight="3"
                                 android:padding="10dp"
@@ -346,7 +345,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringD10PriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:padding="10dp"
                                 android:layout_weight="3"
                                 android:layout_width="0dp"
@@ -365,7 +364,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringD11PriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:gravity="center"
                                 android:layout_weight="3"
                                 android:padding="10dp"
@@ -381,7 +380,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringD12PriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:padding="10dp"
                                 android:layout_weight="3"
                                 android:layout_width="0dp"
@@ -400,7 +399,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringDThuDucPriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:gravity="center"
                                 android:layout_weight="3"
                                 android:padding="10dp"
@@ -416,7 +415,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringBinhTânPriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:padding="10dp"
                                 android:layout_weight="3"
                                 android:layout_width="0dp"
@@ -435,7 +434,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringDGovapPriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:gravity="center"
                                 android:layout_weight="3"
                                 android:padding="10dp"
@@ -451,7 +450,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringDTanBinhPriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:padding="10dp"
                                 android:layout_weight="3"
                                 android:layout_width="0dp"
@@ -470,7 +469,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringDPhuNhuanPriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:gravity="center"
                                 android:layout_weight="3"
                                 android:padding="10dp"
@@ -486,7 +485,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringBinhThanhPriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:padding="10dp"
                                 android:layout_weight="3"
                                 android:layout_width="0dp"
@@ -505,7 +504,7 @@
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:text="@string/stringDTanPhuPriceFindRoomAdd"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:gravity="center"
                                 android:layout_weight="3"
                                 android:padding="10dp"
@@ -546,7 +545,7 @@
                             android:orientation="horizontal">
                             <CheckBox
                                 android:id="@+id/chBox_wc"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_wc_24"
@@ -563,7 +562,7 @@
                             <CheckBox
                                 android:id="@+id/chBox_wifi"
                                 android:gravity="center"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_wifi_24"
@@ -583,7 +582,7 @@
                             android:orientation="horizontal">
                             <CheckBox
                                 android:id="@+id/chBox_clock"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_clock_24"
@@ -600,7 +599,7 @@
                             <CheckBox
                                 android:id="@+id/chBox_bed"
                                 android:gravity="center"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_bed_24"
@@ -624,7 +623,7 @@
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_fridge_24"
                                 android:text="@string/stringFridgePushRoom"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:gravity="center"
                                 android:layout_weight="3"
                                 android:padding="10dp"
@@ -641,7 +640,7 @@
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_wardrobe_24"
                                 android:text="@string/stringWardrobePushRoom"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:padding="10dp"
                                 android:layout_weight="3"
                                 android:layout_width="0dp"
@@ -657,7 +656,7 @@
                             android:orientation="horizontal">
                             <CheckBox
                                 android:id="@+id/chBox_pet"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_pet_24"
@@ -678,7 +677,7 @@
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_window_24"
                                 android:text="@string/stringWindowPushRoom"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:padding="10dp"
                                 android:layout_weight="3"
                                 android:layout_width="0dp"
@@ -694,7 +693,7 @@
                             android:orientation="horizontal">
                             <CheckBox
                                 android:id="@+id/chBox_parking"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_motobike_24"
@@ -711,7 +710,7 @@
                             <CheckBox
                                 android:id="@+id/chBox_washmachine"
                                 android:gravity="center"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_washmachine_24"
@@ -731,7 +730,7 @@
                             android:orientation="horizontal">
                             <CheckBox
                                 android:id="@+id/chBox_waterheater"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_waterheater_24"
@@ -748,7 +747,7 @@
                             <CheckBox
                                 android:id="@+id/chBox_security"
                                 android:gravity="center"
-                                android:textColor="@color/colorGrayType1"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_security_24"
@@ -768,6 +767,7 @@
                             android:orientation="horizontal">
                             <CheckBox
                                 android:id="@+id/chBox_arcondition"
+                                android:textColor="@drawable/custom_radio_text_color"
                                 android:button="@android:color/transparent"
                                 android:background="@drawable/custom_checkbox_arcondition"
                                 android:drawableLeft="@drawable/ic_svg_aircondition_24"

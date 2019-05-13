@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -83,15 +84,18 @@ public class FindRoomDetail extends AppCompatActivity {
 
         txtNameUser = (TextView) findViewById(R.id.txt_name_user_find_room_detail);
         txtAboutPrice = (TextView) findViewById(R.id.txt_abouPrice_find_room_detail);
+
         grVLocationSearch = (GridView) findViewById(R.id.grV_locationSearch_find_room_detail);
+//        ViewGroup.LayoutParams layoutParams = grVLocationSearch.getLayoutParams();
+//        layoutParams.height = 50; //this is in pixels
+//        grVLocationSearch.setLayoutParams(layoutParams);
+
         txtWantGender = (TextView) findViewById(R.id.txt_wantGender_find_room_detail);
 
         btnCallPhone = (Button) findViewById(R.id.btn_callPhone_find_room_detail);
 
         imgGenderUser = (ImageView) findViewById(R.id.img_gender_user_find_room_detail);
         imgAvatarUser = (ImageView) findViewById(R.id.img_avatar_user_find_room_detail);
-
-        //progressBarFindRoomDetail = (ProgressBar) findViewById(R.id.progress_find_room_detail);
 
         recycler_convenients_room_detail = (RecyclerView) findViewById(R.id.recycler_convenients_find_room_detail);
     }

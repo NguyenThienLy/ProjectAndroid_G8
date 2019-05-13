@@ -16,7 +16,7 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lLay_header"
+            android:layout_below="@+id/toolbar"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 <!--&lt;!&ndash;End Processbar&ndash;&gt;-->
                 
                 <RelativeLayout
-                    android:layout_marginTop="60dp"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="200dp">
                     <RelativeLayout
@@ -61,7 +61,7 @@
                     android:textColor="@color/colorGrayType1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:text="Nguyễn Thiên Lý"
                     android:textStyle="bold"/>
 
@@ -100,7 +100,7 @@
                         android:gravity="right"
                         android:text="@string/stringAboutPriceFindRoomDetail"
                         android:textColor="@color/colorGrayType2"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
                     />
 
                     <TextView
@@ -150,23 +150,23 @@
                         android:gravity="right"
                         android:text="@string/stringLocationSearchFindRoomDetail"
                         android:textColor="@color/colorGrayType2"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
                     />
 
                     <GridView
                         android:layout_marginTop="20dp"
                         android:id="@+id/grV_locationSearch_find_room_detail"
                         android:columnWidth="120dp"
+
                         android:verticalSpacing="18dp"
                         android:stretchMode="spacingWidthUniform"
                         android:gravity="center"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-
                         android:numColumns="auto_fit"
                         android:layout_margin="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="80dp" />
                     />
                 </LinearLayout>
 
@@ -194,7 +194,7 @@
                         android:gravity="right"
                         android:text="@string/stringWantGenderFindRoomDetail"
                         android:textColor="@color/colorGrayType2"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
                     />
 
                     <TextView

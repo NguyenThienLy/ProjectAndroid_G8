@@ -56,7 +56,7 @@
                     android:layout_toRightOf="@+id/txt_type"
                     android:text="8"
                     android:textColor="#ffffff"
-                    android:textSize="12dp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <TextView
@@ -67,7 +67,7 @@
                 android:layout_marginTop="10dp"
                 android:text="5m x 4m"
                 android:textColor="#ffffff"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
             />
 
             <LinearLayout
@@ -95,7 +95,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="329"
                     android:textColor="#ffffff"
-                    android:textSize="12dp" />
+                    android:textSize="12sp" />
                 />
             </LinearLayout>
         </RelativeLayout>
@@ -106,6 +106,17 @@
             android:layout_marginTop="135dp"
             android:background="#ffffff"
             android:orientation="vertical">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/txt_timeCreated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:text="10/22/2018 "
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12dp" />
+            />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -117,7 +128,7 @@
                     android:gravity="right"
                     android:text="KÍ TÚC XÁ"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="12dp" />
+                    android:textSize="12sp" />
                 />
                 <TextView
                     android:id="@+id/txt_price"
@@ -129,8 +140,7 @@
                     android:text="2.5 triệu / phòng"
                     android:layout_alignParentRight="true"
                     android:textColor="#00BFFF"
-                    android:textSize="12dp"
-                    android:layout_marginRight="10dp"
+                    android:textSize="12sp"
                     android:ellipsize="end"
                     android:padding="2dp"
                     android:maxLines="1"/>
@@ -141,10 +151,10 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:paddingRight="10dp"
+                android:paddingRight="10sp"
                 android:text="Cho thuê phòng trọ giá rẻ"
-                android:textColor="#333333"
-                android:textSize="14dp"
+                android:textColor="@color/colorGrayType1"
+                android:textSize="14sp"
                 android:layout_marginTop="3dp"
                 android:textStyle="bold"
                 android:lineSpacingExtra="3dp"/>
@@ -160,7 +170,7 @@
                 android:paddingBottom="10dp"
                 android:text="127 An Dương Vương, Bình Tân, TP Hồ Chí Minh"
                 android:textColor="#999999"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

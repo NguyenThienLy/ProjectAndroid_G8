@@ -111,7 +111,83 @@ public class MainActivityController {
         roomModel.ListRoom(iMainRoomModel);
     }
 
-    public void ListRoomUser(RecyclerView recyclerMainRoom,String UID){
+    public void ListTheSameRoom(RecyclerView recyclerTheSameRoom) {
+        final List<RoomModel> roomModelList = new ArrayList<>();
+
+        //Tạo layout cho danh sách trọ được hiển thị theo dạng grid phía dưới
+        RecyclerView.LayoutManager layoutManagerGrid = new GridLayoutManager(context, 2);
+        recyclerTheSameRoom.setLayoutManager(layoutManagerGrid);
+
+        //Tạo adapter cho recycle view
+        final AdapterRecyclerMainRoom adapterTheSameRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_grid_view, sharedPreferences);
+        //Cài adapter cho recycle
+        recyclerTheSameRoom.setAdapter(adapterTheSameRoom);
+        //End Tạo layout cho danh sách trọ được hiển thị theo dạng grid phía dưới
+
+        //Tạo interface để truyền dữ liệu lên từ model
+        IMainRoomModel iMainRoomModel = new IMainRoomModel() {
+            @Override
+            public void getListMainRoom(RoomModel valueRoom) {
+//                if (roomModel.getCounty().equals(valueRoom.getCounty())) {
+//                    //Thêm vào trong danh sách trọ
+//                    roomModelList.add(valueRoom);
+//
+//                    //Thông báo là đã có thêm dữ liệu
+//                    adapterTheSameRoom.notifyDataSetChanged();
+//                }
+
+                roomModelList.add(valueRoom);
+
+                //Thông báo là đã có thêm dữ liệu
+                adapterTheSameRoom.notifyDataSetChanged();
+            }
+
+            @Override
+            public void refreshListFavoriteRoom() {
+
+            }
+
+            @Override
+            public void makeToast(String message) {
+
+            }
+
+            @Override
+            public void setIconFavorite(int iconRes) {
+
+            }
+        };
+
+        //Gọi hàm lấy dữ liệu trong model
+        roomModel.ListRoom(iMainRoomModel);
+    }
+
+    // Hàm kiểm tra danh sách tiện nghi
+    private boolean checkTwoConvenients(List<String> lst1, List<String> lst2) {
+        if (lst1 == null || lst2 == null)
+            return false;
+
+        // Biến đếm số lượng tiện nghi trùng lặp.
+        int count = 0;
+        int i, j;
+
+        for (i = 0; i < lst1.size(); i++) {
+            for (j = 0; j < lst2.size(); j++) {
+                if (lst1.get(i).equals(lst2.get(j))) {
+                    count++;
+                }
+            }
+        }
+
+        // Số lượng tiện nghi phải lớn hơn ba.
+        if (count >= 3)
+            return true;
+
+        return false;
+    }
+
+
+    public void ListRoomUser(RecyclerView recyclerMainRoom, String UID) {
         final List<RoomModel> roomModelList = new ArrayList<>();
 
         //Tạo layout cho danh sách trọ tìm kiếm nhiều nhất
@@ -119,7 +195,7 @@ public class MainActivityController {
         recyclerMainRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view,sharedPreferences);
+        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, sharedPreferences);
         //Cài adapter cho recycle
         recyclerMainRoom.setAdapter(adapterRecyclerMainRoom);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
@@ -151,10 +227,9 @@ public class MainActivityController {
         };
 
         //Gọi hàm lấy dữ liệu trong model
-        roomModel.ListRoomUser(iMainRoomModel,UID);
+        roomModel.ListRoomUser(iMainRoomModel, UID);
     }
 
-    
     public void loadTopLocation(GridView grVLocation) {
 
 

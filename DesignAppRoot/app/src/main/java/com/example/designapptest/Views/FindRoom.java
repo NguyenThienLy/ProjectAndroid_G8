@@ -63,6 +63,7 @@ public class FindRoom extends AppCompatActivity {
 
         initControl();
 
+        clickFindRoomAdd();
     }
 
     //Load dữ liệu vào List danh sách trong lần đầu chạy
@@ -72,19 +73,11 @@ public class FindRoom extends AppCompatActivity {
 
         initData();
 
-        clickFindRoomAdd();
-
         if (flagFindRoom == true) {
             findRoomController.ListFindRoom(recyclerFindRoom, progressBarFindRoom, txtResultReturn, lLayHaveResultReturn);
         }
     }
     //End load dữ liệu vào danh sách trong lần đầu chạy
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -110,7 +103,6 @@ public class FindRoom extends AppCompatActivity {
 
     private void initControl() {
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(Color.parseColor("#00DDFF"));
 
         progressBarFindRoom = (ProgressBar) findViewById(R.id.progress_find_room);
         progressBarFindRoom.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
@@ -127,8 +119,6 @@ public class FindRoom extends AppCompatActivity {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle("Tìm ở ghép");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
 
