@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
 import com.example.designapptest.Controller.Interfaces.IRoomCommentModel;
 import com.example.designapptest.Model.CommentModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -24,6 +28,8 @@ public class CommentController {
     CommentModel commentModel;
     Context context;
     SharedPreferences sharedPreferences;
+    static List<CommentModel> myListRoomComments = new ArrayList<>();
+    static AdapterRecyclerComment myAdapterRecyclerComment = null;
 
     public CommentController(Context context, SharedPreferences sharedPreferences) {
         this.context = context;
@@ -31,7 +37,8 @@ public class CommentController {
         this.sharedPreferences = sharedPreferences;
     }
 
-    public void ListRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel){
+    public void ListRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel, TextView txtRoomGreatReview,
+                                 TextView txtRoomPrettyGoodReview, TextView txtRoomMediumReview, TextView txtRoomBadReview) {
         final List<CommentModel> commentModelList = new ArrayList<CommentModel>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -44,6 +51,8 @@ public class CommentController {
         //Cài adapter cho recycle
         recyclerRoomComments.setAdapter(adapterRecyclerComment);
 
+        String currentUserId = sharedPreferences.getString("currentUserId", "");
+
         //Tạo interface để truyền dữ liệu lên từ model
         IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {
             @Override
@@ -51,15 +60,56 @@ public class CommentController {
                 //Thêm vào trong danh sách bình luận
                 commentModelList.add(valueComment);
 
+                if (valueComment.getUser().equals(currentUserId)) {
+                    myListRoomComments.add(valueComment);
+                    sortListComments(myListRoomComments);
+                }
+
                 sortListComments(commentModelList);
 
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerComment.notifyDataSetChanged();
+
+                if (myAdapterRecyclerComment != null) {
+                    myAdapterRecyclerComment.notifyDataSetChanged();
+                }
             }
 
             @Override
             public void refreshListRoomComments() {
                 commentModelList.clear();
+                myListRoomComments.clear();
+            }
+
+            @Override
+            public void makeToast(String message) {
+
+            }
+
+            @Override
+            public void setView() {
+                // Load số lượng bình luận thuộc từng loại điểm
+                long great, prettyGood, medium, bad;
+                great = prettyGood = medium = bad = 0;
+                for(CommentModel commentModel : commentModelList) {
+                    long stars = commentModel.getStars();
+
+                    if (stars < 4) {
+                        bad += 1;
+                    } else if (stars < 7) {
+                        medium += 1;
+                    } else if (stars < 9) {
+                        prettyGood += 1;
+                    } else {
+                        great += 1;
+                    }
+                }
+
+                txtRoomBadReview.setText(bad + "");
+                txtRoomMediumReview.setText(medium + "");
+                txtRoomPrettyGoodReview.setText(prettyGood + "");
+                txtRoomGreatReview.setText(great + "");
+                // End load số lượng bình luận thuộc từng loại điểm
             }
         };
 
@@ -67,44 +117,69 @@ public class CommentController {
         commentModel.ListRoomComments(iRoomCommentsModel, roomModel);
     }
 
-    public void ListMyRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel){
-        final List<CommentModel> commentModelList = new ArrayList<CommentModel>();
+    public void ListMyRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel) {
+//        final List<CommentModel> commentModelList = new ArrayList<CommentModel>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerRoomComments.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
         final AdapterRecyclerComment adapterRecyclerComment = new AdapterRecyclerComment(context,
-                R.layout.comment_element_grid_room_detail_view, commentModelList, roomModel.getRoomID(),
+                R.layout.comment_element_grid_room_detail_view, myListRoomComments, roomModel.getRoomID(),
                 sharedPreferences, true);
         //Cài adapter cho recycle
         recyclerRoomComments.setAdapter(adapterRecyclerComment);
 
+        myAdapterRecyclerComment = adapterRecyclerComment;
+
         //Tạo interface để truyền dữ liệu lên từ model
+//        IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {
+//            @Override
+//            public void getListRoomComments(CommentModel valueComment) {
+//                //Thêm vào trong danh sách bình luận
+//                commentModelList.add(valueComment);
+//
+//                sortListComments(commentModelList);
+//
+//                //Thông báo là đã có thêm dữ liệu
+//                adapterRecyclerComment.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void refreshListRoomComments() {
+//                commentModelList.clear();
+//            }
+//        };
+
+        //Gọi hàm lấy dữ liệu trong model
+//        commentModel.ListMyRoomComments(iRoomCommentsModel, roomModel, sharedPreferences);
+    }
+
+    public void addComment(CommentModel newCommentModel, String roomId, TextView txtTitle, TextView txtContent) {
         IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {
             @Override
             public void getListRoomComments(CommentModel valueComment) {
-                //Thêm vào trong danh sách bình luận
-                commentModelList.add(valueComment);
 
-                sortListComments(commentModelList);
-
-                //Thông báo là đã có thêm dữ liệu
-                adapterRecyclerComment.notifyDataSetChanged();
             }
 
             @Override
             public void refreshListRoomComments() {
-                commentModelList.clear();
+
+            }
+
+            @Override
+            public void makeToast(String message) {
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void setView() {
+                txtTitle.setText("");
+                txtContent.setText("");
             }
         };
 
-        //Gọi hàm lấy dữ liệu trong model
-        commentModel.ListMyRoomComments(iRoomCommentsModel, roomModel, sharedPreferences);
-    }
-
-    public void addComment(CommentModel newCommentModel, String roomId) {
-        commentModel.addComment(newCommentModel, roomId, context);
+        commentModel.addComment(newCommentModel, roomId, iRoomCommentsModel);
     }
 
     public void sortListComments(List<CommentModel> listComments) {

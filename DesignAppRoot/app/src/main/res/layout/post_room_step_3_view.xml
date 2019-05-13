@@ -47,22 +47,30 @@
                 android:textColor="@android:color/holo_blue_bright"/>
         </RelativeLayout>
         <Button
+            android:id="@+id/btn_take_photo"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_svg_camera_24"
             android:text="@string/stringTakePicturePushRoom"
             android:textColor="@android:color/holo_blue_bright"
             android:background="@drawable/custom_rim"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
             />
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_img_upload"
+        <RelativeLayout
+            android:background="@drawable/dotted"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_img_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        </android.support.v7.widget.RecyclerView>
+            </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_wc"
                     android:button="@android:color/transparent"
                     android:background="@drawable/custom_checkbox_arcondition"
@@ -98,6 +107,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_wifi"
                     android:gravity="center"
                     android:button="@android:color/transparent"
@@ -118,6 +128,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_clock"
                     android:button="@android:color/transparent"
                     android:background="@drawable/custom_checkbox_arcondition"
@@ -133,6 +144,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_bed"
                     android:gravity="center"
                     android:button="@android:color/transparent"
@@ -153,6 +165,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_fridge"
                     android:button="@android:color/transparent"
                     android:background="@drawable/custom_checkbox_arcondition"
@@ -168,6 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_wardrobe"
                     android:gravity="center"
                     android:button="@android:color/transparent"
@@ -188,6 +202,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_pet"
                     android:button="@android:color/transparent"
                     android:background="@drawable/custom_checkbox_arcondition"
@@ -203,6 +218,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_window"
                     android:gravity="center"
                     android:button="@android:color/transparent"
@@ -223,6 +239,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_parking"
                     android:button="@android:color/transparent"
                     android:background="@drawable/custom_checkbox_arcondition"
@@ -238,6 +255,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_washmachine"
                     android:gravity="center"
                     android:button="@android:color/transparent"
@@ -258,6 +276,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_waterheater"
                     android:button="@android:color/transparent"
                     android:background="@drawable/custom_checkbox_arcondition"
@@ -273,6 +292,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_security"
                     android:gravity="center"
                     android:button="@android:color/transparent"
@@ -293,6 +313,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <CheckBox
+                    android:textColor="@drawable/custom_radio_text_color"
                     android:id="@+id/chBox_arcondition"
                     android:button="@android:color/transparent"
                     android:background="@drawable/custom_checkbox_arcondition"

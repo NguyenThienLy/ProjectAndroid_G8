@@ -11,9 +11,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="35dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="35dp"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@drawable/ic_svg_location_map_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="@color/success"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="@string/stringChooseLocationPushRoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
         <TextView
             android:layout_width="344dp"
             android:layout_height="wrap_content"
@@ -21,7 +41,7 @@
             android:textColor="@android:color/black"
             android:textStyle="bold" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
@@ -40,7 +60,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/ic_svg_dropdown_24" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:layout_width="344dp"
@@ -108,15 +128,20 @@
             android:textColor="@android:color/black"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edt_street_push_room"
-            android:layout_width="330dp"
-            android:layout_height="40dp"
+        <RelativeLayout
             android:layout_marginTop="10dp"
-            android:background="@drawable/custom_spinner_rim"
-            android:gravity="center"
-            android:hint="@string/stringExampleStreetPushRoom"
-            android:textColor="@android:color/black" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edt_street_push_room"
+                android:layout_width="330dp"
+                android:layout_height="40dp"
+                android:background="@drawable/custom_spinner_rim"
+                android:gravity="center"
+                android:hint="@string/stringExampleStreetPushRoom"
+                android:textColor="@android:color/black" />
+        </RelativeLayout>
+
 
         <TextView
             android:layout_width="344dp"
@@ -126,15 +151,20 @@
             android:textColor="@android:color/black"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edt_no_push_room"
-            android:layout_width="330dp"
-            android:layout_height="40dp"
+        <RelativeLayout
             android:layout_marginTop="10dp"
-            android:background="@drawable/custom_spinner_rim"
-            android:gravity="center"
-            android:hint="@string/stringExampleNoPushRoom"
-            android:textColor="@android:color/black" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edt_no_push_room"
+                android:layout_width="330dp"
+                android:layout_height="40dp"
+                android:background="@drawable/custom_spinner_rim"
+                android:gravity="center"
+                android:hint="@string/stringExampleNoPushRoom"
+                android:textColor="@android:color/black" />
+        </RelativeLayout>
+
 
         <Button
             android:id="@+id/btn_nextStep1_post_room"

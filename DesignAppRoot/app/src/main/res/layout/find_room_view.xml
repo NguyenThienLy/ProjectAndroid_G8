@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lLay_header"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <!--Processbar-->
+                <ProgressBar
+                    android:layout_marginTop="60dp"
+                    android:id="@+id/progress_find_room"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+                <!--End Processbar-->
+
+                <LinearLayout
+                    android:id="@+id/lLay_haveResultReturn_find_room"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="visible">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stringResultReturn"
+                        android:textColor="@color/colorGrayType2"
+                        android:textSize="20sp"/>
+
+                    <TextView
+                        android:id="@+id/txt_resultReturn_find_room"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/colorGrayType1"
+                        android:textSize="25sp"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_find_Room"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center"
+                    >
+                </android.support.v7.widget.RecyclerView>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="15dp"
+                    android:layout_margin="20dp"
+
+                    android:background="@android:color/white" />
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <ImageButton
+            android:id="@+id/btn_findRooomAdd"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_svg_add_blu_100"
+            android:scaleType="centerInside"
+            android:textAllCaps="false"
+            android:background="@drawable/custom_button_find_room"/>
+
+        <LinearLayout
+            android:id="@+id/lLay_menu"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@android:color/white"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+                <Button
+                    android:id="@+id/btn_Map_View"
+                    android:layout_marginTop="7dp"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:drawableTop="@drawable/ic_svg_placeholder_24px"
+                    android:text="Location"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14px"
+                    android:textAllCaps="false"
+                    android:background="?android:attr/selectableItemBackground"/>
+                <Button
+                    android:layout_marginTop="7dp"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:drawableTop="@drawable/ic_svg_group_user_24_2"
+                    android:text="Price"
+                    android:textColor="@android:color/darker_gray"
+                    android:textAllCaps="false"
+                    android:textSize="14px"
+                    android:background="?android:attr/selectableItemBackground"/>
+                <Button
+                    android:layout_marginTop="7dp"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:drawableTop="@drawable/ic_svg_user_24px"
+                    android:text="Account"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14px"
+                    android:textAllCaps="false"
+                    android:background="?android:attr/selectableItemBackground"/>
+                <Button
+                    android:layout_marginTop="7dp"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:drawableTop="@drawable/ic_svg_flash_24"
+                    android:text="Quick search"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14px"
+                    android:textAllCaps="false"
+                    android:background="?android:attr/selectableItemBackground"/>
+                <Button
+                    android:id="@+id/btn_postRoom_main_room"
+                    android:layout_marginTop="7dp"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:drawableTop="@drawable/ic_svg_flash_24"
+                    android:text="Post room"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14px"
+                    android:textAllCaps="false"
+                    android:background="?android:attr/selectableItemBackground"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

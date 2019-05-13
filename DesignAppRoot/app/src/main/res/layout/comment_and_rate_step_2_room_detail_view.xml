@@ -39,7 +39,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/txt_roomGreatReview"
+                    android:id="@+id/txt_roomGreatReview_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -81,7 +81,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/txt_roomPrettyGoodReview"
+                    android:id="@+id/txt_roomPrettyGoodReview_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -123,7 +123,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/txt_roomMediumReview"
+                    android:id="@+id/txt_roomMediumReview_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -165,7 +165,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/txt_roomBadReview"
+                    android:id="@+id/txt_roomBadReview_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -188,7 +188,8 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:background="@color/colorSpaceVer">
 
     </android.support.v7.widget.RecyclerView>
 

@@ -1,5 +1,6 @@
 package com.example.designapptest.Views;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -17,11 +18,6 @@ import android.widget.Toast;
 import com.example.designapptest.Controller.PostRoomStep4Controller;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
-import com.example.designapptest.Views.LoginView;
-import com.example.designapptest.Views.postRoomAdapter;
-import com.example.designapptest.Views.postRoomStep1;
-import com.example.designapptest.Views.postRoomStep2;
-import com.example.designapptest.Views.postRoomStep3;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -78,6 +74,8 @@ public class postRoomStep4 extends Fragment implements View.OnClickListener {
     //Controller thao tác với database
     PostRoomStep4Controller controller;
 
+    ProgressDialog progressDialog;
+
     public postRoomStep4(){
 
     }
@@ -126,6 +124,9 @@ public class postRoomStep4 extends Fragment implements View.OnClickListener {
         listPathImageChoosed.addAll(setPathImage);
         //End lấy dữ liệu từ fragment 3
 
+        Log.d("listimage", listPathImageChoosed.size()+"");
+        Log.d("check", listPathImageChoosed.get(0));
+
         //Lấy UID
         SharedPreferences sharedPreferences2 = this.getActivity().getSharedPreferences(LoginView.PREFS_DATA_NAME, Context.MODE_PRIVATE);
         UID = sharedPreferences2.getString(LoginView.SHARE_UID,"");
@@ -151,6 +152,8 @@ public class postRoomStep4 extends Fragment implements View.OnClickListener {
 
         btnNextStep4PostRoom =view.findViewById(R.id.btn_nextStep4_post_room);
         btnNextStep4PostRoom.setOnClickListener(this);
+
+        progressDialog = new ProgressDialog(getContext());
     }
 
     //Hàm lấy giá trị người dùng nhập từ control
@@ -184,6 +187,11 @@ public class postRoomStep4 extends Fragment implements View.OnClickListener {
                     //Kiểm tra xem những step trước đã hoàn thành chưa
                     if(postRoom.isStepOneComplete()==true&postRoom.isStepTwoComplete()&&postRoom.isStepTreeComplete()){
                         Toast.makeText(getContext(),name + describe,Toast.LENGTH_LONG).show();
+
+                        //Show dialog
+                        progressDialog.setMessage("Đang đăng phòng....");
+                        progressDialog.setIndeterminate(true);
+                        progressDialog.show();
 
                         //Gọi hàm đăng phòng ở controller
                         callAddRoomControlller();
@@ -238,7 +246,7 @@ public class postRoomStep4 extends Fragment implements View.OnClickListener {
         //End set giá trị
 
         //Gọi hàm
-        controller.callAddRoomFromModel(dataRoom,listConvenient,listPathImageChoosed,electricBill,warterBill,InternetBill,parkingBill);
+        controller.callAddRoomFromModel(dataRoom,listConvenient,listPathImageChoosed,electricBill,warterBill,InternetBill,parkingBill,progressDialog);
     }
 
     //Hàm chuyển màu ở activity
