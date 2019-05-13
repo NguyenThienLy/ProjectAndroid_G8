@@ -16,21 +16,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-    
-
         <activity android:name=".Views.location_search" android:noHistory="true"></activity>
         <activity android:name=".Views.searchView">
-
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".Views.loadImageScreen">
-
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
 
@@ -45,7 +38,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" /> <!-- End thêm meta data cho google map -->
         <activity android:name=".Views.directMapRoomDetail">
-
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
 
@@ -71,7 +63,7 @@
         </activity>-->
         <activity android:name=".Views.commentAndRateMain">
 
-
+        </activity>
         
         <activity android:name=".Views.roomManagementModel">
             <!--<intent-filter>-->
@@ -81,29 +73,10 @@
             <!--</intent-filter>-->
        </activity>
 
-        <activity android:name=".Views.MainActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".Views.commentAndRateMain">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
         <activity android:name=".Views.detailRoom">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
-
 
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
@@ -112,7 +85,6 @@
         <!-- <activity android:name=".postRoomStep3" /> -->
         <!-- <activity android:name=".postRoomStep4" /> -->
         <activity android:name=".Views.favoriteRoomsView">
-
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
 
@@ -121,7 +93,6 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".Views.postRoomAdapter">
-
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
 
@@ -130,28 +101,23 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".Views.LoginView">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <activity android:name=".Views.SignUpView">
             <!--<intent-filter>-->
              <!--<action android:name="android.intent.action.MAIN" />-->
 
-
              <!--<category android:name="android.intent.category.LAUNCHER" />-->
              <!--</intent-filter>-->
-            
         </activity>
         <activity android:name=".Views.FindRoom">
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN" />-->
-
 
             <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
@@ -180,8 +146,7 @@
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
+            
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
