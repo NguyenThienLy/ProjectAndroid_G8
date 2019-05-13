@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
 import com.example.designapptest.Controller.Interfaces.ILocationModel;
@@ -94,6 +95,16 @@ public class MainActivityController {
             public void refreshListFavoriteRoom() {
                 favoriteRoomsList.clear();
             }
+
+            @Override
+            public void makeToast(String message) {
+
+            }
+
+            @Override
+            public void setIconFavorite(int iconRes) {
+
+            }
         };
 
         //Gọi hàm lấy dữ liệu trong model
@@ -125,6 +136,16 @@ public class MainActivityController {
 
             @Override
             public void refreshListFavoriteRoom() {
+
+            }
+
+            @Override
+            public void makeToast(String message) {
+
+            }
+
+            @Override
+            public void setIconFavorite(int iconRes) {
 
             }
         };
@@ -185,7 +206,6 @@ public class MainActivityController {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 adapterRecyclerFavoriteRoom.removeItem(viewHolder, recyclerFavoriteRoom, adapterRecyclerFavoriteRoom);
-                //adapterRecyclerFavoriteRoom.notifyDataSetChanged();
             }
 
             @Override
@@ -252,19 +272,55 @@ public class MainActivityController {
 //        roomModel.getListFavoriteRooms(iMainRoomModel, sharedPreferences);
     }
 
-//    public void addToFavoriteRooms(String roomId, Context context, SharedPreferences sharedPreferences, ImageView imageView) {
-//        roomModel.addToFavoriteRooms(roomId, context, sharedPreferences, imageView);
-//    }
-
     public void addToFavoriteRooms(String roomId, Context context, SharedPreferences sharedPreferences, MenuItem item) {
-        roomModel.addToFavoriteRooms(roomId, context, sharedPreferences, item);
+        IMainRoomModel iMainRoomModel = new IMainRoomModel() {
+            @Override
+            public void getListMainRoom(RoomModel valueRoom) {
+
+            }
+
+            @Override
+            public void refreshListFavoriteRoom() {
+
+            }
+
+            @Override
+            public void makeToast(String message) {
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void setIconFavorite(int iconRes) {
+                item.setIcon(iconRes);
+            }
+        };
+
+        roomModel.addToFavoriteRooms(roomId, iMainRoomModel, sharedPreferences);
     }
 
-//    public void removeFromFavoriteRooms(String roomId, Context context, SharedPreferences sharedPreferences, ImageView imageView) {
-//        roomModel.removeFromFavoriteRooms(roomId, context, sharedPreferences, imageView);
-//    }
-
     public void removeFromFavoriteRooms(String roomId, Context context, SharedPreferences sharedPreferences, MenuItem item) {
-        roomModel.removeFromFavoriteRooms(roomId, context, sharedPreferences, item);
+        IMainRoomModel iMainRoomModel = new IMainRoomModel() {
+            @Override
+            public void getListMainRoom(RoomModel valueRoom) {
+
+            }
+
+            @Override
+            public void refreshListFavoriteRoom() {
+
+            }
+
+            @Override
+            public void makeToast(String message) {
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void setIconFavorite(int iconRes) {
+                item.setIcon(iconRes);
+            }
+        };
+
+        roomModel.removeFromFavoriteRooms(roomId, iMainRoomModel, sharedPreferences);
     }
 }

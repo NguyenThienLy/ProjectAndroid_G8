@@ -2,7 +2,9 @@ package com.example.designapptest.Controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
+import com.example.designapptest.Controller.Interfaces.IReportedRoomModel;
 import com.example.designapptest.Model.ReportedRoomModel;
 
 public class ReportedRoomController {
@@ -17,6 +19,13 @@ public class ReportedRoomController {
     }
 
     public void addReport(ReportedRoomModel reportedRoomModel, String roomId) {
-        reportedRoomModel.addReport(reportedRoomModel, roomId, context);
+        IReportedRoomModel iReportedRoomModel = new IReportedRoomModel() {
+            @Override
+            public void makeToast(String message) {
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        reportedRoomModel.addReport(reportedRoomModel, roomId, iReportedRoomModel);
     }
 }

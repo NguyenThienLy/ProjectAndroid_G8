@@ -85,8 +85,8 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
         viewHolder.txtName.setText(roomModel.getName());
         viewHolder.txtMaxNumber.setText(String.valueOf((int) roomModel.getMaxNumber()));
-        viewHolder.txtPrice.setText(String.valueOf(roomModel.getRentalCosts()) + "đ/Phòng");
-        viewHolder.txtArea.setText(roomModel.getLength() + "m" + "x" + roomModel.getWidth() + "m");
+        viewHolder.txtPrice.setText(String.valueOf(roomModel.getRentalCosts()) + "tr/ phòng");
+        viewHolder.txtArea.setText(roomModel.getLength() + "m" + " x " + roomModel.getWidth() + "m");
         viewHolder.txtQuantityComment.setText("0");
         viewHolder.txtType.setText(roomModel.getRoomType());
 
@@ -163,14 +163,15 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
     public void removeItem(RecyclerView.ViewHolder viewHolder, RecyclerView recyclerView, AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom) {
         int removedPosition = viewHolder.getAdapterPosition();
-        String roomIdToRemove = RoomModelList.get(removedPosition).getRoomID();
-        removeFavoriteRoom(roomIdToRemove, removedPosition, recyclerView, adapterRecyclerFavoriteRoom);
+        removeFavoriteRoom(removedPosition, recyclerView, adapterRecyclerFavoriteRoom);
     }
 
-    private void removeFavoriteRoom(String roomId, int removedPosition, RecyclerView recyclerView, AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom) {
+    private void removeFavoriteRoom(int removedPosition, RecyclerView recyclerView, AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom) {
         DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference()
                 .child("FavoriteRooms");
         String userId = sharedPreferences.getString("currentUserId", "");
+        String roomId = RoomModelList.get(removedPosition).getRoomID();
+        String roomName = RoomModelList.get(removedPosition).getName();
 
         nodeFavoriteRooms.child(userId).child(roomId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -179,7 +180,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
                     adapterRecyclerFavoriteRoom.notifyItemRemoved(removedPosition);
                 }
 
-                Snackbar.make(recyclerView, roomId + " deleted", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                Snackbar.make(recyclerView, "Đã xóa " + roomName, Snackbar.LENGTH_LONG).setAction("HOÀN TÁC", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");

@@ -29,14 +29,14 @@ public class ReportRoomDialog extends AppCompatDialogFragment implements View.On
         View view = inflater.inflate(R.layout.report_room_dialog, null);
 
         builder.setView(view)
-                .setTitle("Report")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setTitle("Báo cáo")
+                .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
                 })
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Gửi", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String reasonReportRoom = "";

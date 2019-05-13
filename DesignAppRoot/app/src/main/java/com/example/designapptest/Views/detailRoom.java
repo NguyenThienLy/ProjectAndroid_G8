@@ -21,15 +21,18 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
 import com.example.designapptest.Adapters.AdapterRecyclerConvenient;
+import com.example.designapptest.Adapters.AdapterRecyclerRoomPrice;
 import com.example.designapptest.Adapters.AdapterViewPagerImageShow;
 import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Controller.CommentController;
 import com.example.designapptest.Controller.MainActivityController;
 import com.example.designapptest.Controller.ReportedRoomController;
+import com.example.designapptest.Model.CommentModel;
 import com.example.designapptest.Model.ReportedRoomModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
@@ -54,11 +57,14 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
     List<ImageView> listImageRoom;
 
     // Các recycler.
-    RecyclerView recycler_comment_room_detail;
+    RecyclerView recyclerCommentRoomDetail;
     AdapterRecyclerComment adapterRecyclerComment;
 
-    RecyclerView recycler_convenients_room_detail;
+    RecyclerView recyclerConvenientsRoomDetail;
     AdapterRecyclerConvenient adapterRecyclerConvenient;
+
+    RecyclerView recyclerPriceRoomDetail;
+    AdapterRecyclerRoomPrice adapterRecyclerRoomPrice;
 
     RoomModel roomModel;
 
@@ -136,7 +142,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         menuItemFavorite.setIcon(R.drawable.ic_favorite_border_white);
         for (String roomId : RoomModel.myFavoriteRooms) {
             if (roomId.equals(roomModel.getRoomID())) {
-                menuItemFavorite.setIcon(R.drawable.ic_favorite_full_white);
+                menuItemFavorite.setIcon(R.drawable.ic_favorite_red);
                 break;
             }
         }
@@ -235,8 +241,9 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         listImageRoom.add(imgRoom3);
         listImageRoom.add(imgRoom4);
 
-        recycler_comment_room_detail = (RecyclerView) findViewById(R.id.recycler_comment_room_detail);
-        recycler_convenients_room_detail = (RecyclerView) findViewById(R.id.recycler_convenients_room_detail);
+        recyclerCommentRoomDetail = (RecyclerView) findViewById(R.id.recycler_comment_room_detail);
+        recyclerConvenientsRoomDetail = (RecyclerView) findViewById(R.id.recycler_convenients_room_detail);
+        recyclerPriceRoomDetail = (RecyclerView) findViewById(R.id.recycler_price_room_detail);
     }
 
     // Khởi tạo các giá trị cho các control.
@@ -255,7 +262,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         txtQuantityComment.setText("0");
         txtQuantityComment_2.setText("0");
         txtRoomName.setText(roomModel.getName());
-        txtRoomPrice.setText(String.valueOf(roomModel.getRentalCosts()) + "tr/ phòng");
+        txtRoomPrice.setText(String.valueOf(roomModel.getRentalCosts()) + " triệu");
         txtRoomPhoneNumber.setText(roomModel.getRoomOwner().getPhoneNumber());
 
         if (((int) roomModel.getCurrentNumber()) < ((int) roomModel.getMaxNumber())) {
@@ -298,33 +305,53 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         }
         // End download hình ảnh cho room
 
+        // Load số lượng bình luận thuộc từng loại điểm
+        long great, prettyGood, medium, bad;
+        great = prettyGood = medium = bad = 0;
+        for(CommentModel commentModel : roomModel.getListCommentRoom()) {
+            long stars = commentModel.getStars();
+
+            if (stars < 4) {
+                bad += 1;
+            } else if (stars < 7) {
+                medium += 1;
+            } else if (stars < 9) {
+                prettyGood += 1;
+            } else {
+                great += 1;
+            }
+        }
+
+        txtRoomBadReview.setText(bad + "");
+        txtRoomMediumReview.setText(medium + "");
+        txtRoomPrettyGoodReview.setText(prettyGood + "");
+        txtRoomGreatReview.setText(great + "");
+        // End load số lượng bình luận thuộc từng loại điểm
+
         // Load danh sách bình luận của phòng trọ
         commentController.sortListComments(roomModel.getListCommentRoom());
         RecyclerView.LayoutManager layoutManagerComment = new LinearLayoutManager(this);
-        recycler_comment_room_detail.setLayoutManager(layoutManagerComment);
+        recyclerCommentRoomDetail.setLayoutManager(layoutManagerComment);
         adapterRecyclerComment = new AdapterRecyclerComment(this, R.layout.comment_element_grid_room_detail_view,
                 roomModel.getListCommentRoom(), roomModel.getRoomID(), sharedPreferences, false);
-        recycler_comment_room_detail.setAdapter(adapterRecyclerComment);
+        recyclerCommentRoomDetail.setAdapter(adapterRecyclerComment);
         adapterRecyclerComment.notifyDataSetChanged();
 
         // Load danh sách tiện nghi của phòng trọ
         RecyclerView.LayoutManager layoutManagerConvenient = new GridLayoutManager(this, 3);
-        recycler_convenients_room_detail.setLayoutManager(layoutManagerConvenient);
+        recyclerConvenientsRoomDetail.setLayoutManager(layoutManagerConvenient);
         adapterRecyclerConvenient = new AdapterRecyclerConvenient(this, getApplicationContext(),
-                R.layout.utility_element_grid_rom_detail_view, roomModel.getListConvenientRoom());
-        recycler_convenients_room_detail.setAdapter(adapterRecyclerConvenient);
+                R.layout.utility_element_grid_room_detail_view, roomModel.getListConvenientRoom());
+        recyclerConvenientsRoomDetail.setAdapter(adapterRecyclerConvenient);
         adapterRecyclerConvenient.notifyDataSetChanged();
 
-        // Set trọ yêu thích ?
-//        imgFavorite.setImageResource(R.drawable.ic_favorite);
-//        imgFavorite.setTag(R.drawable.ic_favorite);
-//        for(String roomId : RoomModel.myFavoriteRooms) {
-//            if(roomId.equals(roomModel.getRoomID())) {
-//                imgFavorite.setImageResource(R.drawable.ic_favorite_red);
-//                imgFavorite.setTag(R.drawable.ic_favorite_red);
-//                break;
-//            }
-//        }
+        // Load danh sách giá của phòng trọ
+        RecyclerView.LayoutManager layoutManagerRoomPrice = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerPriceRoomDetail.setLayoutManager(layoutManagerRoomPrice);
+        adapterRecyclerRoomPrice = new AdapterRecyclerRoomPrice(this, getApplicationContext(),
+                R.layout.room_price_element_grid_room_detail_view, roomModel.getListRoomPrice());
+        recyclerPriceRoomDetail.setAdapter(adapterRecyclerRoomPrice);
+        adapterRecyclerRoomPrice.notifyDataSetChanged();
     }
 
     // Hàm tải ảnh từ firebase về theo image control và vị trí ảnh cần lấy trên firebase.
@@ -494,22 +521,6 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
         dialogShowImage.show();
     }
-
-//    private void clickAddToFavorite() {
-//        imgFavorite.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String roomId = roomModel.getRoomID();
-//                Integer resource = (Integer) imgFavorite.getTag();
-//
-//                if(resource == R.drawable.ic_favorite) {
-//                    mainActivityController.addToFavoriteRooms(roomId, detailRoom.this, sharedPreferences, imgFavorite);
-//                } else if (resource == R.drawable.ic_favorite_red) {
-//                    mainActivityController.removeFromFavoriteRooms(roomId, detailRoom.this, sharedPreferences, imgFavorite);
-//                }
-//            }
-//        });
-//    }
 
     private void clickAddToFavorite() {
         String roomId = roomModel.getRoomID();

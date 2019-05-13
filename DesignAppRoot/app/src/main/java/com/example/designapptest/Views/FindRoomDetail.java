@@ -1,42 +1,27 @@
 package com.example.designapptest.Views;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.designapptest.Adapters.AdapterRecyclerComment;
 import com.example.designapptest.Adapters.AdapterRecyclerConvenient;
 import com.example.designapptest.Adapters.AdapterRecyclerFindRoom;
-import com.example.designapptest.Adapters.AdapterViewPagerImageShow;
 import com.example.designapptest.ClassOther.classFunctionStatic;
-import com.example.designapptest.Controller.CommentController;
 import com.example.designapptest.Model.FindRoomModel;
-import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FindRoomDetail extends AppCompatActivity {
     TextView txtNameUser, txtAboutPrice, txtWantGender;
@@ -159,7 +144,7 @@ public class FindRoomDetail extends AppCompatActivity {
             RecyclerView.LayoutManager layoutManagerConvenient = new GridLayoutManager(this, 3);
             recycler_convenients_room_detail.setLayoutManager(layoutManagerConvenient);
             adapterRecyclerConvenient = new AdapterRecyclerConvenient(this, getApplicationContext(),
-                    R.layout.utility_element_grid_rom_detail_view, findRoomModel.getListConvenientRoom());
+                    R.layout.utility_element_grid_room_detail_view, findRoomModel.getListConvenientRoom());
             recycler_convenients_room_detail.setAdapter(adapterRecyclerConvenient);
             adapterRecyclerConvenient.notifyDataSetChanged();
         }
