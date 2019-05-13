@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.designapptest.Controller.CommentController;
 import com.example.designapptest.Model.RoomModel;
@@ -14,9 +15,11 @@ import com.example.designapptest.R;
 import com.example.designapptest.Views.commentAndRateMain;
 
 public class commentAndRateStep2 extends Fragment {
+    TextView txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview;
+
     View viewCommentAndRateStep2;
 
-    RecyclerView recycler_comment_room_detail_all;
+    RecyclerView recyclerCommentRoomDetailAll;
 
     RoomModel roomModel;
 
@@ -46,11 +49,16 @@ public class commentAndRateStep2 extends Fragment {
     }
 
     private void initControl() {
-        recycler_comment_room_detail_all = (RecyclerView) viewCommentAndRateStep2.findViewById(R.id.recycler_comment_and_rate_all);
+        recyclerCommentRoomDetailAll = (RecyclerView) viewCommentAndRateStep2.findViewById(R.id.recycler_comment_and_rate_all);
+        txtRoomGreatReview = (TextView) viewCommentAndRateStep2.findViewById(R.id.txt_roomGreatReview_all);
+        txtRoomPrettyGoodReview = (TextView) viewCommentAndRateStep2.findViewById(R.id.txt_roomPrettyGoodReview_all);
+        txtRoomMediumReview = (TextView) viewCommentAndRateStep2.findViewById(R.id.txt_roomMediumReview_all);
+        txtRoomBadReview = (TextView) viewCommentAndRateStep2.findViewById(R.id.txt_roomBadReview_all);
     }
 
     public void setAdapter() {
         commentController = new CommentController((commentAndRateMain)this.getActivity(), sharedPreferences);
-        commentController.ListRoomComments(recycler_comment_room_detail_all, roomModel);
+        commentController.ListRoomComments(recyclerCommentRoomDetailAll, roomModel,
+                txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview);
     }
 }

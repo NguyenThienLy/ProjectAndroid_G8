@@ -61,6 +61,7 @@
     <string name="stringMalePushRoom">Nam</string>
     <string name="stringFemalePushRoom">Nữ</string>
     <string name="stringAirconditionPushRoom">Máy lạnh</string>
+    <string name="stringChooseLocationPushRoom">Chọn địa chỉ của bạn</string>
 
 
 </resources>

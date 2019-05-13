@@ -98,6 +98,8 @@ public class commentAndRateStep1 extends Fragment {
                 addComment();
             }
         });
+
+        txtTitle.requestFocus(); // Linh thêm
     }
 
     private void initStar() {
@@ -181,7 +183,12 @@ public class commentAndRateStep1 extends Fragment {
             newCommentModel.setTime(date);
             newCommentModel.setUser(userId);
 
-            commentController.addComment(newCommentModel, roomModel.getRoomID());
+            commentController.addComment(newCommentModel, roomModel.getRoomID(), txtTitle, txtContent);
+
+            initStar();
+            setAdapter();
+
+            txtTitle.requestFocus();
         }
     }
 }

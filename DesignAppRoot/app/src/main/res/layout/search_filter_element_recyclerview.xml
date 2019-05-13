@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="wrap_content"
+    android:padding="6dp"
+    android:layout_margin="3dp"
+    android:background="@drawable/back_ground_filter_element"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/display_name"
+        android:text="@string/stringAdress"
+        android:textColor="@color/unsuccess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/img_delete"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_svg_delete_x_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

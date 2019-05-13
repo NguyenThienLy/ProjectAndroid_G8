@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.designapptest.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -46,7 +47,8 @@ public class AdapterRecyclerImageUpload extends RecyclerView.Adapter<AdapterRecy
     @Override
     public void onBindViewHolder(@NonNull AdapterRecyclerImageUpload.ViewHolder viewHolder, int i) {
         Uri uri = Uri.parse(listImagePath.get(i));
-        viewHolder.imgUpload.setImageURI(uri);
+        Picasso.get().load(uri).into(viewHolder.imgUpload);
+        //viewHolder.imgUpload.setImageURI(uri);
 
         //Set tag để tránh việc tái sử dụng của recycler view
         viewHolder.imgDelete.setTag(i);

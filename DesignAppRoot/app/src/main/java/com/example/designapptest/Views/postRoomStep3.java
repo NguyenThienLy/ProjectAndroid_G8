@@ -1,9 +1,12 @@
 package com.example.designapptest.Views;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.designapptest.Adapters.AdapterRecyclerImageUpload;
 import com.example.designapptest.R;
@@ -46,14 +48,19 @@ public class postRoomStep3 extends Fragment implements View.OnClickListener{
     chBoxPet,chBoxWindow,chBoxParking,chBoxWashmachine,chBoxWaterheater,chBoxSecurity,chBoxArcondition;
 
     public static final int RQ_LOAD_IMAGE=10;
+    public static final int RQ_IMAGE_CAPTURE = 11;
+
     ImageButton btnImgUpLoadPushRoom;
     RecyclerView recyclerImgUpload;
     Button btnNextStep3PostRoom;
+    Button btnTakePhoto;
 
     //Bien global
     List<String> listConvenient;
     List<String> listPathImageChoosed;
     //End bien global
+
+    AdapterRecyclerImageUpload adapterRecyclerImageUpload;
 
     //Activity chứa viewpager
     postRoomAdapter postRoom;
@@ -69,10 +76,17 @@ public class postRoomStep3 extends Fragment implements View.OnClickListener{
         View view = inflater.inflate(R.layout.post_room_step_3_view, container, false);
         //khoi tao view
         initControl(view);
+        initData();
 
         //Lấy ra activity hiện tại
         postRoom = (postRoomAdapter) getContext();
         return view;
+    }
+
+    private void initData(){
+        listPathImageChoosed = new ArrayList<String>();
+        adapterRecyclerImageUpload = new AdapterRecyclerImageUpload(getContext(),R.layout.upload_image_element_recycler_view,listPathImageChoosed);
+        recyclerImgUpload.setAdapter(adapterRecyclerImageUpload);
     }
 
     private void initControl(View view){
@@ -95,6 +109,9 @@ public class postRoomStep3 extends Fragment implements View.OnClickListener{
 
         btnImgUpLoadPushRoom = view.findViewById(R.id.btnImg_upLoad_push_room);
         btnImgUpLoadPushRoom.setOnClickListener(this);
+
+        btnTakePhoto = view.findViewById(R.id.btn_take_photo);
+        btnTakePhoto.setOnClickListener(this);
 
         recyclerImgUpload = view.findViewById(R.id.recycler_img_upload);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),3);
@@ -168,10 +185,8 @@ public class postRoomStep3 extends Fragment implements View.OnClickListener{
     }
 
     //Hàm đổ dữ liệu vào trong recyclerview
-    private void loadImageForRecyclerView(List<String> listImagePath){
-        AdapterRecyclerImageUpload adapterRecyclerImageUpload = new AdapterRecyclerImageUpload(getContext(),R.layout.upload_image_element_recycler_view,listImagePath);
-        recyclerImgUpload.setAdapter(adapterRecyclerImageUpload);
-        adapterRecyclerImageUpload.notifyDataSetChanged();
+    private void loadImageForRecyclerView(){
+
     }
 
     @Override
@@ -179,15 +194,38 @@ public class postRoomStep3 extends Fragment implements View.OnClickListener{
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == RQ_LOAD_IMAGE){
-            if(resultCode==RESULT_OK){
-                listPathImageChoosed = new ArrayList<String>();
-                listPathImageChoosed = data.getStringArrayListExtra(loadImageScreen.INTENT_LIST_IMAGE);
-                Log.d("kiem tra", listPathImageChoosed.size()+"");
-                loadImageForRecyclerView(listPathImageChoosed);
+            if(resultCode==RESULT_OK &&data!=null){
+
+                ClipData clipData = data.getClipData();
+                if(clipData!=null){
+                    for (int i = 0;i<clipData.getItemCount();i++){
+                        String pathImage = clipData.getItemAt(i).getUri().toString();
+                        listPathImageChoosed.add(pathImage);
+                        //Thông báo thay đổi dữ liệu
+                        adapterRecyclerImageUpload.notifyDataSetChanged();
+                    }
+                }
+                else {
+                    Uri uri = data.getData();
+                    if(uri!=null){
+                        listPathImageChoosed.add(uri.toString());
+                        //Thông báo thay đổi dữ liệu
+                        adapterRecyclerImageUpload.notifyDataSetChanged();
+                    }
+                }
+            }
+        }
+        else if(requestCode == RQ_IMAGE_CAPTURE){
+            if(resultCode == RESULT_OK && data!=null){
+                Uri uri = data.getData();
+                if(uri !=null){
+                    listPathImageChoosed.add(uri.toString());
+                    //Thông báo thay đổi dữ liệu
+                    adapterRecyclerImageUpload.notifyDataSetChanged();
+                }
             }
         }
     }
-
 
     //Hàm chuyển màu ở activity
     private void changeColorInActivity(boolean isComplete) {
@@ -213,21 +251,33 @@ public class postRoomStep3 extends Fragment implements View.OnClickListener{
         editor.commit();
     }
 
+
+    //Truy cập vô camera trong máy
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePictureIntent, RQ_IMAGE_CAPTURE);
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
             case R.id.btnImg_upLoad_push_room:
-                Intent intent = new Intent(getContext(), loadImageScreen.class);
-                startActivityForResult(intent,RQ_LOAD_IMAGE);
+
+                //Load ảnh lên bằng galory
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"Chọn ảnh"),RQ_LOAD_IMAGE);
                 break;
 
             case R.id.btn_nextStep3_post_room:
                 if (checkTrueDataFromControl() == true) {
                     loadConvenientFromCheckbox();
-                    Toast.makeText(getContext(), listConvenient.size() + "", Toast.LENGTH_LONG).show();
                     if (listConvenient.size() > 0 && listPathImageChoosed.size() >= 4) {
                         //Lưu dữ liệu truyền qua các fragment
+                        Log.d("check2", listPathImageChoosed.size()+"");
                         saveDataToPreference();
                         //Đổi màu
                         changeColorInActivity(true);
@@ -235,6 +285,12 @@ public class postRoomStep3 extends Fragment implements View.OnClickListener{
                         postRoom.setCurrentPage(3);
                     }
                 }
+
+                break;
+
+            case R.id.btn_take_photo:
+
+                dispatchTakePictureIntent();
 
                 break;
         }
