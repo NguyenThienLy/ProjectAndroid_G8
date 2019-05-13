@@ -1075,7 +1075,7 @@
                 android:layout_height="35dp"
                 android:layout_marginTop="7dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/ic_price_tag"
+                android:drawableTop="@drawable/ic_svg_price_tag"
                 android:text="Price"
                 android:textAllCaps="false"
                 android:textColor="@android:color/darker_gray"

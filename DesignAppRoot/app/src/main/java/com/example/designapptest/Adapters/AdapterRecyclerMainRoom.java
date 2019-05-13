@@ -87,7 +87,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
         //Gán hình cho giới tính
         if (roomModel.isGender() == true) {
-            viewHolder.imgGender.setImageResource(R.drawable.ic_svg_male_100);
+            viewHolder.imgGender.setImageResource(R.drawable.ic_png_male_100);
         } else {
             viewHolder.imgGender.setImageResource(R.drawable.ic_svg_female_100);
         }

@@ -160,7 +160,7 @@
                 android:layout_marginTop="7dp"
                 android:layout_width="70dp"
                 android:layout_height="35dp"
-                android:drawableTop="@drawable/ic_price_tag"
+                android:drawableTop="@drawable/ic_svg_price_tag"
                 android:text="Price"
                 android:textColor="@android:color/darker_gray"
                 android:textAllCaps="false"

@@ -84,7 +84,6 @@ public class MainActivity extends Activity{
 
         grVLocation = (GridView) findViewById(R.id.grV_location);
 
-        btnChooseSearch = (Button) findViewById(R.id.btn_choose_search);
         btnPostRoom = (Button) findViewById(R.id.btn_postRoom_main_room);
 
         //qui them vao
