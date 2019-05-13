@@ -22,49 +22,52 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="450dp"
+                        android:layout_height="200dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_gravity="top"
                         android:scaleType="fitXY"
-                        android:src="@drawable/banner1"
-                        android:layout_alignParentLeft="true" />
+                        android:src="@drawable/bg_jpg_banner"
+                        android:layout_alignParentLeft="true"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="#65000000">
+                    </RelativeLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:paddingLeft="30dp"
                         android:paddingRight="30dp">
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/box_search"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:orientation="horizontal"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="100dp"
-                            android:background="@drawable/frame">
-                            <Button
-                                android:id="@+id/btn_choose_search"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:background="@drawable/frame"
-                                android:drawableLeft="@drawable/ic_svg_location_search_24px"
-                                android:paddingLeft="12dp"
-                                android:layout_marginTop="1dp"/>
-
+                            android:layout_marginTop="75dp">
                             <EditText
                                 android:id="@+id/edT_search"
-                                android:layout_width="200dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="40dp"
-                                android:background="@drawable/frame"
                                 android:focusable="false"
-                                android:hint="Tìm quận, tên đường"
-                                android:paddingLeft="10px"
-                                android:textColor="@android:color/darker_gray"
-                                android:textColorHint="#666666"
-                                android:textSize="12dp"/>
-                        </LinearLayout>
-                        <TableLayout
+                                android:hint="Tìm quận, phường ?"
+                                android:paddingLeft="20px"
+                                android:textColor="#ffffff"
+                                android:textColorHint="#ffffff"
+                                android:textSize="12dp"
+                                android:paddingRight="30dp"
+                                android:background="@drawable/frame"/>
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/ic_png_search_100"/>
+                        </RelativeLayout>
+                        <!--<TableLayout
                             android:layout_marginTop="20dp"
                             android:layout_width="match_parent"
                             android:layout_height="200dp">
@@ -198,19 +201,19 @@
                                         android:textAlignment="center"/>
                                 </LinearLayout>
                             </TableRow>
-                        </TableLayout>
+                        </TableLayout>-->
                     </LinearLayout>
-
                 </RelativeLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:orientation="horizontal"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="10dp">
+                    android:background="#ffffff">
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
                         android:src="@drawable/img_icon_5"/>
                     <TextView
                         android:layout_width="match_parent"
@@ -218,13 +221,13 @@
                         android:text="Khu vực có nhiều phòng"
                         android:layout_marginLeft="5dp"
                         android:textSize="14dp"
+                        android:layout_marginTop="10dp"
                         android:textColor="#666666" />
                 </LinearLayout>
                 <GridView
                     android:id="@+id/grV_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:numColumns="3"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp">
@@ -310,17 +313,16 @@
 
                 <!--Hiển thị danh sách trọ random-->
                 <android.support.v7.widget.RecyclerView
-                    android:verticalSpacing="20dp"
                     android:stretchMode="spacingWidth"
                     android:layout_marginBottom="100dp"
                     android:gravity="center"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
                     android:id="@+id/recycler_Grid_Main_Room"
                     android:numColumns="2"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:horizontalSpacing="20dp"
+                    android:verticalSpacing="30dp">
 
                 </android.support.v7.widget.RecyclerView>
                 <!--End Hiển thị danh sách trọ random-->
