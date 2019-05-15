@@ -21,7 +21,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
@@ -546,6 +545,6 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
     // Hàm load các phòng trọ cùng tiêu chí
     private void loadTheSameRoom() {
         // Demo chưa lọc các phòng cùng tiêu chí
-        mainActivityController.ListTheSameRoom(recyclerTheSameRoomDetail);
+        //mainActivityController.ListTheSameRoom(recyclerTheSameRoomDetail);
     }
 }

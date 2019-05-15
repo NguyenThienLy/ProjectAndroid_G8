@@ -58,7 +58,6 @@ dependencies {
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
-
     //thu vien ve bieu do
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     //thu vien CircleImageView

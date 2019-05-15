@@ -1,6 +1,7 @@
 package com.example.designapptest.Views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,9 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.designapptest.R;
-import com.example.designapptest.Views.postRoomAdapter;
 
 public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
@@ -40,6 +41,7 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
     private Spinner spnDistrictPushRoom, spnCityPushRoom, spnWardPushRoom;
     private EditText edtStreetPushRoom, edtNoPushRoom;
     private Button btnNextStep1PostRoom;
+    private TextView txtChooseLocation;
 
     //Biến lưu thông tin
     String District, City, Ward, Street, No;
@@ -125,6 +127,9 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
 
         btnNextStep1PostRoom = (Button) view.findViewById(R.id.btn_nextStep1_post_room);
         btnNextStep1PostRoom.setOnClickListener(this);
+
+        txtChooseLocation = view.findViewById(R.id.txt_choose_location);
+        txtChooseLocation.setOnClickListener(this);
     }
 
     @Override
@@ -148,6 +153,11 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
                     changeColorInActivity(false);
                 }
 
+                break;
+            case R.id.txt_choose_location:
+                //Hiện popup chọn map
+                Intent intent = new Intent(getContext(),PopupChooseLocation.class);
+                startActivity(intent);
                 break;
         }
     }
