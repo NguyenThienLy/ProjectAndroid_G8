@@ -1,8 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:id="@+id/main.appbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+        <!--&gt;-->
+
+        <!--<android.support.design.widget.CollapsingToolbarLayout-->
+            <!--android:id="@+id/main.collapsing"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="100dp"-->
+            <!--app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"-->
+            <!--&gt;-->
+
+            <!--<FrameLayout-->
+                <!--android:id="@+id/main.framelayout.title"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--&gt;-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/main.linearlayout.title"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="bottom|center_horizontal"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--&gt;-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:gravity="bottom|center_horizontal"-->
+                        <!--android:text="fdf"-->
+                        <!--android:textColor="@android:color/white"-->
+                        <!--android:textSize="45dp"-->
+                        <!--/>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:text="sfsf"-->
+                        <!--android:textColor="@android:color/white"-->
+                        <!--/>-->
+
+                <!--</LinearLayout>-->
+            <!--</FrameLayout>-->
+        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +72,7 @@
                 android:orientation="vertical">
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1">
 
                     <ImageView

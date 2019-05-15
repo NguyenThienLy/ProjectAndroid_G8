@@ -1,14 +1,16 @@
 package com.example.designapptest.Views;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class MainActivity extends Activity{
+public class MainActivity extends AppCompatActivity {
 
     //Qui thêm vào
     RecyclerView recyclerMainRoom;
@@ -56,6 +58,10 @@ public class MainActivity extends Activity{
      FusedLocationProviderClient client;
 
     SharedPreferences sharedPreferences;
+
+    Toolbar toolbar;
+
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +109,15 @@ public class MainActivity extends Activity{
         recyclerMainRoom = (RecyclerView)findViewById(R.id.recycler_Main_Room);
         recyclerGridMainRoom = (RecyclerView)findViewById(R.id.recycler_Grid_Main_Room);
         progressBarMain = (ProgressBar)findViewById(R.id.Progress_Main);
+
+//        toolbar = findViewById(R.id.toolbar);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            toolbar.setSubtitle("fsfsf");
+//            setSupportActionBar(toolbar);
+//        }
+
+//        collapsingToolbarLayout = findViewById(R.id.Collapsing_ToolbarLayout);
+//        collapsingToolbarLayout.setTitle("fsfsf");
     }
 
     private void elementRoom() {
