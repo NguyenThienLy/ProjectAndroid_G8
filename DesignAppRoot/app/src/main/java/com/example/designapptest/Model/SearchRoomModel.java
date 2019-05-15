@@ -80,6 +80,7 @@ public class SearchRoomModel {
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 
+
     private void filterData(DataSnapshot snapShotRoot,String RoomID,ISearchRoomModel iSearchRoomModel){
 
         //Mảng lưu xem đã thỏa mãn hết các điều kiện chưa

@@ -5,11 +5,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.designapptest.Controller.MainActivityController;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
-
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -17,9 +17,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -113,5 +110,6 @@ public class roomManagementModel extends AppCompatActivity {
 
         mainActivityController = new MainActivityController(this,sharedPreferences2);
         mainActivityController.ListRoomUser(recyclerMainRoom,UID);
+        Log.d("mycheck", "onStart: ");
     }
 }
