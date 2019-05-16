@@ -93,65 +93,66 @@
         <LinearLayout
             android:id="@+id/lLay_menu"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
             <LinearLayout
+                android:paddingBottom="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center">
                 <Button
                     android:id="@+id/btn_Map_View"
-                    android:layout_marginTop="7dp"
                     android:layout_width="70dp"
-                    android:layout_height="35dp"
+                    android:layout_height="40dp"
                     android:drawableTop="@drawable/ic_svg_placeholder_24px"
                     android:text="Location"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14px"
+                    android:textColor="#666666"
+                    android:textSize="10dp"
                     android:textAllCaps="false"
                     android:background="?android:attr/selectableItemBackground"/>
                 <Button
-                    android:layout_marginTop="7dp"
+                    android:id="@+id/btn_find_room"
                     android:layout_width="70dp"
-                    android:layout_height="35dp"
+                    android:layout_height="40dp"
                     android:drawableTop="@drawable/ic_svg_group_user_24_2"
-                    android:text="Price"
-                    android:textColor="@android:color/darker_gray"
+                    android:text="Ở ghép"
+                    android:textColor="#666666"
                     android:textAllCaps="false"
-                    android:textSize="14px"
+                    android:textSize="10dp"
                     android:background="?android:attr/selectableItemBackground"/>
+
                 <Button
-                    android:layout_marginTop="7dp"
+                    android:id="@+id/btn_favorite_rooms"
                     android:layout_width="70dp"
-                    android:layout_height="35dp"
+                    android:layout_height="40dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:drawableTop="@drawable/ic_favorite"
+                    android:text="Favorites"
+                    android:textAllCaps="false"
+                    android:textColor="#666666"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/btn_Account_View"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
                     android:drawableTop="@drawable/ic_svg_user_24px"
                     android:text="Account"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14px"
-                    android:textAllCaps="false"
-                    android:background="?android:attr/selectableItemBackground"/>
-                <Button
-                    android:layout_marginTop="7dp"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:drawableTop="@drawable/ic_svg_flash_24"
-                    android:text="Quick search"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14px"
+                    android:textColor="#666666"
+                    android:textSize="10dp"
                     android:textAllCaps="false"
                     android:background="?android:attr/selectableItemBackground"/>
                 <Button
                     android:id="@+id/btn_postRoom_main_room"
-                    android:layout_marginTop="7dp"
                     android:layout_width="70dp"
-                    android:layout_height="35dp"
+                    android:layout_height="40dp"
                     android:drawableTop="@drawable/ic_svg_flash_24"
                     android:text="Post room"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14px"
+                    android:textColor="#666666"
+                    android:textSize="10dp"
                     android:textAllCaps="false"
                     android:background="?android:attr/selectableItemBackground"/>
             </LinearLayout>

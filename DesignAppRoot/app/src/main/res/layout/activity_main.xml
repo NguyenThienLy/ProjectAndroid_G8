@@ -1,8 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:id="@+id/main.appbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+        <!--&gt;-->
+
+        <!--<android.support.design.widget.CollapsingToolbarLayout-->
+            <!--android:id="@+id/main.collapsing"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="100dp"-->
+            <!--app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"-->
+            <!--&gt;-->
+
+            <!--<FrameLayout-->
+                <!--android:id="@+id/main.framelayout.title"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--&gt;-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/main.linearlayout.title"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="bottom|center_horizontal"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--&gt;-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:gravity="bottom|center_horizontal"-->
+                        <!--android:text="fdf"-->
+                        <!--android:textColor="@android:color/white"-->
+                        <!--android:textSize="45dp"-->
+                        <!--/>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:text="sfsf"-->
+                        <!--android:textColor="@android:color/white"-->
+                        <!--/>-->
+
+                <!--</LinearLayout>-->
+            <!--</FrameLayout>-->
+        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +72,7 @@
                 android:orientation="vertical">
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1">
 
                     <ImageView
@@ -346,75 +401,73 @@
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
         <LinearLayout
-            android:id="@+id/lLay_menu"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@android:color/white"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
-                <Button
-                    android:id="@+id/btn_Map_View"
-                    android:layout_marginTop="7dp"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:drawableTop="@drawable/ic_svg_placeholder_24px"
-                    android:text="Location"
-                    android:textColor="#666666"
-                    android:textSize="12dp"
-                    android:textAllCaps="false"
-                    android:background="?android:attr/selectableItemBackground"/>
-                <Button
-                    android:id="@+id/btn_find_room"
-                    android:layout_marginTop="7dp"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:drawableTop="@drawable/ic_svg_group_user_24_2"
-                    android:text="Ở ghép"
-                    android:textColor="@android:color/darker_gray"
-                    android:textAllCaps="false"
-                    android:textSize="12dp"
-                    android:background="?android:attr/selectableItemBackground"/>
+        android:paddingTop="3dp"
+        android:paddingBottom="2dp"
+        android:id="@+id/lLay_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+        <LinearLayout
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <Button
+                android:id="@+id/btn_Map_View"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:drawableTop="@drawable/ic_svg_placeholder_24px"
+                android:text="Location"
+                android:textColor="#666666"
+                android:textSize="10dp"
+                android:textAllCaps="false"
+                android:background="?android:attr/selectableItemBackground"/>
+            <Button
+                android:id="@+id/btn_find_room"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:drawableTop="@drawable/ic_svg_group_user_24_2"
+                android:text="Ở ghép"
+                android:textColor="#666666"
+                android:textAllCaps="false"
+                android:textSize="10dp"
+                android:background="?android:attr/selectableItemBackground"/>
 
-                <Button
-                    android:id="@+id/btn_favorite_rooms"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="7dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:drawableTop="@drawable/ic_favorite"
-                    android:text="Favorites"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14px" />
+            <Button
+                android:id="@+id/btn_favorite_rooms"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableTop="@drawable/ic_favorite"
+                android:text="Favorites"
+                android:textAllCaps="false"
+                android:textColor="#666666"
+                android:textSize="10dp" />
 
-                <Button
-                    android:id="@+id/btn_Account_View"
-                    android:layout_marginTop="7dp"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:drawableTop="@drawable/ic_svg_user_24px"
-                    android:text="Account"
-                    android:textColor="#666666"
-                    android:textSize="12dp"
-                    android:textAllCaps="false"
-                    android:background="?android:attr/selectableItemBackground"/>
-                <Button
-                    android:id="@+id/btn_postRoom_main_room"
-                    android:layout_marginTop="7dp"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:drawableTop="@drawable/ic_svg_flash_24"
-                    android:text="Post room"
-                    android:textColor="#666666"
-                    android:textSize="12dp"
-                    android:textAllCaps="false"
-                    android:background="?android:attr/selectableItemBackground"/>
-            </LinearLayout>
+            <Button
+                android:id="@+id/btn_Account_View"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:drawableTop="@drawable/ic_svg_user_24px"
+                android:text="Account"
+                android:textColor="#666666"
+                android:textSize="10dp"
+                android:textAllCaps="false"
+                android:background="?android:attr/selectableItemBackground"/>
+            <Button
+                android:id="@+id/btn_postRoom_main_room"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:drawableTop="@drawable/ic_svg_flash_24"
+                android:text="Post room"
+                android:textColor="#666666"
+                android:textSize="10dp"
+                android:textAllCaps="false"
+                android:background="?android:attr/selectableItemBackground"/>
         </LinearLayout>
+    </LinearLayout>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

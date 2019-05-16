@@ -1,9 +1,16 @@
 package com.example.designapptest.Views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +19,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.designapptest.R;
-import com.example.designapptest.Views.postRoomAdapter;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
@@ -32,6 +44,8 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
     public final static String SHARE_LATITUDE = "LATITUDE";
     //End Biến final share dữ liệu
 
+    private final static int RQ_LOCATION = 14;
+
     //Biến sharedPreferences để truyền dữ liệu giữa các fragment trong viewpager
     SharedPreferences sharedpreferences;
     SharedPreferences.Editor editor;
@@ -40,6 +54,7 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
     private Spinner spnDistrictPushRoom, spnCityPushRoom, spnWardPushRoom;
     private EditText edtStreetPushRoom, edtNoPushRoom;
     private Button btnNextStep1PostRoom;
+    private TextView txtChooseLocation;
 
     //Biến lưu thông tin
     String District, City, Ward, Street, No;
@@ -49,8 +64,18 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
     //Activity chứa viewpager
     postRoomAdapter postRoom;
 
+    FusedLocationProviderClient client;
+    boolean isChooseMap = false;
+
     public postRoomStep1() {
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestPermission();
+        client = LocationServices.getFusedLocationProviderClient(getActivity());
     }
 
     @Override
@@ -125,6 +150,9 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
 
         btnNextStep1PostRoom = (Button) view.findViewById(R.id.btn_nextStep1_post_room);
         btnNextStep1PostRoom.setOnClickListener(this);
+
+        txtChooseLocation = view.findViewById(R.id.txt_choose_location);
+        txtChooseLocation.setOnClickListener(this);
     }
 
     @Override
@@ -149,6 +177,49 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
                 }
 
                 break;
+            case R.id.txt_choose_location:
+                //Lấy ra vị trí hiện tại và truyền qua
+                if(ActivityCompat.checkSelfPermission(getContext(), ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED){
+                    return;
+                }
+                else{
+                    //Neu du quyen thi lay toa do ma show map
+                    client.getLastLocation().addOnSuccessListener((AppCompatActivity) getContext(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if(location!=null){
+                                double srLatitude = location.getLatitude();
+                                double srLongtitude =location.getLongitude();
+
+                                //Hiện popup chọn map
+                                Intent intent = new Intent(getContext(), PopupChooseLocation.class);
+                                //pust vô extra
+                                intent.putExtra(SHARE_LATITUDE,srLatitude);
+                                intent.putExtra(SHARE_LONGTITUDE,srLongtitude);
+                                isChooseMap = true;
+                                startActivityForResult(intent, RQ_LOCATION);
+                            }
+                            else {
+
+                            }
+                        }
+                    });
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RQ_LOCATION) {
+            if(resultCode == AppCompatActivity.RESULT_OK){
+                //Lấy tọa độ
+                longtitude = (float)data.getDoubleExtra(SHARE_LONGTITUDE,0.0);
+                latitude = (float)data.getDoubleExtra(SHARE_LATITUDE,0.0);
+
+                Log.d("check", longtitude +" "+ latitude);
+            }
         }
     }
 
@@ -180,16 +251,45 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
     private void saveDataToPreference() {
         sharedpreferences = this.getActivity().getSharedPreferences(postRoomAdapter.PREFS_DATA_NAME, Context.MODE_PRIVATE);
 
-        editor = sharedpreferences.edit();
-        editor.putString(SHARE_CITY, City);
-        editor.putString(SHARE_DISTRICT, District);
-        editor.putString(SHARE_NO, No);
-        editor.putString(SHARE_WARD, Ward);
-        editor.putString(SHARE_STREET, Street);
-        editor.putFloat(SHARE_LONGTITUDE, longtitude);
-        editor.putFloat(SHARE_LATITUDE, latitude);
+        if(ActivityCompat.checkSelfPermission(getContext(), ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            return;
+        }
+        else{
+            //Neu du quyen thi lay toa do ma show map
+            client.getLastLocation().addOnSuccessListener((AppCompatActivity) getContext(), new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if(location!=null){
+                        //Nếu chưa chọn thì lấy vị trị hiện tại
+                        if(isChooseMap == false){
+                            double srLatitude = location.getLatitude();
+                            double srLongtitude =location.getLongitude();
+                            longtitude = (float)srLongtitude;
+                            latitude = (float)srLatitude;
+                        }
 
-        editor.commit();
+                        editor = sharedpreferences.edit();
+                        editor.putString(SHARE_CITY, City);
+                        editor.putString(SHARE_DISTRICT, District);
+                        editor.putString(SHARE_NO, No);
+                        editor.putString(SHARE_WARD, Ward);
+                        editor.putString(SHARE_STREET, Street);
+                        editor.putFloat(SHARE_LONGTITUDE, longtitude);
+                        editor.putFloat(SHARE_LATITUDE, latitude);
+
+                        editor.commit();
+                    }
+                    else {
+
+                    }
+                }
+            });
+        }
+    }
+
+    private void requestPermission(){
+        ActivityCompat.requestPermissions(getActivity(),new String[]{ACCESS_FINE_LOCATION},1);
     }
 
     //Hàm trả về list phường tương ứng với quận

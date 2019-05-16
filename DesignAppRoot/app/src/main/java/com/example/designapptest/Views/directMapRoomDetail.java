@@ -2,16 +2,12 @@ package com.example.designapptest.Views;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,7 +21,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -41,6 +36,8 @@ public class directMapRoomDetail extends FragmentActivity implements OnMapReadyC
     Button btnDirectMap;
 
     FusedLocationProviderClient client;
+
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +62,8 @@ public class directMapRoomDetail extends FragmentActivity implements OnMapReadyC
     private void initControl() {
         txtRoomName = (TextView) findViewById(R.id.txt_roomName);
         btnDirectMap = (Button) findViewById(R.id.btn_directMap);
+
+
     }
 
     private void initData() {

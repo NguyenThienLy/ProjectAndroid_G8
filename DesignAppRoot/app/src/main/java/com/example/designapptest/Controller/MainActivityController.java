@@ -12,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
@@ -46,13 +47,16 @@ public class MainActivityController {
 
     public void ListMainRoom(RecyclerView recyclerMainRoom, RecyclerView recyclerViewGridMainRoom, final ProgressBar progressBarMain) {
         final List<RoomModel> roomModelList = new ArrayList<>();
+        final List<RoomModel> roomModelListAuthentication = new ArrayList<>();
+
+
 
         //Tạo layout cho danh sách trọ tìm kiếm nhiều nhất
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerMainRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, sharedPreferences);
+        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelListAuthentication, R.layout.room_element_list_view, sharedPreferences);
         //Cài adapter cho recycle
         recyclerMainRoom.setAdapter(adapterRecyclerMainRoom);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
@@ -81,8 +85,6 @@ public class MainActivityController {
                     }
                 }
 
-                //Thông báo là đã có thêm dữ liệu
-                adapterRecyclerMainRoom.notifyDataSetChanged();
                 adapterRecyclerGridMainRoom.notifyDataSetChanged();
                 progressBarMain.setVisibility(View.GONE);
 
@@ -107,44 +109,25 @@ public class MainActivityController {
             }
         };
 
-        //Gọi hàm lấy dữ liệu trong model
-        roomModel.ListRoom(iMainRoomModel);
-    }
-
-    public void ListTheSameRoom(RecyclerView recyclerTheSameRoom) {
-        final List<RoomModel> roomModelList = new ArrayList<>();
-
-        //Tạo layout cho danh sách trọ được hiển thị theo dạng grid phía dưới
-        RecyclerView.LayoutManager layoutManagerGrid = new GridLayoutManager(context, 2);
-        recyclerTheSameRoom.setLayoutManager(layoutManagerGrid);
-
-        //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterTheSameRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_grid_view, sharedPreferences);
-        //Cài adapter cho recycle
-        recyclerTheSameRoom.setAdapter(adapterTheSameRoom);
-        //End Tạo layout cho danh sách trọ được hiển thị theo dạng grid phía dưới
-
-        //Tạo interface để truyền dữ liệu lên từ model
-        IMainRoomModel iMainRoomModel = new IMainRoomModel() {
+        IMainRoomModel iMainRoomModelAuthentication = new IMainRoomModel() {
             @Override
             public void getListMainRoom(RoomModel valueRoom) {
-//                if (roomModel.getCounty().equals(valueRoom.getCounty())) {
-//                    //Thêm vào trong danh sách trọ
-//                    roomModelList.add(valueRoom);
-//
-//                    //Thông báo là đã có thêm dữ liệu
-//                    adapterTheSameRoom.notifyDataSetChanged();
-//                }
+                //Thêm vào trong danh sách trọ
+                roomModelListAuthentication.add(valueRoom);
 
-                roomModelList.add(valueRoom);
-
+                for (String favoriteRoomId : RoomModel.myFavoriteRooms) {
+                    if (favoriteRoomId.equals(valueRoom.getRoomID())) {
+                        favoriteRoomsList.add(valueRoom);
+                        break;
+                    }
+                }
                 //Thông báo là đã có thêm dữ liệu
-                adapterTheSameRoom.notifyDataSetChanged();
+                adapterRecyclerMainRoom.notifyDataSetChanged();
             }
 
             @Override
             public void refreshListFavoriteRoom() {
-
+                favoriteRoomsList.clear();
             }
 
             @Override
@@ -160,6 +143,7 @@ public class MainActivityController {
 
         //Gọi hàm lấy dữ liệu trong model
         roomModel.ListRoom(iMainRoomModel);
+        roomModel.getAuthenticationRooms(iMainRoomModelAuthentication);
     }
 
     // Hàm kiểm tra danh sách tiện nghi
@@ -190,6 +174,7 @@ public class MainActivityController {
     public void ListRoomUser(RecyclerView recyclerMainRoom, String UID) {
         final List<RoomModel> roomModelList = new ArrayList<>();
 
+        Log.d("mycheck", "getListMainRoom: ");
         //Tạo layout cho danh sách trọ tìm kiếm nhiều nhất
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerMainRoom.setLayoutManager(layoutManager);
@@ -205,7 +190,7 @@ public class MainActivityController {
             public void getListMainRoom(RoomModel valueRoom) {
                 //Thêm vào trong danh sách trọ
                 roomModelList.add(valueRoom);
-
+                Log.d("mycheck", "getListMainRoom: ");
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerMainRoom.notifyDataSetChanged();
             }

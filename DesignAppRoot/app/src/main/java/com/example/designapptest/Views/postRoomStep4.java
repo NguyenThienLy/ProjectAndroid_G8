@@ -224,7 +224,7 @@ public class postRoomStep4 extends Fragment implements View.OnClickListener {
         dataRoom.setCurrentNumber(currentNumber);
         dataRoom.setMaxNumber(maxNumber);
         dataRoom.setLatitude(latitude);
-        dataRoom.setLatitude(longtitude);
+        dataRoom.setLongtitude(longtitude);
         dataRoom.setLength(length);
         dataRoom.setWidth(width);
         dataRoom.setRentalCosts(priceRomm);

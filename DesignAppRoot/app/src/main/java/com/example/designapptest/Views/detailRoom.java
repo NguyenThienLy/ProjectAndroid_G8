@@ -21,7 +21,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
@@ -30,7 +29,9 @@ import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
 import com.example.designapptest.Adapters.AdapterRecyclerRoomPrice;
 import com.example.designapptest.Adapters.AdapterViewPagerImageShow;
 import com.example.designapptest.ClassOther.classFunctionStatic;
+import com.example.designapptest.ClassOther.myFilter;
 import com.example.designapptest.Controller.CommentController;
+import com.example.designapptest.Controller.DetailRoomController;
 import com.example.designapptest.Controller.MainActivityController;
 import com.example.designapptest.Controller.ReportedRoomController;
 import com.example.designapptest.Model.CommentModel;
@@ -92,16 +93,21 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
     MenuItem menuItemFavorite;
     MenuItem menuItemReport;
 
+    String District;
+    String CurrentRoomID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.room_detail_view);
 
         roomModel = getIntent().getParcelableExtra("phongtro");
+        District = roomModel.getCounty();
+        CurrentRoomID = roomModel.getRoomID();
+
         sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
         commentController = new CommentController(this, sharedPreferences);
 
-        mainActivityController = new MainActivityController(this, sharedPreferences);
         reportedRoomController = new ReportedRoomController(this, sharedPreferences);
 
 
@@ -546,6 +552,8 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
     // Hàm load các phòng trọ cùng tiêu chí
     private void loadTheSameRoom() {
         // Demo chưa lọc các phòng cùng tiêu chí
-        mainActivityController.ListTheSameRoom(recyclerTheSameRoomDetail);
+        List<myFilter> myFilters = new ArrayList<myFilter>();
+        DetailRoomController detailRoomController = new DetailRoomController(this,District,myFilters,sharedPreferences);
+        detailRoomController.loadSearchRoom(recyclerTheSameRoomDetail,CurrentRoomID);
     }
 }
