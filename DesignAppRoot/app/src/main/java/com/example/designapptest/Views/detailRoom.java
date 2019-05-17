@@ -109,6 +109,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         commentController = new CommentController(this, sharedPreferences);
 
         reportedRoomController = new ReportedRoomController(this, sharedPreferences);
+        mainActivityController = new MainActivityController(this, sharedPreferences);
 
 
         initControl();
@@ -156,7 +157,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         menuItemFavorite.setIcon(R.drawable.ic_favorite_border_white);
         for (String roomId : RoomModel.myFavoriteRooms) {
             if (roomId.equals(roomModel.getRoomID())) {
-                menuItemFavorite.setIcon(R.drawable.ic_favorite_red);
+                menuItemFavorite.setIcon(R.drawable.ic_favorite_full_white);
                 break;
             }
         }
