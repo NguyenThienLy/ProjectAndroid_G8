@@ -106,11 +106,6 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         CurrentRoomID = roomModel.getRoomID();
 
         sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
-        commentController = new CommentController(this, sharedPreferences);
-
-        reportedRoomController = new ReportedRoomController(this, sharedPreferences);
-        mainActivityController = new MainActivityController(this, sharedPreferences);
-
 
         initControl();
 
@@ -215,6 +210,10 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
     // Khởi tạo các control trong room detail.
     private void initControl() {
+        commentController = new CommentController(this, sharedPreferences);
+        reportedRoomController = new ReportedRoomController(this, sharedPreferences);
+        mainActivityController = new MainActivityController(this, sharedPreferences);
+
         toolbar = findViewById(R.id.toolbar);
 
         txtRoomType = (TextView) findViewById(R.id.txt_roomType);
