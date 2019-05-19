@@ -106,10 +106,6 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         CurrentRoomID = roomModel.getRoomID();
 
         sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
-        commentController = new CommentController(this, sharedPreferences);
-
-        reportedRoomController = new ReportedRoomController(this, sharedPreferences);
-
 
         initControl();
 
@@ -156,7 +152,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         menuItemFavorite.setIcon(R.drawable.ic_favorite_border_white);
         for (String roomId : RoomModel.myFavoriteRooms) {
             if (roomId.equals(roomModel.getRoomID())) {
-                menuItemFavorite.setIcon(R.drawable.ic_favorite_red);
+                menuItemFavorite.setIcon(R.drawable.ic_favorite_full_white);
                 break;
             }
         }
@@ -214,6 +210,10 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
     // Khởi tạo các control trong room detail.
     private void initControl() {
+        commentController = new CommentController(this, sharedPreferences);
+        reportedRoomController = new ReportedRoomController(this, sharedPreferences);
+        mainActivityController = new MainActivityController(this, sharedPreferences);
+
         toolbar = findViewById(R.id.toolbar);
 
         txtRoomType = (TextView) findViewById(R.id.txt_roomType);

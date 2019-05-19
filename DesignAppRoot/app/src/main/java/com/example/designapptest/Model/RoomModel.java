@@ -996,7 +996,7 @@ public class RoomModel implements Parcelable { // Linh thêm
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     iMainRoomModel.makeToast("Đã thêm vào danh sách yêu thích");
-                    iMainRoomModel.setIconFavorite(R.drawable.ic_favorite_red);
+                    iMainRoomModel.setIconFavorite(R.drawable.ic_favorite_full_white);
                 }
             }
         });
