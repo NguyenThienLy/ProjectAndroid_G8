@@ -20,7 +20,7 @@
             android:id="@+id/img_room"
             android:layout_width="match_parent"
             android:layout_height="135dp"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             app:riv_corner_radius="5dip"
             app:riv_oval="false" />
 
