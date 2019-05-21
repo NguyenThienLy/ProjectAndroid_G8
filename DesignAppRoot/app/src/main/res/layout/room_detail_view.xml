@@ -76,19 +76,19 @@
                         <ImageView
                             android:id="@+id/img_room1"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="150dp"
                             android:layout_weight="1"
                             android:padding="1dp"
-                            android:scaleType="fitXY"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/progress_gift_loading_image" />
 
                         <ImageView
                             android:id="@+id/img_room2"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="150dp"
                             android:layout_weight="1"
                             android:padding="1dp"
-                            android:scaleType="fitXY"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/progress_gift_loading_image" />
                     </LinearLayout>
 
@@ -100,10 +100,10 @@
                         <ImageView
                             android:id="@+id/img_room3"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="150dp"
                             android:layout_weight="1"
                             android:padding="1dp"
-                            android:scaleType="fitXY"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/progress_gift_loading_image" />
                         <FrameLayout
                             android:layout_width="0dp"
@@ -112,10 +112,10 @@
                             <ImageView
                                 android:id="@+id/img_room4"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="150dp"
                                 android:layout_weight="1"
                                 android:padding="1dp"
-                                android:scaleType="fitXY"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/progress_gift_loading_image" />
                             <FrameLayout
                                 android:id="@+id/fr_lout_contain"

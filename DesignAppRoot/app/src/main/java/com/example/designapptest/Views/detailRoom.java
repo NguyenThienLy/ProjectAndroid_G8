@@ -371,7 +371,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
     // Hàm tải ảnh từ firebase về theo image control và vị trí ảnh cần lấy trên firebase.
     private void downloadImageForImageControl(final ImageView imageDownload, final int positionDownload) {
-        Picasso.get().load(roomModel.getListImageRoom().get(positionDownload)).into(imageDownload);
+        Picasso.get().load(roomModel.getListImageRoom().get(positionDownload)).fit().centerCrop().into(imageDownload);
     }
 
     // Hàm gọi điện thoại cho chủ phòng trọ.

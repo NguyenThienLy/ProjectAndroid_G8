@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,8 @@ import com.example.designapptest.R;
 import com.example.designapptest.Views.FindRoomDetail;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -137,8 +133,7 @@ public class AdapterRecyclerFindRoom extends RecyclerView.Adapter<AdapterRecycle
         //End Gán giá trị cho giới tính
 
         //Download ảnh dùng picaso cho đỡ lag
-        Picasso.get().load(findRoomModel.getFindRoomOwner().getAvatar()).into(viewHolder.imgAvatarUser);
-        //Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/findroomforrent-5bea0.appspot.com/o/Images%2Freceived-405711336891277_1555296117.jpg?alt=media&token=c27bd472-7a97-47dc-9f48-706b202929ce").into(viewHolder.imgRoom);
+        Picasso.get().load(findRoomModel.getFindRoomOwner().getAvatar()).fit().centerCrop().into(viewHolder.imgAvatarUser);
 
         viewHolder.cardViewFindRoomList.setOnClickListener(new View.OnClickListener() {
             @Override

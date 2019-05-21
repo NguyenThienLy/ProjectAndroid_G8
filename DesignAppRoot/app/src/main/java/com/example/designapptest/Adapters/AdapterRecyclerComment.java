@@ -87,7 +87,7 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
         viewHolder.txt_time_comment_room_detail.setText(commentModel.getTime());
 
         //Download hình ảnh cho user
-        Picasso.get().load(commentModel.getUserComment().getAvatar()).into(viewHolder.img_avt_comment_room_detail);
+        Picasso.get().load(commentModel.getUserComment().getAvatar()).fit().into(viewHolder.img_avt_comment_room_detail);
 
         //Hiển thị nút Like this hay Liked comment đối với user đăng nhập app.
         DatabaseReference nodeInteractiveComment = FirebaseDatabase.getInstance().getReference()

@@ -57,7 +57,7 @@ public class AdapterViewPagerImageShow extends PagerAdapter {
     }
 
     private void downloadImageForImageControl(final ImageView imageDownload, final int positionDownload) {
-        Picasso.get().load(lstStringLinkImage.get(positionDownload)).into(imageDownload);
+        Picasso.get().load(lstStringLinkImage.get(positionDownload)).fit().into(imageDownload);
     }
 
     @Override
