@@ -170,6 +170,17 @@ public class SearchRoomModel {
                 roomModel.setListImageRoom(tempImageList);
                 //End lấy ra danh sách link hình phòng trọ
 
+                //Thêm vào hình dung lượng thấp của phòng trọ
+                DataSnapshot dataSnapshotComPress = snapShotRoot.child("RoomCompressionImages").child(RoomID);
+                //Kiểm tra nếu có dữ liệu
+                if(dataSnapshotComPress.getChildrenCount()>0){
+                    for (DataSnapshot valueCompressionImage : dataSnapshotComPress.getChildren()) {
+                        roomModel.setCompressionImage(valueCompressionImage.getValue(String.class));
+                    }
+                }else {
+                    roomModel.setCompressionImage(tempImageList.get(0));
+                }
+
                 //Thêm danh sách bình luận của phòng trọ
                 DataSnapshot dataSnapshotCommentRoom = snapShotRoot.child("RoomComments").child(RoomID);
                 List<CommentModel> tempCommentList = new ArrayList<CommentModel>();

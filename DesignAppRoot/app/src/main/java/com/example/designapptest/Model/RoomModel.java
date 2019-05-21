@@ -1,12 +1,15 @@
 package com.example.designapptest.Model;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.designapptest.ClassOther.FilePath;
 import com.example.designapptest.Controller.Interfaces.ICallBackFromAddRoom;
 import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.example.designapptest.R;
@@ -23,11 +26,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import id.zelory.compressor.Compressor;
 
 public class RoomModel implements Parcelable { // Linh thêm
     String describe, name, owner, timeCreated;
@@ -47,6 +55,9 @@ public class RoomModel implements Parcelable { // Linh thêm
 
     //String để lấy giá trị từ ID
     String roomType;
+
+    //String để lưu link hình ảnh dung lượng thấp của phòng
+    String compressionImage;
 
     //Đánh giá của người xem trọ
     long medium;
@@ -130,6 +141,14 @@ public class RoomModel implements Parcelable { // Linh thêm
             return new RoomModel[size];
         }
     };
+
+    public String getCompressionImage() {
+        return compressionImage;
+    }
+
+    public void setCompressionImage(String compressionImage) {
+        this.compressionImage = compressionImage;
+    }
 
     public UserModel getRoomOwner() {
         return roomOwner;
@@ -422,6 +441,17 @@ public class RoomModel implements Parcelable { // Linh thêm
                     //set mảng hình vào list
                     roomModel.setListImageRoom(tempImageList);
 
+                    //Thêm vào hình dung lượng thấp của phòng trọ
+                    DataSnapshot dataSnapshotComPress = dataSnapshot.child("RoomCompressionImages").child(valueRoom.getKey());
+                    //Kiểm tra nếu có dữ liệu
+                    if(dataSnapshotComPress.getChildrenCount()>0){
+                        for (DataSnapshot valueCompressionImage : dataSnapshotComPress.getChildren()) {
+                            roomModel.setCompressionImage(valueCompressionImage.getValue(String.class));
+                        }
+                    }else {
+                        roomModel.setCompressionImage(tempImageList.get(0));
+                    }
+
                     //End Thêm tên danh sách tên hình vào phòng trọ
 
                     //Thêm danh sách bình luận của phòng trọ
@@ -544,6 +574,17 @@ public class RoomModel implements Parcelable { // Linh thêm
                     roomModel.setListImageRoom(tempImageList);
 
                     //End Thêm tên danh sách tên hình vào phòng trọ
+
+                    //Thêm vào hình dung lượng thấp của phòng trọ
+                    DataSnapshot dataSnapshotComPress = dataSnapshot.child("RoomCompressionImages").child(RoomID);
+                    //Kiểm tra nếu có dữ liệu
+                    if(dataSnapshotComPress.getChildrenCount()>0){
+                        for (DataSnapshot valueCompressionImage : dataSnapshotComPress.getChildren()) {
+                            roomModel.setCompressionImage(valueCompressionImage.getValue(String.class));
+                        }
+                    }else {
+                        roomModel.setCompressionImage(tempImageList.get(0));
+                    }
 
                     //Thêm danh sách bình luận của phòng trọ
 
@@ -702,75 +743,136 @@ public class RoomModel implements Parcelable { // Linh thêm
     }
 
 
-    //Hàm thêm phòng mới
+    //Hàm thêm phòng mới |Thêm theo thứ tự thêm hình trước và thêm vào node room sau cùng để tránh lỗi xảy ra
     public void addRoom(RoomModel roomModel, List<String> listConvenient, List<String> listPathImage
-            , float electricBill, float warterBill, float InternetBill, float parkingBill, ICallBackFromAddRoom iCallBackFromAddRoom) {
-        DatabaseReference nodeRoom = nodeRoot.child("Room");
+            , float electricBill, float warterBill, float InternetBill, float parkingBill, ICallBackFromAddRoom iCallBackFromAddRoom, Context context) {
 
+        //Lấy ra node room
+        DatabaseReference nodeRoom = nodeRoot.child("Room");
         //Lấy Key push động vào firebase
         String RoomID = nodeRoom.push().getKey();
 
-        //push vào node room
-        nodeRoom.child(RoomID).setValue(roomModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                //Thêm danh sách tiện ích
-                for (String dataConvenient : listConvenient) {
-                    nodeRoot.child("RoomConvenients").child(RoomID).push().setValue(dataConvenient);
-                }
-                //End thêm danh sách tiện ích
+        //Tải hình lên trước sau khi hoàn tất tải hình mới thêm vào các thông tin cần thiết
+        //Tải hình lên
+        final int[] count = {0};
+        for (String pathImage : listPathImage) {
 
-                //Thêm chi tiết các giá phòng
-                addDetailRoomPrice(RoomID, electricBill, warterBill, InternetBill, parkingBill, (float) roomModel.getRentalCosts());
-                //End thêm chi tiết các giá phòng
+            //Lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
+            DateFormat df = new SimpleDateFormat("ddMMyyyyHHmmss");
+            String date = df.format(Calendar.getInstance().getTime());
+            //End lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
 
-                //Lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
-                DateFormat df = new SimpleDateFormat("ddMMyyyyHHmmss");
-                String date = df.format(Calendar.getInstance().getTime());
-                //End lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
+            //Lấy đường dẫn Uri của hình
+            Uri file = Uri.parse(pathImage);
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                    .child("Images/" + date + file.getLastPathSegment());
 
-                //Tải hình lên
-                final int[] count = {0};
-                for (String pathImage : listPathImage) {
-                    Uri file = Uri.parse(pathImage);
-                    StorageReference storageReference = FirebaseStorage.getInstance().getReference()
-                            .child("Images/" + date + file.getLastPathSegment());
-                    storageReference.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            //Tải hình lên bằng hàm putFile
+            storageReference.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    //Lấy URL hình mới upload
-                                    String dowloadURL = uri.toString();
-                                    //Push hình vào danh sách hình tương ứng với room
-                                    nodeRoot.child("RoomImages").child(RoomID).push().setValue(dowloadURL);
-                                    count[0]++;
-                                    if (count[0] == listPathImage.size()) {
-                                        iCallBackFromAddRoom.stopProgess(true);
-                                    }
+                        public void onSuccess(Uri uri) {
+                            //Lấy URL hình mới upload
+                            String dowloadURL = uri.toString();
+                            //Push hình vào danh sách hình tương ứng với room
+                            nodeRoot.child("RoomImages").child(RoomID).push().setValue(dowloadURL);
+                            count[0]++;
+                            if (count[0] == listPathImage.size()) {
+                                //Thêm vào thông tin khác
+                                //Thêm danh sách tiện ích
+                                for (String dataConvenient : listConvenient) {
+                                    nodeRoot.child("RoomConvenients").child(RoomID).push().setValue(dataConvenient);
                                 }
-                            });
+                                //End thêm danh sách tiện ích
+
+                                //Thêm chi tiết các giá phòng
+                                addDetailRoomPrice(RoomID, electricBill, warterBill, InternetBill, parkingBill, (float) roomModel.getRentalCosts());
+                                //End thêm chi tiết các giá phòng
+
+                                //Thêm vào thông tin phòng
+                                nodeRoom.child(RoomID).setValue(roomModel);
+
+                                //Thêm vào node RoomLocation để filter
+
+                                //Cắt bỏ P. trước phường
+                                String SplitWarn = roomModel.getWard().substring(2);
+                                //Push ID room vào
+                                nodeRoot.child("LocationRoom").child(roomModel.getCounty())
+                                        .child(SplitWarn)
+                                        .child(roomModel.getStreet())
+                                        .push().setValue(RoomID);
+
+                                //End thêm vào node RoomLocation để filter
+
+                                //Đăng hình ảnh đã nén ở trang đầu để load nhanh hơn
+                                //Tạo đường dẫn file
+
+                                //Lấy ra đường dẫn file
+                                String path = FilePath.getPath(context, Uri.parse(listPathImage.get(0)));
+
+                                //Tạo file tương ứng với đường dẫn đó
+                                File image_filePath = new File(path);
+
+                                //Tạo Bitmap để nén ảnh và tải lên
+                                Bitmap image_bitmap = null;
+                                try {
+
+                                    image_bitmap = new Compressor(context)
+                                            .setMaxHeight(320)
+                                            .setMaxWidth(240)
+                                            .setQuality(50)
+                                            .compressToBitmap(image_filePath);
+                                    //Tạo mảng byte để đổ dữ liệu từ bitmap sang để up lên storage
+                                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                    //Chuyển ảnh về JPG và đổ vào mảng byte
+                                    image_bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
+
+                                    //Đổ dữ liệu ra mảng byte
+                                    final byte[] image_byte = byteArrayOutputStream.toByteArray();
+
+                                    //Lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
+                                    DateFormat df2 = new SimpleDateFormat("ddMMyyyyHHmmss");
+                                    String date2 = df2.format(Calendar.getInstance().getTime());
+                                    //End lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
+
+                                    //Tạo đường dẫn đến thu mục upload hình
+                                    StorageReference CompressStorage = FirebaseStorage.getInstance().getReference().child("CompressionImages/"+roomModel.getOwner()+date2+".jpg");
+
+                                    //Up load hình
+                                    UploadTask uploadTask = CompressStorage.putBytes(image_byte);
+                                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                            CompressStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    //Lấy ra đường dẫn download
+                                                    String ComPressDowloadURL = uri.toString();
+                                                    //Thêm vào trong node Room
+                                                    nodeRoot.child("RoomCompressionImages").child(RoomID).push().setValue(ComPressDowloadURL);
+
+                                                    iCallBackFromAddRoom.stopProgess(true);
+                                                }
+                                            });
+                                        }
+                                    });
+                                }catch (IOException e){
+                                    e.printStackTrace();
+                                }
+                            }
                         }
                     });
-
                 }
-                //End tải hình lên
+            });
 
-                //Thêm vào node RoomLocation để filter
+        }
+        //End tải hình lên
 
-                //Cắt bỏ P. trước phường
-                String SplitWarn = roomModel.getWard().substring(2);
-                //Push ID room vào
-                nodeRoot.child("LocationRoom").child(roomModel.getCounty())
-                        .child(SplitWarn)
-                        .child(roomModel.getStreet())
-                        .push().setValue(RoomID);
+        //push vào node room
 
-                //End thêm vào node RoomLocation để filter
-            }
-        });
     }
 
     //Hàm thêm vào chi tiết giá cả của phòng

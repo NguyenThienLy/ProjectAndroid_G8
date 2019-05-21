@@ -213,7 +213,6 @@ public class postRoomStep4 extends Fragment implements View.OnClickListener {
         dataRoom.setDescribe(describe);
         dataRoom.setName(name);
         dataRoom.setOwner(UID);
-        Log.d("check2", UID);
 
         //Lấy ra thời gian hiện tại
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
