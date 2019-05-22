@@ -15,6 +15,7 @@ public class favoriteRoomsView extends AppCompatActivity {
     RecyclerView recyclerMyFavoriteRoom;
     MainActivityController mainActivityController;
     SharedPreferences sharedPreferences;
+    String UID;
 
     Toolbar toolbar;
 
@@ -23,7 +24,8 @@ public class favoriteRoomsView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favorite_rooms);
 
-        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(LoginView.PREFS_DATA_NAME, MODE_PRIVATE);
+        UID = sharedPreferences.getString(LoginView.SHARE_UID,"n1oc76JrhkMB9bxKxwXrxJld3qH2");
 
         recyclerMyFavoriteRoom = (RecyclerView) findViewById(R.id.recycler_favorite_rooms);
         toolbar = findViewById(R.id.toolbar);
@@ -52,7 +54,7 @@ public class favoriteRoomsView extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        mainActivityController = new MainActivityController(this, sharedPreferences);
+        mainActivityController = new MainActivityController(this, UID);
         mainActivityController.getListFavoriteRooms(recyclerMyFavoriteRoom);
     }
 }

@@ -10,12 +10,10 @@ import com.example.designapptest.Model.ReportedRoomModel;
 public class ReportedRoomController {
     ReportedRoomModel reportedRoomModel;
     Context context;
-    SharedPreferences sharedPreferences;
 
-    public ReportedRoomController(Context context, SharedPreferences sharedPreferences) {
+    public ReportedRoomController(Context context) {
         this.context = context;
         this.reportedRoomModel = new ReportedRoomModel();
-        this.sharedPreferences = sharedPreferences;
     }
 
     public void addReport(ReportedRoomModel reportedRoomModel, String roomId) {

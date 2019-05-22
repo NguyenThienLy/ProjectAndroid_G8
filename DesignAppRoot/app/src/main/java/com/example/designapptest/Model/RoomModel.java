@@ -889,18 +889,14 @@ public class RoomModel implements Parcelable { // Linh thêm
         nodeRoot.child("RoomPrice").child(roomID).child("IDRPT4").setValue(roomBill);
     }
 
-    public static void getListFavoriteRoomsId(SharedPreferences sharedPreferences) {
-        String currentUserId = sharedPreferences.getString("currentUserId", "");
+    public static void getListFavoriteRoomsId(String UID) {
 
         //Tạo listen cho firebase
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //Thêm danh sách id trọ yêu thích
-
                 RoomModel.myFavoriteRooms.clear();
-
-                Log.d("check", "fav room id");
 
                 //Duyệt tất cả các giá trị trong node tương ứng
                 for (DataSnapshot favoriteRoom : dataSnapshot.getChildren()) {
@@ -918,7 +914,7 @@ public class RoomModel implements Parcelable { // Linh thêm
 
         //Gán sự kiện listen cho nodeRoot
         DatabaseReference node = FirebaseDatabase.getInstance().getReference();
-        node.child("FavoriteRooms").child(currentUserId).addValueEventListener(valueEventListener);
+        node.child("FavoriteRooms").child(UID).addValueEventListener(valueEventListener);
     }
 
     public void getAuthenticationRooms(final  IMainRoomModel iMainRoomModel){
@@ -1087,13 +1083,12 @@ public class RoomModel implements Parcelable { // Linh thêm
         nodeRoot.addValueEventListener(valueEventListener);
     }
 
-    public void addToFavoriteRooms(String roomId, IMainRoomModel iMainRoomModel, SharedPreferences sharedPreferences) {
-        String currentUserId = sharedPreferences.getString("currentUserId", "");
+    public void addToFavoriteRooms(String roomId, IMainRoomModel iMainRoomModel, String UID) {
         DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference().child("FavoriteRooms");
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String date = df.format(Calendar.getInstance().getTime());
 
-        nodeFavoriteRooms.child(currentUserId).child(roomId).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
+        nodeFavoriteRooms.child(UID).child(roomId).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -1104,11 +1099,10 @@ public class RoomModel implements Parcelable { // Linh thêm
         });
     }
 
-    public void removeFromFavoriteRooms(String roomId, IMainRoomModel iMainRoomModel, SharedPreferences sharedPreferences) {
-        String currentUserId = sharedPreferences.getString("currentUserId", "");
+    public void removeFromFavoriteRooms(String roomId, IMainRoomModel iMainRoomModel, String UID) {
         DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference().child("FavoriteRooms");
 
-        nodeFavoriteRooms.child(currentUserId).child(roomId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        nodeFavoriteRooms.child(UID).child(roomId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

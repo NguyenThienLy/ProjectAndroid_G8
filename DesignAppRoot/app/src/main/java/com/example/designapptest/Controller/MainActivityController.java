@@ -34,29 +34,27 @@ public class MainActivityController {
     Context context;
     RoomModel roomModel;
     LocationModel locationModel;
-    SharedPreferences sharedPreferences;
+    String UID;
     static List<RoomModel> favoriteRoomsList = new ArrayList<>();
     static AdapterRecyclerMainRoom myAdapterRecyclerFavoriteRoom = null;
 
-    public MainActivityController(Context context, SharedPreferences sharedPreferences) {
+    public MainActivityController(Context context, String UID) {
         this.context = context;
         this.roomModel = new RoomModel();
         this.locationModel = new LocationModel();
-        this.sharedPreferences = sharedPreferences;
+        this.UID = UID;
     }
 
     public void ListMainRoom(RecyclerView recyclerMainRoom, RecyclerView recyclerViewGridMainRoom, final ProgressBar progressBarMain) {
         final List<RoomModel> roomModelList = new ArrayList<>();
         final List<RoomModel> roomModelListAuthentication = new ArrayList<>();
 
-
-
         //Tạo layout cho danh sách trọ tìm kiếm nhiều nhất
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerMainRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelListAuthentication, R.layout.room_element_list_view, sharedPreferences);
+        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelListAuthentication, R.layout.room_element_list_view, UID);
         //Cài adapter cho recycle
         recyclerMainRoom.setAdapter(adapterRecyclerMainRoom);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
@@ -66,7 +64,7 @@ public class MainActivityController {
         recyclerViewGridMainRoom.setLayoutManager(layoutManagerGrid);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerGridMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_grid_view, sharedPreferences);
+        final AdapterRecyclerMainRoom adapterRecyclerGridMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_grid_view, UID);
         //Cài adapter cho recycle
         recyclerViewGridMainRoom.setAdapter(adapterRecyclerGridMainRoom);
         //End Tạo layout cho danh sách trọ được hiển thị theo dạng grid phía dưới
@@ -121,6 +119,7 @@ public class MainActivityController {
                         break;
                     }
                 }
+
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerMainRoom.notifyDataSetChanged();
             }
@@ -171,7 +170,7 @@ public class MainActivityController {
     }
 
 
-    public void ListRoomUser(RecyclerView recyclerMainRoom, String UID) {
+    public void ListRoomUser(RecyclerView recyclerMainRoom) {
         final List<RoomModel> roomModelList = new ArrayList<>();
 
         Log.d("mycheck", "getListMainRoom: ");
@@ -180,7 +179,7 @@ public class MainActivityController {
         recyclerMainRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, sharedPreferences);
+        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, UID);
         //Cài adapter cho recycle
         recyclerMainRoom.setAdapter(adapterRecyclerMainRoom);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
@@ -246,7 +245,7 @@ public class MainActivityController {
         recyclerFavoriteRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom = new AdapterRecyclerMainRoom(context, favoriteRoomsList, R.layout.room_element_list_view, sharedPreferences);
+        final AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom = new AdapterRecyclerMainRoom(context, favoriteRoomsList, R.layout.room_element_list_view, UID);
         //Cài adapter cho recycle
         recyclerFavoriteRoom.setAdapter(adapterRecyclerFavoriteRoom);
         //End tạo layout cho danh sách trọ yêu thích
@@ -332,7 +331,7 @@ public class MainActivityController {
 //        roomModel.getListFavoriteRooms(iMainRoomModel, sharedPreferences);
     }
 
-    public void addToFavoriteRooms(String roomId, Context context, SharedPreferences sharedPreferences, MenuItem item) {
+    public void addToFavoriteRooms(String roomId, Context context, MenuItem item) {
         IMainRoomModel iMainRoomModel = new IMainRoomModel() {
             @Override
             public void getListMainRoom(RoomModel valueRoom) {
@@ -355,10 +354,10 @@ public class MainActivityController {
             }
         };
 
-        roomModel.addToFavoriteRooms(roomId, iMainRoomModel, sharedPreferences);
+        roomModel.addToFavoriteRooms(roomId, iMainRoomModel, UID);
     }
 
-    public void removeFromFavoriteRooms(String roomId, Context context, SharedPreferences sharedPreferences, MenuItem item) {
+    public void removeFromFavoriteRooms(String roomId, Context context, MenuItem item) {
         IMainRoomModel iMainRoomModel = new IMainRoomModel() {
             @Override
             public void getListMainRoom(RoomModel valueRoom) {
@@ -381,6 +380,6 @@ public class MainActivityController {
             }
         };
 
-        roomModel.removeFromFavoriteRooms(roomId, iMainRoomModel, sharedPreferences);
+        roomModel.removeFromFavoriteRooms(roomId, iMainRoomModel, UID);
     }
 }

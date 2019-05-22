@@ -161,9 +161,9 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         String password = edt_password_login.getText().toString();
 
         if (username.trim().length() == 0 || password.trim().length() == 0) {
-            Toast.makeText(LoginView.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginView.this, "Tên đăng nhập hoặc mật khẩu không hợp lệ", Toast.LENGTH_SHORT).show();
         } else {
-            progressDialog.setMessage("Logging in...");
+            progressDialog.setMessage("Đang đăng nhập...");
             progressDialog.setIndeterminate(true);
             progressDialog.show();
 
@@ -172,7 +172,7 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
                         progressDialog.dismiss();
-                        Toast.makeText(LoginView.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginView.this, "Tên đăng nhập hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -201,7 +201,7 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
             progressDialog.dismiss();
-            Toast.makeText(LoginView.this, "Sign in successful", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginView.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
 
             // Lưu lại mã user đăng nhập vào app
             SharedPreferences.Editor editor = sharedPreferences.edit();

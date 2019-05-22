@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
      FusedLocationProviderClient client;
 
     SharedPreferences sharedPreferences;
+    String UID;
 
     Toolbar toolbar;
 
@@ -68,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(LoginView.PREFS_DATA_NAME, MODE_PRIVATE);
+        UID = sharedPreferences.getString(LoginView.SHARE_UID,"n1oc76JrhkMB9bxKxwXrxJld3qH2");
 
         initControl();
 
@@ -220,9 +222,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        RoomModel.getListFavoriteRoomsId(sharedPreferences);
+        RoomModel.getListFavoriteRoomsId(UID);
 
-        mainActivityController = new MainActivityController(this, sharedPreferences);
+        mainActivityController = new MainActivityController(this, UID);
         mainActivityController.ListMainRoom(recyclerMainRoom,recyclerGridMainRoom,progressBarMain);
 
         //Load top địa điểm nhiều phòng

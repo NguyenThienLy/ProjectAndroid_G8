@@ -36,7 +36,6 @@ public class roomManagementModel extends AppCompatActivity {
 
     SharedPreferences sharedPreferences2;
 
-
     private Integer[] viewData = {356,75,684,464};
     private String[] nameData = {"Phòng trọ 1","Phòng trọ 2","Phòng trọ 3","Phòng trọ 4"};
 
@@ -108,8 +107,8 @@ public class roomManagementModel extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        mainActivityController = new MainActivityController(this,sharedPreferences2);
-        mainActivityController.ListRoomUser(recyclerMainRoom,UID);
+        mainActivityController = new MainActivityController(this, UID);
+        mainActivityController.ListRoomUser(recyclerMainRoom);
         Log.d("mycheck", "onStart: ");
     }
 }

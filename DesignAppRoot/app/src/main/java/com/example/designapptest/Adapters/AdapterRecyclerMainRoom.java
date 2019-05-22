@@ -37,13 +37,13 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
     int resource;
     // Linh thêm
     Context context;
-    SharedPreferences sharedPreferences;
+    String UID;
 
-    public AdapterRecyclerMainRoom(Context context, List<RoomModel> RoomModelList, int resource, SharedPreferences sharedPreferences) {
+    public AdapterRecyclerMainRoom(Context context, List<RoomModel> RoomModelList, int resource, String UID) {
         this.context = context;
         this.RoomModelList = RoomModelList;
         this.resource = resource;
-        this.sharedPreferences = sharedPreferences;
+        this.UID = UID;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -185,11 +185,10 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
     private void removeFavoriteRoom(int removedPosition, RecyclerView recyclerView, AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom) {
         DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference()
                 .child("FavoriteRooms");
-        String userId = sharedPreferences.getString("currentUserId", "");
         String roomId = RoomModelList.get(removedPosition).getRoomID();
         String roomName = RoomModelList.get(removedPosition).getName();
 
-        nodeFavoriteRooms.child(userId).child(roomId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        nodeFavoriteRooms.child(UID).child(roomId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (RoomModelList.size() == 0) {
@@ -202,7 +201,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
                         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                         String date = df.format(Calendar.getInstance().getTime());
 
-                        nodeFavoriteRooms.child(userId).child(roomId).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        nodeFavoriteRooms.child(UID).child(roomId).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {

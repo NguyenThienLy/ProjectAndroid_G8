@@ -1,7 +1,9 @@
 package com.example.designapptest.Views;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.designapptest.Adapters.AdapterGridRateStar;
 import com.example.designapptest.Controller.CommentController;
+import com.example.designapptest.Controller.UserController;
 import com.example.designapptest.Model.CommentModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
@@ -48,6 +51,7 @@ public class commentAndRateStep1 extends Fragment {
     CommentController commentController;
 
     SharedPreferences sharedPreferences;
+    String UID;
 
     RoomModel roomModel;
 
@@ -56,7 +60,8 @@ public class commentAndRateStep1 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         viewCommentAndRateStep1 = inflater.inflate(R.layout.comment_and_rate_step_1_room_detail_view, container, false);
-        sharedPreferences = ((commentAndRateMain) this.getActivity()).getSharedPreferences();
+        sharedPreferences = ((commentAndRateMain)this.getActivity()).getSharedPreferences(LoginView.PREFS_DATA_NAME, Context.MODE_PRIVATE);
+        UID = sharedPreferences.getString(LoginView.SHARE_UID,"n1oc76JrhkMB9bxKxwXrxJld3qH2");
         roomModel = ((commentAndRateMain) this.getActivity()).getRoomModelInfo();
 
         initControl();
@@ -90,7 +95,7 @@ public class commentAndRateStep1 extends Fragment {
         txtTitle = (EditText) viewCommentAndRateStep1.findViewById(R.id.txt_title_comment_and_rate_step_1);
         txtContent = (EditText) viewCommentAndRateStep1.findViewById(R.id.txt_content_comment_and_rate_step_1);
         btnPostComment = (Button) viewCommentAndRateStep1.findViewById(R.id.btn_postComment);
-        commentController = new CommentController((commentAndRateMain) this.getActivity(), sharedPreferences);
+        commentController = new CommentController((commentAndRateMain) this.getActivity(), UID);
 
         btnPostComment.setOnClickListener(new View.OnClickListener() {
             @Override

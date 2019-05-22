@@ -11,6 +11,7 @@
     <string name="stringQuantity">SỐ LƯỢNG</string>
     <string name="stringSeeMore">Xem thêm</string>
     <string name="stringCollapse">Thu gọn</string>
+    <string name="stringExpand">Mở rộng</string>
     <string name="stringAdress">Địa chỉ</string>
     <string name="stringDetail">Chi tiết</string>
     <string name="stringCallBookRoom">Gọi đặt phòng</string>
@@ -26,8 +27,8 @@
     <string name="stringRateMedium">Trung bình</string>
     <string name="stringRateBad">Quá tệ</string>
     <string name="stringCramped">Chật</string>
-    <string name="stringMedium">Vừa</string>
-    <string name="stringWide">Rộng</string>
+    <string name="stringMedium">Ổn</string>
+    <string name="stringSpacious">Rộng</string>
     <string name="stringComment">Bình luận:</string>
     <string name="stringNoteComment">Bình luận trên 100 từ, đúng chính tả, ngôn từ văn hóa, không spam, trên tiêu chí góp ý</string>
     <string name="stringNoteTitle">Tiêu đề bình luận (Bắt buộc)</string>

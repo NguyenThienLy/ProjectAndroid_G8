@@ -1,8 +1,11 @@
 package com.example.designapptest.Adapters;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,10 +66,23 @@ public class AdapterRecyclerConvenient extends RecyclerView.Adapter<AdapterRecyc
     @Override
     public int getItemCount() {
         int convenients = ConvenientModelList.size();
-        if (convenients > 6) {
-            return 6;
-        } else {
-            return convenients;
-        }
+//        if (convenients > 6) {
+//            return 6;
+//        } else {
+//            return convenients;
+//        }
+        return convenients;
+    }
+
+    public void removeAt(int position) {
+        ConvenientModelList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, ConvenientModelList.size());
+    }
+
+    public void insertAt(int position, ConvenientModel convenientModel) {
+        ConvenientModelList.add(position, convenientModel);
+        notifyItemInserted(position);
+        notifyItemRangeChanged(position, ConvenientModelList.size());
     }
 }

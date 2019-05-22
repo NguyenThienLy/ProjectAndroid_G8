@@ -65,6 +65,7 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
     String district;
 
     SharedPreferences sharedPreferences;
+    String UID;
 
 
     @Override
@@ -72,7 +73,9 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_view);
 
-        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(LoginView.PREFS_DATA_NAME, MODE_PRIVATE);
+        UID = sharedPreferences.getString(LoginView.SHARE_UID,"n1oc76JrhkMB9bxKxwXrxJld3qH2");
+
         initData();
         initControl();
         getDistrict();
@@ -357,7 +360,7 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
         //Ẩn text
         txtNumberRoom.setVisibility(View.GONE);
 
-        searchViewController controller = new searchViewController(this,district,filterList,sharedPreferences);
+        searchViewController controller = new searchViewController(this,district,filterList,UID);
         controller.loadSearchRoom(recyclerSearchRoom,txtNumberRoom,progessBarLoad);
     }
 
