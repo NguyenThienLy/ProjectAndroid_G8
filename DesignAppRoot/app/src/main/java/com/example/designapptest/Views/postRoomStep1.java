@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.designapptest.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -66,6 +67,8 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
 
     FusedLocationProviderClient client;
     boolean isChooseMap = false;
+
+    ArrayAdapter<String> adapterSpnspnDistrictPushRoom;
 
     public postRoomStep1() {
 
@@ -127,7 +130,7 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
                 "Quận 6", "Quận 7", "Quận 8", "Quận 9", "Quận 10", "Quận 11", "Quận 12",
                 "Quận Thủ Đức", "Quận Gò Vấp", "Quận Bình Thạnh", "Quận Tân Bình",
                 "Quận Tân Phú", "Quận Phú Nhuận", "Quận Bình Tân"};
-        ArrayAdapter<String> adapterSpnspnDistrictPushRoom = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, DistricList);
+        adapterSpnspnDistrictPushRoom = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, DistricList);
         adapterSpnspnDistrictPushRoom.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnDistrictPushRoom.setAdapter(adapterSpnspnDistrictPushRoom);
         //End đặt thuộc tính cho spinner spnDistricPushRoom
@@ -163,49 +166,73 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
                 getDataFromControl();
                 if (checkTrueDataFromControl() == true) {
 
-                    //Lưu thông tin vô sharePereference
-                    saveDataToPreference();
+                    if(isChooseMap ==false){
+                        //Thông báo lỗi
+                        Toast.makeText(getContext(),"Vui lòng chọn địa chỉ trên bản đồ",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        //Lưu thông tin vô sharePereference
+                        saveDataToPreference();
 
-                    //Làm xanh màu ở activity
-                    changeColorInActivity(true);
+                        //Làm xanh màu ở activity
+                        changeColorInActivity(true);
 
-                    //Chuyển sang trang kế tiếp
-                    postRoom.setCurrentPage(1);
+                        //Chuyển sang trang kế tiếp
+                        postRoom.setCurrentPage(1);
+                    }
                 } else {
+                    //Thông báo lỗi
+                    Toast.makeText(getContext(),"Vui lòng điền đầy đủ thông tin",Toast.LENGTH_LONG).show();
                     //Dổi màu thành màu xám ở activity
                     changeColorInActivity(false);
                 }
 
                 break;
             case R.id.txt_choose_location:
-                //Lấy ra vị trí hiện tại và truyền qua
-                if(ActivityCompat.checkSelfPermission(getContext(), ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED){
-                    return;
-                }
-                else{
-                    //Neu du quyen thi lay toa do ma show map
-                    client.getLastLocation().addOnSuccessListener((AppCompatActivity) getContext(), new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if(location!=null){
-                                double srLatitude = location.getLatitude();
-                                double srLongtitude =location.getLongitude();
 
-                                //Hiện popup chọn map
-                                Intent intent = new Intent(getContext(), PopupChooseLocation.class);
-                                //pust vô extra
-                                intent.putExtra(SHARE_LATITUDE,srLatitude);
-                                intent.putExtra(SHARE_LONGTITUDE,srLongtitude);
-                                isChooseMap = true;
-                                startActivityForResult(intent, RQ_LOCATION);
-                            }
-                            else {
+                //Kiểm tra nếu chưa bấm vào map
+                if(isChooseMap == false){
+                    //Lấy ra vị trí hiện tại và truyền qua
+                    if(ActivityCompat.checkSelfPermission(getContext(), ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED){
+                        return;
+                    }
+                    else{
+                        //Neu du quyen thi lay toa do ma show map
+                        client.getLastLocation().addOnSuccessListener((AppCompatActivity) getContext(), new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                if(location!=null){
+                                    double srLatitude = location.getLatitude();
+                                    double srLongtitude =location.getLongitude();
 
+                                    //Hiện popup chọn map
+                                    Intent intent = new Intent(getContext(), PopupChooseLocation.class);
+                                    //pust vô extra
+                                    intent.putExtra(SHARE_LATITUDE,srLatitude);
+                                    intent.putExtra(SHARE_LONGTITUDE,srLongtitude);
+                                    isChooseMap = true;
+                                    startActivityForResult(intent, RQ_LOCATION);
+                                }
+                                else {
+
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
+                else {
+                    //Hiện popup chọn map
+                    Intent intent = new Intent(getContext(), PopupChooseLocation.class);
+                    //pust vô extra
+                    double srLatitude = latitude;
+                    double srLongtitude =longtitude;
+                    intent.putExtra(SHARE_LATITUDE,srLatitude);
+                    intent.putExtra(SHARE_LONGTITUDE,srLongtitude);
+                    isChooseMap = true;
+                    startActivityForResult(intent, RQ_LOCATION);
+                }
+
                 break;
         }
     }
@@ -214,11 +241,21 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RQ_LOCATION) {
             if(resultCode == AppCompatActivity.RESULT_OK){
-                //Lấy tọa độ
+                //Lấy ra thông tin địa chỉ tọa độ
                 longtitude = (float)data.getDoubleExtra(SHARE_LONGTITUDE,0.0);
                 latitude = (float)data.getDoubleExtra(SHARE_LATITUDE,0.0);
 
-                Log.d("check", longtitude +" "+ latitude);
+                //Lấy ra thông tin địa chỉ vật lý
+                String tempDistrict = data.getStringExtra(SHARE_DISTRICT);
+                String tempStreet = data.getStringExtra(SHARE_STREET);
+                String tempNo = data.getStringExtra(SHARE_NO);
+
+                //Hiển thị các thông tin vừa lấy được lên UI
+                spnDistrictPushRoom.setSelection(adapterSpnspnDistrictPushRoom.getPosition(tempDistrict));
+                edtStreetPushRoom.setText(tempStreet);
+                edtNoPushRoom.setText(tempNo);
+
+                Log.d("check", longtitude +" "+ latitude +tempDistrict);
             }
         }
     }
@@ -236,7 +273,7 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
         Ward = spnWardPushRoom.getSelectedItem().toString();
         Street = edtStreetPushRoom.getText().toString();
         No = edtNoPushRoom.getText().toString();
-        getLocation();
+        //getLocation();
     }
 
     //Hàm kiểm tra giá trị nhập từ người dùng có chính xác hay không

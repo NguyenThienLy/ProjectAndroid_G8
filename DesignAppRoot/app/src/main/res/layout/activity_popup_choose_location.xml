@@ -1,45 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/custom_popup_activity"
+    android:orientation="vertical"
     tools:context=".Views.PopupChooseLocation">
+
+
+    <RelativeLayout
+        android:layout_marginTop="3dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/box_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp">
+
+        <EditText
+            android:id="@+id/edT_search"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/frame"
+            android:hint="Vị trí cần tìm"
+            android:paddingLeft="20px"
+            android:paddingRight="30dp"
+            android:textColor="#666666"
+            android:textColorHint="#666666"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:id="@+id/img_search"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_png_search_100" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/box_search">
+
+        <fragment
+            android:id="@+id/mapfragment"
+            class="com.here.android.mpa.mapping.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/progess_bar_load_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
     <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
         android:padding="3dp"
         android:weightSum="5"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_weight="2"
+            android:layout_height="0.5dip"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="#666666"/>
         <TextView
-            android:textSize="16sp"
-            android:gravity="center_horizontal"
-            android:text="Chạm và giữ để thay đổi vị trí"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:layout_height="wrap_content" />
-        <RelativeLayout
-            android:layout_weight="1"
-            android:layout_width="0dp"
+            android:gravity="left"
+            android:text="Vị trí hiện tại (Chạm và giữ để thay đổi)"
+            android:textSize="16sp" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_weight="2"
+            android:layout_height="0.5dip"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="#666666"/>
+
+
+        <TableLayout
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/btn_exit"
-                android:layout_marginRight="10dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/ic_svg_delete_x_14"
-                android:layout_width="30dp"
-                android:layout_height="30dp" />
-        </RelativeLayout>
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="@string/StringChooseLocationStreet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/txt_street"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="@string/StringChooseLocationWard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/txt_ward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="@string/StringChooseLocationDistrict"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/txt_district"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="@string/StringChooseLocationNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/txt_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+        </TableLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_weight="2"
+            android:layout_height="0.5dip"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="#666666"/>
+        <Button
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/custom_button_check_map_detail"
+            android:id="@+id/btn_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Xác nhận" />
+
 
     </LinearLayout>
 
 
-    <fragment
-        class="com.here.android.mpa.mapping.SupportMapFragment"
-        android:id="@+id/mapfragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
