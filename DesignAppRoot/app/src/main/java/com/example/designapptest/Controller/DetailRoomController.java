@@ -18,12 +18,12 @@ import java.util.List;
 public class DetailRoomController {
     Context context;
     SearchRoomModel searchRoomModel;
-    SharedPreferences sharedPreferences;
+    String UID;
 
-    public DetailRoomController(Context context, String district, List<myFilter> filterList, SharedPreferences sharedPreferences) {
+    public DetailRoomController(Context context, String district, List<myFilter> filterList, String UID) {
         this.context = context;
         this.searchRoomModel = new SearchRoomModel(district,filterList);
-        this.sharedPreferences =sharedPreferences;
+        this.UID = UID;
     }
 
     public void loadSearchRoom(RecyclerView recyclerSearchRoom,String CurrentRoomID){
@@ -35,7 +35,7 @@ public class DetailRoomController {
         recyclerSearchRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, sharedPreferences);
+        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, UID);
         //Cài adapter cho recycle
         recyclerSearchRoom.setAdapter(adapterRecyclerMainRoom);
 

@@ -1,5 +1,6 @@
 package com.example.designapptest.Views;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,8 @@ public class commentAndRateStep2 extends Fragment {
     RoomModel roomModel;
 
     SharedPreferences sharedPreferences;
+    String UID;
+
     CommentController commentController;
 
     @Override
@@ -35,7 +38,8 @@ public class commentAndRateStep2 extends Fragment {
 
         // Lấy đối tượng roomModel truyền từ room_detail
         roomModel = ((commentAndRateMain)this.getActivity()).getRoomModelInfo();
-        sharedPreferences = ((commentAndRateMain) this.getActivity()).getSharedPreferences();
+        sharedPreferences = ((commentAndRateMain)this.getActivity()).getSharedPreferences(LoginView.PREFS_DATA_NAME, Context.MODE_PRIVATE);
+        UID = sharedPreferences.getString(LoginView.SHARE_UID,"n1oc76JrhkMB9bxKxwXrxJld3qH2");
 
         initControl();
 
@@ -57,7 +61,7 @@ public class commentAndRateStep2 extends Fragment {
     }
 
     public void setAdapter() {
-        commentController = new CommentController((commentAndRateMain)this.getActivity(), sharedPreferences);
+        commentController = new CommentController((commentAndRateMain)this.getActivity(), UID);
         commentController.ListRoomComments(recyclerCommentRoomDetailAll, roomModel,
                 txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview);
     }

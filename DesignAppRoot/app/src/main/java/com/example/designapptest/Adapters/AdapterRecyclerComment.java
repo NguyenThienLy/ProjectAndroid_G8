@@ -31,16 +31,16 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
     Context context;
     int layout;
     List<CommentModel> CommentModelList;
-    SharedPreferences sharedPreferences;
+    String UID;
     String roomId;
     Boolean isShowAll;
 
     public AdapterRecyclerComment(Context context, int layout, List<CommentModel> CommentModelList, String roomId,
-                                  SharedPreferences sharedPreferences, Boolean isShowAll) {
+                                  String UID, Boolean isShowAll) {
         this.context = context;
         this.layout = layout;
         this.CommentModelList = CommentModelList;
-        this.sharedPreferences = sharedPreferences;
+        this.UID = UID;
         this.roomId = roomId;
         this.isShowAll = isShowAll;
     }
@@ -92,7 +92,7 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
         //Hiển thị nút Like this hay Liked comment đối với user đăng nhập app.
         DatabaseReference nodeInteractiveComment = FirebaseDatabase.getInstance().getReference()
                 .child("InteractiveComment").child(commentModel.getCommentID());
-        final String userId = sharedPreferences.getString("currentUserId", "");
+
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -100,7 +100,7 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
 
                 for (DataSnapshot valueUserLikeComment : dataSnapshot.getChildren()) {
                     String userLikeCommentId = valueUserLikeComment.getKey();
-                    if (userLikeCommentId.equals(userId)) {
+                    if (userLikeCommentId.equals(UID)) {
                         viewHolder.txt_like_comment_room_detail.setText("Liked");
                         break;
                     }
@@ -140,14 +140,14 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
     private void likeComment(CommentModel commentModel, TextView txtLikeComment, final TextView txtQuantityLikeComment) {
         DatabaseReference nodeInteractiveComment = FirebaseDatabase.getInstance().getReference()
                 .child("InteractiveComment");
-        String userId = sharedPreferences.getString("currentUserId", "");
+
         final String commentId = commentModel.getCommentID();
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String date = df.format(Calendar.getInstance().getTime());
 
         if (txtLikeComment.getText().toString().equals("Like this")) {
             // Thêm dữ liệu vào InteractiveComment.
-            nodeInteractiveComment.child(commentId).child(userId).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
+            nodeInteractiveComment.child(commentId).child(UID).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
@@ -167,7 +167,7 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
             });
         } else if (txtLikeComment.getText().toString().equals("Liked")) {
             // Xóa dữ liệu khỏi InteractiveComment
-            nodeInteractiveComment.child(commentId).child(userId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            nodeInteractiveComment.child(commentId).child(UID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
