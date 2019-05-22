@@ -66,6 +66,8 @@ dependencies {
     implementation project(':HERE-sdk')
     //Thư viện nén ảnh
     implementation 'id.zelory:compressor:2.1.0'
+    //Thư viện json
+    implementation 'com.google.code.gson:gson:2.2.4'
 }
 
 apply plugin: 'com.google.gms.google-services'
