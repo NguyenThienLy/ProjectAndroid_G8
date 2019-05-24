@@ -31,8 +31,6 @@ import java.util.List;
 
 public class FindRoomAdd extends AppCompatActivity {
 
-    SharedPreferences sharedPreferences;
-
     FindRoomAddController findRoomAddController;
 
     // Người dùng
@@ -62,8 +60,8 @@ public class FindRoomAdd extends AppCompatActivity {
 
     ProgressBar progressBarFindRoomAdd;
 
-    // Id Của người dùng hiện tại.
-    String currentUserId;
+    SharedPreferences sharedPreferences;
+    String UID;
 
     Toolbar toolbar;
 
@@ -73,8 +71,8 @@ public class FindRoomAdd extends AppCompatActivity {
         setContentView(R.layout.find_room_add_view);
 
         // Lấy id của người dùng hiện tại
-        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
-        currentUserId = sharedPreferences.getString("currentUserId", "");
+        sharedPreferences = getSharedPreferences(LoginView.PREFS_DATA_NAME, MODE_PRIVATE);
+        UID = sharedPreferences.getString(LoginView.SHARE_UID, "n1oc76JrhkMB9bxKxwXrxJld3qH2");
 
         initControl();
     }
@@ -91,7 +89,7 @@ public class FindRoomAdd extends AppCompatActivity {
         findRoomAddController = new FindRoomAddController(this);
 
         // Show thông tin của chủ bài đăng tìm ở ghép
-        findRoomAddController.setUserOwnerFindRoom(currentUserId, imgAvatarUser, imgGenderUser, txtNameUser, progressBarFindRoomAdd);
+        findRoomAddController.setUserOwnerFindRoom(UID, imgAvatarUser, imgGenderUser, txtNameUser, progressBarFindRoomAdd);
 
         clickPostFindRoom(findRoomAddController);
 
@@ -106,7 +104,6 @@ public class FindRoomAdd extends AppCompatActivity {
 
     private void initControl() {
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(Color.parseColor("#00DDFF"));
 
         progressBarFindRoomAdd = (ProgressBar)  findViewById(R.id.progress_find_room_add);
         progressBarFindRoomAdd.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
@@ -227,7 +224,7 @@ public class FindRoomAdd extends AppCompatActivity {
 
     private FindRoomModel getNewFindRoom() {
         // Id của người đăng tìm kiếm ỏ ghép.
-        String userID = currentUserId;
+        String userID = UID;
 
         // thời gian đăng.
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");

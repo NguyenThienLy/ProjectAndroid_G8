@@ -61,7 +61,7 @@ public class searchViewController {
                     //Tăng kết quả lên mỗi lần có room mới được tải về
                     i++;
                     //Set text hiển thị
-                    txtNumberRoom.setText(i+" Kết quả");
+                    txtNumberRoom.setText(i + "");
                     txtNumberRoom.setVisibility(View.VISIBLE);
                 }
                 else {

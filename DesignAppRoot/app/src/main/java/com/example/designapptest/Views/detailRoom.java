@@ -114,9 +114,6 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
     String District;
     String CurrentRoomID;
 
-    Handler handler;
-    int lineCountDescription;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -228,8 +225,6 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
     // Khởi tạo các control trong room detail.
     private void initControl() {
-        handler = new Handler(Looper.getMainLooper());
-
         commentController = new CommentController(this, UID);
         reportedRoomController = new ReportedRoomController(this);
         mainActivityController = new MainActivityController(this, UID);

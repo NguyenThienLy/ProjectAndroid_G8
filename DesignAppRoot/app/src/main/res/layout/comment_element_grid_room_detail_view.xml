@@ -107,6 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
+        android:layout_marginBottom="3dp"
         android:text="Mình tới tìm phòng này thì thấy phòng đăng khá đúng với thông tin trên app, khá hài lòng. !!"
         android:textColor="@color/colorGrayType2"
         android:textSize="15sp" />
@@ -138,5 +139,10 @@
             android:textColor="@android:color/holo_blue_bright"
             android:textSize="18sp" />
     </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="4dp"
+        android:background="@color/colorSpaceVer" />
 
 </LinearLayout>

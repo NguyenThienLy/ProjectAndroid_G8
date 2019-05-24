@@ -80,7 +80,6 @@ public class FindRoomFilter extends AppCompatActivity {
     // Khởi tạo các giá trị cho control
     private void initControl() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(Color.parseColor("#00DDFF"));
 
         // Khoảng giá
         txtMinPrice = findViewById(R.id.txt_min_price_find_room_filter);

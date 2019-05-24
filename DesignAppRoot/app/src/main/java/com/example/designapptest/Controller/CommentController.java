@@ -30,6 +30,7 @@ public class CommentController {
     String UID;
     static List<CommentModel> myListRoomComments = new ArrayList<>();
     static AdapterRecyclerComment myAdapterRecyclerComment = null;
+    static TextView myTxtQuantityMyComments = null;
 
     public CommentController(Context context,  String UID) {
         this.context = context;
@@ -38,7 +39,8 @@ public class CommentController {
     }
 
     public void ListRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel, TextView txtRoomGreatReview,
-                                 TextView txtRoomPrettyGoodReview, TextView txtRoomMediumReview, TextView txtRoomBadReview) {
+                                 TextView txtRoomPrettyGoodReview, TextView txtRoomMediumReview, TextView txtRoomBadReview,
+                                 TextView txtQuantityAllComments) {
         final List<CommentModel> commentModelList = new ArrayList<CommentModel>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -67,9 +69,14 @@ public class CommentController {
 
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerComment.notifyDataSetChanged();
+                // Set số lượng hiển thị
+                txtQuantityAllComments.setText(commentModelList.size() + "");
 
                 if (myAdapterRecyclerComment != null) {
                     myAdapterRecyclerComment.notifyDataSetChanged();
+
+                    // Hiển thị số lượng trả về
+                    myTxtQuantityMyComments.setText(String.valueOf(myListRoomComments.size()));
                 }
             }
 
@@ -115,7 +122,7 @@ public class CommentController {
         commentModel.ListRoomComments(iRoomCommentsModel, roomModel);
     }
 
-    public void ListMyRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel) {
+    public void ListMyRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel, TextView txtQuantityMyComments) {
 //        final List<CommentModel> commentModelList = new ArrayList<CommentModel>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -129,6 +136,9 @@ public class CommentController {
         recyclerRoomComments.setAdapter(adapterRecyclerComment);
 
         myAdapterRecyclerComment = adapterRecyclerComment;
+        myTxtQuantityMyComments = txtQuantityMyComments;
+        // Hiển thị kết quả trả về
+        myTxtQuantityMyComments.setText(String.valueOf(myListRoomComments.size()));
 
         //Tạo interface để truyền dữ liệu lên từ model
 //        IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {

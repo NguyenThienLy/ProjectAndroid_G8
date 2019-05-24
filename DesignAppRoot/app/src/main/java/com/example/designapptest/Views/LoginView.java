@@ -70,7 +70,7 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         btn_login = (Button) findViewById(R.id.btn_login);
         edt_username_login = (EditText) findViewById(R.id.edt_username_login);
         edt_password_login = (EditText) findViewById(R.id.edt_password_login);
-        progressDialog = new ProgressDialog(LoginView.this);
+        progressDialog = new ProgressDialog(LoginView.this, R.style.MyProgessDialogStyle);
 
         btnLoginWithGoogle.setOnClickListener(this);
         btn_signUp.setOnClickListener(this);
