@@ -3,6 +3,7 @@ package com.example.designapptest.Views;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -111,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerMainRoom = (RecyclerView)findViewById(R.id.recycler_Main_Room);
         recyclerGridMainRoom = (RecyclerView)findViewById(R.id.recycler_Grid_Main_Room);
         progressBarMain = (ProgressBar)findViewById(R.id.Progress_Main);
+        progressBarMain.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
 
 //        toolbar = findViewById(R.id.toolbar);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

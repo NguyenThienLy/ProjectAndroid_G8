@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import com.example.designapptest.R;
 import com.example.designapptest.Views.commentAndRateMain;
 
 public class commentAndRateStep2 extends Fragment {
-    TextView txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview;
+    TextView txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview, txtQuantityAllComments;
 
     View viewCommentAndRateStep2;
 
@@ -58,11 +59,12 @@ public class commentAndRateStep2 extends Fragment {
         txtRoomPrettyGoodReview = (TextView) viewCommentAndRateStep2.findViewById(R.id.txt_roomPrettyGoodReview_all);
         txtRoomMediumReview = (TextView) viewCommentAndRateStep2.findViewById(R.id.txt_roomMediumReview_all);
         txtRoomBadReview = (TextView) viewCommentAndRateStep2.findViewById(R.id.txt_roomBadReview_all);
+        txtQuantityAllComments = (TextView) viewCommentAndRateStep2.findViewById(R.id.txt_quantity_all_comments_room_detail);
     }
 
     public void setAdapter() {
         commentController = new CommentController((commentAndRateMain)this.getActivity(), UID);
         commentController.ListRoomComments(recyclerCommentRoomDetailAll, roomModel,
-                txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview);
+                txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview, txtQuantityAllComments);
     }
 }

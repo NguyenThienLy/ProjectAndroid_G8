@@ -5,9 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.designapptest.Controller.CommentController;
 import com.example.designapptest.Model.RoomModel;
@@ -15,6 +17,8 @@ import com.example.designapptest.R;
 import com.example.designapptest.Views.commentAndRateMain;
 
 public class commentAndRateStep3  extends Fragment {
+    TextView txtQuantityMyComments;
+
     View viewCommentAndRateStep3;
 
     RecyclerView recycler_my_comment_room_detail;
@@ -51,10 +55,11 @@ public class commentAndRateStep3  extends Fragment {
 
     private void initControl() {
         recycler_my_comment_room_detail = (RecyclerView) viewCommentAndRateStep3.findViewById(R.id.recycler_my_comment_and_rate);
+        txtQuantityMyComments = (TextView) viewCommentAndRateStep3.findViewById(R.id.txt_quantity_my_comments_room_detail);
     }
 
     public void setAdapter() {
         commentController = new CommentController((commentAndRateMain)this.getActivity(), UID);
-        commentController.ListMyRoomComments(recycler_my_comment_room_detail, roomModel);
+        commentController.ListMyRoomComments(recycler_my_comment_room_detail, roomModel, txtQuantityMyComments);
     }
 }

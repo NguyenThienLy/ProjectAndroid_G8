@@ -10,26 +10,43 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar"
-            />
+            layout="@layout/toolbar" />
+
+        <LinearLayout
+            android:id="@+id/lnLt_quantity_top_favorite_rooms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/colorResultTop"
+            android:layout_below="@+id/toolbar">
+
+            <TextView
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stringQuantityTop"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txt_quantity_favorite_rooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="0"
+                android:textSize="15sp" />
+        </LinearLayout>
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/toolbar">
+            android:layout_below="@id/lnLt_quantity_top_favorite_rooms">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Phòng trọ yêu thích"-->
-                    <!--android:textAlignment="center"-->
-                    <!--android:textColor="@color/colorGrayType1"-->
-                    <!--android:textSize="20sp" />-->
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_favorite_rooms"

@@ -80,6 +80,12 @@ public class FindRoom extends AppCompatActivity {
     //End load dữ liệu vào danh sách trong lần đầu chạy
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.find_room_menu, menu);
@@ -119,6 +125,8 @@ public class FindRoom extends AppCompatActivity {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle("Tìm ở ghép");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
 
