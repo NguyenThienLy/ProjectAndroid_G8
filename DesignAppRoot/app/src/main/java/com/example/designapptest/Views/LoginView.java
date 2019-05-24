@@ -211,7 +211,8 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
             Log.d("kiem tra", user.getUid());
 
             //Load trang chủ
-            Intent intent = new Intent(this, MainActivity.class);
+            //Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this,Main_Menu.class);
             startActivity(intent);
         } else {
 
