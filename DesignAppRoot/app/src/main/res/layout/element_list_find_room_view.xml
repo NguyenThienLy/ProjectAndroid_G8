@@ -8,34 +8,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="100dp"
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="120dp"
-                android:layout_height="130dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txt_timeCreating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerInParent="true"
-                    android:text="10/22/2018 "
-                    android:textColor="@color/colorGrayType2"
-                    android:textSize="12dp" />
-                />
-
                 <RelativeLayout
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerInParent="true"
                     android:background="@drawable/custom_circle_avatar_personal_page"
@@ -50,10 +38,8 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_gravity="center_vertical"
+                android:layout_height="100dp"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
@@ -66,27 +52,11 @@
                         android:id="@+id/txt_name_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginRight="5dp"
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:text="Nguyễn Thiên Lý"
                         android:textColor="@color/colorGrayType1"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                    />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginRight="5dp"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:text=","
-                        android:textColor="@color/colorGrayType1"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
                     />
 
                     <ImageView
@@ -95,8 +65,8 @@
                         android:layout_height="12dp"
                         android:layout_gravity="center_vertical"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_svg_male_100" />
-                    />
+                        android:src="@drawable/ic_svg_male_100"
+                        android:layout_marginLeft="10dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -106,61 +76,42 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/stringAboutPrice"
-                        android:textSize="10sp" />
-
-                    <TextView
                         android:id="@+id/txt_abouPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:layout_marginRight="5dp"
                         android:lineSpacingExtra="5dp"
                         android:maxLines="2"
                         android:text="500,000đ - 5,00,000đ"
-                        android:textColor="@color/colorGrayType1"
-                        android:textSize="12sp" />
+                        android:textColor="#00BFFF"
+                        android:textSize="14sp" />
                     />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/stringLocationSearch"
-                        android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/txt_locationSearch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="5dp"
                         android:lineSpacingExtra="5dp"
                         android:maxLines="2"
                         android:text="Quận 5, Quận Thủ Đức"
                         android:textColor="@color/colorGrayType1"
-                        android:textSize="12sp" />
-                    />
+                        android:textSize="14sp" />
                 </LinearLayout>
-
+                <TextView
+                    android:id="@+id/txt_timeCreating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10/22/2018 "
+                    android:textColor="@color/colorGrayType2"
+                    android:textSize="12dp" />
+                />
             </LinearLayout>
         </LinearLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/colorGrayType2" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

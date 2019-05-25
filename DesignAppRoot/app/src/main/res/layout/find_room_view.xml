@@ -8,15 +8,11 @@
         android:layout_height="wrap_content"
         android:background="#ffffff">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
-
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/lLay_header"
-            >
+            android:paddingTop="50dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -37,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginTop="30dp"
                     android:layout_marginBottom="10dp"
                     android:visibility="visible">
                     <TextView
@@ -45,7 +41,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/stringResultReturn"
                         android:textColor="@color/colorGrayType2"
-                        android:textSize="20sp"/>
+                        android:textSize="18sp"/>
 
                     <TextView
                         android:id="@+id/txt_resultReturn_find_room"
@@ -54,7 +50,7 @@
                         android:text="0"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/colorGrayType1"
-                        android:textSize="25sp"
+                        android:textSize="20sp"
                         android:textAlignment="center"/>
                 </LinearLayout>
 
@@ -62,8 +58,6 @@
                     android:id="@+id/recycler_find_Room"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
                     android:gravity="center"
                     >
                 </android.support.v7.widget.RecyclerView>
@@ -89,7 +83,9 @@
             android:scaleType="centerInside"
             android:textAllCaps="false"
             android:background="@drawable/custom_button_find_room"/>
-
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
         <LinearLayout
             android:id="@+id/lLay_menu"
             android:layout_width="match_parent"
