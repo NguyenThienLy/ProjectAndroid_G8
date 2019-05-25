@@ -2,6 +2,7 @@ package com.example.designapptest.Views;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -140,6 +141,9 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
         //Ẩn text
 
         progessBarLoad = findViewById(R.id.progess_bar_load);
+        //Đổi màu cho progessbar
+        progessBarLoad.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
 
         //Ẩn lần đầu
         progessBarLoad.setVisibility(View.GONE);

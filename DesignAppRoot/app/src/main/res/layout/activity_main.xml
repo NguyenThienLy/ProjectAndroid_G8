@@ -288,21 +288,6 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp">
                 </GridView>
-                <!--List hiển thị danh sách phòng trọ-->
-                <!--<ListView-->
-                <!--android:background="#ffffff"-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:id="@+id/lstV_room"-->
-                <!--android:layout_marginTop="20dp"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="750dp"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:gravity="center">-->
-                <!--</ListView>-->
-                <!--End List hiển thị danh sách phòng trọ-->
-
-                <!-- Recyclerview để text -->
 
                 <!--Processbar-->
                 <ProgressBar
@@ -383,91 +368,8 @@
                     android:verticalSpacing="30dp">
                 </android.support.v7.widget.RecyclerView>
                 <!--End Hiển thị danh sách trọ random-->
-
-                <!--<GridView-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:id="@+id/grV_room"-->
-                <!--android:layout_marginTop="20dp"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="700dp"-->
-                <!--android:numColumns="auto_fit"-->
-                <!--android:columnWidth="175dp"-->
-                <!--android:verticalSpacing="20dp"-->
-                <!--android:stretchMode="spacingWidth"-->
-                <!--android:gravity="center"-->
-                <!--&gt;-->
-                <!--</GridView>-->
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
-        <LinearLayout
-        android:paddingTop="3dp"
-        android:paddingBottom="2dp"
-        android:id="@+id/lLay_menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
-        <LinearLayout
-            android:paddingBottom="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <Button
-                android:id="@+id/btn_Map_View"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:drawableTop="@drawable/ic_svg_placeholder_24px"
-                android:text="Location"
-                android:textColor="#666666"
-                android:textSize="10dp"
-                android:textAllCaps="false"
-                android:background="?android:attr/selectableItemBackground"/>
-            <Button
-                android:id="@+id/btn_find_room"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:drawableTop="@drawable/ic_svg_group_user_24_2"
-                android:text="Ở ghép"
-                android:textColor="#666666"
-                android:textAllCaps="false"
-                android:textSize="10dp"
-                android:background="?android:attr/selectableItemBackground"/>
 
-            <Button
-                android:id="@+id/btn_favorite_rooms"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/ic_favorite"
-                android:text="Favorites"
-                android:textAllCaps="false"
-                android:textColor="#666666"
-                android:textSize="10dp" />
-
-            <Button
-                android:id="@+id/btn_Account_View"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:drawableTop="@drawable/ic_svg_user_24px"
-                android:text="Account"
-                android:textColor="#666666"
-                android:textSize="10dp"
-                android:textAllCaps="false"
-                android:background="?android:attr/selectableItemBackground"/>
-            <Button
-                android:id="@+id/btn_postRoom_main_room"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:drawableTop="@drawable/ic_svg_flash_24"
-                android:text="Post room"
-                android:textColor="#666666"
-                android:textSize="10dp"
-                android:textAllCaps="false"
-                android:background="?android:attr/selectableItemBackground"/>
-        </LinearLayout>
-    </LinearLayout>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
