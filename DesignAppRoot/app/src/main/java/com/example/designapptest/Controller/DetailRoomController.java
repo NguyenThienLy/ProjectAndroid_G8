@@ -1,7 +1,6 @@
 package com.example.designapptest.Controller;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -9,6 +8,7 @@ import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
 import com.example.designapptest.ClassOther.myFilter;
 import com.example.designapptest.Controller.Interfaces.ISearchRoomModel;
 import com.example.designapptest.Model.RoomModel;
+import com.example.designapptest.Model.RoomViewsModel;
 import com.example.designapptest.Model.SearchRoomModel;
 import com.example.designapptest.R;
 
@@ -19,11 +19,20 @@ public class DetailRoomController {
     Context context;
     SearchRoomModel searchRoomModel;
     String UID;
+    RoomViewsModel roomViewsModel;
 
     public DetailRoomController(Context context, String district, List<myFilter> filterList, String UID) {
         this.context = context;
         this.searchRoomModel = new SearchRoomModel(district,filterList);
         this.UID = UID;
+        //Khởi tạo
+        roomViewsModel = new RoomViewsModel();
+    }
+
+    //Hàm thêm vào số lượng view cho phòng
+    public void addViews(RoomViewsModel data){
+        //Gọi hàm thêm lượt view từ model
+        roomViewsModel.addViews(data);
     }
 
     public void loadSearchRoom(RecyclerView recyclerSearchRoom,String CurrentRoomID){
