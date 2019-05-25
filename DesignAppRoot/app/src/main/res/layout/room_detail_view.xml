@@ -20,7 +20,7 @@
             android:layout_below="@id/toolbar">
 
             <LinearLayout
-                android:background="@android:color/white"
+                android:background="#cccccc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -139,6 +139,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp">
 
@@ -166,10 +167,10 @@
 
                         <ImageView
                             android:id="@+id/img_roomGender"
-                            android:layout_width="13dp"
-                            android:layout_height="13dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginTop="5dp"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="7dp"
                             android:layout_toRightOf="@+id/txt_roomMaxNumber"
                             android:scaleType="fitXY"
                             android:src="@drawable/ic_svg_male_100" />
@@ -178,7 +179,7 @@
                             android:layout_width="13dp"
                             android:layout_height="13dp"
                             android:layout_marginTop="7dp"
-                            android:layout_marginRight="2dp"
+                            android:layout_marginRight="5dp"
                             android:layout_toLeftOf="@+id/txt_quantityComment"
                             android:scaleType="fitXY"
                             android:src="@drawable/ic_svg_comment_100" />
@@ -200,16 +201,20 @@
                         android:id="@+id/txt_roomName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
+                        android:lineSpacingExtra="5dp"
+                        android:textStyle="bold"
                         android:text="@string/stringName"
                         android:textColor="@color/colorGrayType1"
-                        android:textSize="25sp" />
+                        android:textSize="20dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -233,8 +238,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="4,5 tr/ph"
                                 android:textAlignment="center"
+                                android:textStyle="bold"
                                 android:textColor="@android:color/holo_blue_bright"
-                                android:textSize="15sp" />
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -258,8 +264,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="Còn"
                                 android:textAlignment="center"
+                                android:textStyle="bold"
                                 android:textColor="@android:color/holo_blue_bright"
-                                android:textSize="15sp" />
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -283,8 +290,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="5m x 5m"
                                 android:textAlignment="center"
+                                android:textStyle="bold"
                                 android:textColor="@android:color/holo_blue_bright"
-                                android:textSize="15sp" />
+                                android:textSize="14sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -307,8 +315,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="1 tháng"
                                 android:textAlignment="center"
+                                android:textStyle="bold"
                                 android:textColor="@android:color/holo_blue_bright"
-                                android:textSize="15sp" />
+                                android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -345,20 +354,23 @@
                     android:layout_marginTop="5dp"
                     android:background="@android:color/white"
                     android:orientation="vertical"
-                    android:paddingBottom="5dp">
+                    android:paddingBottom="15dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/stringNote"
+                        android:textStyle="bold"
                         android:textColor="@color/colorGrayType1"
-                        android:textSize="22sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/stringQuantity"
@@ -452,16 +464,18 @@
                     android:layout_marginTop="5dp"
                     android:background="@android:color/white"
                     android:orientation="vertical"
-                    android:paddingBottom="5dp">
+                    android:paddingBottom="10dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
+                        android:textStyle="bold"
                         android:text="@string/stringUtilities"
                         android:textColor="@color/colorGrayType1"
-                        android:textSize="22sp" />
+                        android:textSize="16sp" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_convenients_room_detail"
@@ -489,7 +503,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-
+                        android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -500,14 +514,14 @@
                             android:padding="2dp"
                             android:text="@string/stringExpand"
                             android:textColor="@android:color/holo_blue_bright"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="2dp"
-                            android:src="@drawable/ic_svg_collapseandmore_100" />
+                            android:layout_marginLeft="5dp"
+                            android:src="@drawable/ic_png_collapse_100" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -518,29 +532,31 @@
                     android:layout_marginTop="5dp"
                     android:background="@android:color/white"
                     android:orientation="vertical"
-                    android:paddingBottom="5dp">
+                    android:paddingBottom="15dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/stringAdress"
+                        android:textStyle="bold"
                         android:textColor="@color/colorGrayType1"
-                        android:textSize="22sp" />
+                        android:textSize="16sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="5dp"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_svg_place_holder_100" />
 
@@ -549,8 +565,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
+                            android:layout_marginLeft="10dp"
                             android:text="103/10B Trần Kế Xương, Phường 7, quận Phú Nhuận, Tp Hồ chí Minh"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 
@@ -564,8 +581,8 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_svg_phone_call_100" />
 
@@ -574,8 +591,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
+                            android:layout_marginLeft="10dp"
                             android:text="Điện thoại: 0973.446.184"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 
@@ -588,6 +606,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_gravity="center_horizontal"
                         android:orientation="horizontal">
 
@@ -597,8 +616,9 @@
                             android:layout_height="30dp"
                             android:background="@drawable/custom_button_call_room_detail"
                             android:text="@string/stringCallBookRoom"
+                            android:textAllCaps="false"
                             android:textColor="@android:color/white"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
 
                         <Button
                             android:id="@+id/btn_directMap"
@@ -608,7 +628,8 @@
                             android:background="@drawable/custom_button_check_map_detail"
                             android:text="@string/stringCheckMap"
                             android:textColor="@android:color/white"
-                            android:textSize="15sp" />
+                            android:textAllCaps="false"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -619,27 +640,27 @@
                     android:layout_marginTop="5dp"
                     android:background="@android:color/white"
                     android:orientation="vertical"
-                    android:paddingBottom="5dp">
+                    android:paddingBottom="15dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="@string/stringDetail"
+                        android:textStyle="bold"
                         android:textColor="@color/colorGrayType1"
-                        android:textSize="22sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/txt_roomDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_margin="10dp"
+                        android:lineSpacingExtra="5dp"
                         android:text="Liên hệ: 0966.332.775 - 0969.676.678 Thắng Điện: 3500k/kWH, nước 100.000đ/người, internet: 100.000đ/phòng Địa chỉ: 113 Trần Kế Xương. P7, Phú Nhuận"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:maxLines="5"/>
 
                     <View
@@ -653,7 +674,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-
+                        android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -665,13 +686,12 @@
                             android:text="@string/stringExpand"
                             android:textColor="@android:color/holo_blue_bright"
                             android:textSize="18sp" />
-
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="2dp"
-                            android:src="@drawable/ic_svg_collapseandmore_100" />
+                            android:layout_marginLeft="5dp"
+                            android:src="@drawable/ic_png_collapse_100" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -682,23 +702,25 @@
                     android:layout_marginTop="5dp"
                     android:background="@android:color/white"
                     android:orientation="vertical"
-                    android:paddingBottom="5dp">
+                    android:paddingBottom="15dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
+                        android:textStyle="bold"
                         android:text="@string/stringEvaluate"
                         android:textColor="@color/colorGrayType1"
-                        android:textSize="22sp" />
+                        android:textSize="16sp" />
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -875,7 +897,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -903,7 +925,9 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="5dp"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:background="@android:color/white">
+
 
                     </android.support.v7.widget.RecyclerView>
 
@@ -917,6 +941,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_gravity="center_horizontal"
                         android:orientation="horizontal">
 
@@ -924,10 +949,11 @@
                             android:id="@+id/btn_postComment"
                             android:layout_width="120dp"
                             android:layout_height="30dp"
+                            android:textAllCaps="false"
                             android:background="@drawable/custom_button_call_room_detail"
                             android:text="@string/stringPostComment"
                             android:textColor="@android:color/white"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
 
                         <Button
                             android:id="@+id/btn_viewAll"
@@ -936,8 +962,9 @@
                             android:layout_marginLeft="20dp"
                             android:background="@drawable/custom_button_check_map_detail"
                             android:text="@string/stringViewAll"
+                            android:textAllCaps="false"
                             android:textColor="@android:color/white"
-                            android:textSize="15sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -948,16 +975,18 @@
                     android:layout_marginTop="5dp"
                     android:background="@android:color/white"
                     android:orientation="vertical"
-                    android:paddingBottom="5dp">
+                    android:paddingBottom="15dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
+                        android:textStyle="bold"
                         android:text="@string/stringSameCriteria"
                         android:textColor="@color/colorGrayType1"
-                        android:textSize="22sp" />
+                        android:textSize="16sp" />
 
                     <!--Hiển thị danh sách trọ random-->
                     <android.support.v7.widget.RecyclerView
@@ -986,7 +1015,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-
+                        android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -994,16 +1023,16 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:padding="2dp"
-                            android:text="@string/stringSeeMore"
-                            android:textColor="@android:color/holo_blue_bright"
-                            android:textSize="18sp" />
+                            android:text="@string/stringCollapse"
+                            android:textColor="#1E90FF"
+                            android:textSize="16sp" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="2dp"
-                            android:src="@drawable/ic_svg_collapseandmore_100" />
+                            android:layout_marginLeft="5dp"
+                            android:src="@drawable/ic_png_collapse_100" />
                     </LinearLayout>
 
                 </LinearLayout>
