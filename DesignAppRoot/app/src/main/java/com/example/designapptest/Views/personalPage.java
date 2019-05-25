@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -22,12 +23,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.designapptest.Model.UserModel;
 import com.example.designapptest.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,13 +59,18 @@ public class personalPage extends AppCompatActivity {
     private ImageButton btnImgCancelPersonalPage;
     private CheckBox chBoxEditPersonalPage;
     private TextView txtChangeAvtPersonalPage;
-
+    private TextView txtPasswordPersonalPage;
+    private EditText edtOldPasswordPersonalPage,edtNewPasswordPersonalPage,edtRetypeNewPasswordPersonalPage;
+    private Button btnChangePasswordPersonalPage;
     private String mImageUrl;
     Uri uri;
     boolean isChangeAvatar=false;
     String name,gender,phoneNumber;
     boolean isMale;
     ProgressDialog progressDialog;
+
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
 
 
 
@@ -73,7 +85,15 @@ public class personalPage extends AppCompatActivity {
         chBoxEditPersonalPage = findViewById(R.id.chBox_edit_personal_page);
         btnImgCancelPersonalPage = findViewById(R.id.btnImg_cancel_personal_page);
         txtChangeAvtPersonalPage = findViewById(R.id.txt_change_avt_personal_page);
+        txtPasswordPersonalPage = findViewById(R.id.tv_password_personal_page);
+        edtOldPasswordPersonalPage = findViewById(R.id.edt_old_password_personal_page);
+        edtNewPasswordPersonalPage = findViewById(R.id.edt_new_password_personal_page);
+        edtRetypeNewPasswordPersonalPage = findViewById(R.id.edt_retype_new_password_personal_page);
+        btnChangePasswordPersonalPage = findViewById(R.id.btn_change_password_personal_page);
         progressDialog = new ProgressDialog(this);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
 
         initControl();
 
@@ -176,6 +196,8 @@ public class personalPage extends AppCompatActivity {
                    spnGenderPersonalPage.setEnabled(true);
                    edtPhonePersonalPage.setEnabled(true);
                    txtChangeAvtPersonalPage.setText("Đổi ảnh đại diện");
+                   txtPasswordPersonalPage.setText("Đổi mật khẩu");
+
                    changeImage();
 
 
@@ -190,6 +212,10 @@ public class personalPage extends AppCompatActivity {
                    spnGenderPersonalPage.setEnabled(false);
                    edtPhonePersonalPage.setEnabled(false);
                    txtChangeAvtPersonalPage.setText("");
+                   txtPasswordPersonalPage.setText("");
+                   edtOldPasswordPersonalPage.setWidth(0);
+                   edtNewPasswordPersonalPage.setWidth(0);
+                   edtRetypeNewPasswordPersonalPage.setWidth(0);
 
 
                    if(isChangeAvatar) {
@@ -292,4 +318,64 @@ public class personalPage extends AppCompatActivity {
             }
         });
     }
+
+    public void ChangePass(View v){
+        edtOldPasswordPersonalPage.setVisibility(View.VISIBLE);
+        edtNewPasswordPersonalPage.setVisibility(View.VISIBLE);
+        edtRetypeNewPasswordPersonalPage.setVisibility(View.VISIBLE);
+
+
+
+        btnChangePasswordPersonalPage.setVisibility(View.VISIBLE);
+
+        btnChangePasswordPersonalPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String email = firebaseUser.getEmail();
+                final String newPass = edtNewPasswordPersonalPage.getText().toString();
+                final String retypeNewPass = edtRetypeNewPasswordPersonalPage.getText().toString();
+                final String oldPass = edtOldPasswordPersonalPage.getText().toString();
+
+                if(oldPass.equals("")==true||newPass.equals("")==true||retypeNewPass.equals("")==true){
+                    Toast.makeText(personalPage.this, "Hãy điền đủ thông tin yêu cầu", Toast.LENGTH_SHORT).show();
+                }
+                else {
+
+                    AuthCredential credential = EmailAuthProvider.getCredential(email, oldPass);
+
+                    //kiểm tra mật khẩu cũ có giống vs mk đăng ký không, nếu giống thì updatepassword
+                    firebaseUser.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                if (newPass.equals(retypeNewPass) == true) {
+                                    firebaseUser.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (!task.isSuccessful()) {
+                                                Toast.makeText(personalPage.this, "Lỗi!!!Xin thực hiện lại", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(personalPage.this, "Thay đổi mật khẩu thành  công", Toast.LENGTH_SHORT).show();
+                                                edtOldPasswordPersonalPage.setVisibility(View.INVISIBLE);
+                                                edtNewPasswordPersonalPage.setVisibility(View.INVISIBLE);
+                                                edtRetypeNewPasswordPersonalPage.setVisibility(View.INVISIBLE);
+                                                btnChangePasswordPersonalPage.setVisibility(View.INVISIBLE);
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(personalPage.this, "Xác nhận mật khẩu mới không đúng!", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(personalPage.this, "Xác thực người dùng thất bại do nhập mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+
+    }
+
 }

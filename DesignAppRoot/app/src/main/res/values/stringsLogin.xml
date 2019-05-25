@@ -3,4 +3,5 @@
     <string name="stringBtnLogin">LOGIN WITH ACCOUNT OF APP</string>
     <string name="stringQuestion">Do not have account?</string>
     <string name="stringSignUp">Sign up</string>
+    <string name="stringResetPassword">Chúng tôi cần Email đăng ký của bạn để gửi xác thực đặt lại mật khẩu.</string>
 </resources>
