@@ -513,8 +513,8 @@
                             android:layout_gravity="center"
                             android:padding="2dp"
                             android:text="@string/stringExpand"
-                            android:textColor="@android:color/holo_blue_bright"
-                            android:textSize="16sp" />
+                            android:textColor="#0086FF"
+                            android:textSize="14sp" />
 
                         <ImageView
                             android:layout_width="16dp"
@@ -684,8 +684,8 @@
                             android:layout_gravity="center"
                             android:padding="2dp"
                             android:text="@string/stringExpand"
-                            android:textColor="@android:color/holo_blue_bright"
-                            android:textSize="18sp" />
+                            android:textColor="#0086FF"
+                            android:textSize="14sp" />
                         <ImageView
                             android:layout_width="16dp"
                             android:layout_height="16dp"
@@ -1024,8 +1024,8 @@
                             android:layout_gravity="center"
                             android:padding="2dp"
                             android:text="@string/stringCollapse"
-                            android:textColor="#1E90FF"
-                            android:textSize="16sp" />
+                            android:textColor="#0086FF"
+                            android:textSize="14sp" />
 
                         <ImageView
                             android:layout_width="16dp"
