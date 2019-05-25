@@ -1,5 +1,6 @@
 package com.example.designapptest.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.example.designapptest.R;
 
@@ -16,6 +16,11 @@ public class Main_Menu extends AppCompatActivity {
 
     BottomNavigationView bottomNavigation;
     FrameLayout fragmentContainer;
+
+    MainActivity HomeView;
+    accountView AccountView;
+    postRoomAdapter PostRoomView;
+    FindRoom FindRoomView;
 
 
 
@@ -26,6 +31,8 @@ public class Main_Menu extends AppCompatActivity {
 
         initControl();
         //Chạy lần đầu tiên sẽ load vào màn hình main
+        HomeView = new MainActivity();
+        setFragment(HomeView);
 
     }
 
@@ -41,19 +48,27 @@ public class Main_Menu extends AppCompatActivity {
 
                 switch (id) {
                     case R.id.nav_home:
-                        Toast.makeText(Main_Menu.this,"fsf",Toast.LENGTH_LONG).show();
+                        //Chuyển sang màn hình home
+                        //HomeView = new MainActivity();
+                        setFragment(HomeView);
                         return true;
                     case R.id.nav_find_room:
-
+                        //Chuyển sang màn hình tìm kiếm ở ghép
+                        FindRoomView = new FindRoom();
+                        setFragment(FindRoomView);
                         return true;
                     case R.id.nav_map:
 
                         return true;
                     case R.id.nav_post_room:
-
+                        //Hiển thị màn hình đăng phòng mới
+                        Intent intent = new Intent(Main_Menu.this, postRoomAdapter.class);
+                        startActivity(intent);
                         return true;
                     case R.id.nav_acount:
-
+                        //Chuyển sang màn hình quản lý tài khoản
+                        AccountView = new accountView();
+                        setFragment(AccountView);
                         return true;
 
                     default:
