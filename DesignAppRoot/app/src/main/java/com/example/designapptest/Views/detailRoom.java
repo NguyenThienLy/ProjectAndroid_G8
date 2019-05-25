@@ -1,26 +1,39 @@
 package com.example.designapptest.Views;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
@@ -35,6 +48,7 @@ import com.example.designapptest.Controller.DetailRoomController;
 import com.example.designapptest.Controller.MainActivityController;
 import com.example.designapptest.Controller.ReportedRoomController;
 import com.example.designapptest.Model.CommentModel;
+import com.example.designapptest.Model.ConvenientModel;
 import com.example.designapptest.Model.ReportedRoomModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
@@ -50,7 +64,8 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
     TextView txtRoomType, txtRoomMaxNumber, txtQuantityComment, txtRoomName,
             txtRoomPrice, txtRoomStatus, txtRoomArea, txtRoomAddress, txtRoomDescription,
             txtRoomGreatReview, txtRoomPrettyGoodReview, txtRoomMediumReview, txtRoomBadReview,
-            txtQuantityComment_2, txtRoomPhoneNumber;
+            txtQuantityComment_2, txtRoomPhoneNumber, txtExpandConvenients, txtExpandDescription,
+            txtCapacityCramped, txtCapacityMedium, txtCapacitySpacious;
 
     Button btnCallPhone, btnDirectMap, btnPostComment, btnViewAll;
 
@@ -83,11 +98,14 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
     int indexImage;
 
     SharedPreferences sharedPreferences;
+    String UID;
     CommentController commentController;
     MainActivityController mainActivityController;
     ReportedRoomController reportedRoomController;
 
     FrameLayout frLoutContain;
+    LinearLayout lnLtExpandConvenients;
+    LinearLayout lnLtExpandDescription;
 
     Toolbar toolbar;
     MenuItem menuItemFavorite;
@@ -105,7 +123,8 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         District = roomModel.getCounty();
         CurrentRoomID = roomModel.getRoomID();
 
-        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(LoginView.PREFS_DATA_NAME, MODE_PRIVATE);
+        UID = sharedPreferences.getString(LoginView.SHARE_UID, "n1oc76JrhkMB9bxKxwXrxJld3qH2");
 
         initControl();
 
@@ -129,9 +148,6 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         clickShowImage();
 
         loadTheSameRoom();
-
-//        clickAddToFavorite();
-
     }
 
     @Override
@@ -192,13 +208,12 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
     public void applyText(String reasonReportRoom, String detailedReasonReportRoom) {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String date = df.format(Calendar.getInstance().getTime());
-        String userId = sharedPreferences.getString("currentUserId", "");
 
         ReportedRoomModel reportedRoomModel = new ReportedRoomModel();
         reportedRoomModel.setReason(reasonReportRoom);
         reportedRoomModel.setDetail(detailedReasonReportRoom);
         reportedRoomModel.setTime(date);
-        reportedRoomModel.setUserID(userId);
+        reportedRoomModel.setUserID(UID);
 
         reportedRoomController.addReport(reportedRoomModel, roomModel.getRoomID());
     }
@@ -210,9 +225,9 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
     // Khởi tạo các control trong room detail.
     private void initControl() {
-        commentController = new CommentController(this, sharedPreferences);
-        reportedRoomController = new ReportedRoomController(this, sharedPreferences);
-        mainActivityController = new MainActivityController(this, sharedPreferences);
+        commentController = new CommentController(this, UID);
+        reportedRoomController = new ReportedRoomController(this);
+        mainActivityController = new MainActivityController(this, UID);
 
         toolbar = findViewById(R.id.toolbar);
 
@@ -231,6 +246,11 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         txtRoomBadReview = (TextView) findViewById(R.id.txt_roomBadReview);
         txtQuantityComment_2 = (TextView) findViewById(R.id.txt_quantityComment_2);
         txtRoomPhoneNumber = (TextView) findViewById(R.id.txt_room_phonenumber);
+        txtExpandConvenients = (TextView) findViewById(R.id.txt_expand_convenients);
+        txtExpandDescription = (TextView) findViewById(R.id.txt_expand_description);
+        txtCapacityCramped = (TextView) findViewById(R.id.txt_capacity_cramped);
+        txtCapacityMedium = (TextView) findViewById(R.id.txt_capacity_medium);
+        txtCapacitySpacious = (TextView) findViewById(R.id.txt_capacity_spacious);
 
         btnCallPhone = (Button) findViewById(R.id.btn_callPhone);
         btnDirectMap = (Button) findViewById(R.id.btn_directMap);
@@ -247,6 +267,9 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
         txtMoreImg = findViewById(R.id.txt_more_img);
         frLoutContain = findViewById(R.id.fr_lout_contain);
+
+        lnLtExpandConvenients = findViewById(R.id.lnLt_expand_convenients);
+        lnLtExpandDescription = findViewById(R.id.lnLt_expand_description);
 
         listImageRoom = new ArrayList<ImageView>();
 
@@ -293,11 +316,19 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         txtRoomMediumReview.setText(roomModel.getMedium() + "");
         txtRoomBadReview.setText(roomModel.getBad() + "");
 
+
+        // expand/ collapse txtRoomDescription
+        expandRoomDescription();
+
+        // load số lượng người vào 3 hình tròn
+        setRoomCapacity();
+
         //Set address for room
         String longAddress = roomModel.getApartmentNumber() + " " + roomModel.getStreet() + ", "
                 + roomModel.getWard() + ", " + roomModel.getCounty() + ", " + roomModel.getCity();
         txtRoomAddress.setText(longAddress);
         //End set address for room
+
 
         //Gán hình cho giới tính
         if (roomModel.isGender()) {
@@ -307,6 +338,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         }
         //End Gán giá trị cho giới tính
 
+
         //Gán giá trị cho số lượt bình luận
         if (roomModel.getListCommentRoom().size() > 0) {
             txtQuantityComment.setText(roomModel.getListCommentRoom().size() + "");
@@ -314,16 +346,18 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         }
         //End gán giá trị cho số lượng bình luận
 
+
         //Download hình ảnh cho room
         for (int i = 0; i < 4; i++) {
             downloadImageForImageControl(listImageRoom.get(i), i);
         }
         // End download hình ảnh cho room
 
+
         // Load số lượng bình luận thuộc từng loại điểm
         long great, prettyGood, medium, bad;
         great = prettyGood = medium = bad = 0;
-        for(CommentModel commentModel : roomModel.getListCommentRoom()) {
+        for (CommentModel commentModel : roomModel.getListCommentRoom()) {
             long stars = commentModel.getStars();
 
             if (stars < 4) {
@@ -343,22 +377,28 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         txtRoomGreatReview.setText(great + "");
         // End load số lượng bình luận thuộc từng loại điểm
 
+
         // Load danh sách bình luận của phòng trọ
         commentController.sortListComments(roomModel.getListCommentRoom());
         RecyclerView.LayoutManager layoutManagerComment = new LinearLayoutManager(this);
         recyclerCommentRoomDetail.setLayoutManager(layoutManagerComment);
         adapterRecyclerComment = new AdapterRecyclerComment(this, R.layout.comment_element_grid_room_detail_view,
-                roomModel.getListCommentRoom(), roomModel.getRoomID(), sharedPreferences, false);
+                roomModel.getListCommentRoom(), roomModel.getRoomID(), UID, false);
         recyclerCommentRoomDetail.setAdapter(adapterRecyclerComment);
         adapterRecyclerComment.notifyDataSetChanged();
 
+
         // Load danh sách tiện nghi của phòng trọ
+        expandRoomConvenients();
+
         RecyclerView.LayoutManager layoutManagerConvenient = new GridLayoutManager(this, 3);
         recyclerConvenientsRoomDetail.setLayoutManager(layoutManagerConvenient);
         adapterRecyclerConvenient = new AdapterRecyclerConvenient(this, getApplicationContext(),
                 R.layout.utility_element_grid_room_detail_view, roomModel.getListConvenientRoom());
         recyclerConvenientsRoomDetail.setAdapter(adapterRecyclerConvenient);
+        recyclerConvenientsRoomDetail.setNestedScrollingEnabled(false);
         adapterRecyclerConvenient.notifyDataSetChanged();
+
 
         // Load danh sách giá của phòng trọ
         RecyclerView.LayoutManager layoutManagerRoomPrice = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -367,6 +407,99 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
                 R.layout.room_price_element_grid_room_detail_view, roomModel.getListRoomPrice());
         recyclerPriceRoomDetail.setAdapter(adapterRecyclerRoomPrice);
         adapterRecyclerRoomPrice.notifyDataSetChanged();
+    }
+
+    private void setRoomCapacity() {
+        int areaPerPerson = 12;
+        double roomArea = roomModel.getWidth() * roomModel.getLength();
+        int spacious = (int) (roomArea / areaPerPerson);
+        int medium = spacious + 1;
+        int cramped = medium + 1;
+
+        txtCapacitySpacious.setText(spacious + " người +");
+        txtCapacityMedium.setText(medium + " người");
+        txtCapacityCramped.setText(cramped + " người");
+    }
+
+    private void expandRoomDescription() {
+        txtRoomDescription.post(new Runnable() {
+            @Override
+            public void run() {
+                if (txtRoomDescription.getLineCount() <= 2) {
+                    lnLtExpandDescription.setVisibility(View.GONE);
+                } else {
+                    txtExpandDescription.setText(R.string.stringExpand);
+                    collapseTextView(txtRoomDescription, 2);
+                }
+            }
+        });
+
+        lnLtExpandDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (txtExpandDescription.getText().toString().equals(getString(R.string.stringCollapse))) {
+                    collapseTextView(txtRoomDescription, 2);
+                    txtExpandDescription.setText(R.string.stringExpand);
+                } else {
+                    expandTextView(txtRoomDescription);
+                    txtExpandDescription.setText(R.string.stringCollapse);
+                }
+            }
+        });
+    }
+
+    private void expandRoomConvenients() {
+        int convenientRoomSize = roomModel.getListConvenientRoom().size();
+        int rowConvenientHeight = 203;
+        int fullRowConvenientHeight = (convenientRoomSize % 3 == 0) ?
+                (convenientRoomSize / 3) * rowConvenientHeight : (convenientRoomSize / 3) * rowConvenientHeight + rowConvenientHeight;
+
+        txtExpandConvenients.setText(R.string.stringExpand);
+
+        if (convenientRoomSize > 3) {
+            resizeRecyclerConvenientsRoomDetailAnimation(recyclerConvenientsRoomDetail.getHeight(), rowConvenientHeight);
+        } else {
+            lnLtExpandConvenients.setVisibility(View.GONE);
+        }
+
+        lnLtExpandConvenients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (txtExpandConvenients.getText().toString().equals(getString(R.string.stringCollapse))) {
+                    resizeRecyclerConvenientsRoomDetailAnimation(recyclerConvenientsRoomDetail.getHeight(), rowConvenientHeight);
+                    txtExpandConvenients.setText(R.string.stringExpand);
+                } else {
+                    resizeRecyclerConvenientsRoomDetailAnimation(recyclerConvenientsRoomDetail.getHeight(), fullRowConvenientHeight);
+                    txtExpandConvenients.setText(R.string.stringCollapse);
+                }
+            }
+        });
+    }
+
+    private void resizeRecyclerConvenientsRoomDetailAnimation(int fromHeight, int toHeight) {
+        ValueAnimator anim = ValueAnimator.ofInt(fromHeight, toHeight);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = recyclerConvenientsRoomDetail.getLayoutParams();
+                layoutParams.height = val;
+
+                recyclerConvenientsRoomDetail.setLayoutParams(layoutParams);
+            }
+        });
+        anim.setDuration(200);
+        anim.start();
+    }
+
+    private void expandTextView(TextView tv) {
+        ObjectAnimator animation = ObjectAnimator.ofInt(tv, "maxLines", tv.getLineCount());
+        animation.setDuration(200).start();
+    }
+
+    private void collapseTextView(TextView tv, int numLines) {
+        ObjectAnimator animation = ObjectAnimator.ofInt(tv, "maxLines", numLines);
+        animation.setDuration(200).start();
     }
 
     // Hàm tải ảnh từ firebase về theo image control và vị trí ảnh cần lấy trên firebase.
@@ -543,9 +676,9 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         if (menuItemFavorite.getIcon().getConstantState().equals(
                 getResources().getDrawable(R.drawable.ic_favorite_border_white).getConstantState()
         )) {
-            mainActivityController.addToFavoriteRooms(roomId, detailRoom.this, sharedPreferences, menuItemFavorite);
+            mainActivityController.addToFavoriteRooms(roomId, detailRoom.this, menuItemFavorite);
         } else {
-            mainActivityController.removeFromFavoriteRooms(roomId, detailRoom.this, sharedPreferences, menuItemFavorite);
+            mainActivityController.removeFromFavoriteRooms(roomId, detailRoom.this, menuItemFavorite);
         }
     }
 
@@ -553,7 +686,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
     private void loadTheSameRoom() {
         // Demo chưa lọc các phòng cùng tiêu chí
         List<myFilter> myFilters = new ArrayList<myFilter>();
-        DetailRoomController detailRoomController = new DetailRoomController(this,District,myFilters,sharedPreferences);
-        detailRoomController.loadSearchRoom(recyclerTheSameRoomDetail,CurrentRoomID);
+        DetailRoomController detailRoomController = new DetailRoomController(this, District, myFilters, UID);
+        detailRoomController.loadSearchRoom(recyclerTheSameRoomDetail, CurrentRoomID);
     }
 }

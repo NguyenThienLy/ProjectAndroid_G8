@@ -27,18 +27,20 @@ import java.util.List;
 public class CommentController {
     CommentModel commentModel;
     Context context;
-    SharedPreferences sharedPreferences;
+    String UID;
     static List<CommentModel> myListRoomComments = new ArrayList<>();
     static AdapterRecyclerComment myAdapterRecyclerComment = null;
+    static TextView myTxtQuantityMyComments = null;
 
-    public CommentController(Context context, SharedPreferences sharedPreferences) {
+    public CommentController(Context context,  String UID) {
         this.context = context;
         this.commentModel = new CommentModel();
-        this.sharedPreferences = sharedPreferences;
+        this.UID = UID;
     }
 
     public void ListRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel, TextView txtRoomGreatReview,
-                                 TextView txtRoomPrettyGoodReview, TextView txtRoomMediumReview, TextView txtRoomBadReview) {
+                                 TextView txtRoomPrettyGoodReview, TextView txtRoomMediumReview, TextView txtRoomBadReview,
+                                 TextView txtQuantityAllComments) {
         final List<CommentModel> commentModelList = new ArrayList<CommentModel>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -47,11 +49,9 @@ public class CommentController {
         //Tạo adapter cho recycle view
         final AdapterRecyclerComment adapterRecyclerComment = new AdapterRecyclerComment(context,
                 R.layout.comment_element_grid_room_detail_view, commentModelList, roomModel.getRoomID(),
-                sharedPreferences, true);
+                UID, true);
         //Cài adapter cho recycle
         recyclerRoomComments.setAdapter(adapterRecyclerComment);
-
-        String currentUserId = sharedPreferences.getString("currentUserId", "");
 
         //Tạo interface để truyền dữ liệu lên từ model
         IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {
@@ -60,7 +60,7 @@ public class CommentController {
                 //Thêm vào trong danh sách bình luận
                 commentModelList.add(valueComment);
 
-                if (valueComment.getUser().equals(currentUserId)) {
+                if (valueComment.getUser().equals(UID)) {
                     myListRoomComments.add(valueComment);
                     sortListComments(myListRoomComments);
                 }
@@ -69,9 +69,14 @@ public class CommentController {
 
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerComment.notifyDataSetChanged();
+                // Set số lượng hiển thị
+                txtQuantityAllComments.setText(commentModelList.size() + "");
 
                 if (myAdapterRecyclerComment != null) {
                     myAdapterRecyclerComment.notifyDataSetChanged();
+
+                    // Hiển thị số lượng trả về
+                    myTxtQuantityMyComments.setText(String.valueOf(myListRoomComments.size()));
                 }
             }
 
@@ -117,7 +122,7 @@ public class CommentController {
         commentModel.ListRoomComments(iRoomCommentsModel, roomModel);
     }
 
-    public void ListMyRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel) {
+    public void ListMyRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel, TextView txtQuantityMyComments) {
 //        final List<CommentModel> commentModelList = new ArrayList<CommentModel>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -126,11 +131,14 @@ public class CommentController {
         //Tạo adapter cho recycle view
         final AdapterRecyclerComment adapterRecyclerComment = new AdapterRecyclerComment(context,
                 R.layout.comment_element_grid_room_detail_view, myListRoomComments, roomModel.getRoomID(),
-                sharedPreferences, true);
+                UID, true);
         //Cài adapter cho recycle
         recyclerRoomComments.setAdapter(adapterRecyclerComment);
 
         myAdapterRecyclerComment = adapterRecyclerComment;
+        myTxtQuantityMyComments = txtQuantityMyComments;
+        // Hiển thị kết quả trả về
+        myTxtQuantityMyComments.setText(String.valueOf(myListRoomComments.size()));
 
         //Tạo interface để truyền dữ liệu lên từ model
 //        IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {

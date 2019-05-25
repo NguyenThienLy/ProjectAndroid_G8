@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,6 +17,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.designapptest.R;
@@ -28,6 +33,8 @@ import com.here.android.mpa.mapping.MapGesture;
 import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.SupportMapFragment;
 import com.here.android.mpa.search.ErrorCode;
+import com.here.android.mpa.search.GeocodeRequest;
+import com.here.android.mpa.search.GeocodeResult;
 import com.here.android.mpa.search.Location;
 import com.here.android.mpa.search.ResultListener;
 import com.here.android.mpa.search.ReverseGeocodeRequest;
@@ -52,9 +59,29 @@ public class PopupChooseLocation extends AppCompatActivity {
     MapMarker marker = null;
 
     Button btnExit;
+    ProgressBar progessBarLoadMap;
 
+    //Biến lưu tọa độ để truyền về lại màn hình đăng phòng
     double latitude = 10.776927;
     double longtitude = 106.637588;
+
+    //Biến lưu địa chỉ để truyền về lại màn hình đăng phòng
+    //Quận
+    String District="";
+
+    //Đường
+    String Street ="";
+
+    //Thành phố
+    String City="";
+
+    //Số nhà
+    String No="";
+
+    EditText edTSearch;
+    ImageView imgSearch;
+    TextView txtStreet,txtWard,txtDistrict,txtNo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,21 +99,97 @@ public class PopupChooseLocation extends AppCompatActivity {
 
     }
 
+    private void Search(String Query) {
+        //Đảm bảo người dùng chỉ search trong thành phố HCM
+        Query = Query + ", Thành phố Hồ Chí Minh";
+
+
+        //Tìm kiếm xung quanh điểm này
+        GeoCoordinate area = new GeoCoordinate(latitude, longtitude);
+
+        GeocodeRequest request = new GeocodeRequest(Query).setSearchArea(area,5000);
+        request.execute(new ResultListener<List<GeocodeResult>>() {
+            @Override
+            public void onCompleted(List<GeocodeResult> geocodeResults, ErrorCode errorCode) {
+                if(errorCode!=ErrorCode.NONE){
+                    Log.e("HERE", errorCode.toString());
+                }else {
+                    for(GeocodeResult result:geocodeResults){
+                        //Lấy ra tọa độ trả về
+                        GeoCoordinate location = result.getLocation().getCoordinate();
+
+                        //Thay đổi địa chỉ của marker trên map
+                        dropMarker(location,true);
+                    }
+                }
+            }
+        });
+    }
+
+    private void updateView(){
+        txtDistrict.setText(District.equals("")?"Không rõ":District);
+        txtWard.setText("Không rõ");
+        txtNo.setText(No.equals("")?"Không rõ":No);
+        txtStreet.setText(Street.equals("")?"Không rõ":Street);
+    }
+
     private void initControl(){
+
+        progessBarLoadMap= findViewById(R.id.progess_bar_load_map);
+        //Đổi màu progessBar
+        progessBarLoadMap.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
+        progessBarLoadMap.setVisibility(View.VISIBLE);
+
+        edTSearch= findViewById(R.id.edT_search);
+        imgSearch = findViewById(R.id.img_search);
+
+        txtDistrict = findViewById(R.id.txt_district);
+        txtNo =findViewById(R.id.txt_no);
+        txtStreet = findViewById(R.id.txt_street);
+        txtWard = findViewById(R.id.txt_ward);
+
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String Querry = edTSearch.getText().toString();
+                if(Querry.isEmpty()){
+                    Toast.makeText(PopupChooseLocation.this,"Vui lòng không để trống địa chỉ",Toast.LENGTH_LONG).show();
+                }else {
+                    Search(Querry);
+                }
+            }
+        });
+
         btnExit = findViewById(R.id.btn_exit);
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent();
-                latitude = marker.getCoordinate().getLatitude();
-                longtitude = marker.getCoordinate().getLongitude();
+                //Kiểm tra nếu người dùng không chọn vào Thành phố Hồ chí minh
+                if(City.contains("Hồ Chí Minh")){
+                    Intent intent=new Intent();
+                    latitude = marker.getCoordinate().getLatitude();
+                    longtitude = marker.getCoordinate().getLongitude();
 
-                intent.putExtra(postRoomStep1.SHARE_LATITUDE,latitude);
-                intent.putExtra(postRoomStep1.SHARE_LONGTITUDE,longtitude);
+                    //Truyền về thông tin hiện tại trên map
+                    intent.putExtra(postRoomStep1.SHARE_LATITUDE,latitude);
+                    intent.putExtra(postRoomStep1.SHARE_LONGTITUDE,longtitude);
 
-                setResult(AppCompatActivity.RESULT_OK,intent);
-                finish();
+                    //Thông tin về vị trí vật lý
+                    intent.putExtra(postRoomStep1.SHARE_DISTRICT,District);
+                    intent.putExtra(postRoomStep1.SHARE_STREET,Street);
+                    intent.putExtra(postRoomStep1.SHARE_NO,No);
+
+                    //End truyền về thông tin hiện tại trên map
+
+                    setResult(AppCompatActivity.RESULT_OK,intent);
+                    finish();
+                }
+                else {
+                    Toast.makeText(PopupChooseLocation.this,"Vui lòng chọn các địa chỉ ở HCM",Toast.LENGTH_LONG).show();
+                }
+
             }
         });
     }
@@ -112,6 +215,7 @@ public class PopupChooseLocation extends AppCompatActivity {
         getWindow().setAttributes(params);
     }
 
+    //hàm kiểm tra quyền của ứng dụng
     protected void checkPermissions() {
 
         final List<String> missingPermissions = new ArrayList<String>();
@@ -135,6 +239,7 @@ public class PopupChooseLocation extends AppCompatActivity {
         }
     }
 
+    //Khởi tạo map
     private void initialize() {
         setContentView(R.layout.activity_popup_choose_location);
         initControl();
@@ -143,14 +248,18 @@ public class PopupChooseLocation extends AppCompatActivity {
         // Set up disk cache path for the map service for this application
         boolean success = com.here.android.mpa.common.MapSettings.setIsolatedDiskCacheRootPath(
                 getApplicationContext().getExternalFilesDir(null) + File.separator + ".here-maps",
-                "com.here.android.tutorial.MapService");
+                "com.example.designapptest");
         if (!success) {
             Toast.makeText(getApplicationContext(), "Unable to set isolated disk cache path.", Toast.LENGTH_LONG);
         } else {
+
+            //Hiển thị map
             mapFragment.init(new OnEngineInitListener() {
                 @Override
                 public void onEngineInitializationCompleted(OnEngineInitListener.Error error) {
                     if (error == OnEngineInitListener.Error.NONE) {
+
+
                         map = mapFragment.getMap();
                         map.setCenter(new GeoCoordinate(latitude, longtitude, 0.0), Map.Animation.NONE);
                         map.setZoomLevel(15.0);
@@ -161,6 +270,12 @@ public class PopupChooseLocation extends AppCompatActivity {
 
                         //Thêm vào mapMarker
                         map.addMapObject(marker);
+
+                        //Thêm vào vị trí trong lần đầu tiên hiển thị lên
+                        triggerRevGeocodeRequest(new GeoCoordinate(latitude,longtitude));
+
+
+
                         //Thêm even cho map
                         mapFragment.getMapGesture().addOnGestureListener(new MapGesture.OnGestureListener.OnGestureListenerAdapter() {
                             @Override
@@ -172,12 +287,17 @@ public class PopupChooseLocation extends AppCompatActivity {
                             public boolean onLongPressEvent(PointF p) {
                                 //Even khi chạm lâu vào màn hình
                                 GeoCoordinate position = map.pixelToGeo(p);
-                                dropMarker(position);
+                                //Xóa marker cũ thêm vào marker mới và thay đổi vị trí tương ứng
+                                dropMarker(position,false);
                                 return false;
                             }
                         },0,false);
+
+                        //Ẩn progess load đi
+                        progessBarLoadMap.setVisibility(View.GONE);
                     } else {
-                        System.out.println("ERROR: Cannot initialize Map Fragment");
+                        progessBarLoadMap.setVisibility(View.GONE);
+                        Toast.makeText(PopupChooseLocation.this,"Lỗi khi tải map",Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -185,20 +305,34 @@ public class PopupChooseLocation extends AppCompatActivity {
     }
 
     //Hàm thay đổi vị trí của marker
-    public void dropMarker(GeoCoordinate position) {
+    public void dropMarker(GeoCoordinate position,boolean isSearch) {
         if(marker != null) {
             map.removeMapObject(marker);
         }
+
         marker = new MapMarker();
         marker.setCoordinate(position);
         map.addMapObject(marker);
+
+        //Nếu search thì sẽ chuyển màn hình sang vị trí tìm thấy
+        if(isSearch){
+            //Zome đến vị trí mới
+            map.setCenter(new GeoCoordinate(position.getLatitude(), position.getLongitude(), 0.0), Map.Animation.NONE);
+            map.setZoomLevel(15.0);
+        }
+
+        //Thay đổi vị trí của vị trí vật lý
+        triggerRevGeocodeRequest(position);
     }
 
+
+    //Hàm khởi tạo map Engine
     private void initMapEngine() {
         // Set path of isolated disk cache
         String diskCacheRoot = Environment.getExternalStorageDirectory().getPath()
                 + File.separator + ".isolated-here-maps";
-        String intentName = "";
+        //Địa chỉ để lưu trữ map trên bộ nhớ đệm
+        String intentName = "com.example.designapptest";
         try {
             ApplicationInfo ai = this.getPackageManager().getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA);
             Bundle bundle = ai.metaData;
@@ -214,20 +348,34 @@ public class PopupChooseLocation extends AppCompatActivity {
             MapEngine.getInstance().init(new ApplicationContext(this), new OnEngineInitListener() {
                 @Override
                 public void onEngineInitializationCompleted(Error error) {
-                    Log.d("mycheck", error+"");
-                    //Toast.makeText(PopupChooseLocation.this, "Map Engine initialized with error code:" + error, Toast.LENGTH_SHORT).show();
+
                 }
             });
         }
     }
 
-    private void triggerRevGeocodeRequest() {
-        GeoCoordinate coordinate = new GeoCoordinate(49.25914, -123.00777);
+    private void triggerRevGeocodeRequest(GeoCoordinate coordinate) {
         ReverseGeocodeRequest revGecodeRequest = new ReverseGeocodeRequest(coordinate);
         revGecodeRequest.execute(new ResultListener<Location>() {
             @Override
             public void onCompleted(Location location, ErrorCode errorCode) {
                 if (errorCode == ErrorCode.NONE) {
+                    //Lưu lại địa chỉ để trả về
+                    District = location.getAddress().getDistrict();
+                    City = location.getAddress().getCity();
+                    Street = location.getAddress().getStreet();
+                    String test = District+City+Street+No;
+                    Log.d("check", test);
+                    //Loại bỏ đường và Hẻm trong chuỗi trả về
+                    Street = Street.replace("ĐƯỜNG","");
+                    Street =Street .replace("HẺM","");
+                    //remove space
+                    Street = Street.trim();
+
+                    No = location.getAddress().getHouseNumber();
+
+                    //Update hiển thị
+                    updateView();
 
                 } else {
 
@@ -255,7 +403,7 @@ public class PopupChooseLocation extends AppCompatActivity {
                 initMapEngine();
                 //Gọi hàm thay đổi kích thước của màn hình
                 changeDisplay();
-                //triggerRevGeocodeRequest();
+
                 break;
         }
     }

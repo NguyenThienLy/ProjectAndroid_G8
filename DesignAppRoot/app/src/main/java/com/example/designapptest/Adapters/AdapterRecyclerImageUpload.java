@@ -48,7 +48,14 @@ public class AdapterRecyclerImageUpload extends RecyclerView.Adapter<AdapterRecy
     public void onBindViewHolder(@NonNull AdapterRecyclerImageUpload.ViewHolder viewHolder, int i) {
         Uri uri = Uri.parse(listImagePath.get(i));
         Picasso.get().load(uri).into(viewHolder.imgUpload);
-        //viewHolder.imgUpload.setImageURI(uri);
+       // viewHolder.imgUpload.setImageURI(uri);
+
+//        try {
+//            Bitmap bitmap = MediaStore.Images.Media.getBitmap((context).getContentResolver(),uri);
+//            viewHolder.imgUpload.setImageBitmap(bitmap);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         //Set tag để tránh việc tái sử dụng của recycler view
         viewHolder.imgDelete.setTag(i);

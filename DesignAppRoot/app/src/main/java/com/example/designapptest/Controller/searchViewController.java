@@ -22,12 +22,12 @@ public class searchViewController {
 
     Context context;
     SearchRoomModel searchRoomModel;
-    SharedPreferences sharedPreferences;
+    String UID;
 
-    public searchViewController(Context context, String district, List<myFilter> filterList, SharedPreferences sharedPreferences) {
+    public searchViewController(Context context, String district, List<myFilter> filterList, String UID) {
         this.context = context;
         this.searchRoomModel = new SearchRoomModel(district,filterList);
-        this.sharedPreferences =sharedPreferences;
+        this.UID = UID;
     }
 
     public void loadSearchRoom(RecyclerView recyclerSearchRoom, TextView txtNumberRoom, ProgressBar progressBarLoad){
@@ -39,7 +39,7 @@ public class searchViewController {
         recyclerSearchRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, sharedPreferences);
+        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, UID);
         //Cài adapter cho recycle
         recyclerSearchRoom.setAdapter(adapterRecyclerMainRoom);
 
@@ -61,7 +61,7 @@ public class searchViewController {
                     //Tăng kết quả lên mỗi lần có room mới được tải về
                     i++;
                     //Set text hiển thị
-                    txtNumberRoom.setText(i+" Kết quả");
+                    txtNumberRoom.setText(i + "");
                     txtNumberRoom.setVisibility(View.VISIBLE);
                 }
                 else {

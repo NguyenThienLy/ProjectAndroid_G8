@@ -180,6 +180,17 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/custom_circle_avatar_room_detail" />
 
+    <TextView
+        android:id="@+id/txt_content_comment_room_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="3dp"
+        android:text="Mình tới tìm phòng này thì thấy phòng đăng khá đúng với thông tin trên app, khá hài lòng. !!"
+        android:textColor="@color/colorGrayType2"
+        android:textSize="15sp" />
+
+
                 <ImageView
                     android:id="@+id/img_avt_comment_room_detail"
                     android:layout_width="30dp"
@@ -211,4 +222,5 @@
             android:layout_margin="5dp"
             android:background="@color/colorGrayType2" />-->
     </LinearLayout>
+
 </LinearLayout>

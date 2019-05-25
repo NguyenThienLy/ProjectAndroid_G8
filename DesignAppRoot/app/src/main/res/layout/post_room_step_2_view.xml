@@ -26,24 +26,32 @@
             android:layout_height="wrap_content">
 
             <RadioButton
+                android:textColor="@drawable/custom_radio_text_color"
+                android:buttonTint="@color/success"
                 android:id="@+id/rBtn_type1_push_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/stringType1PushRoom" />
 
             <RadioButton
+                android:textColor="@drawable/custom_radio_text_color"
+                android:buttonTint="@color/success"
                 android:id="@+id/rBtn_type2_push_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/stringType2PushRoom" />
 
             <RadioButton
+                android:textColor="@drawable/custom_radio_text_color"
+                android:buttonTint="@color/success"
                 android:id="@+id/rBtn_type3_push_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/stringType3PushRoom" />
 
             <RadioButton
+                android:textColor="@drawable/custom_radio_text_color"
+                android:buttonTint="@color/success"
                 android:id="@+id/rBtn_type4_push_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,12 +69,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <RadioButton
+                android:textColor="@drawable/custom_radio_text_color"
+                android:buttonTint="@color/success"
                 android:id="@+id/rBtn_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/stringMalePushRoom" />
 
             <RadioButton
+                android:textColor="@drawable/custom_radio_text_color"
+                android:buttonTint="@color/success"
                 android:id="@+id/rBtn_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -171,6 +183,8 @@
                 android:hint="@string/stringPriceHelpPushRoom" />
 
             <CheckBox
+                android:textColor="@drawable/custom_radio_text_color"
+                android:buttonTint="@color/success"
                 android:id="@+id/chBox_freeElectric_push_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -205,6 +219,8 @@
                 android:layout_weight="1"/>
 
             <CheckBox
+                android:textColor="@drawable/custom_radio_text_color"
+                android:buttonTint="@color/success"
                 android:id="@+id/chBox_freeWater_push_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -235,6 +251,8 @@
                 android:layout_weight="1"/>
 
             <CheckBox
+                android:textColor="@drawable/custom_radio_text_color"
+                android:buttonTint="@color/success"
                 android:id="@+id/chBox_freeInternet_push_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -265,6 +283,8 @@
                 android:layout_weight="1"/>
 
             <CheckBox
+                android:textColor="@drawable/custom_radio_text_color"
+                android:buttonTint="@color/success"
                 android:id="@+id/chBox_freeParking_push_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

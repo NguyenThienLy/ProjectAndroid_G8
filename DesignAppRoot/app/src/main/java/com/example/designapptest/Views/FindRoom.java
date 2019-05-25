@@ -2,32 +2,27 @@ package com.example.designapptest.Views;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.designapptest.Adapters.AdapterRecyclerFindRoom;
 import com.example.designapptest.Controller.FindRoomController;
 import com.example.designapptest.Model.FindRoomFilterModel;
-import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class FindRoom extends AppCompatActivity {
+public class FindRoom extends Fragment {
     // ID object truyen qua find room
     public final static String SHARE_FINDROOM = "FINDROOMMAIN";
     private static final int REQUEST_CODE_FILTER = 0x9345;
@@ -54,21 +49,36 @@ public class FindRoom extends AppCompatActivity {
     // Biến báo load lại find room.
     boolean flagFindRoom = true;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.find_room_view);
+    //Layout
+    View layout;
 
-        findRoomController = new FindRoomController(this);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //setContentView(R.layout.find_room_view);
+        //Hỗ trợ việc có menu cho fragment
+        setHasOptionsMenu(true);
+
+        findRoomController = new FindRoomController(getContext());
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        layout = inflater.inflate(R.layout.find_room_view, container, false);
 
         initControl();
-
         clickFindRoomAdd();
+
+        return layout;
     }
 
     //Load dữ liệu vào List danh sách trong lần đầu chạy
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
 
         initData();
@@ -79,9 +89,14 @@ public class FindRoom extends AppCompatActivity {
     }
     //End load dữ liệu vào danh sách trong lần đầu chạy
 
+//    @Override
+//    public boolean onSupportNavigateUp() {
+//        onBackPressed();
+//        return true;
+//    }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.find_room_menu, menu);
 
         menuItemFilter = menu.findItem(R.id.menu_item_filter);
@@ -98,27 +113,28 @@ public class FindRoom extends AppCompatActivity {
             }
         });
 
-        return true;
     }
 
     private void initControl() {
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = layout.findViewById(R.id.toolbar);
 
-        progressBarFindRoom = (ProgressBar) findViewById(R.id.progress_find_room);
+        progressBarFindRoom = (ProgressBar) layout.findViewById(R.id.progress_find_room);
         progressBarFindRoom.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
                 android.graphics.PorterDuff.Mode.MULTIPLY);
 
-        recyclerFindRoom = (RecyclerView) findViewById(R.id.recycler_find_Room);
-        btnFindRoomAdd = (ImageButton) findViewById(R.id.btn_findRooomAdd);
-        txtResultReturn = (TextView) findViewById(R.id.txt_resultReturn_find_room);
-        lLayHaveResultReturn = (LinearLayout) findViewById(R.id.lLay_haveResultReturn_find_room);
+        recyclerFindRoom = (RecyclerView) layout.findViewById(R.id.recycler_find_Room);
+        btnFindRoomAdd = (ImageButton) layout.findViewById(R.id.btn_findRooomAdd);
+        txtResultReturn = (TextView) layout.findViewById(R.id.txt_resultReturn_find_room);
+        lLayHaveResultReturn = (LinearLayout) layout.findViewById(R.id.lLay_haveResultReturn_find_room);
     }
 
     private void initData() {
         // Thiết lập toolbar
         if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setTitle("Tìm ở ghép");
+            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Tìm ở ghép");
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
 
@@ -130,7 +146,7 @@ public class FindRoom extends AppCompatActivity {
                 // Phải load lại find room.
                 flagFindRoom = true;
 
-                Intent iFindRoomAdd = new Intent(FindRoom.this, FindRoomAdd.class);
+                Intent iFindRoomAdd = new Intent(getContext(), FindRoomAdd.class);
                 startActivity(iFindRoomAdd);
             }
         });
@@ -139,7 +155,7 @@ public class FindRoom extends AppCompatActivity {
     // Hiển thị màn hình bộ lọc tìm phòng ở ghép
     private void clickFindRoomFilter() {
         //Bắt đầu activity find room filter
-        Intent iFindRoomFilter = new Intent(FindRoom.this, FindRoomFilter.class);
+        Intent iFindRoomFilter = new Intent(getContext(), FindRoomFilter.class);
         startActivityForResult(iFindRoomFilter, REQUEST_CODE_FILTER);
     }
 

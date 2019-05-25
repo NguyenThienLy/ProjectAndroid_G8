@@ -2,6 +2,7 @@ package com.example.designapptest.Views;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -65,6 +66,7 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
     String district;
 
     SharedPreferences sharedPreferences;
+    String UID;
 
 
     @Override
@@ -72,7 +74,9 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_view);
 
-        sharedPreferences = getSharedPreferences("currentUserId", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(LoginView.PREFS_DATA_NAME, MODE_PRIVATE);
+        UID = sharedPreferences.getString(LoginView.SHARE_UID,"n1oc76JrhkMB9bxKxwXrxJld3qH2");
+
         initData();
         initControl();
         getDistrict();
@@ -137,6 +141,9 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
         //Ẩn text
 
         progessBarLoad = findViewById(R.id.progess_bar_load);
+        //Đổi màu cho progessbar
+        progessBarLoad.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
 
         //Ẩn lần đầu
         progessBarLoad.setVisibility(View.GONE);
@@ -357,7 +364,7 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
         //Ẩn text
         txtNumberRoom.setVisibility(View.GONE);
 
-        searchViewController controller = new searchViewController(this,district,filterList,sharedPreferences);
+        searchViewController controller = new searchViewController(this,district,filterList,UID);
         controller.loadSearchRoom(recyclerSearchRoom,txtNumberRoom,progessBarLoad);
     }
 

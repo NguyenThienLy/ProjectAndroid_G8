@@ -34,6 +34,6 @@ public class PostRoomStep4Controller {
         };
 
         //Gọi hàm thêm phòng ở model
-        roomModel.addRoom(dataRoom,listConvenient,listPathImg,electricBill,warterBill,InternetBill,parkingBill,iCallBackFromAddRoom);
+        roomModel.addRoom(dataRoom,listConvenient,listPathImg,electricBill,warterBill,InternetBill,parkingBill,iCallBackFromAddRoom,context);
     }
 }

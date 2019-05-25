@@ -80,7 +80,6 @@ public class FindRoomDetail extends AppCompatActivity {
     // Khởi tạo các control trong room detail.
     private void initControl() {
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(Color.parseColor("#00DDFF"));
 
         txtNameUser = (TextView) findViewById(R.id.txt_name_user_find_room_detail);
         txtAboutPrice = (TextView) findViewById(R.id.txt_abouPrice_find_room_detail);

@@ -390,12 +390,13 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/txt_capacity_cramped"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:background="@drawable/custom_circle_red_room_detail"
                                 android:gravity="center"
-                                android:text="5 người +"
+                                android:text="5 người"
                                 android:textColor="@android:color/white"></TextView>
 
                             <TextView
@@ -413,6 +414,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/txt_capacity_medium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -436,19 +438,20 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/txt_capacity_spacious"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:background="@drawable/custom_circle_green_room_detail"
                                 android:gravity="center"
-                                android:text="1 người +"
+                                android:text="1 người"
                                 android:textColor="@android:color/white"></TextView>
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:text="@string/stringWide"
+                                android:text="@string/stringSpacious"
                                 android:textAlignment="center" />
                         </LinearLayout>
 
@@ -496,6 +499,7 @@
                         android:background="@color/colorGrayType2" />
 
                     <LinearLayout
+                        android:id="@+id/lnLt_expand_convenients"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -503,12 +507,13 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/txt_expand_convenients"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:padding="2dp"
-                            android:text="@string/stringCollapse"
-                            android:textColor="#1E90FF"
+                            android:text="@string/stringExpand"
+                            android:textColor="@android:color/holo_blue_bright"
                             android:textSize="16sp" />
 
                         <ImageView
@@ -655,7 +660,8 @@
                         android:layout_margin="10dp"
                         android:lineSpacingExtra="5dp"
                         android:text="Liên hệ: 0966.332.775 - 0969.676.678 Thắng Điện: 3500k/kWH, nước 100.000đ/người, internet: 100.000đ/phòng Địa chỉ: 113 Trần Kế Xương. P7, Phú Nhuận"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:maxLines="5"/>
 
                     <View
                         android:layout_width="fill_parent"
@@ -664,6 +670,7 @@
                         android:background="@color/colorGrayType2" />
 
                     <LinearLayout
+                        android:id="@+id/lnLt_expand_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -671,14 +678,14 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/txt_expand_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:padding="2dp"
-                            android:text="@string/stringCollapse"
-                            android:textColor="#1E90FF"
-                            android:textSize="16sp" />
-
+                            android:text="@string/stringExpand"
+                            android:textColor="@android:color/holo_blue_bright"
+                            android:textSize="18sp" />
                         <ImageView
                             android:layout_width="16dp"
                             android:layout_height="16dp"
@@ -713,6 +720,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -919,6 +927,7 @@
                         android:layout_marginBottom="5dp"
                         android:gravity="center"
                         android:background="@android:color/white">
+
 
                     </android.support.v7.widget.RecyclerView>
 
