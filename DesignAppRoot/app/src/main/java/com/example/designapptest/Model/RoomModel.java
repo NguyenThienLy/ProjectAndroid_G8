@@ -540,9 +540,6 @@ public class RoomModel implements Parcelable { // Linh thêm
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Xoá list favorite room để add lại khi user xóa hoặc thêm lại favorite room ở favoriteRoomView
-                mainRoomModelInterface.refreshListFavoriteRoom();
-
                 for(String RoomID:ListRoomID){
                     //Duyệt vào room cần lấy dữ liệu
                     DataSnapshot dataSnapshotValueRoom = dataSnapshot.child("Room").child(RoomID);
@@ -697,6 +694,7 @@ public class RoomModel implements Parcelable { // Linh thêm
 
         nodeRoomOderbyUserID.addListenerForSingleValueEvent(valueEventListener);
     }
+
 
     @Override
     public int describeContents() {
@@ -914,7 +912,9 @@ public class RoomModel implements Parcelable { // Linh thêm
 
         //Gán sự kiện listen cho nodeRoot
         DatabaseReference node = FirebaseDatabase.getInstance().getReference();
-        node.child("FavoriteRooms").child(UID).addValueEventListener(valueEventListener);
+        Query myNodeFavoriteRooms = node.child("FavoriteRooms").child(UID)
+                .orderByChild("time");
+        myNodeFavoriteRooms.addValueEventListener(valueEventListener);
     }
 
     public void getAuthenticationRooms(final  IMainRoomModel iMainRoomModel){

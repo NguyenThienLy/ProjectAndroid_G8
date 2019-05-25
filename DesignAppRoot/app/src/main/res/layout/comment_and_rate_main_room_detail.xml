@@ -2,12 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
     <android.support.design.widget.TabLayout
+        android:layout_below="@+id/toolbar"
         app:tabTextAppearance="@style/CustomTextAppearance"
         android:background="@android:color/white"
-        android:layout_alignParentTop="true"
         android:id="@+id/tablayout_commentAndRate_room_detail"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -19,5 +24,6 @@
         android:layout_below="@id/tablayout_commentAndRate_room_detail"
         android:id="@+id/viewpager_commentAndRate_room_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@android:color/white"/>
 </RelativeLayout>

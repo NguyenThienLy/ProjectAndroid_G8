@@ -74,7 +74,10 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         edt_username_login = (EditText) findViewById(R.id.edt_username_login);
         edt_password_login = (EditText) findViewById(R.id.edt_password_login);
         tvForgotPassword = (TextView) findViewById(R.id.tv_forgot_password);
-        progressDialog = new ProgressDialog(LoginView.this);
+        
+
+        progressDialog = new ProgressDialog(LoginView.this, R.style.MyProgessDialogStyle);
+
 
         btnLoginWithGoogle.setOnClickListener(this);
         btn_signUp.setOnClickListener(this);
@@ -216,7 +219,8 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
             Log.d("kiem tra", user.getUid());
 
             //Load trang chủ
-            Intent intent = new Intent(this, MainActivity.class);
+            //Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this,Main_Menu.class);
             startActivity(intent);
         } else {
 

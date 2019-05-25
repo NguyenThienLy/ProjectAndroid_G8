@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Environment;
@@ -135,6 +136,9 @@ public class PopupChooseLocation extends AppCompatActivity {
     private void initControl(){
 
         progessBarLoadMap= findViewById(R.id.progess_bar_load_map);
+        //Đổi màu progessBar
+        progessBarLoadMap.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
         progessBarLoadMap.setVisibility(View.VISIBLE);
 
         edTSearch= findViewById(R.id.edT_search);

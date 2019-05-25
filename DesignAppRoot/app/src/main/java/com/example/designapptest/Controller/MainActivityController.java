@@ -16,7 +16,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
@@ -27,7 +29,12 @@ import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 import com.example.designapptest.Views.locationAdapter;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivityController {
@@ -35,8 +42,11 @@ public class MainActivityController {
     RoomModel roomModel;
     LocationModel locationModel;
     String UID;
+
+    // Khai báo static để lấy dữ liệu từ roomModelList
     static List<RoomModel> favoriteRoomsList = new ArrayList<>();
     static AdapterRecyclerMainRoom myAdapterRecyclerFavoriteRoom = null;
+    static TextView myTxtQuantityFavoriteRooms = null;
 
     public MainActivityController(Context context, String UID) {
         this.context = context;
@@ -76,6 +86,7 @@ public class MainActivityController {
                 //Thêm vào trong danh sách trọ
                 roomModelList.add(valueRoom);
 
+                // Lấy dữ liệu cho favorite rooms
                 for (String favoriteRoomId : RoomModel.myFavoriteRooms) {
                     if (favoriteRoomId.equals(valueRoom.getRoomID())) {
                         favoriteRoomsList.add(valueRoom);
@@ -86,8 +97,13 @@ public class MainActivityController {
                 adapterRecyclerGridMainRoom.notifyDataSetChanged();
                 progressBarMain.setVisibility(View.GONE);
 
+                // Xử lí cho favorite rooms khi node root có thay đổi
                 if (myAdapterRecyclerFavoriteRoom != null) {
                     myAdapterRecyclerFavoriteRoom.notifyDataSetChanged();
+                    sortFavoriteRoomsList();
+
+                    // Hiển thị số lượng trả về
+                    myTxtQuantityFavoriteRooms.setText(String.valueOf(favoriteRoomsList.size()));
                 }
             }
 
@@ -113,20 +129,13 @@ public class MainActivityController {
                 //Thêm vào trong danh sách trọ
                 roomModelListAuthentication.add(valueRoom);
 
-                for (String favoriteRoomId : RoomModel.myFavoriteRooms) {
-                    if (favoriteRoomId.equals(valueRoom.getRoomID())) {
-                        favoriteRoomsList.add(valueRoom);
-                        break;
-                    }
-                }
-
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerMainRoom.notifyDataSetChanged();
             }
 
             @Override
             public void refreshListFavoriteRoom() {
-                favoriteRoomsList.clear();
+
             }
 
             @Override
@@ -237,7 +246,7 @@ public class MainActivityController {
         locationModel.topLocation(iLocationModel);
     }
 
-    public void getListFavoriteRooms(RecyclerView recyclerFavoriteRoom) {
+    public void getListFavoriteRooms(RecyclerView recyclerFavoriteRoom, TextView txtQuantity) {
 //        final List<RoomModel> roomModelList = new ArrayList<>();
 
         //Tạo layout cho danh sách trọ yêu thích
@@ -251,6 +260,11 @@ public class MainActivityController {
         //End tạo layout cho danh sách trọ yêu thích
 
         myAdapterRecyclerFavoriteRoom = adapterRecyclerFavoriteRoom;
+        myTxtQuantityFavoriteRooms = txtQuantity;
+        // Hiển thị kết quả trả về
+        myTxtQuantityFavoriteRooms.setText(String.valueOf(favoriteRoomsList.size()));
+        // Sort
+        sortFavoriteRoomsList();
 
         //
         ColorDrawable swipeBackground = new ColorDrawable(Color.parseColor("#C03A2B"));
@@ -381,5 +395,20 @@ public class MainActivityController {
         };
 
         roomModel.removeFromFavoriteRooms(roomId, iMainRoomModel, UID);
+    }
+
+    private void sortFavoriteRoomsList() {
+        List<RoomModel> myTempList = new ArrayList<>(favoriteRoomsList);
+
+        favoriteRoomsList.clear();
+
+        for(int i = RoomModel.myFavoriteRooms.size() - 1; i >= 0; i--) {
+            for(RoomModel valueRoom : myTempList) {
+                if (valueRoom.getRoomID().equals(RoomModel.myFavoriteRooms.get(i))) {
+                    favoriteRoomsList.add(valueRoom);
+                    break;
+                }
+            }
+        }
     }
 }

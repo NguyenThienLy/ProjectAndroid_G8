@@ -1,7 +1,5 @@
 package com.example.designapptest.Views;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
@@ -10,26 +8,19 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -41,6 +32,8 @@ import com.example.designapptest.Adapters.AdapterRecyclerConvenient;
 import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
 import com.example.designapptest.Adapters.AdapterRecyclerRoomPrice;
 import com.example.designapptest.Adapters.AdapterViewPagerImageShow;
+import com.example.designapptest.ClassOther.GenderFilter;
+import com.example.designapptest.ClassOther.TypeFilter;
 import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.ClassOther.myFilter;
 import com.example.designapptest.Controller.CommentController;
@@ -48,9 +41,9 @@ import com.example.designapptest.Controller.DetailRoomController;
 import com.example.designapptest.Controller.MainActivityController;
 import com.example.designapptest.Controller.ReportedRoomController;
 import com.example.designapptest.Model.CommentModel;
-import com.example.designapptest.Model.ConvenientModel;
 import com.example.designapptest.Model.ReportedRoomModel;
 import com.example.designapptest.Model.RoomModel;
+import com.example.designapptest.Model.RoomViewsModel;
 import com.example.designapptest.R;
 import com.squareup.picasso.Picasso;
 
@@ -113,9 +106,6 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
     String District;
     String CurrentRoomID;
-
-    Handler handler;
-    int lineCountDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,8 +218,6 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
     // Khởi tạo các control trong room detail.
     private void initControl() {
-        handler = new Handler(Looper.getMainLooper());
-
         commentController = new CommentController(this, UID);
         reportedRoomController = new ReportedRoomController(this);
         mainActivityController = new MainActivityController(this, UID);
@@ -689,9 +677,27 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
     // Hàm load các phòng trọ cùng tiêu chí
     private void loadTheSameRoom() {
-        // Demo chưa lọc các phòng cùng tiêu chí
+        // Load phòng cùng tiêu chí
         List<myFilter> myFilters = new ArrayList<myFilter>();
+        //Thêm vào tiêu chí số người
+        GenderFilter genderFilter = new GenderFilter((int)roomModel.getMaxNumber(),roomModel.isGender());
+        myFilters.add(genderFilter);
+        //Thêm vào tiêu chí loại phòng trọ
+        TypeFilter typeFilter = new TypeFilter("",roomModel.getTypeID());
+        myFilters.add(typeFilter);
+        //Thêm vào tiêu chí tiện ích của phòng
+//        for(ConvenientModel dataConvenient: roomModel.getListConvenientRoom()){
+//            ConvenientFilter convenientFilter = new ConvenientFilter(dataConvenient.getConvenientID());
+//            myFilters.add(convenientFilter);
+//        }
+
         DetailRoomController detailRoomController = new DetailRoomController(this, District, myFilters, UID);
         detailRoomController.loadSearchRoom(recyclerTheSameRoomDetail, CurrentRoomID);
+
+        //Gọi hàm thêm vào lượng view từ controller
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String date = df.format(Calendar.getInstance().getTime());
+        RoomViewsModel data = new RoomViewsModel(date,UID,roomModel.getRoomID());
+        detailRoomController.addViews(data);
     }
 }
