@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.designapptest.R;
@@ -49,6 +50,8 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
 
     EditText edt_username_login;
     EditText edt_password_login;
+    TextView tvForgotPassword;
+
     ProgressDialog progressDialog;
 
     SharedPreferences sharedPreferences;
@@ -70,6 +73,7 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         btn_login = (Button) findViewById(R.id.btn_login);
         edt_username_login = (EditText) findViewById(R.id.edt_username_login);
         edt_password_login = (EditText) findViewById(R.id.edt_password_login);
+        tvForgotPassword = (TextView) findViewById(R.id.tv_forgot_password);
         progressDialog = new ProgressDialog(LoginView.this);
 
         btnLoginWithGoogle.setOnClickListener(this);
@@ -77,6 +81,7 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         btn_login.setOnClickListener(this);
 
         CreateClientLoginWithGoogle();
+        /*ClickForgotPassword();*/
     }
 
     @Override
@@ -216,5 +221,12 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         } else {
 
         }
+    }
+
+    public void ClickForgotPassword(View v){
+
+                Intent intent = new Intent(LoginView.this,resetPasswordByEmail.class);
+                startActivity(intent);
+
     }
 }
