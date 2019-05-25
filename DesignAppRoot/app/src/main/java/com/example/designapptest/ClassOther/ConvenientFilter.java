@@ -14,6 +14,10 @@ public class ConvenientFilter extends myFilter {
         this.imageResource = imageResource;
     }
 
+    public ConvenientFilter(String id){
+        this.id=id;
+    }
+
     public int getImageResource() {
         return imageResource;
     }

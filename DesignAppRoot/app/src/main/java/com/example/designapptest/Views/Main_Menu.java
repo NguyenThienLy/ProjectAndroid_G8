@@ -21,8 +21,7 @@ public class Main_Menu extends AppCompatActivity {
     accountView AccountView;
     postRoomAdapter PostRoomView;
     FindRoom FindRoomView;
-
-
+    searchMapView SearchMapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,9 @@ public class Main_Menu extends AppCompatActivity {
                         setFragment(FindRoomView);
                         return true;
                     case R.id.nav_map:
-
+                        //Chuyển sang màn hình map
+                        SearchMapView = new searchMapView();
+                        setFragment(SearchMapView);
                         return true;
                     case R.id.nav_post_room:
                         //Hiển thị màn hình đăng phòng mới
