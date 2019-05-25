@@ -178,14 +178,8 @@
                 android:id="@+id/progess_bar_load"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:indeterminateDrawable="@drawable/progress" />
-            <!--<TextView-->
-            <!--android:textSize="18dp"-->
-            <!--android:id="@+id/txt_number_room"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="5dp"/>-->
+                android:layout_gravity="center_horizontal"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
