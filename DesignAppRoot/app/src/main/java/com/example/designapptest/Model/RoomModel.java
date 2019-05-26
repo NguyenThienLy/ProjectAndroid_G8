@@ -535,7 +535,7 @@ public class RoomModel implements Parcelable { // Linh thêm
         nodeRoot.addValueEventListener(valueEventListener);
     }
 
-    private void SenData(List<String> ListRoomID, IMainRoomModel mainRoomModelInterface){
+    public void SenData(List<String> ListRoomID, IMainRoomModel mainRoomModelInterface){
         //Tạo listen cho firebase
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override

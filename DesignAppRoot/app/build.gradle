@@ -70,6 +70,11 @@ dependencies {
     implementation 'id.zelory:compressor:2.1.0'
     //Thư viện json
     implementation 'com.google.code.gson:gson:2.2.4'
+    //Thư viện thanh tìm kiếm
+    implementation 'com.github.arimorty:floatingsearchview:2.1.1'
+
+    //Thư viện float button menu
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
