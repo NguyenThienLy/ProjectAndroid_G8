@@ -41,16 +41,32 @@ public class searchMapViewController {
                 com.here.android.mpa.common.Image myImage = new com.here.android.mpa.common.Image();
 
                 try {
-                    myImage.setImageResource(R.drawable.ic_test_1);
+                    String typeRoom = valueRoom.getTypeID();
+                    switch (typeRoom){
+                        case "RTID0":
+                            myImage.setImageResource(R.drawable.ic_marker_ktx);
+                            break;
+                        case "RTID1":
+                            myImage.setImageResource(R.drawable.ic_marker_nha_nguyen_can);
+                            break;
+                        case "RTID2":
+                            myImage.setImageResource(R.drawable.ic_marker_chung_cu);
+                            break;
+                        case "RTID3":
+                            myImage.setImageResource(R.drawable.ic_marker_phong_tro);
+                            break;
+                    }
+
                 }catch (IOException ex){
 
                 }
 
+                //Thêm vào marker tương ứng với mỗi tọa độ trên map
                 MapMarker defaultMarker = new MapMarker();
-               defaultMarker.setIcon(myImage);
+                defaultMarker.setIcon(myImage);
                 defaultMarker.setTitle(valueRoom.getRoomID());
                 defaultMarker.setCoordinate(new GeoCoordinate(valueRoom.getLatitude(),valueRoom.getLongtitude(), 0.0));
-                defaultMarker.unsetVisibleMask(1,12);
+                defaultMarker.unsetVisibleMask(1,11);
                 map.addMapObject(defaultMarker);
 
             }

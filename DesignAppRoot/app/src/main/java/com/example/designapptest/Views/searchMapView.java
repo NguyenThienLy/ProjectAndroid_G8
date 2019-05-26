@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
@@ -27,10 +26,10 @@ import com.example.designapptest.Controller.searchMapViewController;
 import com.example.designapptest.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.here.android.mpa.common.ApplicationContext;
 import com.here.android.mpa.common.GeoCoordinate;
-import com.here.android.mpa.common.MapEngine;
+import com.here.android.mpa.common.GeoPosition;
 import com.here.android.mpa.common.OnEngineInitListener;
+import com.here.android.mpa.common.PositioningManager;
 import com.here.android.mpa.common.ViewObject;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapGesture;
@@ -43,6 +42,8 @@ import com.here.android.mpa.search.GeocodeResult;
 import com.here.android.mpa.search.ResultListener;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +51,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 
 
-public class searchMapView extends Fragment implements View.OnClickListener {
+public class searchMapView extends Fragment implements View.OnClickListener, PositioningManager.OnPositionChangedListener{
 
     View layout;
     private final static int REQUEST_CODE_ASK_PERMISSIONS = 1;
@@ -85,13 +86,37 @@ public class searchMapView extends Fragment implements View.OnClickListener {
 
     FloatingActionsMenu btnMenuExpander;
 
+    // positioning manager instance
+    private PositioningManager mPositioningManager;
+
+    //Biến lưu vị trí hiện tại
+    GeoCoordinate currentLocation;
+
+    private boolean isFirstLoad=true;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkPermissions();
-        searchMapViewController = new searchMapViewController(getContext());
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mPositioningManager != null) {
+            mPositioningManager.stop();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mPositioningManager != null) {
+            mPositioningManager.start(PositioningManager.LocationMethod.GPS_NETWORK_INDOOR);
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,8 +124,8 @@ public class searchMapView extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         layout = inflater.inflate(R.layout.fragment_search_map_view, container, false);
         initControl();
-        initialize();
         initMapEngine();
+        searchMapViewController = new searchMapViewController(getContext());
         return layout;
     }
 
@@ -183,107 +208,83 @@ public class searchMapView extends Fragment implements View.OnClickListener {
             case REQUEST_CODE_ASK_PERMISSIONS:
                 for (int index = permissions.length - 1; index >= 0; --index) {
                     if (grantResults[index] != PackageManager.PERMISSION_GRANTED) {
-
                         return;
                     }
                 }
-                //Khởi tại UI nếu thỏa hết permission
-//                initialize();
-                //Khởi tạo map eng
-
                 break;
         }
     }
 
-    //Khởi tạo và hiển thị map
-    private void initialize() {
+    //Thêm sự kiện khi thay đổi vị trí
+    private void addEvenTracking(){
+        //node them vao
+        mPositioningManager = PositioningManager.getInstance();
 
-        mapFragment = getMapFragment();
-
-        // Set up disk cache path for the map service for this application
-        boolean success = com.here.android.mpa.common.MapSettings.setIsolatedDiskCacheRootPath(
-                getActivity().getApplicationContext().getExternalFilesDir(null) + File.separator + ".here-maps",
-                "com.example.designapptest");
-        if (!success) {
-            Toast.makeText(getActivity().getApplicationContext(), "Unable to set isolated disk cache path.", Toast.LENGTH_LONG).show();
+        mPositioningManager.addListener(new WeakReference<PositioningManager.OnPositionChangedListener>
+                (searchMapView.this));
+        // start position updates, accepting GPS, network or indoor positions
+        if (mPositioningManager.start(PositioningManager.LocationMethod.GPS_NETWORK_INDOOR)) {
+            mapFragment.getPositionIndicator().setVisible(true);
         } else {
-            //Hiển thị map
-            mapFragment.init(new OnEngineInitListener() {
-                @Override
-                public void onEngineInitializationCompleted(OnEngineInitListener.Error error) {
-                    if (error == OnEngineInitListener.Error.NONE) {
-                        map = mapFragment.getMap();
-                        map.setCenter(new GeoCoordinate(latitude, longtitude, 0.0), Map.Animation.NONE);
-                        map.setZoomLevel(15.0);
-                        //Ẩn progess load đi
-                        progessBarLoadMap.setVisibility(View.GONE);
 
+        }
+    }
 
-                        //Thêm even cho map
-                        mapFragment.getMapGesture().addOnGestureListener(new MapGesture.OnGestureListener.OnGestureListenerAdapter() {
-                            @Override
-                            public boolean onTapEvent(PointF p) {
-                                //Even khi Tap vào màn hình
-                                //Lấy ra marker chạm vào
-                                List<ViewObject> selectedObjects = map.getSelectedObjects(p);
-                                int listSize = selectedObjects.size();
-                                if(listSize==0){
-                                    //Ẩn card hiển thị danh sách phòng
-                                    AnimationVisibilityCardView(false);
-                                }
-                                List<String> listRoomID = new ArrayList<String>();
-                                int count = 0;
-                                for(ViewObject object:selectedObjects){
-                                    count++;
-                                    //Kiểm tra có phải là đối tượng của người dùng thêm vào
-                                    if(object.getBaseType() == ViewObject.Type.USER_OBJECT){
-                                        //Lấy ra Mapobject
-                                        MapObject mapObject = (MapObject) object;
-                                        //Kiểm tra xem có phải là marker hay không
-                                        if(mapObject.getType()==MapObject.Type.MARKER){
-                                            //Ép kiểu qua marker
-                                            MapMarker selectedMarker = (MapMarker)mapObject;
-                                            //Thêm vào trong list String ID
-                                            if(searchMarker!=null && searchMarker!=selectedMarker){
-                                                listRoomID.add(selectedMarker.getTitle());
-                                            }
-
-                                        }
-                                    }
-
-                                    if(count==listSize){
-                                        if(listRoomID.size()>0){
-                                            //Hiển thị card hiển thị danh sách phòng
-                                            AnimationVisibilityCardView(true);
-                                            //Gọi hàm đổ dữ liệu từ controller
-                                            callListInfoRoom(listRoomID);
-                                        }
-
-                                    }
-                                }
-
-                                return false;
+    //Thêm even cho markar
+    private void addEvenForMarker(){
+        //Thêm even cho map
+        mapFragment.getMapGesture().addOnGestureListener(new MapGesture.OnGestureListener.OnGestureListenerAdapter() {
+            @Override
+            public boolean onTapEvent(PointF p) {
+                //Even khi Tap vào màn hình
+                //Lấy ra marker chạm vào
+                List<ViewObject> selectedObjects = map.getSelectedObjects(p);
+                int listSize = selectedObjects.size();
+                if(listSize==0){
+                    //Ẩn card hiển thị danh sách phòng
+                    AnimationVisibilityCardView(false);
+                }
+                List<String> listRoomID = new ArrayList<String>();
+                int count = 0;
+                for(ViewObject object:selectedObjects){
+                    count++;
+                    //Kiểm tra có phải là đối tượng của người dùng thêm vào
+                    if(object.getBaseType() == ViewObject.Type.USER_OBJECT){
+                        //Lấy ra Mapobject
+                        MapObject mapObject = (MapObject) object;
+                        //Kiểm tra xem có phải là marker hay không
+                        if(mapObject.getType()==MapObject.Type.MARKER){
+                            //Ép kiểu qua marker
+                            MapMarker selectedMarker = (MapMarker)mapObject;
+                            //Thêm vào trong list String ID
+                            if(searchMarker!=null && searchMarker!=selectedMarker ||searchMarker==null){
+                                listRoomID.add(selectedMarker.getTitle());
                             }
-                            @Override
-                            public boolean onLongPressEvent(PointF p) {
-                                return false;
-                            }
-                        },0,false);
-
-                        //Gọi hàm đổ tọa độ từ controller
-                        callListRoomLocation();
-
-
-                    } else {
-                        progessBarLoadMap.setVisibility(View.GONE);
+                        }
+                    }
+                    if(count==listSize){
+                        if(listRoomID.size()>0){
+                            //Hiển thị card hiển thị danh sách phòng
+                            AnimationVisibilityCardView(true);
+                            //Gọi hàm đổ dữ liệu từ controller
+                            callListInfoRoom(listRoomID);
+                        }
                     }
                 }
-            });
-        }
+                return false;
+            }
+            @Override
+            public boolean onLongPressEvent(PointF p) {
+                return false;
+            }
+        },0,false);
     }
 
     //Hàm khởi tạo map Engine
     private void initMapEngine() {
+        mapFragment = getMapFragment();
+        mapFragment.setRetainInstance(false);//note them vao
+
         // Set path of isolated disk cache
         String diskCacheRoot = Environment.getExternalStorageDirectory().getPath()
                 + File.separator + ".isolated-here-maps";
@@ -301,13 +302,36 @@ public class searchMapView extends Fragment implements View.OnClickListener {
 
         if (!success) {
         } else {
-            MapEngine.getInstance().init(new ApplicationContext(getActivity()), new OnEngineInitListener() {
+            mapFragment.init(new OnEngineInitListener() {
                 @Override
                 public void onEngineInitializationCompleted(Error error) {
+                    if (error == Error.NONE) {
+                        map = mapFragment.getMap();
+                        map.setCenter(new GeoCoordinate(latitude, longtitude, 0.0), Map.Animation.NONE);
+                        map.setZoomLevel(15.0);
+                        //Ẩn progess load đi
+                        progessBarLoadMap.setVisibility(View.GONE);
 
+                        //Thêm even cho marker
+                        addEvenForMarker();
+                        //Thêm even thay đổi vị trí
+                        addEvenTracking();
+
+                        //Gọi hàm đổ tọa độ từ controller
+                        callListRoomLocation();
+
+                    } else {
+                        progessBarLoadMap.setVisibility(View.GONE);
+                    }
                 }
             });
         }
+    }
+
+    //Zoom đến vị trí hiện tại
+    private void zoomToCurrentLocation(GeoCoordinate geoCoordinate){
+        map.setCenter(geoCoordinate, Map.Animation.BOW);
+        map.setZoomLevel(15.0);
     }
 
     //Hàm tìm kiếm tọa độ của địa chỉ truyền vào
@@ -341,11 +365,18 @@ public class searchMapView extends Fragment implements View.OnClickListener {
         if (searchMarker != null) {
             map.removeMapObject(searchMarker);
         }
+        com.here.android.mpa.common.Image myImage = new com.here.android.mpa.common.Image();
+        try {
+            myImage.setImageResource(R.drawable.ic_marker_flag_blue);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         searchMarker = new MapMarker();
         searchMarker.setCoordinate(position);
+        searchMarker.setIcon(myImage);
         map.addMapObject(searchMarker);
         //Zome đến vị trí mới
-        map.setCenter(new GeoCoordinate(position.getLatitude(), position.getLongitude(), 0.0), Map.Animation.LINEAR);
+        map.setCenter(new GeoCoordinate(position.getLatitude(), position.getLongitude(), 0.0), Map.Animation.BOW);
         map.setZoomLevel(15.0);
     }
 
@@ -381,11 +412,29 @@ public class searchMapView extends Fragment implements View.OnClickListener {
         int id =v.getId();
         switch (id){
             case R.id.btn_top_location:
-                Log.d("check", "onClick1: ");
+
                 break;
             case R.id.btn_near_location:
-                Log.d("check", "onClick2: ");
+                //Zoome map về địa chỉ hiện tại
+                zoomToCurrentLocation(currentLocation);
                 break;
         }
+    }
+
+    @Override
+    public void onPositionUpdated(PositioningManager.LocationMethod locationMethod, GeoPosition geoPosition, boolean b) {
+        //Chuyển map đến vị trí hiện tại
+        if(isFirstLoad){
+            zoomToCurrentLocation(geoPosition.getCoordinate());
+            isFirstLoad=false;
+        }
+
+        //Cập nhật vị trí hiện tại
+        currentLocation = geoPosition.getCoordinate();
+    }
+
+    @Override
+    public void onPositionFixChanged(PositioningManager.LocationMethod locationMethod, PositioningManager.LocationStatus locationStatus) {
+
     }
 }
