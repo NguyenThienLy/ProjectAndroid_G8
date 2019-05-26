@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
-import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.example.designapptest.Controller.Interfaces.IMapRoomModel;
+import com.example.designapptest.Controller.Interfaces.IMapViewModel;
 import com.example.designapptest.Model.MapRoomModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
@@ -87,10 +87,9 @@ public class searchMapViewController {
         //Cài adapter cho recycle
         recyclerView.setAdapter(adapterRecyclerMainRoom);
 
-        IMainRoomModel iMainRoomModel = new IMainRoomModel() {
-            int i = 0;
+        IMapViewModel iMapViewModel = new IMapViewModel() {
             @Override
-            public void getListMainRoom(RoomModel valueRoom) {
+            public void getListRoom(RoomModel valueRoom) {
                 i++;
                 roomModelList.add(valueRoom);
                 adapterRecyclerMainRoom.notifyDataSetChanged();
@@ -99,23 +98,11 @@ public class searchMapViewController {
                 }
             }
 
-            @Override
-            public void refreshListFavoriteRoom() {
+            int i = 0;
 
-            }
-
-            @Override
-            public void makeToast(String message) {
-
-            }
-
-            @Override
-            public void setIconFavorite(int iconRes) {
-
-            }
         };
 
-        roomModel.SenData(listRoomID,iMainRoomModel);
+        roomModel.SendData_NoLoadMore(listRoomID,iMapViewModel);
     }
 
 }
