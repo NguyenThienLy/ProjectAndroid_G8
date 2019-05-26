@@ -1,6 +1,7 @@
 package com.example.designapptest.Controller;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,9 +10,12 @@ import android.widget.ProgressBar;
 import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
 import com.example.designapptest.Controller.Interfaces.IMapRoomModel;
 import com.example.designapptest.Controller.Interfaces.IMapViewModel;
+import com.example.designapptest.Controller.Interfaces.IStringCallBack;
+import com.example.designapptest.Model.LocationModel;
 import com.example.designapptest.Model.MapRoomModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
+import com.example.designapptest.Views.searchMapView;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapMarker;
@@ -23,6 +27,7 @@ import java.util.List;
 
 public class searchMapViewController {
 
+    LocationModel locationModel;
     MapRoomModel mapRoomModel;
     Context context;
     RoomModel roomModel;
@@ -31,6 +36,7 @@ public class searchMapViewController {
         mapRoomModel = new MapRoomModel();
         roomModel = new RoomModel();
         this.context=context;
+        locationModel = new LocationModel();
     }
 
     public void listLocationRoom(Map map){
@@ -105,6 +111,18 @@ public class searchMapViewController {
         };
 
         roomModel.SendData_NoLoadMore(listRoomID,iMapViewModel);
+    }
+
+    public void TopLocation(Fragment currentFragment){
+        IStringCallBack iStringCallBack = new IStringCallBack() {
+            @Override
+            public void sendString(String value) {
+                //Zoom map đến vị trí có nhiều phòng
+                ((searchMapView)currentFragment).Search(value);
+            }
+        };
+
+        locationModel.Top_1_Location(iStringCallBack);
     }
 
 }

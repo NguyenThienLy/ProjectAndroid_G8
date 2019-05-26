@@ -3,6 +3,7 @@ package com.example.designapptest.Model;
 import android.support.annotation.NonNull;
 
 import com.example.designapptest.Controller.Interfaces.ILocationModel;
+import com.example.designapptest.Controller.Interfaces.IStringCallBack;
 import com.example.designapptest.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -113,6 +114,47 @@ public class LocationModel implements Comparable<LocationModel>  {
                 //Kích hoạt interface
                 locationModelInterface.getListTopRoom(dataSend);
                 //End tạo mới data và gửi
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        nodeLocationRoom.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    public void Top_1_Location(IStringCallBack iStringCallBack){
+        DatabaseReference nodeRoot = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference nodeLocationRoom=nodeRoot.child("LocationRoom");
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int count =0;
+                String Top_1_location = "";
+                int Top_Child=0;
+                for(DataSnapshot SnapShotDicstrict:dataSnapshot.getChildren()){
+                    count++;
+                    int currentNumber = 0;
+                    for(DataSnapshot SnapShotWarn:SnapShotDicstrict.getChildren()){
+                       for(DataSnapshot SnapShotStreet:SnapShotWarn.getChildren()){
+                           //Lấy ra số phòng trên đường đó
+                           currentNumber+=SnapShotStreet.getChildrenCount();
+                       }
+                    }
+                    if(currentNumber>Top_Child){
+                        Top_Child=currentNumber;
+                        Top_1_location = SnapShotDicstrict.getKey();
+                    }
+                    if(count == SnapShotDicstrict.getChildrenCount()){
+                        iStringCallBack.sendString(Top_1_location);
+                    }
+                    currentNumber=0;
+                }
             }
 
             @Override
