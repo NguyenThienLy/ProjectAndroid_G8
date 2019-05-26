@@ -14,32 +14,32 @@
 
         <!--Processbar-->
         <ProgressBar
-            android:layout_marginTop="20dp"
-            android:id="@+id/progress_bar_favorite_rooms"
+            android:id="@+id/progress_bar_verified_rooms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"/>
+            android:layout_below="@+id/toolbar"
+            android:layout_marginTop="20dp" />
         <!--End Processbar-->
 
         <LinearLayout
-            android:id="@+id/lnLt_quantity_top_favorite_rooms"
+            android:id="@+id/lnLt_quantity_top_verified_rooms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_below="@+id/progress_bar_verified_rooms"
             android:background="@color/colorResultTop"
-            android:layout_below="@+id/progress_bar_favorite_rooms">
+            android:orientation="horizontal">
 
             <TextView
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/stringQuantityTop"
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/txt_quantity_favorite_rooms"
+                android:id="@+id/txt_quantity_verified_rooms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -48,18 +48,17 @@
         </LinearLayout>
 
         <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nested_scroll_favorite_rooms_view"
+            android:id="@+id/nested_scroll_verified_rooms_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lnLt_quantity_top_favorite_rooms">
-
+            android:layout_below="@id/lnLt_quantity_top_verified_rooms">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_favorite_rooms"
+                    android:id="@+id/recycler_verified_rooms"
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -73,16 +72,15 @@
 
                 <!--Processbar-->
                 <ProgressBar
-                    android:id="@+id/progress_bar_load_more_favorite_rooms"
+                    android:id="@+id/progress_bar_load_more_verified_rooms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="15dp"/>
                 <!--End Processbar-->
-
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
-    </RelativeLayout>
 
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface IMainRoomModel {
     public void getListMainRoom(RoomModel valueRoom);
-    public void refreshListFavoriteRoom();
     public void makeToast(String message);
     public void setIconFavorite(int iconRes);
+    public void setButtonLoadMoreVerifiedRooms();
+    public void setProgressBarLoadMore();
+    public void setQuantityTop(int quantity);
 }
