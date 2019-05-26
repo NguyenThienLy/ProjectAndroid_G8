@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
@@ -151,47 +152,51 @@ public class CommentModel implements Parcelable { // Linh thêm
         dest.writeParcelable(userComment, flags);
     }
 
-    public void ListRoomComments(final IRoomCommentModel roomCommentModelInterface, final RoomModel roomModel) {
-        //Tạo listen cho firebase
+    private DataSnapshot dataRoot;
+    private DataSnapshot dataNode;
+    private List<CommentModel> listCommentsModel = new ArrayList<>();
+
+    public void getListRoomComments(IRoomCommentModel roomCommentModelInterface, RoomModel roomModel,
+                                    int quantityCommentToLoad, int quantityCommentLoaded) {
+        // Tạo listen cho nodeRoomComments
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // refresh lại list comment thành rỗng.
-                roomCommentModelInterface.refreshListRoomComments();
+                dataNode = dataSnapshot;
 
-                //Thêm danh sách bình luận của phòng trọ
-                DataSnapshot dataSnapshotRoomComments = dataSnapshot.child("RoomComments");
+                // Tạo listen cho nodeRoot.
+                ValueEventListener valueSpecialListCommentEventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        dataRoot = dataSnapshot;
 
-                List<CommentModel> tempCommentList = new ArrayList<CommentModel>();
+                        for (DataSnapshot roomCommentsSnapShot : dataNode.getChildren()) {
+                            CommentModel commentModel = roomCommentsSnapShot.getValue(CommentModel.class);
+                            commentModel.setCommentID(roomCommentsSnapShot.getKey());
 
-                //Duyệt tất cả các giá trị trong node tương ứng
-                for (DataSnapshot RoomCommentsValue : dataSnapshotRoomComments.getChildren()) {
-                    String roomId = RoomCommentsValue.getKey();
-
-                    if (roomModel.getRoomID().equals(roomId)) {
-                        DataSnapshot dataSnapshotComment = dataSnapshotRoomComments.child(roomId);
-                        for (DataSnapshot CommentValue : dataSnapshotComment.getChildren()) {
-                            CommentModel commentModel = CommentValue.getValue(CommentModel.class);
-                            commentModel.setCommentID(CommentValue.getKey());
-
-                            //Duyệt user tương ứng để lấy ra thông tin user bình luận
-                            UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
-                            commentModel.setUserComment(tempUser);
-                            //End duyệt user tương ứng để lấy ra thông tin user bình luận
-
-                            tempCommentList.add(commentModel);
-
-                            //Kích hoạt interface
-                            roomCommentModelInterface.getListRoomComments(commentModel);
+                            // Lọc ra danh sách comments id.
+                            listCommentsModel.add(commentModel);
                         }
 
-                        roomModel.setListCommentRoom(tempCommentList);
-                        break;
-                    }
-                }
-                //End Thêm danh sách bình luận của phòng trọ
+                        sortListComments(listCommentsModel);
 
-                roomCommentModelInterface.setView();
+                        // set view
+                        roomCommentModelInterface.setLinearLayoutTopAllComments(listCommentsModel);
+                        roomCommentModelInterface.setQuantityComments(listCommentsModel.size());
+
+                        //Thêm dữ liệu và gửi về lại UI
+                        getPartListComments(dataRoot, listCommentsModel, roomCommentModelInterface,
+                                quantityCommentToLoad, quantityCommentLoaded);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                };
+
+                //Gán sự kiện listen cho nodeRoot
+                nodeRoot.addListenerForSingleValueEvent(valueSpecialListCommentEventListener);
             }
 
             @Override
@@ -200,47 +205,61 @@ public class CommentModel implements Parcelable { // Linh thêm
             }
         };
 
-        //Gán sự kiện listen cho nodeRoot
-        nodeRoot.addValueEventListener(valueEventListener);
+        if (dataNode != null) {
+            if (dataRoot != null) {
+                //Thêm dữ liệu và gửi về lại UI
+                getPartListComments(dataRoot, listCommentsModel, roomCommentModelInterface,
+                        quantityCommentToLoad, quantityCommentLoaded);
+            }
+        } else {
+            //Gán sự kiện listen cho nodeRoomComments
+            nodeRoot.child("RoomComments").child(roomModel.getRoomID()).addListenerForSingleValueEvent(valueEventListener);
+        }
     }
 
-    public void ListMyRoomComments(final IRoomCommentModel roomCommentModelInterface, final RoomModel roomModel, final SharedPreferences sharedPreferences) {
-        //Tạo listen cho firebase
+    public void getListMyRoomComments(IRoomCommentModel roomCommentModelInterface, RoomModel roomModel,
+                                      String UID, int quantityCommentToLoad, int quantityCommentLoaded) {
+        // Tạo listen cho nodeRoomComments.
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Refresh lại list comment của tôi thành rỗng.
-                roomCommentModelInterface.refreshListRoomComments();
+                dataNode = dataSnapshot;
 
-                //Thêm danh sách bình luận của phòng trọ
-                DataSnapshot dataSnapshotRoomComments = dataSnapshot.child("RoomComments");
-                String currentUserId = sharedPreferences.getString("currentUserId", "");
+                // Tạo listen cho nodeRoot.
+                ValueEventListener valueSpecialListCommentEventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        dataRoot = dataSnapshot;
 
-                //Duyệt tất cả các giá trị trong node tương ứng
-                for (DataSnapshot RoomCommentsValue : dataSnapshotRoomComments.getChildren()) {
-                    String roomId = RoomCommentsValue.getKey();
+                        for (DataSnapshot roomCommentsSnapShot : dataNode.getChildren()) {
+                            CommentModel commentModel = roomCommentsSnapShot.getValue(CommentModel.class);
+                            commentModel.setCommentID(roomCommentsSnapShot.getKey());
 
-                    if (roomModel.getRoomID().equals(roomId)) {
-                        DataSnapshot dataSnapshotComment = dataSnapshotRoomComments.child(roomId);
-                        for (DataSnapshot CommentValue : dataSnapshotComment.getChildren()) {
-                            CommentModel commentModel = CommentValue.getValue(CommentModel.class);
-                            commentModel.setCommentID(CommentValue.getKey());
-
-                            if (currentUserId.equals(commentModel.getUser())) {
-                                //Duyệt user tương ứng để lấy ra thông tin user bình luận
-                                UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
-                                commentModel.setUserComment(tempUser);
-                                //End duyệt user tương ứng để lấy ra thông tin user bình luận
-
-                                //Kích hoạt interface
-                                roomCommentModelInterface.getListRoomComments(commentModel);
+                            if (UID.equals(commentModel.getUser())) {
+                                //Lọc ra danh sách my comments.
+                                listCommentsModel.add(commentModel);
                             }
                         }
 
-                        break;
+                        sortListComments(listCommentsModel);
+
+                        // set view
+                        roomCommentModelInterface.setLinearLayoutTopAllComments(listCommentsModel);
+                        roomCommentModelInterface.setQuantityComments(listCommentsModel.size());
+
+                        //Thêm dữ liệu và gửi về lại UI
+                        getPartListComments(dataRoot, listCommentsModel, roomCommentModelInterface,
+                                quantityCommentToLoad, quantityCommentLoaded);
                     }
-                }
-                //End Thêm danh sách bình luận của phòng trọ
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                };
+
+                //Gán sự kiện listen cho nodeRoot
+                nodeRoot.addListenerForSingleValueEvent(valueSpecialListCommentEventListener);
             }
 
             @Override
@@ -249,8 +268,51 @@ public class CommentModel implements Parcelable { // Linh thêm
             }
         };
 
-        //Gán sự kiện listen cho nodeRoot
-        nodeRoot.addValueEventListener(valueEventListener);
+        if (dataNode != null) {
+            if (dataRoot != null) {
+                //Thêm dữ liệu và gửi về lại UI
+                getPartListComments(dataRoot, listCommentsModel, roomCommentModelInterface,
+                        quantityCommentToLoad, quantityCommentLoaded);
+            }
+        } else {
+            //Gán sự kiện listen cho nodeRoomComments
+            nodeRoot.child("RoomComments").child(roomModel.getRoomID()).addListenerForSingleValueEvent(valueEventListener);
+        }
+    }
+
+    private void getPartListComments(DataSnapshot dataSnapshot, List<CommentModel> listCommentsModel,
+                                      IRoomCommentModel roomCommentModelInterface, int quantityCommentToLoad,
+                                     int quantityCommentLoaded) {
+        int i = 0;
+
+        // Chạy từ cuối list đến đầu list (list truyền vào đã sắp xếp theo thời gian)
+        for (CommentModel commentModel : listCommentsModel) {
+
+            // Nếu đã lấy đủ số lượng comments tiếp theo thì ra khỏi vòng lặp
+            if (i == quantityCommentToLoad) {
+                break;
+            }
+
+            // Bỏ qua những comments đã load
+            if (i < quantityCommentLoaded) {
+                i++;
+                continue;
+            }
+
+            i++;
+
+            //Duyệt user tương ứng để lấy ra thông tin user bình luận
+            UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
+            commentModel.setUserComment(tempUser);
+            //End duyệt user tương ứng để lấy ra thông tin user bình luận
+
+            //Kích hoạt interface
+            roomCommentModelInterface.getListRoomComments(commentModel);
+        }
+        //End Thêm danh sách bình luận của phòng trọ
+
+        // Ẩn progress bar load more.
+        roomCommentModelInterface.setProgressBarLoadMore();
     }
 
     public void addComment(CommentModel newCommentModel, String roomId, IRoomCommentModel iRoomCommentModel) {
@@ -264,6 +326,30 @@ public class CommentModel implements Parcelable { // Linh thêm
                     iRoomCommentModel.makeToast("Đăng bình luận thành công");
                     iRoomCommentModel.setView();
                 }
+            }
+        });
+    }
+
+    public void sortListComments(List<CommentModel> listComments) {
+        Collections.sort(listComments, new Comparator<CommentModel>() {
+            @Override
+            public int compare(CommentModel commentModel1, CommentModel commentModel2) {
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date date1 = null;
+                try {
+                    date1 = df.parse(commentModel1.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Date date2 = null;
+                try {
+                    date2 = df.parse(commentModel2.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                return date2.compareTo(date1);
             }
         });
     }

@@ -4,7 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!--Processbar-->
+    <ProgressBar
+        android:layout_marginTop="20dp"
+        android:id="@+id/progress_bar_all_comments_detail_room"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <!--End Processbar-->
+
     <LinearLayout
+        android:id="@+id/lnLt_top_all_comments_detail_room"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -184,6 +193,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lnLt_quantity_top_all_comments_detail_room"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorResultTop"
@@ -199,7 +209,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/txt_quantity_all_comments_room_detail"
+            android:id="@+id/txt_quantity_all_comments_detail_room"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -208,6 +218,7 @@
     </LinearLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_all_comments_detail_room"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -226,6 +237,16 @@
                 android:gravity="center">
 
             </android.support.v7.widget.RecyclerView>
+
+            <!--Processbar-->
+            <ProgressBar
+                android:id="@+id/progress_bar_load_more_all_comments_detail_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"/>
+            <!--End Processbar-->
 
         </LinearLayout>
 

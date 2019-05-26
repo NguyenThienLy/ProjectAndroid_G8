@@ -2,8 +2,12 @@ package com.example.designapptest.Controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +32,12 @@ public class CommentController {
     CommentModel commentModel;
     Context context;
     String UID;
-    static List<CommentModel> myListRoomComments = new ArrayList<>();
-    static AdapterRecyclerComment myAdapterRecyclerComment = null;
-    static TextView myTxtQuantityMyComments = null;
 
-    public CommentController(Context context,  String UID) {
+    // khai báo các biến liên quan tới load more.
+    int quantityCommentsLoaded = 0;
+    int quantityCommentsEachTime = 4;
+
+    public CommentController(Context context, String UID) {
         this.context = context;
         this.commentModel = new CommentModel();
         this.UID = UID;
@@ -40,7 +45,9 @@ public class CommentController {
 
     public void ListRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel, TextView txtRoomGreatReview,
                                  TextView txtRoomPrettyGoodReview, TextView txtRoomMediumReview, TextView txtRoomBadReview,
-                                 TextView txtQuantityAllComments) {
+                                 LinearLayout lnLtTopAllComments, ProgressBar progressBarAllComments,
+                                 LinearLayout lnLyQuantityTopAllComments, TextView txtQuantityAllComments,
+                                 NestedScrollView nestedScrollAllComments, ProgressBar progressBarLoadMoreAllComments) {
         final List<CommentModel> commentModelList = new ArrayList<CommentModel>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -60,30 +67,13 @@ public class CommentController {
                 //Thêm vào trong danh sách bình luận
                 commentModelList.add(valueComment);
 
-                if (valueComment.getUser().equals(UID)) {
-                    myListRoomComments.add(valueComment);
-                    sortListComments(myListRoomComments);
-                }
-
-                sortListComments(commentModelList);
+                //sortListComments(commentModelList);
 
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerComment.notifyDataSetChanged();
-                // Set số lượng hiển thị
-                txtQuantityAllComments.setText(commentModelList.size() + "");
 
-                if (myAdapterRecyclerComment != null) {
-                    myAdapterRecyclerComment.notifyDataSetChanged();
-
-                    // Hiển thị số lượng trả về
-                    myTxtQuantityMyComments.setText(String.valueOf(myListRoomComments.size()));
-                }
-            }
-
-            @Override
-            public void refreshListRoomComments() {
-                commentModelList.clear();
-                myListRoomComments.clear();
+                // set view
+                progressBarAllComments.setVisibility(View.GONE);
             }
 
             @Override
@@ -93,10 +83,17 @@ public class CommentController {
 
             @Override
             public void setView() {
+
+            }
+
+            @Override
+            public void setLinearLayoutTopAllComments(List<CommentModel> listCommentsModel) {
+                lnLtTopAllComments.setVisibility(View.VISIBLE);
+
                 // Load số lượng bình luận thuộc từng loại điểm
                 long great, prettyGood, medium, bad;
                 great = prettyGood = medium = bad = 0;
-                for(CommentModel commentModel : commentModelList) {
+                for (CommentModel commentModel : listCommentsModel) {
                     long stars = commentModel.getStars();
 
                     if (stars < 4) {
@@ -116,62 +113,146 @@ public class CommentController {
                 txtRoomGreatReview.setText(great + "");
                 // End load số lượng bình luận thuộc từng loại điểm
             }
+
+            @Override
+            public void setProgressBarLoadMore() {
+                progressBarLoadMoreAllComments.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void setQuantityComments(int quantity) {
+                lnLyQuantityTopAllComments.setVisibility(View.VISIBLE);
+                // Set số lượng hiển thị
+                txtQuantityAllComments.setText(quantity + "");
+            }
         };
 
+        nestedScrollAllComments.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView nestedScrollView, int i, int i1, int i2, int i3) {
+                // check xem có scroll đc ko
+                View child = nestedScrollView.getChildAt(0);
+                if (child != null) {
+                    int childHeight = child.getHeight();
+                    // Nếu scroll đc
+                    if (nestedScrollView.getHeight() < childHeight + nestedScrollView.getPaddingTop() + nestedScrollView.getPaddingBottom()) {
+                        View lastItemView = nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
+
+                        if (lastItemView != null) {
+                            if (i1 >= lastItemView.getMeasuredHeight() - nestedScrollView.getMeasuredHeight()) {
+                                // Hiển thị progress bar
+                                progressBarLoadMoreAllComments.setVisibility(View.VISIBLE);
+
+                                quantityCommentsLoaded += quantityCommentsEachTime;
+                                commentModel.getListRoomComments(iRoomCommentsModel, roomModel,
+                                        quantityCommentsLoaded + quantityCommentsEachTime, quantityCommentsLoaded);
+                            }
+                        }
+                    }
+                }
+            }
+
+        });
+
         //Gọi hàm lấy dữ liệu trong model
-        commentModel.ListRoomComments(iRoomCommentsModel, roomModel);
+        commentModel.getListRoomComments(iRoomCommentsModel, roomModel,
+                quantityCommentsLoaded + quantityCommentsEachTime, quantityCommentsLoaded);
     }
 
-    public void ListMyRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel, TextView txtQuantityMyComments) {
-//        final List<CommentModel> commentModelList = new ArrayList<CommentModel>();
+    public void ListMyRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel, ProgressBar progressBarMyComments,
+                                   LinearLayout lnLyQuantityTopMyComments, TextView txtQuantityMyComments,
+                                   NestedScrollView nestedScrollMyComments, ProgressBar progressBarLoadMoreMyComments) {
+        final List<CommentModel> myCommentModelList = new ArrayList<CommentModel>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerRoomComments.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
         final AdapterRecyclerComment adapterRecyclerComment = new AdapterRecyclerComment(context,
-                R.layout.comment_element_grid_room_detail_view, myListRoomComments, roomModel.getRoomID(),
+                R.layout.comment_element_grid_room_detail_view, myCommentModelList, roomModel.getRoomID(),
                 UID, true);
         //Cài adapter cho recycle
         recyclerRoomComments.setAdapter(adapterRecyclerComment);
 
-        myAdapterRecyclerComment = adapterRecyclerComment;
-        myTxtQuantityMyComments = txtQuantityMyComments;
-        // Hiển thị kết quả trả về
-        myTxtQuantityMyComments.setText(String.valueOf(myListRoomComments.size()));
-
         //Tạo interface để truyền dữ liệu lên từ model
-//        IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {
-//            @Override
-//            public void getListRoomComments(CommentModel valueComment) {
-//                //Thêm vào trong danh sách bình luận
-//                commentModelList.add(valueComment);
-//
-//                sortListComments(commentModelList);
-//
-//                //Thông báo là đã có thêm dữ liệu
-//                adapterRecyclerComment.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void refreshListRoomComments() {
-//                commentModelList.clear();
-//            }
-//        };
+        IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {
+            @Override
+            public void getListRoomComments(CommentModel valueComment) {
+                //Thêm vào trong danh sách bình luận
+                myCommentModelList.add(valueComment);
+
+                //sortListComments(myCommentModelList);
+
+                //Thông báo là đã có thêm dữ liệu
+                adapterRecyclerComment.notifyDataSetChanged();
+
+                // set view
+                progressBarMyComments.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void makeToast(String message) {
+
+            }
+
+            @Override
+            public void setView() {
+
+            }
+
+            @Override
+            public void setLinearLayoutTopAllComments(List<CommentModel> listCommentsModel) {
+
+            }
+
+            @Override
+            public void setProgressBarLoadMore() {
+                progressBarLoadMoreMyComments.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void setQuantityComments(int quantity) {
+                lnLyQuantityTopMyComments.setVisibility(View.VISIBLE);
+                // Set số lượng hiển thị
+                txtQuantityMyComments.setText(quantity + "");
+            }
+        };
+
+        nestedScrollMyComments.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView nestedScrollView, int i, int i1, int i2, int i3) {
+                // check xem có scroll đc ko
+                View child = nestedScrollView.getChildAt(0);
+                if (child != null) {
+                    int childHeight = child.getHeight();
+                    // Nếu scroll đc
+                    if (nestedScrollView.getHeight() < childHeight + nestedScrollView.getPaddingTop() + nestedScrollView.getPaddingBottom()) {
+                        View lastItemView = nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
+
+                        if (lastItemView != null) {
+                            if (i1 >= lastItemView.getMeasuredHeight() - nestedScrollView.getMeasuredHeight()) {
+                                // Hiển thị progress bar
+                                progressBarLoadMoreMyComments.setVisibility(View.VISIBLE);
+
+                                quantityCommentsLoaded += quantityCommentsEachTime;
+                                commentModel.getListMyRoomComments(iRoomCommentsModel, roomModel, UID,
+                                        quantityCommentsLoaded + quantityCommentsEachTime, quantityCommentsLoaded);
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
         //Gọi hàm lấy dữ liệu trong model
-//        commentModel.ListMyRoomComments(iRoomCommentsModel, roomModel, sharedPreferences);
+        commentModel.getListMyRoomComments(iRoomCommentsModel, roomModel, UID,
+                quantityCommentsLoaded + quantityCommentsEachTime, quantityCommentsLoaded);
     }
 
     public void addComment(CommentModel newCommentModel, String roomId, TextView txtTitle, TextView txtContent) {
         IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {
             @Override
             public void getListRoomComments(CommentModel valueComment) {
-
-            }
-
-            @Override
-            public void refreshListRoomComments() {
 
             }
 
@@ -185,11 +266,27 @@ public class CommentController {
                 txtTitle.setText("");
                 txtContent.setText("");
             }
+
+            @Override
+            public void setLinearLayoutTopAllComments(List<CommentModel> listCommentsModel) {
+
+            }
+
+            @Override
+            public void setProgressBarLoadMore() {
+
+            }
+
+            @Override
+            public void setQuantityComments(int quantity) {
+
+            }
         };
 
         commentModel.addComment(newCommentModel, roomId, iRoomCommentsModel);
     }
 
+    // detail room dùng
     public void sortListComments(List<CommentModel> listComments) {
         Collections.sort(listComments, new Comparator<CommentModel>() {
             @Override

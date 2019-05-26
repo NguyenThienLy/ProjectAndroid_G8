@@ -78,13 +78,15 @@ public class commentAndRateMain extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int i) {
-//                if (i == 1) {
-//                    commentAndRateStep2 fragment = (commentAndRateStep2) adapterViewPagerCommentAndRate.getItem(i);
-//                    fragment.setAdapter();
-//                } else if (i == 2) {
-//                    commentAndRateStep3 fragment = (commentAndRateStep3) adapterViewPagerCommentAndRate.getItem(i);
-//                    fragment.setAdapter();
-//                }
+                if (i == 1) {
+                    commentAndRateStep2 fragment = (commentAndRateStep2) adapterViewPagerCommentAndRate.getItem(i);
+                    fragment.setView();
+                    fragment.setAdapter();
+                } else if (i == 2) {
+                    commentAndRateStep3 fragment = (commentAndRateStep3) adapterViewPagerCommentAndRate.getItem(i);
+                    fragment.setView();
+                    fragment.setAdapter();
+                }
             }
 
             @Override

@@ -11,6 +11,7 @@ import com.example.designapptest.Controller.Interfaces.ISearchRoomModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.Model.SearchRoomModel;
 import com.example.designapptest.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,10 @@ public class DetailRoomController {
     Context context;
     SearchRoomModel searchRoomModel;
     String UID;
+
+    // khai báo các biến liên quan tới load more.
+    int quantityRoomsLoaded = 0;
+    int quantityRoomsEachTime = 4;
 
     public DetailRoomController(Context context, String district, List<myFilter> filterList, String UID) {
         this.context = context;
@@ -51,6 +56,9 @@ public class DetailRoomController {
                     if(CurrentRoomID.equals(roomModel.getRoomID())){
                         //Do nothing
                     }else {
+                        // Load ảnh nén
+                        roomModel.setCompressionImageFit(Picasso.get().load(roomModel.getCompressionImage()).fit());
+
                         roomModelList.add(roomModel);
                         //Thông báo thay đổi dữ liệu
                         adapterRecyclerMainRoom.notifyDataSetChanged();
@@ -60,9 +68,20 @@ public class DetailRoomController {
 
                 }
             }
+
+            @Override
+            public void setProgressBarLoadMore() {
+
+            }
+
+            @Override
+            public void setQuantityTop(int quantity) {
+
+            }
         };
 
         //Thêm sự kiện listenner cho noderoot
-        searchRoomModel.searchRoom(searchRoomModelInterface);
+        searchRoomModel.searchRoom(searchRoomModelInterface,
+                quantityRoomsLoaded + quantityRoomsEachTime, quantityRoomsLoaded);
     }
 }
