@@ -1,37 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        android:layout_height="180dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/bg_jpg_banner_4"
+            android:scaleType="fitXY"/>
+        <RelativeLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_circle_avatar_personal_page"
+            android:padding="2dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp">
+            <com.example.designapptest.ClassOther.ImageConverter
+                android:id="@+id/img_avt_personal_page"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/avt_jpg_personal"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:orientation="vertical">
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/stringTitleAccount"
-                android:textSize="12pt" />
-            <Button
-                android:id="@+id/btn_edit_account"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stringButtonEditInfoAccount" />
-            <Button
-                android:id="@+id/btn_my_Room"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Phòng của tôi" />
-            <Button
-                android:id="@+id/btn_my_favorite_room"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Phòng trọ yêu thích" />
-        </LinearLayout>
-    </RelativeLayout>
-
+            android:gravity="center"
+            android:text="Trần Hạo Nam"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginTop="0dp"
+            android:textSize="18sp" />
+        <Button
+            android:layout_marginTop="10dp"
+            android:id="@+id/btn_edit_account"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="Chỉnh sửa"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:background="#17A2B8"
+            android:paddingLeft="70dp"
+            android:paddingRight="95dp"
+            android:drawableLeft="@drawable/ic_svg_repair_100" />
+        <Button
+            android:id="@+id/btn_my_Room"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="Phòng của tôi"
+            android:layout_marginTop="10dp"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:background="#6F42C1"
+            android:paddingLeft="70dp"
+            android:paddingRight="75dp"
+            android:drawableLeft="@drawable/ic_svg_room_100"/>
+        <Button
+            android:id="@+id/btn_my_favorite_room"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            android:text="Phòng yêu thích"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:background="#FF6347"
+            android:paddingLeft="70dp"
+            android:paddingRight="60dp"
+            android:drawableLeft="@drawable/ic_svg_heart_100"/>
+    </LinearLayout>
 </LinearLayout>

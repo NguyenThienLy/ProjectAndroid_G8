@@ -7,14 +7,15 @@
 
     <ImageView
         android:id="@+id/img_utility_room_detail"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_svg_aircondition_100" />
 
     <TextView
         android:id="@+id/txt_nameUtility_utility_room_detail"
         android:layout_width="100dp"
+        android:layout_marginTop="5dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Máy lạnh"

@@ -576,6 +576,7 @@ public class RoomModel implements Parcelable { // Linh thêm
         mainRoomModelInterface.setProgressBarLoadMore();
     }
 
+
     @Override
     public int describeContents() {
         return 0;
