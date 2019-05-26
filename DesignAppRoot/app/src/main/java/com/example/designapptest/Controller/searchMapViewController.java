@@ -15,6 +15,7 @@ import com.example.designapptest.R;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapMarker;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -91,6 +92,7 @@ public class searchMapViewController {
             @Override
             public void getListRoom(RoomModel valueRoom) {
                 i++;
+                valueRoom.setCompressionImageFit(Picasso.get().load(valueRoom.getCompressionImage()).fit());
                 roomModelList.add(valueRoom);
                 adapterRecyclerMainRoom.notifyDataSetChanged();
                 if(i==listRoomID.size()){

@@ -2,7 +2,6 @@ package com.example.designapptest.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
@@ -21,7 +20,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -129,6 +127,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
 
         //Download ảnh dùng picaso cho đỡ lag, dùng thuộc tính fit() để giảm dung lượng xuống thấp nhất có thể
+        //Picasso.get().load(roomModel.getCompressionImage()).fit().centerCrop().into(viewHolder.imgRoom);
         roomModel.getCompressionImageFit().centerCrop().into(viewHolder.imgRoom);
 //        Picasso.get().load(roomModel.getCompressionImage()).fit().centerCrop().into(viewHolder.imgRoom);
         //Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/findroomforrent-5bea0.appspot.com/o/Images%2Freceived-405711336891277_1555296117.jpg?alt=media&token=c27bd472-7a97-47dc-9f48-706b202929ce").into(viewHolder.imgRoom);
