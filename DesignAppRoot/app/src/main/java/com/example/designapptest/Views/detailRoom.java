@@ -159,7 +159,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
         // Set trọ yêu thích ?
         menuItemFavorite.setIcon(R.drawable.ic_favorite_border_white);
-        for (String roomId : RoomModel.myFavoriteRooms) {
+        for (String roomId : RoomModel.ListFavoriteRoomsID) {
             if (roomId.equals(roomModel.getRoomID())) {
                 menuItemFavorite.setIcon(R.drawable.ic_favorite_full_white);
                 break;

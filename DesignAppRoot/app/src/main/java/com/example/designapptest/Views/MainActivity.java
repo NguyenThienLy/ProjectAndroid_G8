@@ -8,12 +8,14 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -36,18 +38,22 @@ public class MainActivity extends Fragment {
     ProgressBar progressBarMain;
     //End Qui thêm vào
 
+    // Linh thêm
+    NestedScrollView nestedScrollMainView;
+    Button btnLoadMoreVerifiedRooms;
+    ProgressBar progressBarLoadMoreGridMainRoom;
+    // End Linh thêm
+
    // GridView grVRoom;
     GridView grVLocation;
 
     EditText edTSearch;
 
     //Them vao de test
-     FusedLocationProviderClient client;
+    FusedLocationProviderClient client;
 
     SharedPreferences sharedPreferences;
     String UID;
-
-    Toolbar toolbar;
 
     CollapsingToolbarLayout collapsingToolbarLayout;
 
@@ -74,17 +80,22 @@ public class MainActivity extends Fragment {
         initControl();
 
         clickSearchRoom();
+        clickLoadMoreVerifiedRooms();
 
         return layout;
     }
 
     private void initControl() {
-
         grVLocation = (GridView) layout.findViewById(R.id.grV_location);
-
 
         edTSearch = (EditText) layout.findViewById(R.id.edT_search);
 
+        // Linh thêm
+        nestedScrollMainView = (NestedScrollView) layout.findViewById(R.id.nested_scroll_main_view);
+        btnLoadMoreVerifiedRooms = (Button) layout.findViewById(R.id.btn_load_more_verified_rooms);
+        progressBarLoadMoreGridMainRoom = (ProgressBar) layout.findViewById(R.id.progress_bar_grid_main_rooms);
+        progressBarLoadMoreGridMainRoom.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
 
         //Qui them vào
         recyclerMainRoom = (RecyclerView)layout.findViewById(R.id.recycler_Main_Room);
@@ -92,7 +103,15 @@ public class MainActivity extends Fragment {
         progressBarMain = (ProgressBar)layout.findViewById(R.id.Progress_Main);
         progressBarMain.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
                 android.graphics.PorterDuff.Mode.MULTIPLY);
+    }
 
+    private void setView() {
+        // Hiển thị progress bar main
+        progressBarMain.setVisibility(View.VISIBLE);
+        // Ẩn nút Xem thêm phòng đã xác nhận
+        btnLoadMoreVerifiedRooms.setVisibility(View.GONE);
+        // Ẩn progress bar load more grid main rooms
+        progressBarLoadMoreGridMainRoom.setVisibility(View.GONE);
     }
 
     private void requestPermission(){
@@ -111,15 +130,29 @@ public class MainActivity extends Fragment {
         });
     }
 
+    private void clickLoadMoreVerifiedRooms() {
+        btnLoadMoreVerifiedRooms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentVerifiedRooms = new Intent(getContext(), verifiedRoomsView.class);
+                startActivity(intentVerifiedRooms);
+            }
+        });
+    }
+
     //Load dữ liệu vào List danh sách trong lần đầu chạy
     @Override
     public void onStart() {
         super.onStart();
 
+        setView();
+
+        // detail room dùng
         RoomModel.getListFavoriteRoomsId(UID);
 
         mainActivityController = new MainActivityController(getContext(), UID);
-        mainActivityController.ListMainRoom(recyclerMainRoom,recyclerGridMainRoom,progressBarMain);
+        mainActivityController.ListMainRoom(recyclerMainRoom, recyclerGridMainRoom, progressBarMain,
+                nestedScrollMainView, btnLoadMoreVerifiedRooms, progressBarLoadMoreGridMainRoom);
 
         //Load top địa điểm nhiều phòng
         mainActivityController.loadTopLocation(grVLocation);

@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -28,6 +30,7 @@ import com.example.designapptest.Model.LocationModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 import com.example.designapptest.Views.locationAdapter;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,10 +46,11 @@ public class MainActivityController {
     LocationModel locationModel;
     String UID;
 
-    // Khai báo static để lấy dữ liệu từ roomModelList
-    static List<RoomModel> favoriteRoomsList = new ArrayList<>();
-    static AdapterRecyclerMainRoom myAdapterRecyclerFavoriteRoom = null;
-    static TextView myTxtQuantityFavoriteRooms = null;
+    // khai báo các biến liên quan tới load more.
+    int quantityGridMainRoomLoaded = 0;
+    int quantityGridMainRoomEachTime = 4;
+    int quantityVerifiedRoomLoaded = 0;
+    int quantityVerifiedRoomEachTime = 4;
 
     public MainActivityController(Context context, String UID) {
         this.context = context;
@@ -55,7 +59,9 @@ public class MainActivityController {
         this.UID = UID;
     }
 
-    public void ListMainRoom(RecyclerView recyclerMainRoom, RecyclerView recyclerViewGridMainRoom, final ProgressBar progressBarMain) {
+    public void ListMainRoom(RecyclerView recyclerMainRoom, RecyclerView recyclerViewGridMainRoom, final ProgressBar progressBarMain,
+                             NestedScrollView nestedScrollMainView, Button btnLoadMoreVerifiedRooms,
+                             ProgressBar progressBarLoadMoreGridMainRoom) {
         final List<RoomModel> roomModelList = new ArrayList<>();
         final List<RoomModel> roomModelListAuthentication = new ArrayList<>();
 
@@ -83,33 +89,14 @@ public class MainActivityController {
         IMainRoomModel iMainRoomModel = new IMainRoomModel() {
             @Override
             public void getListMainRoom(RoomModel valueRoom) {
+                // Load ảnh nén
+                valueRoom.setCompressionImageFit(Picasso.get().load(valueRoom.getCompressionImage()).fit());
+
                 //Thêm vào trong danh sách trọ
                 roomModelList.add(valueRoom);
 
-                // Lấy dữ liệu cho favorite rooms
-                for (String favoriteRoomId : RoomModel.myFavoriteRooms) {
-                    if (favoriteRoomId.equals(valueRoom.getRoomID())) {
-                        favoriteRoomsList.add(valueRoom);
-                        break;
-                    }
-                }
-
                 adapterRecyclerGridMainRoom.notifyDataSetChanged();
                 progressBarMain.setVisibility(View.GONE);
-
-                // Xử lí cho favorite rooms khi node root có thay đổi
-                if (myAdapterRecyclerFavoriteRoom != null) {
-                    myAdapterRecyclerFavoriteRoom.notifyDataSetChanged();
-                    sortFavoriteRoomsList();
-
-                    // Hiển thị số lượng trả về
-                    myTxtQuantityFavoriteRooms.setText(String.valueOf(favoriteRoomsList.size()));
-                }
-            }
-
-            @Override
-            public void refreshListFavoriteRoom() {
-                favoriteRoomsList.clear();
             }
 
             @Override
@@ -121,11 +108,30 @@ public class MainActivityController {
             public void setIconFavorite(int iconRes) {
 
             }
+
+            @Override
+            public void setButtonLoadMoreVerifiedRooms() {
+
+            }
+
+            @Override
+            public void setProgressBarLoadMore() {
+                // Ẩn progress bar load more
+                progressBarLoadMoreGridMainRoom.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void setQuantityTop(int quantity) {
+
+            }
         };
 
         IMainRoomModel iMainRoomModelAuthentication = new IMainRoomModel() {
             @Override
             public void getListMainRoom(RoomModel valueRoom) {
+                // Load ảnh nén
+                valueRoom.setCompressionImageFit(Picasso.get().load(valueRoom.getCompressionImage()).fit());
+
                 //Thêm vào trong danh sách trọ
                 roomModelListAuthentication.add(valueRoom);
 
@@ -134,11 +140,6 @@ public class MainActivityController {
             }
 
             @Override
-            public void refreshListFavoriteRoom() {
-
-            }
-
-            @Override
             public void makeToast(String message) {
 
             }
@@ -147,11 +148,58 @@ public class MainActivityController {
             public void setIconFavorite(int iconRes) {
 
             }
+
+            @Override
+            public void setButtonLoadMoreVerifiedRooms() {
+                // Hiển thị nút Xem thêm phòng đã xác nhận
+                btnLoadMoreVerifiedRooms.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void setProgressBarLoadMore() {
+
+            }
+
+            @Override
+            public void setQuantityTop(int quantity) {
+
+            }
+
         };
 
-        //Gọi hàm lấy dữ liệu trong model
-        roomModel.ListRoom(iMainRoomModel);
-        roomModel.getAuthenticationRooms(iMainRoomModelAuthentication);
+        // Gọi hàm lấy dữ liệu khi scroll xuống đáy.
+        nestedScrollMainView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView nestedScrollView, int i, int i1, int i2, int i3) {
+                // check xem có scroll đc ko
+                View child = nestedScrollView.getChildAt(0);
+                if (child != null) {
+                    int childHeight = child.getHeight();
+                    // Nếu scroll đc
+                    if (nestedScrollView.getHeight() < childHeight + nestedScrollView.getPaddingTop() + nestedScrollView.getPaddingBottom()) {
+                        View lastItemView = nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
+
+                        if (lastItemView != null) {
+                            if (i1 >= lastItemView.getMeasuredHeight() - nestedScrollView.getMeasuredHeight()) {
+                                // Hiển thị progress bar
+                                progressBarLoadMoreGridMainRoom.setVisibility(View.VISIBLE);
+
+                                quantityGridMainRoomLoaded += quantityGridMainRoomEachTime;
+                                roomModel.ListRoom(iMainRoomModel, quantityGridMainRoomLoaded,
+                                        quantityGridMainRoomLoaded - quantityGridMainRoomEachTime);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        //Gọi hàm lấy dữ liệu trong model.
+        roomModel.ListRoom(iMainRoomModel, quantityGridMainRoomLoaded + quantityGridMainRoomEachTime,
+                quantityGridMainRoomLoaded);
+        quantityGridMainRoomLoaded += quantityGridMainRoomEachTime;
+
+        roomModel.getListAuthenticationRoomsAtMainView(iMainRoomModelAuthentication, 5);
     }
 
     // Hàm kiểm tra danh sách tiện nghi
@@ -179,10 +227,11 @@ public class MainActivityController {
     }
 
 
-    public void ListRoomUser(RecyclerView recyclerMainRoom) {
+    public void ListRoomUser(RecyclerView recyclerMainRoom, TextView txtQuantity, ProgressBar progressBarMyRooms,
+                             LinearLayout lnLtQuantityTopMyRooms, NestedScrollView nestedScrollMyRoomsView,
+                             ProgressBar progressBarLoadMoreMyRooms) {
         final List<RoomModel> roomModelList = new ArrayList<>();
 
-        Log.d("mycheck", "getListMainRoom: ");
         //Tạo layout cho danh sách trọ tìm kiếm nhiều nhất
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerMainRoom.setLayoutManager(layoutManager);
@@ -196,16 +245,16 @@ public class MainActivityController {
         IMainRoomModel iMainRoomModel = new IMainRoomModel() {
             @Override
             public void getListMainRoom(RoomModel valueRoom) {
+                // Load ảnh nén
+                valueRoom.setCompressionImageFit(Picasso.get().load(valueRoom.getCompressionImage()).fit());
+
                 //Thêm vào trong danh sách trọ
                 roomModelList.add(valueRoom);
-                Log.d("mycheck", "getListMainRoom: ");
+
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerMainRoom.notifyDataSetChanged();
-            }
 
-            @Override
-            public void refreshListFavoriteRoom() {
-
+                progressBarMyRooms.setVisibility(View.GONE);
             }
 
             @Override
@@ -217,10 +266,56 @@ public class MainActivityController {
             public void setIconFavorite(int iconRes) {
 
             }
+
+            @Override
+            public void setButtonLoadMoreVerifiedRooms() {
+
+            }
+
+            @Override
+            public void setProgressBarLoadMore() {
+                progressBarLoadMoreMyRooms.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void setQuantityTop(int quantity) {
+                lnLtQuantityTopMyRooms.setVisibility(View.VISIBLE);
+                // Hiển thị kết quả trả về
+                txtQuantity.setText(quantity + "");
+            }
         };
 
+        nestedScrollMyRoomsView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView nestedScrollView, int i, int i1, int i2, int i3) {
+                // check xem có scroll đc ko
+                View child = nestedScrollView.getChildAt(0);
+                if (child != null) {
+                    int childHeight = child.getHeight();
+                    // Nếu scroll đc
+                    if (nestedScrollView.getHeight() < childHeight + nestedScrollView.getPaddingTop() + nestedScrollView.getPaddingBottom()) {
+                        View lastItemView = nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
+
+                        if (lastItemView != null) {
+                            if (i1 >= lastItemView.getMeasuredHeight() - nestedScrollView.getMeasuredHeight()) {
+                                // Hiển thị progress bar
+                                progressBarLoadMoreMyRooms.setVisibility(View.VISIBLE);
+
+                                quantityVerifiedRoomLoaded += quantityVerifiedRoomEachTime;
+                                roomModel.ListRoomUser(iMainRoomModel, UID,
+                                        quantityVerifiedRoomLoaded + quantityVerifiedRoomEachTime,
+                                        quantityVerifiedRoomLoaded);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
         //Gọi hàm lấy dữ liệu trong model
-        roomModel.ListRoomUser(iMainRoomModel, UID);
+        roomModel.ListRoomUser(iMainRoomModel, UID,
+                quantityVerifiedRoomLoaded + quantityVerifiedRoomEachTime,
+                quantityVerifiedRoomLoaded);
     }
 
     public void loadTopLocation(GridView grVLocation) {
@@ -246,25 +341,112 @@ public class MainActivityController {
         locationModel.topLocation(iLocationModel);
     }
 
-    public void getListFavoriteRooms(RecyclerView recyclerFavoriteRoom, TextView txtQuantity) {
-//        final List<RoomModel> roomModelList = new ArrayList<>();
+    public void getListVerifiedRooms(RecyclerView recyclerVerifiedRoom, TextView txtQuantity, ProgressBar progressBarVerifiedRooms,
+                                     LinearLayout lnLtQuantityTopVerifiedRooms, NestedScrollView nestedScrollVerifiedRoomsView,
+                                     ProgressBar progressBarLoadMoreVerifiedRooms) {
+        final List<RoomModel> verifiedRoomsList = new ArrayList<>();
+
+        //Tạo layout cho danh sách trọ đã xác nhận
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        recyclerVerifiedRoom.setLayoutManager(layoutManager);
+
+        //Tạo adapter cho recycle view
+        final AdapterRecyclerMainRoom adapterRecyclerVerifiedRoom = new AdapterRecyclerMainRoom(context, verifiedRoomsList, R.layout.room_element_list_view, UID);
+        //Cài adapter cho recycle
+        recyclerVerifiedRoom.setAdapter(adapterRecyclerVerifiedRoom);
+        //End tạo layout cho danh sách trọ đã xác nhận
+
+        //Tạo interface để truyền dữ liệu lên từ model
+        IMainRoomModel iMainRoomModel = new IMainRoomModel() {
+            @Override
+            public void getListMainRoom(RoomModel valueRoom) {
+                // Load ảnh nén
+                valueRoom.setCompressionImageFit(Picasso.get().load(valueRoom.getCompressionImage()).fit());
+
+                //Thêm vào trong danh sách trọ
+                verifiedRoomsList.add(valueRoom);
+
+                //Thông báo là đã có thêm dữ liệu
+                adapterRecyclerVerifiedRoom.notifyDataSetChanged();
+
+                progressBarVerifiedRooms.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void makeToast(String message) {
+
+            }
+
+            @Override
+            public void setIconFavorite(int iconRes) {
+
+            }
+
+            @Override
+            public void setButtonLoadMoreVerifiedRooms() {
+
+            }
+
+            @Override
+            public void setProgressBarLoadMore() {
+                // Ẩn progress bar load more
+                progressBarLoadMoreVerifiedRooms.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void setQuantityTop(int quantity) {
+                lnLtQuantityTopVerifiedRooms.setVisibility(View.VISIBLE);
+                // Hiển thị kết quả trả về
+                txtQuantity.setText(quantity + "");
+            }
+        };
+
+        nestedScrollVerifiedRoomsView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView nestedScrollView, int i, int i1, int i2, int i3) {
+                // check xem có scroll đc ko
+                View child = nestedScrollView.getChildAt(0);
+                if (child != null) {
+                    int childHeight = child.getHeight();
+                    // Nếu scroll đc
+                    if (nestedScrollView.getHeight() < childHeight + nestedScrollView.getPaddingTop() + nestedScrollView.getPaddingBottom()) {
+                        View lastItemView = nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
+
+                        if (lastItemView != null) {
+                            if (i1 >= lastItemView.getMeasuredHeight() - nestedScrollView.getMeasuredHeight()) {
+                                // Hiển thị progress bar
+                                progressBarLoadMoreVerifiedRooms.setVisibility(View.VISIBLE);
+
+                                quantityVerifiedRoomLoaded += quantityVerifiedRoomEachTime;
+                                roomModel.getListAuthenticationRoomsAtVerifiedRoomsView(iMainRoomModel,
+                                        quantityVerifiedRoomLoaded + quantityVerifiedRoomEachTime, quantityVerifiedRoomLoaded);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        //Gọi hàm lấy dữ liệu trong model
+        roomModel.getListAuthenticationRoomsAtVerifiedRoomsView(iMainRoomModel,
+                quantityVerifiedRoomLoaded + quantityVerifiedRoomEachTime, quantityVerifiedRoomLoaded);
+    }
+
+    public void getListFavoriteRooms(RecyclerView recyclerFavoriteRoom, TextView txtQuantity, ProgressBar progressBarFavoriteRooms,
+                                     LinearLayout lnLtQuantityTopFavoriteRooms, NestedScrollView nestedScrollFavoriteRoomsView,
+                                     ProgressBar progressBarLoadMoreFavoriteRooms) {
+        final List<RoomModel> favoriteRoomsList = new ArrayList<>();
 
         //Tạo layout cho danh sách trọ yêu thích
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerFavoriteRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom = new AdapterRecyclerMainRoom(context, favoriteRoomsList, R.layout.room_element_list_view, UID);
+        final AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom = new AdapterRecyclerMainRoom(context, favoriteRoomsList,
+                R.layout.room_element_list_view, UID);
         //Cài adapter cho recycle
         recyclerFavoriteRoom.setAdapter(adapterRecyclerFavoriteRoom);
         //End tạo layout cho danh sách trọ yêu thích
-
-        myAdapterRecyclerFavoriteRoom = adapterRecyclerFavoriteRoom;
-        myTxtQuantityFavoriteRooms = txtQuantity;
-        // Hiển thị kết quả trả về
-        myTxtQuantityFavoriteRooms.setText(String.valueOf(favoriteRoomsList.size()));
-        // Sort
-        sortFavoriteRoomsList();
 
         //
         ColorDrawable swipeBackground = new ColorDrawable(Color.parseColor("#C03A2B"));
@@ -325,35 +507,84 @@ public class MainActivityController {
         //
 
         //Tạo interface để truyền dữ liệu lên từ model
-//        IMainRoomModel iMainRoomModel = new IMainRoomModel() {
-//            @Override
-//            public void getListMainRoom(RoomModel valueRoom) {
-//                //Thêm vào trong danh sách trọ
-//                roomModelList.add(valueRoom);
-//
-//                //Thông báo là đã có thêm dữ liệu
-//                adapterRecyclerFavoriteRoom.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void refreshListFavoriteRoom() {
-//                roomModelList.clear();
-//            }
-//        };
+        IMainRoomModel iMainRoomModel = new IMainRoomModel() {
+            @Override
+            public void getListMainRoom(RoomModel valueRoom) {
+                // Load ảnh nén
+                valueRoom.setCompressionImageFit(Picasso.get().load(valueRoom.getCompressionImage()).fit());
+
+                //Thêm vào trong danh sách trọ
+                favoriteRoomsList.add(valueRoom);
+
+                //Thông báo là đã có thêm dữ liệu
+                adapterRecyclerFavoriteRoom.notifyDataSetChanged();
+
+                progressBarFavoriteRooms.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void makeToast(String message) {
+
+            }
+
+            @Override
+            public void setIconFavorite(int iconRes) {
+
+            }
+
+            @Override
+            public void setButtonLoadMoreVerifiedRooms() {
+
+            }
+
+            @Override
+            public void setProgressBarLoadMore() {
+                // Ẩn progress bar load more.
+                progressBarLoadMoreFavoriteRooms.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void setQuantityTop(int quantity) {
+                lnLtQuantityTopFavoriteRooms.setVisibility(View.VISIBLE);
+                // Hiển thị kết quả trả về
+                txtQuantity.setText(quantity + "");
+            }
+        };
+
+        nestedScrollFavoriteRoomsView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView nestedScrollView, int i, int i1, int i2, int i3) {
+                // check xem có scroll đc ko
+                View child = nestedScrollView.getChildAt(0);
+                if (child != null) {
+                    int childHeight = child.getHeight();
+                    // Nếu scroll đc
+                    if (nestedScrollView.getHeight() < childHeight + nestedScrollView.getPaddingTop() + nestedScrollView.getPaddingBottom()) {
+                        View lastItemView = nestedScrollView.getChildAt(nestedScrollView.getChildCount() - 1);
+                        if (lastItemView != null) {
+                            if (i1 >= lastItemView.getMeasuredHeight() - nestedScrollView.getMeasuredHeight()) {
+                                // Hiển thị progress bar
+                                progressBarLoadMoreFavoriteRooms.setVisibility(View.VISIBLE);
+
+                                quantityVerifiedRoomLoaded += quantityVerifiedRoomEachTime;
+                                roomModel.getListFavoriteRooms(iMainRoomModel, UID,
+                                        quantityVerifiedRoomLoaded + quantityVerifiedRoomEachTime, quantityVerifiedRoomLoaded);
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
         //Gọi hàm lấy dữ liệu trong model
-//        roomModel.getListFavoriteRooms(iMainRoomModel, sharedPreferences);
+        roomModel.getListFavoriteRooms(iMainRoomModel, UID,
+                quantityVerifiedRoomLoaded + quantityVerifiedRoomEachTime, quantityVerifiedRoomLoaded);
     }
 
     public void addToFavoriteRooms(String roomId, Context context, MenuItem item) {
         IMainRoomModel iMainRoomModel = new IMainRoomModel() {
             @Override
             public void getListMainRoom(RoomModel valueRoom) {
-
-            }
-
-            @Override
-            public void refreshListFavoriteRoom() {
 
             }
 
@@ -365,6 +596,21 @@ public class MainActivityController {
             @Override
             public void setIconFavorite(int iconRes) {
                 item.setIcon(iconRes);
+            }
+
+            @Override
+            public void setButtonLoadMoreVerifiedRooms() {
+
+            }
+
+            @Override
+            public void setProgressBarLoadMore() {
+
+            }
+
+            @Override
+            public void setQuantityTop(int quantity) {
+
             }
         };
 
@@ -379,11 +625,6 @@ public class MainActivityController {
             }
 
             @Override
-            public void refreshListFavoriteRoom() {
-
-            }
-
-            @Override
             public void makeToast(String message) {
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             }
@@ -392,23 +633,38 @@ public class MainActivityController {
             public void setIconFavorite(int iconRes) {
                 item.setIcon(iconRes);
             }
+
+            @Override
+            public void setButtonLoadMoreVerifiedRooms() {
+
+            }
+
+            @Override
+            public void setProgressBarLoadMore() {
+
+            }
+
+            @Override
+            public void setQuantityTop(int quantity) {
+
+            }
         };
 
         roomModel.removeFromFavoriteRooms(roomId, iMainRoomModel, UID);
     }
 
-    private void sortFavoriteRoomsList() {
-        List<RoomModel> myTempList = new ArrayList<>(favoriteRoomsList);
-
-        favoriteRoomsList.clear();
-
-        for(int i = RoomModel.myFavoriteRooms.size() - 1; i >= 0; i--) {
-            for(RoomModel valueRoom : myTempList) {
-                if (valueRoom.getRoomID().equals(RoomModel.myFavoriteRooms.get(i))) {
-                    favoriteRoomsList.add(valueRoom);
-                    break;
-                }
-            }
-        }
-    }
+//    private void sortFavoriteRoomsList(List<RoomModel> favoriteRoomsList) {
+//        List<RoomModel> myTempList = new ArrayList<>(favoriteRoomsList);
+//
+//        favoriteRoomsList.clear();
+//
+//        for (int i = RoomModel.ListFavoriteRoomsID.size() - 1; i >= 0; i--) {
+//            for (RoomModel valueRoom : myTempList) {
+//                if (valueRoom.getRoomID().equals(RoomModel.ListFavoriteRoomsID.get(i))) {
+//                    favoriteRoomsList.add(valueRoom);
+//                    break;
+//                }
+//            }
+//        }
+//    }
 }

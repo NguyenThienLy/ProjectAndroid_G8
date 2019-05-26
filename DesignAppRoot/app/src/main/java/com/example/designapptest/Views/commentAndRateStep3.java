@@ -2,13 +2,17 @@ package com.example.designapptest.Views;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.designapptest.Controller.CommentController;
@@ -18,10 +22,15 @@ import com.example.designapptest.Views.commentAndRateMain;
 
 public class commentAndRateStep3  extends Fragment {
     TextView txtQuantityMyComments;
+    ProgressBar progressBarMyComments;
+    LinearLayout lnLyQuantityTopMyComments;
+
+    NestedScrollView nestedScrollMyComments;
+    ProgressBar progressBarLoadMoreMyComments;
 
     View viewCommentAndRateStep3;
 
-    RecyclerView recycler_my_comment_room_detail;
+    RecyclerView recyclerMyComments;
 
     RoomModel roomModel;
 
@@ -49,17 +58,43 @@ public class commentAndRateStep3  extends Fragment {
         return viewCommentAndRateStep3;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        setView();
+    }
+
     public commentAndRateStep3() {
 
     }
 
     private void initControl() {
-        recycler_my_comment_room_detail = (RecyclerView) viewCommentAndRateStep3.findViewById(R.id.recycler_my_comment_and_rate);
-        txtQuantityMyComments = (TextView) viewCommentAndRateStep3.findViewById(R.id.txt_quantity_my_comments_room_detail);
+        recyclerMyComments = (RecyclerView) viewCommentAndRateStep3.findViewById(R.id.recycler_my_comment_and_rate);
+
+        txtQuantityMyComments = (TextView) viewCommentAndRateStep3.findViewById(R.id.txt_quantity_my_comments_detail_room);
+        lnLyQuantityTopMyComments = (LinearLayout) viewCommentAndRateStep3.findViewById(R.id.lnLt_quantity_top_my_comments_detail_room);
+        progressBarMyComments = (ProgressBar) viewCommentAndRateStep3.findViewById(R.id.progress_bar_my_comments_detail_room);
+        progressBarMyComments.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
+
+        nestedScrollMyComments = (NestedScrollView) viewCommentAndRateStep3.findViewById(R.id.nested_scroll_my_comments_detail_room);
+        progressBarLoadMoreMyComments = (ProgressBar) viewCommentAndRateStep3.findViewById(R.id.progress_bar_load_more_my_comments_detail_room);
+        progressBarLoadMoreMyComments.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
+    }
+
+    public void setView() {
+        // set view
+        progressBarMyComments.setVisibility(View.VISIBLE);
+        lnLyQuantityTopMyComments.setVisibility(View.GONE);
+        progressBarLoadMoreMyComments.setVisibility(View.GONE);
     }
 
     public void setAdapter() {
         commentController = new CommentController((commentAndRateMain)this.getActivity(), UID);
-        commentController.ListMyRoomComments(recycler_my_comment_room_detail, roomModel, txtQuantityMyComments);
+        commentController.ListMyRoomComments(recyclerMyComments, roomModel, progressBarMyComments,
+                lnLyQuantityTopMyComments, txtQuantityMyComments,
+                nestedScrollMyComments, progressBarLoadMoreMyComments);
     }
 }

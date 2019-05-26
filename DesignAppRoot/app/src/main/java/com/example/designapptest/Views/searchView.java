@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -20,6 +21,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -44,13 +46,17 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
 
     CheckBox chBoxPrice,chBoxConvenient,chBoxType,chBoxNumber;
     RecyclerView recyclerFilter,recyclerSearchRoom;
-    TextView txtNumberRoom;
     Button btnsSubmit;
     EditText edTSearch;
     ImageButton btnDeleteAllFilter ;
     TextView txtCancel;
 
     ProgressBar progessBarLoad;
+    LinearLayout lnLtResultReturnSearchView;
+    TextView txtNumberRoom;
+
+    NestedScrollView nestedScrollSearchView;
+    ProgressBar progressBarLoadMoreSearchView;
 
     FrameLayout fragmentContainer;
 
@@ -140,13 +146,19 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
         txtNumberRoom =findViewById(R.id.txt_number_room);
         //Ẩn text
 
-        progessBarLoad = findViewById(R.id.progess_bar_load);
+        progessBarLoad = findViewById(R.id.progress_bar_search_view);
         //Đổi màu cho progessbar
         progessBarLoad.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
                 android.graphics.PorterDuff.Mode.MULTIPLY);
-
         //Ẩn lần đầu
         progessBarLoad.setVisibility(View.GONE);
+
+        lnLtResultReturnSearchView = (LinearLayout) findViewById(R.id.lnLt_resultReturn_search_view);
+
+        nestedScrollSearchView = (NestedScrollView) findViewById(R.id.nested_scroll_search_view);
+        progressBarLoadMoreSearchView = (ProgressBar) findViewById(R.id.progress_bar_load_more_search_view);
+        progressBarLoadMoreSearchView.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
 
         chBoxPrice=findViewById(R.id.chBox_price);
         chBoxConvenient=findViewById(R.id.chBox_convenient);
@@ -361,11 +373,14 @@ public class searchView extends AppCompatActivity implements View.OnClickListene
     private void callSearchRoomController(){
         //Hiện progess bar
         progessBarLoad.setVisibility(View.VISIBLE);
-        //Ẩn text
-        txtNumberRoom.setVisibility(View.GONE);
+        //Ẩn số lượng kết quả
+        lnLtResultReturnSearchView.setVisibility(View.GONE);
+        // Ẩn progress bar load more
+        progressBarLoadMoreSearchView.setVisibility(View.GONE);
 
         searchViewController controller = new searchViewController(this,district,filterList,UID);
-        controller.loadSearchRoom(recyclerSearchRoom,txtNumberRoom,progessBarLoad);
+        controller.loadSearchRoom(recyclerSearchRoom,txtNumberRoom,progessBarLoad,lnLtResultReturnSearchView,
+                nestedScrollSearchView, progressBarLoadMoreSearchView);
     }
 
     private void removeAllFilter(){

@@ -17,27 +17,27 @@ import android.widget.TextView;
 import com.example.designapptest.Controller.MainActivityController;
 import com.example.designapptest.R;
 
-public class favoriteRoomsView extends AppCompatActivity {
-    RecyclerView recyclerMyFavoriteRoom;
+public class verifiedRoomsView extends AppCompatActivity {
+    RecyclerView recyclerMyVerifiedRoom;
     MainActivityController mainActivityController;
     SharedPreferences sharedPreferences;
     String UID;
 
     Toolbar toolbar;
 
-    ProgressBar progressBarFavoriteRooms;
-    LinearLayout lnLtQuantityTopFavoriteRooms;
+    ProgressBar progressBarVerifiedRooms;
+    LinearLayout lnLtQuantityTopVerifiedRooms;
 
     // Số lượng trả về.
     TextView txtQuantity;
 
-    NestedScrollView nestedScrollFavoriteRoomsView;
-    ProgressBar progressBarLoadMoreFavoriteRooms;
+    NestedScrollView nestedScrollVerifiedRoomsView;
+    ProgressBar progressBarLoadMoreVerifiedRooms;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.favorite_rooms_view);
+        setContentView(R.layout.verified_rooms_view);
 
         sharedPreferences = getSharedPreferences(LoginView.PREFS_DATA_NAME, MODE_PRIVATE);
         UID = sharedPreferences.getString(LoginView.SHARE_UID, "n1oc76JrhkMB9bxKxwXrxJld3qH2");
@@ -46,30 +46,30 @@ public class favoriteRoomsView extends AppCompatActivity {
     }
 
     private void initControl() {
-        recyclerMyFavoriteRoom = (RecyclerView) findViewById(R.id.recycler_favorite_rooms);
+        recyclerMyVerifiedRoom = (RecyclerView) findViewById(R.id.recycler_verified_rooms);
 
         toolbar = findViewById(R.id.toolbar);
 
-        progressBarFavoriteRooms = (ProgressBar) findViewById(R.id.progress_bar_favorite_rooms);
-        progressBarFavoriteRooms.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+        progressBarVerifiedRooms = (ProgressBar) findViewById(R.id.progress_bar_verified_rooms);
+        progressBarVerifiedRooms.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
                 android.graphics.PorterDuff.Mode.MULTIPLY);
 
-        lnLtQuantityTopFavoriteRooms = (LinearLayout) findViewById(R.id.lnLt_quantity_top_favorite_rooms);
-        txtQuantity = (TextView) findViewById(R.id.txt_quantity_favorite_rooms);
+        lnLtQuantityTopVerifiedRooms = (LinearLayout) findViewById(R.id.lnLt_quantity_top_verified_rooms);
+        txtQuantity = (TextView) findViewById(R.id.txt_quantity_verified_rooms);
 
-        nestedScrollFavoriteRoomsView = (NestedScrollView) findViewById(R.id.nested_scroll_favorite_rooms_view);
-        progressBarLoadMoreFavoriteRooms = (ProgressBar) findViewById(R.id.progress_bar_load_more_favorite_rooms);
-        progressBarLoadMoreFavoriteRooms.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+        nestedScrollVerifiedRoomsView = (NestedScrollView) findViewById(R.id.nested_scroll_verified_rooms_view);
+        progressBarLoadMoreVerifiedRooms = (ProgressBar) findViewById(R.id.progress_bar_load_more_verified_rooms);
+        progressBarLoadMoreVerifiedRooms.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
                 android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     private void setView() {
-        // Hiện progress bar
-        progressBarFavoriteRooms.setVisibility(View.VISIBLE);
+        // Hiện progress bar.
+        progressBarVerifiedRooms.setVisibility(View.VISIBLE);
         // Ẩn progress bar load more.
-        progressBarLoadMoreFavoriteRooms.setVisibility(View.GONE);
-        // Ẩn thi kết quả trả vể.
-        lnLtQuantityTopFavoriteRooms.setVisibility(View.GONE);
+        progressBarLoadMoreVerifiedRooms.setVisibility(View.GONE);
+        // Ẩn layout kết quả trả vể.
+        lnLtQuantityTopVerifiedRooms.setVisibility(View.GONE);
     }
 
     @Override
@@ -81,15 +81,15 @@ public class favoriteRoomsView extends AppCompatActivity {
         setView();
 
         mainActivityController = new MainActivityController(this, UID);
-        mainActivityController.getListFavoriteRooms(recyclerMyFavoriteRoom, txtQuantity, progressBarFavoriteRooms,
-                lnLtQuantityTopFavoriteRooms, nestedScrollFavoriteRoomsView, progressBarLoadMoreFavoriteRooms);
+        mainActivityController.getListVerifiedRooms(recyclerMyVerifiedRoom, txtQuantity, progressBarVerifiedRooms,
+                lnLtQuantityTopVerifiedRooms, nestedScrollVerifiedRoomsView, progressBarLoadMoreVerifiedRooms);
     }
 
     private void initData() {
         // Thiết lập toolbar
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-            getSupportActionBar().setTitle("Phòng trọ yêu thích");
+            getSupportActionBar().setTitle("Phòng trọ đã xác nhận");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }

@@ -175,12 +175,13 @@
             android:orientation="vertical">
 
             <ProgressBar
-                android:id="@+id/progess_bar_load"
+                android:id="@+id/progress_bar_search_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal" />
 
             <LinearLayout
+                android:id="@+id/lnLt_resultReturn_search_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorResultTop"
@@ -206,17 +207,35 @@
             </LinearLayout>
 
             <android.support.v4.widget.NestedScrollView
+                android:id="@+id/nested_scroll_search_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_search_room"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
+                    android:orientation="vertical">
 
-                </android.support.v7.widget.RecyclerView>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_search_room"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                    <!--Processbar-->
+                    <ProgressBar
+                        android:id="@+id/progress_bar_load_more_search_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="15dp" />
+                    <!--End Processbar-->
+
+                </LinearLayout>
 
             </android.support.v4.widget.NestedScrollView>
         </LinearLayout>
