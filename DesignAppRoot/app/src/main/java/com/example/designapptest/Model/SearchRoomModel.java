@@ -289,6 +289,11 @@ public class SearchRoomModel {
                 roomModel.setRoomOwner(tempUser);
                 //End thêm thông tin chủ sở hữu cho phòng trọ
 
+                //Thêm vào lượt xem của phòng trọ
+                int tempViews = (int) snapShotRoot.child("RoomViews").child(RoomID).getChildrenCount();
+                roomModel.setViews(tempViews);
+                //End thêm vào lượt xem của phòng trọ
+
                 //Kích hoạt interface truyền dữ liệu qua
 
                 iSearchRoomModel.sendDataRoom(roomModel,true);
@@ -484,6 +489,11 @@ public class SearchRoomModel {
                 UserModel tempUser = snapShotRoot.child("Users").child(roomModel.getOwner()).getValue(UserModel.class);
                 roomModel.setRoomOwner(tempUser);
                 //End thêm thông tin chủ sở hữu cho phòng trọ
+
+                //Thêm vào lượt xem của phòng trọ
+                int tempViews = (int) snapShotRoot.child("RoomViews").child(RoomID).getChildrenCount();
+                roomModel.setViews(tempViews);
+                //End thêm vào lượt xem của phòng trọ
 
                 listSearchRoomsModel.add(roomModel);
             }

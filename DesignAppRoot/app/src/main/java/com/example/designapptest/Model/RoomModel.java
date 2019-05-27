@@ -92,6 +92,9 @@ public class RoomModel implements Parcelable { // Linh thêm
     //Lưu mảng comment của phòng trọ
     List<CommentModel> listCommentRoom;
 
+    //Lưu lượt xem
+    int views;
+
     protected RoomModel(Parcel in) {
 
         describe = in.readString();
@@ -155,6 +158,14 @@ public class RoomModel implements Parcelable { // Linh thêm
 
     public void setCompressionImage(String compressionImage) {
         this.compressionImage = compressionImage;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
     }
 
     public UserModel getRoomOwner() {
@@ -568,6 +579,11 @@ public class RoomModel implements Parcelable { // Linh thêm
 
             //End thêm thông tin chủ sở hữu cho phòng trọ
 
+            //Thêm vào lượt xem của phòng trọ
+            int tempViews = (int) dataSnapshot.child("RoomViews").child(valueRoom.getKey()).getChildrenCount();
+            roomModel.setViews(tempViews);
+            //End thêm vào lượt xem của phòng trọ
+
             //Kích hoạt interface
             mainRoomModelInterface.getListMainRoom(roomModel);
         }
@@ -882,6 +898,11 @@ public class RoomModel implements Parcelable { // Linh thêm
 
                     //End thêm thông tin chủ sở hữu cho phòng trọ
 
+                    //Thêm vào lượt xem của phòng trọ
+                    int tempViews = (int) dataSnapshot.child("RoomViews").child(RoomID).getChildrenCount();
+                    roomModel.setViews(tempViews);
+                    //End thêm vào lượt xem của phòng trọ
+
                     //Kích hoạt interface
                     mainRoomModelInterface.getListMainRoom(roomModel);
                 }
@@ -1011,6 +1032,11 @@ public class RoomModel implements Parcelable { // Linh thêm
                     roomModel.setRoomOwner(tempUser);
 
                     //End thêm thông tin chủ sở hữu cho phòng trọ
+
+                    //Thêm vào lượt xem của phòng trọ
+                    int tempViews = (int) dataSnapshot.child("RoomViews").child(RoomID).getChildrenCount();
+                    roomModel.setViews(tempViews);
+                    //End thêm vào lượt xem của phòng trọ
 
                     //Kích hoạt interface
                     mapViewModelInterface.getListRoom(roomModel);
@@ -1304,6 +1330,11 @@ public class RoomModel implements Parcelable { // Linh thêm
             roomModel.setRoomOwner(tempUser);
 
             //End thêm thông tin chủ sở hữu cho phòng trọ
+
+            //Thêm vào lượt xem của phòng trọ
+            int tempViews = (int) dataSnapshot.child("RoomViews").child(RoomID).getChildrenCount();
+            roomModel.setViews(tempViews);
+            //End thêm vào lượt xem của phòng trọ
 
             //Kích hoạt interface
             mainRoomModelInterface.getListMainRoom(roomModel);

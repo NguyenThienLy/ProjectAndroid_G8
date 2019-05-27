@@ -19,6 +19,13 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_margin="5dp"
+                    android:elevation="3dp"
+                    android:src="@drawable/img_icon_4"
+                    android:id="@+id/img_verified"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp" />
                 <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/img_room"
                     android:layout_width="150dp"
@@ -83,6 +90,28 @@
                     android:layout_toRightOf="@+id/txt_quantityMember"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_svg_male_100" />
+
+                <ImageView
+                    android:id="@+id/img_view"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_toLeftOf="@+id/txt_quantityViews"
+                    android:src="@drawable/ic_svg_views_48"
+                    android:scaleType="fitXY"
+                    />
+
+                <TextView
+                    android:id="@+id/txt_quantityViews"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:layout_toLeftOf="@+id/img_comment"
+                    android:text="125"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@android:color/holo_blue_bright"
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/img_comment"
