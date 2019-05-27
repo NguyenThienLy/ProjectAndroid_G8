@@ -335,7 +335,7 @@ public class searchMapView extends Fragment implements View.OnClickListener, Pos
     }
 
     //Hàm tìm kiếm tọa độ của địa chỉ truyền vào
-    private void Search(String Query) {
+    public void Search(String Query) {
         //Đảm bảo người dùng chỉ search trong thành phố HCM
         Query = Query + ", Thành phố Hồ Chí Minh";
 
@@ -407,12 +407,18 @@ public class searchMapView extends Fragment implements View.OnClickListener, Pos
         }
     }
 
+    //Gọi hàm Top location từ controller
+    private void callTopLocation(){
+        searchMapViewController.TopLocation(this);
+    }
+
     @Override
     public void onClick(View v) {
         int id =v.getId();
         switch (id){
             case R.id.btn_top_location:
-
+                //Trả về vị trí Có nhiều phòng nhất đồng thời zoom map về đó
+                callTopLocation();
                 break;
             case R.id.btn_near_location:
                 //Zoome map về địa chỉ hiện tại

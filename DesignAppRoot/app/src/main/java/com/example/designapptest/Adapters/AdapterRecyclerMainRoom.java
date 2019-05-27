@@ -46,8 +46,8 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtTimeCreated, txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment, txtType;
-        ImageView imgRoom, imgGender;
+        TextView txtTimeCreated, txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment, txtType,txtQuantityViews;
+        ImageView imgRoom, imgGender,imgVerified;
         CardView cardViewRoomList;
 
         public ViewHolder(@NonNull View itemView) {
@@ -65,6 +65,8 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
             imgGender = (ImageView) itemView.findViewById(R.id.img_gender);
             txtType = (TextView) itemView.findViewById(R.id.txt_type);
             cardViewRoomList = (CardView) itemView.findViewById(R.id.cardViewRoomList);
+            txtQuantityViews = (TextView)itemView.findViewById(R.id.txt_quantityViews);
+            imgVerified = (ImageView)itemView.findViewById(R.id.img_verified);
         }
     }
 
@@ -103,6 +105,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         viewHolder.txtArea.setText(roomModel.getLength() + "m" + " x " + roomModel.getWidth() + "m");
         viewHolder.txtQuantityComment.setText("0");
         viewHolder.txtType.setText(roomModel.getRoomType());
+        viewHolder.txtQuantityViews.setText(String.valueOf(roomModel.getViews()));
 
         //Set address for room
         String longAddress = roomModel.getApartmentNumber() + " " + roomModel.getStreet() + ", "
@@ -124,6 +127,16 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         }
 
         //End gán giá trị cho số lượng bình luận
+
+        //Hiển thị phòng đã được chứng thực
+
+        if(roomModel.isAuthentication()){
+            viewHolder.imgVerified.setVisibility(View.VISIBLE);
+        }else {
+            viewHolder.imgVerified.setVisibility(View.GONE);
+        }
+
+        //End hiển thị phòng đã được chúng thực
 
 
         //Download ảnh dùng picaso cho đỡ lag, dùng thuộc tính fit() để giảm dung lượng xuống thấp nhất có thể

@@ -16,6 +16,43 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp">
 
+        <LinearLayout
+            android:elevation="3dp"
+            android:background="#9D000000"
+            android:padding="1dp"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/img_view"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="2dp"
+                android:src="@drawable/ic_svg_views_while_48"
+                android:scaleType="fitXY"
+                />
+
+            <TextView
+                android:id="@+id/txt_quantityViews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:text="125"
+                android:layout_marginRight="5dp"
+                android:textColor="#ffffff"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_margin="5dp"
+            android:elevation="3dp"
+            android:src="@drawable/img_icon_4"
+            android:id="@+id/img_verified"
+            android:layout_width="16dp"
+            android:layout_height="16dp" />
+
         <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/img_room"
             android:layout_width="match_parent"
