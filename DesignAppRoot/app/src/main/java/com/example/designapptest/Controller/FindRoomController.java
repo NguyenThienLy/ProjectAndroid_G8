@@ -198,6 +198,74 @@ public class FindRoomController {
         findRoomModel.ListFindRoom(iFindRoomModel);
     }
 
+    public void ListFindRoomMine(String UID, RecyclerView recyclerFindRoom,
+                                   ProgressBar progressBarFindRoom, TextView txtResultReturn, LinearLayout lLayHaveResultReturn) {
+
+        final List<FindRoomModel> findRoomModelistFilter = new ArrayList<>();
+
+        //Hiện progress bar
+        progressBarFindRoom.setVisibility(View.VISIBLE);
+        // Ẩn thi kết quả trả vể.
+        lLayHaveResultReturn.setVisibility(View.GONE);
+
+        //Tạo layout cho danh sách tìm phòng trọ;
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        //((LinearLayoutManager) layoutManager).setReverseLayout(true);
+        // ((LinearLayoutManager) layoutManager).setStackFromEnd(false);
+        recyclerFindRoom.setLayoutManager(layoutManager);
+
+        //Tạo adapter cho recycle view
+        final AdapterRecyclerFindRoom adapterRecyclerFindRoomFilter = new AdapterRecyclerFindRoom(context, findRoomModelistFilter, R.layout.element_list_find_room_view);
+
+
+        //adapterRecyclerFindRoomFilter.clearApplications();
+        //Cài adapter cho recycle
+        recyclerFindRoom.setAdapter(adapterRecyclerFindRoomFilter);
+        //End tạo layout cho danh sách tìm phòng trọ.
+
+        //Tạo interface để truyền dữ liệu lên từ model
+        IFindRoomModel iFindRoomModel = new IFindRoomModel() {
+            @Override
+            public void getListFindRoom(FindRoomModel valueRoom) {
+                // Nếu bộ lọc thỏa mãn thì thêm vào recycle
+                if (valueRoom.getFindRoomOwner().getUserID() == UID) {
+                    // Tăng lên số lượng kết quả trả về.
+
+                    //Thêm vào trong danh sách trọ
+                    findRoomModelistFilter.add(valueRoom);
+
+                    sortListComments(findRoomModelistFilter);
+
+                    //Thông báo là đã có thêm dữ liệu
+                    adapterRecyclerFindRoomFilter.notifyDataSetChanged();
+                    progressBarFindRoom.setVisibility(View.GONE);
+
+                    // Hiện thi kết quả trả vể.
+                    lLayHaveResultReturn.setVisibility(View.VISIBLE);
+                    txtResultReturn.setText(String.valueOf(findRoomModelistFilter.size()));
+                }
+            }
+
+            @Override
+            public void addSuccessNotify() {
+
+            }
+
+            @Override
+            public void getSuccessNotify() {
+                // Tải xong dữ liệu
+                progressBarFindRoom.setVisibility(View.GONE);
+
+                // Hiện thi kết quả trả vể.
+                lLayHaveResultReturn.setVisibility(View.VISIBLE);
+                txtResultReturn.setText(String.valueOf(findRoomModelistFilter.size()));
+            }
+        };
+
+        //Gọi hàm lấy dữ liệu trong model
+        findRoomModel.ListFindRoom(iFindRoomModel);
+    }
+
     // Kiểm tra xem hai lst có phần tử nào giống nhau ko
     private boolean checkTwoList(List<String> lst1, List<String> lst2) {
         int i, j;

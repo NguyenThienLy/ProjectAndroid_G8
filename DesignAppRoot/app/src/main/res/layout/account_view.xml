@@ -43,10 +43,10 @@
             android:layout_marginTop="0dp"
             android:textSize="18sp" />
         <Button
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:id="@+id/btn_edit_account"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="65dp"
             android:text="Chỉnh sửa"
             android:textColor="#FFFFFF"
             android:textAllCaps="false"
@@ -57,9 +57,9 @@
         <Button
             android:id="@+id/btn_my_Room"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="65dp"
             android:text="Phòng của tôi"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:textColor="#FFFFFF"
             android:textAllCaps="false"
             android:background="#6F42C1"
@@ -69,8 +69,8 @@
         <Button
             android:id="@+id/btn_my_favorite_room"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="7dp"
             android:text="Phòng yêu thích"
             android:textColor="#FFFFFF"
             android:textAllCaps="false"
@@ -78,5 +78,18 @@
             android:paddingLeft="70dp"
             android:paddingRight="60dp"
             android:drawableLeft="@drawable/ic_svg_heart_100"/>
+
+        <Button
+            android:id="@+id/btn_my_find_room"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:text="Tìm ở ghép của tôi"
+            android:layout_marginTop="7dp"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:background="#E44FD4"
+            android:paddingLeft="70dp"
+            android:paddingRight="75dp"
+            android:drawableLeft="@drawable/ic_svg_group_users_white_100"/>
     </LinearLayout>
 </LinearLayout>
