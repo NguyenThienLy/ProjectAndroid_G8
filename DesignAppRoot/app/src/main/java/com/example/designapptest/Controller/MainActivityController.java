@@ -1,7 +1,6 @@
 package com.example.designapptest.Controller;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,7 +12,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
+import com.example.designapptest.Adapters.AdapterRecyclerMyRoom;
 import com.example.designapptest.Controller.Interfaces.ILocationModel;
 import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.example.designapptest.Model.LocationModel;
@@ -32,12 +31,7 @@ import com.example.designapptest.R;
 import com.example.designapptest.Views.locationAdapter;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivityController {
@@ -237,9 +231,10 @@ public class MainActivityController {
         recyclerMainRoom.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
-        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, UID);
+//        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, UID);
+        AdapterRecyclerMyRoom adapterRecyclerMyRoom = new AdapterRecyclerMyRoom(context,roomModelList,R.layout.room_user_list_view);
         //Cài adapter cho recycle
-        recyclerMainRoom.setAdapter(adapterRecyclerMainRoom);
+        recyclerMainRoom.setAdapter(adapterRecyclerMyRoom);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
 
         IMainRoomModel iMainRoomModel = new IMainRoomModel() {
@@ -252,7 +247,7 @@ public class MainActivityController {
                 roomModelList.add(valueRoom);
 
                 //Thông báo là đã có thêm dữ liệu
-                adapterRecyclerMainRoom.notifyDataSetChanged();
+                adapterRecyclerMyRoom.notifyDataSetChanged();
 
                 progressBarMyRooms.setVisibility(View.GONE);
             }
