@@ -184,6 +184,13 @@
         <activity android:name=".Views.FindRoomAdd" />
         <activity android:name=".Views.FindRoomDetail" />
         <activity android:name=".Views.FindRoomFilter" />
+        <activity android:name=".Views.FindRoomMine" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <!--<activity android:name=".Views.accountView">-->
 
             <!--&lt;!&ndash; <intent-filter> &ndash;&gt;-->

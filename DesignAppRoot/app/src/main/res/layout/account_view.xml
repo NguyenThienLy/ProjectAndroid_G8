@@ -80,6 +80,29 @@
                 android:background="#FFFFFF"
                 android:gravity="left|center"/>
         </LinearLayout>
+       <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#FFFFFF"
+            android:layout_marginTop="2dp">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/ic_png_logout_color_100"/>
+            <Button
+                android:id="@+id/btn_my_find_room"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Tìm ở ghép của tôi"
+                android:paddingLeft="10dp"
+                android:textColor="#666666"
+                android:textAllCaps="false"
+                android:background="#FFFFFF"
+                android:gravity="left|center"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,5 +125,6 @@
                 android:background="#FFFFFF"
                 android:gravity="left|center"/>
         </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>
