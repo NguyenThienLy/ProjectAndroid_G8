@@ -1,6 +1,7 @@
 package com.example.designapptest.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
+import com.example.designapptest.Views.PopUpComment;
+import com.example.designapptest.Views.PopUpViews;
 
 import java.util.List;
 
@@ -92,7 +95,9 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
         viewHolder.btnViews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, PopUpViews.class);
+                intent.putExtra("phongtro", roomModel.getRoomID());
+                (context).startActivity(intent);
             }
         });
 
@@ -114,7 +119,9 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
         viewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, PopUpComment.class);
+                intent.putExtra("phongtro", roomModel.getRoomID());
+                (context).startActivity(intent);
             }
         });
     }
@@ -128,5 +135,7 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
     private void updateRoom(RoomModel roomModel){
 
     }
+
+
 
 }
