@@ -15,21 +15,21 @@
         <!--Processbar-->
         <ProgressBar
             android:layout_marginTop="20dp"
-            android:id="@+id/progress_find_room"
+            android:id="@+id/progress_bar_find_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"/>
         <!--End Processbar-->
 
         <LinearLayout
-            android:id="@+id/lLay_haveResultReturn_find_room"
+            android:id="@+id/lnLt_top_haveResultReturn_find_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp"
             android:visibility="visible"
             android:background="@color/colorResultTop"
-            android:layout_below="@+id/progress_find_room">
+            android:layout_below="@+id/progress_bar_find_room">
 
             <TextView
                 android:id="@+id/txt_resultReturn_find_room"
@@ -52,54 +52,18 @@
         </LinearLayout>
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nested_scroll_find_room_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lLay_haveResultReturn_find_room">
+            android:layout_below="@+id/lnLt_top_haveResultReturn_find_room">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <!--&lt;!&ndash;Processbar&ndash;&gt;-->
-                <!--<ProgressBar-->
-                    <!--android:layout_marginTop="60dp"-->
-                    <!--android:id="@+id/progress_find_room"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--/>-->
-                <!--&lt;!&ndash;End Processbar&ndash;&gt;-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/lLay_haveResultReturn_find_room"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="horizontal"-->
-                    <!--android:layout_marginBottom="10dp"-->
-                    <!--android:visibility="visible"-->
-                    <!--android:background="@color/colorResultTop">-->
-
-                    <!--<TextView-->
-                        <!--android:paddingTop="10dp"-->
-                        <!--android:paddingBottom="10dp"-->
-                        <!--android:paddingLeft="10dp"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/stringResultReturn"-->
-                        <!--android:textSize="15sp"/>-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/txt_resultReturn_find_room"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="0"-->
-                        <!--android:layout_marginLeft="10dp"-->
-                        <!--android:textSize="15sp"-->
-                        <!--android:textAlignment="center"/>-->
-                <!--</LinearLayout>-->
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_find_Room"
+                    android:id="@+id/recycler_find_room"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
@@ -108,12 +72,22 @@
                     >
                 </android.support.v7.widget.RecyclerView>
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="15dp"
-                    android:layout_margin="20dp"
+                <!--Processbar-->
+                <ProgressBar
+                    android:id="@+id/progress_bar_load_more_find_room"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp"/>
+                <!--End Processbar-->
 
-                    android:background="@android:color/white" />
+                <!--<View-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="15dp"-->
+                    <!--android:layout_margin="20dp"-->
+
+                    <!--android:background="@android:color/white" />-->
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

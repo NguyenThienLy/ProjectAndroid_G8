@@ -14,7 +14,7 @@
 
         <!--Processbar-->
         <ProgressBar
-            android:id="@+id/progress_find_room_mine"
+            android:id="@+id/progress_bar_find_room_mine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"
@@ -22,10 +22,10 @@
         <!--End Processbar-->
 
         <LinearLayout
-            android:id="@+id/lLay_haveResultReturn_find_room_mine"
+            android:id="@+id/lnLt_top_haveResultReturn_find_room_mine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/progress_find_room_mine"
+            android:layout_below="@+id/progress_bar_find_room_mine"
             android:layout_marginBottom="10dp"
             android:background="@color/colorResultTop"
             android:orientation="horizontal"
@@ -52,9 +52,10 @@
         </LinearLayout>
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nested_scroll_find_room_mine_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lLay_haveResultReturn_find_room">
+            android:layout_below="@+id/lnLt_top_haveResultReturn_find_room_mine">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,12 +63,22 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_find_Room_mine"
+                    android:id="@+id/recycler_find_room_mine"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:gravity="center"></android.support.v7.widget.RecyclerView>
+
+                <!--Processbar-->
+                <ProgressBar
+                    android:id="@+id/progress_bar_load_more_find_room_mine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp"/>
+                <!--End Processbar-->
 
                 <View
                     android:layout_width="fill_parent"

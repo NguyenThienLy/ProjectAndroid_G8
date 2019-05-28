@@ -90,7 +90,6 @@ public class MainActivityController {
                 roomModelList.add(valueRoom);
 
                 adapterRecyclerGridMainRoom.notifyDataSetChanged();
-                progressBarMain.setVisibility(View.GONE);
             }
 
             @Override
@@ -110,12 +109,18 @@ public class MainActivityController {
 
             @Override
             public void setProgressBarLoadMore() {
+                progressBarMain.setVisibility(View.GONE);
                 // Ẩn progress bar load more
                 progressBarLoadMoreGridMainRoom.setVisibility(View.GONE);
             }
 
             @Override
             public void setQuantityTop(int quantity) {
+
+            }
+
+            @Override
+            public void setQuantityLoadMore(int quantityLoaded) {
 
             }
         };
@@ -145,6 +150,7 @@ public class MainActivityController {
 
             @Override
             public void setButtonLoadMoreVerifiedRooms() {
+                progressBarMain.setVisibility(View.GONE);
                 // Hiển thị nút Xem thêm phòng đã xác nhận
                 btnLoadMoreVerifiedRooms.setVisibility(View.VISIBLE);
             }
@@ -156,6 +162,11 @@ public class MainActivityController {
 
             @Override
             public void setQuantityTop(int quantity) {
+
+            }
+
+            @Override
+            public void setQuantityLoadMore(int quantityLoaded) {
 
             }
 
@@ -248,8 +259,6 @@ public class MainActivityController {
 
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerMyRoom.notifyDataSetChanged();
-
-                progressBarMyRooms.setVisibility(View.GONE);
             }
 
             @Override
@@ -269,6 +278,7 @@ public class MainActivityController {
 
             @Override
             public void setProgressBarLoadMore() {
+                progressBarMyRooms.setVisibility(View.GONE);
                 progressBarLoadMoreMyRooms.setVisibility(View.GONE);
             }
 
@@ -277,6 +287,11 @@ public class MainActivityController {
                 lnLtQuantityTopMyRooms.setVisibility(View.VISIBLE);
                 // Hiển thị kết quả trả về
                 txtQuantity.setText(quantity + "");
+            }
+
+            @Override
+            public void setQuantityLoadMore(int quantityLoaded) {
+
             }
         };
 
@@ -363,8 +378,6 @@ public class MainActivityController {
 
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerVerifiedRoom.notifyDataSetChanged();
-
-                progressBarVerifiedRooms.setVisibility(View.GONE);
             }
 
             @Override
@@ -384,6 +397,7 @@ public class MainActivityController {
 
             @Override
             public void setProgressBarLoadMore() {
+                progressBarVerifiedRooms.setVisibility(View.GONE);
                 // Ẩn progress bar load more
                 progressBarLoadMoreVerifiedRooms.setVisibility(View.GONE);
             }
@@ -393,6 +407,11 @@ public class MainActivityController {
                 lnLtQuantityTopVerifiedRooms.setVisibility(View.VISIBLE);
                 // Hiển thị kết quả trả về
                 txtQuantity.setText(quantity + "");
+            }
+
+            @Override
+            public void setQuantityLoadMore(int quantityLoaded) {
+
             }
         };
 
@@ -443,6 +462,55 @@ public class MainActivityController {
         recyclerFavoriteRoom.setAdapter(adapterRecyclerFavoriteRoom);
         //End tạo layout cho danh sách trọ yêu thích
 
+        //Tạo interface để truyền dữ liệu lên từ model
+        IMainRoomModel iMainRoomModel = new IMainRoomModel() {
+            @Override
+            public void getListMainRoom(RoomModel valueRoom) {
+                // Load ảnh nén
+                valueRoom.setCompressionImageFit(Picasso.get().load(valueRoom.getCompressionImage()).fit());
+
+                //Thêm vào trong danh sách trọ
+                favoriteRoomsList.add(valueRoom);
+
+                //Thông báo là đã có thêm dữ liệu
+                adapterRecyclerFavoriteRoom.notifyDataSetChanged();
+            }
+
+            @Override
+            public void makeToast(String message) {
+
+            }
+
+            @Override
+            public void setIconFavorite(int iconRes) {
+
+            }
+
+            @Override
+            public void setButtonLoadMoreVerifiedRooms() {
+
+            }
+
+            @Override
+            public void setProgressBarLoadMore() {
+                progressBarFavoriteRooms.setVisibility(View.GONE);
+                // Ẩn progress bar load more.
+                progressBarLoadMoreFavoriteRooms.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void setQuantityTop(int quantity) {
+                lnLtQuantityTopFavoriteRooms.setVisibility(View.VISIBLE);
+                // Hiển thị kết quả trả về
+                txtQuantity.setText(quantity + "");
+            }
+
+            @Override
+            public void setQuantityLoadMore(int quantityLoaded) {
+                quantityVerifiedRoomLoaded = quantityLoaded;
+            }
+        };
+
         //
         ColorDrawable swipeBackground = new ColorDrawable(Color.parseColor("#C03A2B"));
         Drawable deleteIcon = ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_garbage, null);
@@ -455,7 +523,8 @@ public class MainActivityController {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                adapterRecyclerFavoriteRoom.removeItem(viewHolder, recyclerFavoriteRoom, adapterRecyclerFavoriteRoom);
+                adapterRecyclerFavoriteRoom.removeItem(viewHolder, recyclerFavoriteRoom, adapterRecyclerFavoriteRoom, txtQuantity,
+                        iMainRoomModel, roomModel, quantityVerifiedRoomLoaded, quantityVerifiedRoomEachTime);
             }
 
             @Override
@@ -500,51 +569,6 @@ public class MainActivityController {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerFavoriteRoom);
         //
-
-        //Tạo interface để truyền dữ liệu lên từ model
-        IMainRoomModel iMainRoomModel = new IMainRoomModel() {
-            @Override
-            public void getListMainRoom(RoomModel valueRoom) {
-                // Load ảnh nén
-                valueRoom.setCompressionImageFit(Picasso.get().load(valueRoom.getCompressionImage()).fit());
-
-                //Thêm vào trong danh sách trọ
-                favoriteRoomsList.add(valueRoom);
-
-                //Thông báo là đã có thêm dữ liệu
-                adapterRecyclerFavoriteRoom.notifyDataSetChanged();
-
-                progressBarFavoriteRooms.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void makeToast(String message) {
-
-            }
-
-            @Override
-            public void setIconFavorite(int iconRes) {
-
-            }
-
-            @Override
-            public void setButtonLoadMoreVerifiedRooms() {
-
-            }
-
-            @Override
-            public void setProgressBarLoadMore() {
-                // Ẩn progress bar load more.
-                progressBarLoadMoreFavoriteRooms.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void setQuantityTop(int quantity) {
-                lnLtQuantityTopFavoriteRooms.setVisibility(View.VISIBLE);
-                // Hiển thị kết quả trả về
-                txtQuantity.setText(quantity + "");
-            }
-        };
 
         nestedScrollFavoriteRoomsView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -607,6 +631,11 @@ public class MainActivityController {
             public void setQuantityTop(int quantity) {
 
             }
+
+            @Override
+            public void setQuantityLoadMore(int quantityLoaded) {
+
+            }
         };
 
         roomModel.addToFavoriteRooms(roomId, iMainRoomModel, UID);
@@ -641,6 +670,11 @@ public class MainActivityController {
 
             @Override
             public void setQuantityTop(int quantity) {
+
+            }
+
+            @Override
+            public void setQuantityLoadMore(int quantityLoaded) {
 
             }
         };

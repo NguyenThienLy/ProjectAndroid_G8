@@ -87,7 +87,7 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
         viewHolder.txt_time_comment_room_detail.setText(commentModel.getTime());
 
         //Download hình ảnh cho user
-        Picasso.get().load(commentModel.getUserComment().getAvatar()).fit().into(viewHolder.img_avt_comment_room_detail);
+        commentModel.getCompressionImageFit().centerCrop().into(viewHolder.img_avt_comment_room_detail);
 
         //Hiển thị nút Like this hay Liked comment đối với user đăng nhập app.
         DatabaseReference nodeInteractiveComment = FirebaseDatabase.getInstance().getReference()
@@ -96,12 +96,12 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                viewHolder.txt_like_comment_room_detail.setText("Like this");
+                viewHolder.txt_like_comment_room_detail.setText("Thích");
 
                 for (DataSnapshot valueUserLikeComment : dataSnapshot.getChildren()) {
                     String userLikeCommentId = valueUserLikeComment.getKey();
                     if (userLikeCommentId.equals(UID)) {
-                        viewHolder.txt_like_comment_room_detail.setText("Liked");
+                        viewHolder.txt_like_comment_room_detail.setText("Đã thích");
                         break;
                     }
                 }
@@ -145,7 +145,9 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String date = df.format(Calendar.getInstance().getTime());
 
-        if (txtLikeComment.getText().toString().equals("Like this")) {
+        txtLikeComment.setEnabled(false);
+
+        if (txtLikeComment.getText().toString().equals("Thích")) {
             // Thêm dữ liệu vào InteractiveComment.
             nodeInteractiveComment.child(commentId).child(UID).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -160,12 +162,13 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 txtQuantityLikeComment.setText(likes + "");
+                                txtLikeComment.setEnabled(true);
                             }
                         });
                     }
                 }
             });
-        } else if (txtLikeComment.getText().toString().equals("Liked")) {
+        } else if (txtLikeComment.getText().toString().equals("Đã thích")) {
             // Xóa dữ liệu khỏi InteractiveComment
             nodeInteractiveComment.child(commentId).child(UID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -180,6 +183,7 @@ public class AdapterRecyclerComment extends RecyclerView.Adapter<AdapterRecycler
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 txtQuantityLikeComment.setText(likes + "");
+                                txtLikeComment.setEnabled(true);
                             }
                         });
                     }
