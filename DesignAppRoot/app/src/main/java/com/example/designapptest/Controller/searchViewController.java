@@ -67,9 +67,6 @@ public class searchViewController {
 
                     //Thông báo thay đổi dữ liệu
                     adapterRecyclerMainRoom.notifyDataSetChanged();
-
-                    //Ẩn Progessbar và hiện text
-                    progressBarLoad.setVisibility(View.GONE);
 //                    lnLtResultReturn.setVisibility(View.VISIBLE);
 //                    //Tăng kết quả lên mỗi lần có room mới được tải về
 //                    i++;
@@ -77,7 +74,6 @@ public class searchViewController {
 //                    txtNumberRoom.setText(i + "");
                 }
                 else {
-                    progressBarLoad.setVisibility(View.GONE);
 //                    lnLtResultReturn.setVisibility(View.VISIBLE);
 //                    //Set text hiển thị
 //                    txtNumberRoom.setText(i + "");
@@ -87,6 +83,8 @@ public class searchViewController {
 
             @Override
             public void setProgressBarLoadMore() {
+                //Ẩn Progessbar và hiện text
+                progressBarLoad.setVisibility(View.GONE);
                 progressBarLoadMore.setVisibility(View.GONE);
             }
 
@@ -114,7 +112,7 @@ public class searchViewController {
                                 progressBarLoadMore.setVisibility(View.VISIBLE);
 
                                 quantityRoomsLoaded += quantityRoomsEachTime;
-                                searchRoomModel.searchRoom(searchRoomModelInterface,
+                                searchRoomModel.searchRoom(searchRoomModelInterface, "",
                                         quantityRoomsLoaded + quantityRoomsEachTime, quantityRoomsLoaded);
                             }
                         }
@@ -124,7 +122,7 @@ public class searchViewController {
         });
 
         //Thêm sự kiện listenner cho noderoot
-        searchRoomModel.searchRoom(searchRoomModelInterface,
+        searchRoomModel.searchRoom(searchRoomModelInterface, "",
                 quantityRoomsLoaded + quantityRoomsEachTime, quantityRoomsLoaded);
     }
 }

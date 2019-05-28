@@ -61,14 +61,14 @@ public class SearchRoomModel {
     // Số lượng phòng đã duyệt khi load more.
     private int filterDataQuantity = 0;
 
-    public void searchRoom(ISearchRoomModel searchRoomModelInterface, int quantityRoomsToLoad, int quantityRoomsLoaded){
+    public void searchRoom(ISearchRoomModel searchRoomModelInterface, String currentRoomID, int quantityRoomsToLoad, int quantityRoomsLoaded){
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dataRoot = dataSnapshot;
 
                 // Lấy số lượng search rooms mỗi lần click submit
-                getAllSearchRoom(dataRoot, searchRoomModelInterface);
+                getAllSearchRoom(dataRoot, currentRoomID, searchRoomModelInterface);
 
                 getPartSearchRoom(dataRoot, searchRoomModelInterface, quantityRoomsToLoad, quantityRoomsLoaded);
             }
@@ -313,14 +313,14 @@ public class SearchRoomModel {
         //End lọc dữ liệu
     }
 
-    private void getAllSearchRoom(DataSnapshot dataSnapshot, ISearchRoomModel searchRoomModelInterface) {
+    private void getAllSearchRoom(DataSnapshot dataSnapshot, String currentRoomID, ISearchRoomModel searchRoomModelInterface) {
         DataSnapshot snapShotLocationRoom = dataSnapshot.child("LocationRoom").child(district);
 
         for(DataSnapshot snapshotward : snapShotLocationRoom.getChildren()){
             for (DataSnapshot snapShotStreet : snapshotward.getChildren()){
                 for(DataSnapshot snapShotRoom : snapShotStreet.getChildren()){
                     //Lấy ra thông tin Room theo ID truyền vào
-                    filterDataToGetQuantity(dataSnapshot,snapShotRoom.getValue().toString());
+                    filterDataToGetQuantity(dataSnapshot, currentRoomID, snapShotRoom.getValue().toString());
                 }
             }
         }
@@ -328,7 +328,7 @@ public class SearchRoomModel {
         searchRoomModelInterface.setQuantityTop(listSearchRoomsModel.size());
     }
 
-    private void filterDataToGetQuantity(DataSnapshot snapShotRoot,String RoomID){
+    private void filterDataToGetQuantity(DataSnapshot snapShotRoot, String currentRoomID, String RoomID){
 
         //Mảng lưu xem đã thỏa mãn hết các điều kiện chưa
         boolean[] arrCheck ={false,false,false};
@@ -495,7 +495,12 @@ public class SearchRoomModel {
                 roomModel.setViews(tempViews);
                 //End thêm vào lượt xem của phòng trọ
 
-                listSearchRoomsModel.add(roomModel);
+
+                if(currentRoomID.equals(roomModel.getRoomID())) {
+                    // không làm gì cả
+                } else {
+                    listSearchRoomsModel.add(roomModel);
+                }
             }
             else {
             }

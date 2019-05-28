@@ -16,6 +16,7 @@ import com.example.designapptest.Controller.Interfaces.IRoomCommentModel;
 import com.example.designapptest.Model.CommentModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -64,6 +65,9 @@ public class CommentController {
         IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {
             @Override
             public void getListRoomComments(CommentModel valueComment) {
+                // Load ảnh nén
+                valueComment.setCompressionImageFit(Picasso.get().load(valueComment.getUserComment().getAvatar()).fit());
+
                 //Thêm vào trong danh sách bình luận
                 commentModelList.add(valueComment);
 
@@ -71,9 +75,6 @@ public class CommentController {
 
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerComment.notifyDataSetChanged();
-
-                // set view
-                progressBarAllComments.setVisibility(View.GONE);
             }
 
             @Override
@@ -116,6 +117,8 @@ public class CommentController {
 
             @Override
             public void setProgressBarLoadMore() {
+                // set view
+                progressBarAllComments.setVisibility(View.GONE);
                 progressBarLoadMoreAllComments.setVisibility(View.GONE);
             }
 
@@ -178,6 +181,9 @@ public class CommentController {
         IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {
             @Override
             public void getListRoomComments(CommentModel valueComment) {
+                // Load ảnh nén
+                valueComment.setCompressionImageFit(Picasso.get().load(valueComment.getUserComment().getAvatar()).fit());
+
                 //Thêm vào trong danh sách bình luận
                 myCommentModelList.add(valueComment);
 
@@ -185,9 +191,6 @@ public class CommentController {
 
                 //Thông báo là đã có thêm dữ liệu
                 adapterRecyclerComment.notifyDataSetChanged();
-
-                // set view
-                progressBarMyComments.setVisibility(View.GONE);
             }
 
             @Override
@@ -207,6 +210,8 @@ public class CommentController {
 
             @Override
             public void setProgressBarLoadMore() {
+                // set view
+                progressBarMyComments.setVisibility(View.GONE);
                 progressBarLoadMoreMyComments.setVisibility(View.GONE);
             }
 

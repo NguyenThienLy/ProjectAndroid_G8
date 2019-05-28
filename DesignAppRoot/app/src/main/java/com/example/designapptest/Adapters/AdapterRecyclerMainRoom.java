@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.designapptest.ClassOther.classFunctionStatic;
+import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 import com.example.designapptest.Views.detailRoom;
@@ -20,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -46,8 +48,8 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtTimeCreated, txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment, txtType,txtQuantityViews;
-        ImageView imgRoom, imgGender,imgVerified;
+        TextView txtTimeCreated, txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment, txtType, txtQuantityViews;
+        ImageView imgRoom, imgGender, imgVerified;
         CardView cardViewRoomList;
 
         public ViewHolder(@NonNull View itemView) {
@@ -65,8 +67,8 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
             imgGender = (ImageView) itemView.findViewById(R.id.img_gender);
             txtType = (TextView) itemView.findViewById(R.id.txt_type);
             cardViewRoomList = (CardView) itemView.findViewById(R.id.cardViewRoomList);
-            txtQuantityViews = (TextView)itemView.findViewById(R.id.txt_quantityViews);
-            imgVerified = (ImageView)itemView.findViewById(R.id.img_verified);
+            txtQuantityViews = (TextView) itemView.findViewById(R.id.txt_quantityViews);
+            imgVerified = (ImageView) itemView.findViewById(R.id.img_verified);
         }
     }
 
@@ -130,9 +132,9 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
 
         //Hiển thị phòng đã được chứng thực
 
-        if(roomModel.isAuthentication()){
+        if (roomModel.isAuthentication()) {
             viewHolder.imgVerified.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             viewHolder.imgVerified.setVisibility(View.GONE);
         }
 
@@ -190,12 +192,17 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         return RoomModelList.size();
     }
 
-    public void removeItem(RecyclerView.ViewHolder viewHolder, RecyclerView recyclerView, AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom) {
+    public void removeItem(RecyclerView.ViewHolder viewHolder, RecyclerView recyclerView,
+                           AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom, TextView txtQuantity,
+                           IMainRoomModel iMainRoomModel, RoomModel roomModel, int quantityLoaded, int quantityEachTime) {
         int removedPosition = viewHolder.getAdapterPosition();
-        removeFavoriteRoom(removedPosition, recyclerView, adapterRecyclerFavoriteRoom);
+        removeFavoriteRoom(removedPosition, recyclerView, adapterRecyclerFavoriteRoom, txtQuantity,
+                iMainRoomModel, roomModel, quantityLoaded, quantityEachTime);
     }
 
-    private void removeFavoriteRoom(int removedPosition, RecyclerView recyclerView, AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom) {
+    private void removeFavoriteRoom(int removedPosition, RecyclerView recyclerView,
+                                    AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom, TextView txtQuantity,
+                                    IMainRoomModel iMainRoomModel, RoomModel roomModel, int quantityLoaded, int quantityEachTime) {
         DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference()
                 .child("FavoriteRooms");
         String roomId = RoomModelList.get(removedPosition).getRoomID();
@@ -204,9 +211,25 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         nodeFavoriteRooms.child(UID).child(roomId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (RoomModelList.size() == 0) {
-                    adapterRecyclerFavoriteRoom.notifyItemRemoved(removedPosition);
-                }
+                RoomModel deletedRoomModel = RoomModelList.get(removedPosition);
+
+//                if (RoomModelList.size() == 0) {
+//                    adapterRecyclerFavoriteRoom.notifyItemRemoved(removedPosition);
+//                }
+
+                // xóa khỏi list
+                RoomModelList.remove(removedPosition);
+                adapterRecyclerFavoriteRoom.notifyItemRemoved(removedPosition);
+
+                // Cập nhật số lượng ở view
+                int roomQuantity = Integer.valueOf(txtQuantity.getText().toString().trim()) - 1;
+                iMainRoomModel.setQuantityTop(roomQuantity);
+
+                // Load more một lượng rooms nữa
+                roomModel.getPartSpecialListRoom(iMainRoomModel,
+                        quantityLoaded + 2*quantityEachTime, quantityLoaded + quantityEachTime);
+                // Cập nhật lại số lượng đã tải cho controller biết có thay đổi
+                iMainRoomModel.setQuantityLoadMore(quantityLoaded + quantityEachTime);
 
                 Snackbar.make(recyclerView, "Đã xóa " + roomName, Snackbar.LENGTH_LONG).setAction("HOÀN TÁC", new View.OnClickListener() {
                     @Override
@@ -218,6 +241,18 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
+                                    // Thêm vào list
+                                    RoomModelList.add(removedPosition, deletedRoomModel);
+
+                                    // Load ảnh nén
+                                    deletedRoomModel.setCompressionImageFit(Picasso.get().load(deletedRoomModel.getCompressionImage()).fit());
+
+                                    adapterRecyclerFavoriteRoom.notifyItemInserted(removedPosition);
+
+                                    // Cập nhật số lượng ở view
+                                    int roomQuantity = Integer.valueOf(txtQuantity.getText().toString().trim()) + 1;
+                                    iMainRoomModel.setQuantityTop(roomQuantity);
+
 //                                    recyclerView.scrollToPosition(removedPosition);
                                 }
                             }

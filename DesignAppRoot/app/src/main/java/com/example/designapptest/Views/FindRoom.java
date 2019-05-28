@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -36,12 +37,13 @@ public class FindRoom extends Fragment {
     FindRoomFilterModel findRoomFilterModel;
 
     ProgressBar progressBarFindRoom;
+    LinearLayout lnLtTopHavResultReturnFindRoom;
 
-    // Số lượng kết quả trả về.
+    // Số lượng trả về.
     TextView txtResultReturn;
 
-    //
-    LinearLayout lLayHaveResultReturn;
+    NestedScrollView nestedScrollFindRoomView;
+    ProgressBar progressBarLoadMoreFindRoom;
 
     Toolbar toolbar;
     MenuItem menuItemFilter;
@@ -58,10 +60,6 @@ public class FindRoom extends Fragment {
         //setContentView(R.layout.find_room_view);
         //Hỗ trợ việc có menu cho fragment
         setHasOptionsMenu(true);
-
-        findRoomController = new FindRoomController(getContext());
-
-
     }
 
     @Override
@@ -76,6 +74,15 @@ public class FindRoom extends Fragment {
         return layout;
     }
 
+    private void setView() {
+        // Hiện progress bar.
+        progressBarFindRoom.setVisibility(View.VISIBLE);
+        // Ẩn progress bar load more.
+        progressBarLoadMoreFindRoom.setVisibility(View.GONE);
+        // Ẩn layout kết quả trả vể.
+        lnLtTopHavResultReturnFindRoom.setVisibility(View.GONE);
+    }
+
     //Load dữ liệu vào List danh sách trong lần đầu chạy
     @Override
     public void onStart() {
@@ -84,7 +91,11 @@ public class FindRoom extends Fragment {
         initData();
 
         if (flagFindRoom == true) {
-            findRoomController.ListFindRoom(recyclerFindRoom, progressBarFindRoom, txtResultReturn, lLayHaveResultReturn);
+            setView();
+
+            findRoomController = new FindRoomController(getContext());
+            findRoomController.ListFindRoom(recyclerFindRoom, txtResultReturn, progressBarFindRoom, lnLtTopHavResultReturnFindRoom,
+                    nestedScrollFindRoomView, progressBarLoadMoreFindRoom);
         }
     }
     //End load dữ liệu vào danh sách trong lần đầu chạy
@@ -118,14 +129,20 @@ public class FindRoom extends Fragment {
     private void initControl() {
         toolbar = layout.findViewById(R.id.toolbar);
 
-        progressBarFindRoom = (ProgressBar) layout.findViewById(R.id.progress_find_room);
+        recyclerFindRoom = (RecyclerView) layout.findViewById(R.id.recycler_find_room);
+        btnFindRoomAdd = (ImageButton) layout.findViewById(R.id.btn_findRooomAdd);
+
+        progressBarFindRoom = (ProgressBar) layout.findViewById(R.id.progress_bar_find_room);
         progressBarFindRoom.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
                 android.graphics.PorterDuff.Mode.MULTIPLY);
 
-        recyclerFindRoom = (RecyclerView) layout.findViewById(R.id.recycler_find_Room);
-        btnFindRoomAdd = (ImageButton) layout.findViewById(R.id.btn_findRooomAdd);
+        lnLtTopHavResultReturnFindRoom = (LinearLayout) layout.findViewById(R.id.lnLt_top_haveResultReturn_find_room);
         txtResultReturn = (TextView) layout.findViewById(R.id.txt_resultReturn_find_room);
-        lLayHaveResultReturn = (LinearLayout) layout.findViewById(R.id.lLay_haveResultReturn_find_room);
+
+        nestedScrollFindRoomView = (NestedScrollView) layout.findViewById(R.id.nested_scroll_find_room_view);
+        progressBarLoadMoreFindRoom = (ProgressBar) layout.findViewById(R.id.progress_bar_load_more_find_room);
+        progressBarLoadMoreFindRoom.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     private void initData() {
@@ -166,6 +183,7 @@ public class FindRoom extends Fragment {
 
         // Kiểm tra requestCode có trùng với REQUEST_CODE vừa dùng
         if (requestCode == REQUEST_CODE_FILTER) {
+            setView();
 
             // resultCode được set bởi DetailActivity
             // RESULT_OK chỉ ra rằng kết quả này đã thành công
@@ -174,10 +192,20 @@ public class FindRoom extends Fragment {
                 // Nhận dữ liệu từ Intent bên find room filer
                 findRoomFilterModel = data.getParcelableExtra(FindRoom.SHARE_FINDROOM);
 
-                // findRoomController = new FindRoomController(this);
-                findRoomController.ListFindRoomFilter(recyclerFindRoom, findRoomFilterModel, progressBarFindRoom, txtResultReturn, lLayHaveResultReturn);
+                findRoomController = new FindRoomController(getContext());
+                findRoomController.ListFindRoomFilter(recyclerFindRoom, findRoomFilterModel, txtResultReturn,
+                        progressBarFindRoom, lnLtTopHavResultReturnFindRoom, nestedScrollFindRoomView, progressBarLoadMoreFindRoom);
 
             } else {
+                // Hiện progress bar.
+                progressBarFindRoom.setVisibility(View.GONE);
+                // Ẩn progress bar load more.
+                progressBarLoadMoreFindRoom.setVisibility(View.GONE);
+                // Ẩn layout kết quả trả vể.
+                lnLtTopHavResultReturnFindRoom.setVisibility(View.VISIBLE);
+
+                txtResultReturn.setText(0 + "");
+
                 // DetailActivity không thành công, không có data trả về.
             }
         }

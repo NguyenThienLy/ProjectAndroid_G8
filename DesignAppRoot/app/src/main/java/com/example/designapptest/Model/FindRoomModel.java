@@ -8,12 +8,14 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.designapptest.Controller.Interfaces.IFindRoomModel;
 import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.example.designapptest.Views.FindRoom;
 import com.example.designapptest.Views.FindRoomAdd;
+import com.example.designapptest.Views.FindRoomFilter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -24,14 +26,20 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.RequestCreator;
 
 import java.io.File;
 import java.net.ContentHandler;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class FindRoomModel implements Parcelable {
     String user;
@@ -53,6 +61,9 @@ public class FindRoomModel implements Parcelable {
 
     // Lưu danh sách các id của vị trí phòng trọ.
     private List<String> location;
+
+    // Ảnh nén
+    private RequestCreator compressionImageFit;
 
     protected FindRoomModel(Parcel in) {
         user = in.readString();
@@ -181,6 +192,14 @@ public class FindRoomModel implements Parcelable {
         this.maxPrice = maxPrice;
     }
 
+    public RequestCreator getCompressionImageFit() {
+        return compressionImageFit;
+    }
+
+    public void setCompressionImageFit(RequestCreator compressionImageFit) {
+        this.compressionImageFit = compressionImageFit;
+    }
+
     //Biến lưu root của firebase, lưu ý để biến là private
     private DatabaseReference nodeRoot;
 
@@ -203,20 +222,25 @@ public class FindRoomModel implements Parcelable {
         this.location = location;
     }
 
-    public void ListFindRoom(final IFindRoomModel findRoomModelInterface) {
+    private DataSnapshot dataRoot;
+    private List<FindRoomModel> listFindRoomModels = new ArrayList<>();
+    List<FindRoomModel> tempListFindRoomModels = new ArrayList<>();
+
+    public void ListFindRoom(IFindRoomModel findRoomModelInterface, FindRoomFilterModel findRoomFilterModel, String UID,
+                             int quantityToLoad, int quantityLoaded) {
 
         //Tạo listen cho firebase
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataRoot = dataSnapshot;
+
                 //Duyệt vào node Room trên firebase
                 DataSnapshot dataSnapshotRoom = dataSnapshot.child("FindRoom");
 
                 //Duyệt hết trong danh sách tìm ở ghép.
                 for (DataSnapshot valueFindRoom : dataSnapshotRoom.getChildren()) {
-                    //Lấy ra giá trị ép kiểu qua kiểu RoomModel
                     FindRoomModel findRoomModel = valueFindRoom.getValue(FindRoomModel.class);
-                    //Set mã phòng trọ
                     findRoomModel.setFindRoomID(valueFindRoom.getKey());
 
                     // Chỉ xử lí nếu khác null
@@ -243,16 +267,48 @@ public class FindRoomModel implements Parcelable {
 
                     //Thêm thông tin chủ sở hữu cho phòng trọ
                     UserModel tempUser = dataSnapshot.child("Users").child(findRoomModel.getUser()).getValue(UserModel.class);
+                    tempUser.setUserID(findRoomModel.getUser());
                     findRoomModel.setFindRoomOwner(tempUser);
 
                     //End thêm thông tin chủ sở hữu cho phòng trọ
 
-                    //Kích hoạt interface
-                    findRoomModelInterface.getListFindRoom(findRoomModel);
+                    listFindRoomModels.add(findRoomModel);
                 }
 
-                //Kích hoạt interface
-                findRoomModelInterface.getSuccessNotify();
+                sortListFindRoom(listFindRoomModels);
+
+                // Nếu đang filter
+                if (findRoomFilterModel != null) {
+                    tempListFindRoomModels.clear();
+
+                    for (FindRoomModel findRoomModel : listFindRoomModels) {
+                        if (filterListFindRoomFilter(findRoomFilterModel, findRoomModel) == true) {
+                            tempListFindRoomModels.add(findRoomModel);
+                        }
+                    }
+
+                    // thông báo số lượng
+                    findRoomModelInterface.getSuccessNotify(tempListFindRoomModels.size());
+
+                    getPartListFindRoom(tempListFindRoomModels, findRoomModelInterface, quantityToLoad, quantityLoaded);
+                } else if (!UID.equals("")) {
+                    for (FindRoomModel findRoomModel : listFindRoomModels) {
+                        // Nếu bộ lọc thỏa mãn thì thêm vào recycle
+                        if (findRoomModel.getFindRoomOwner().getUserID().equals(UID)) {
+                            tempListFindRoomModels.add(findRoomModel);
+                        }
+                    }
+
+                    // thông báo số lượng
+                    findRoomModelInterface.getSuccessNotify(tempListFindRoomModels.size());
+
+                    getPartListFindRoom(tempListFindRoomModels, findRoomModelInterface, quantityToLoad, quantityLoaded);
+                } else {
+                    // thông báo số lượng
+                    findRoomModelInterface.getSuccessNotify(listFindRoomModels.size());
+
+                    getPartListFindRoom(listFindRoomModels, findRoomModelInterface, quantityToLoad, quantityLoaded);
+                }
             }
 
             @Override
@@ -261,10 +317,88 @@ public class FindRoomModel implements Parcelable {
             }
         };
 
-        //Gán sự kiện listen cho nodeRoot
-        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+        if (dataRoot != null) {
+            // Nếu đang filter
+            if (findRoomFilterModel != null) {
+                getPartListFindRoom(tempListFindRoomModels, findRoomModelInterface, quantityToLoad, quantityLoaded);
+            } else if (!UID.equals("")) {
+                getPartListFindRoom(tempListFindRoomModels, findRoomModelInterface, quantityToLoad, quantityLoaded);
+            }  else {
+                getPartListFindRoom(listFindRoomModels, findRoomModelInterface, quantityToLoad, quantityLoaded);
+            }
+        } else {
+            //Gán sự kiện listen cho nodeRoot
+            nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+        }
     }
 
+    public boolean filterListFindRoomFilter(FindRoomFilterModel findRoomFilterModel, FindRoomModel findRoomModel) {
+        boolean flagCondition = true;
+
+        // Xem thử người dùng có đặt điều kiện cho tiện nghi không.
+        if (findRoomFilterModel.getLstConvenients().size() > 0) {
+            // Nếu trong vị trí cần tìm không khớp thì bỏ qua giá trí này.
+            if (!checkTwoList(findRoomFilterModel.getLstConvenients(), findRoomModel.getConvenients()))
+                flagCondition = false;
+        }
+
+        // Xem thử người dùng có đặt điều kiện cho vị trí cần tìm không.
+        if (findRoomFilterModel.getLstLocationSearchs().size() > 0) {
+            // Nếu trong vị trí cần tìm không khớp thì bỏ qua giá trí này.
+            if (!checkTwoList(findRoomFilterModel.getLstLocationSearchs(), findRoomModel.getLocation()))
+                flagCondition = false;
+        }
+
+        // Xem thử người dùng có đặt điều kiện cho giới tính không.
+        if (findRoomFilterModel.getGender() != 2) {
+            // Cần tìm nam là nam mà ra nữ hoặc cần tìm nữa hoặc ra nam.
+            int filterGender = findRoomFilterModel.getGender(); // Giới tính cần tìm
+            boolean valueGender = findRoomModel.getFindRoomOwner().isGender(); // Giới tính của data
+            if (filterGender == 0 && valueGender == false
+                    || filterGender == 1 && valueGender == true)
+                flagCondition = false;
+        }
+
+        // Kiểm tra điều kiện khoản giá.
+        // Khoảng giá nhỏ nhất cần tìm lớn hớn khoản giá nhỏ nhất hoặc
+        // Khoảng lớn lớn nhất cần tìm nhỏ hớn khoản giá lớn nhất
+        double minFilter = findRoomFilterModel.getMinPrice();
+        double minValue = findRoomModel.getMinPrice();
+
+        double maxFilter = findRoomFilterModel.getMaxPrice();
+        double maxValue = findRoomModel.getMaxPrice();
+
+        if (minFilter > minValue || maxFilter < maxValue)
+            flagCondition = false;
+
+        return flagCondition;
+    }
+
+    private void getPartListFindRoom(List<FindRoomModel> listFindRoomModels, IFindRoomModel findRoomModelInterface, int quantityToLoad, int quantityLoaded) {
+        int i = 0;
+
+        //Duyệt hết trong danh sách tìm ở ghép.
+        for (FindRoomModel findRoomModel : listFindRoomModels) {
+
+            // Nếu đã lấy đủ số lượng comments tiếp theo thì ra khỏi vòng lặp
+            if (i == quantityToLoad) {
+                break;
+            }
+
+            // Bỏ qua những comments đã load
+            if (i < quantityLoaded) {
+                i++;
+                continue;
+            }
+
+            i++;
+
+            //Kích hoạt interface
+            findRoomModelInterface.getListFindRoom(findRoomModel);
+        }
+
+        findRoomModelInterface.setProgressBarLoadMore();
+    }
 
     public void addFindRoom(final FindRoomModel findRoomModel, final IFindRoomModel findRoomModelInterface) {
         // Tại sao ở đây nếu dùng notRoot thì nó bằng null
@@ -280,5 +414,61 @@ public class FindRoomModel implements Parcelable {
                 findRoomModelInterface.addSuccessNotify();
             }
         });
+    }
+
+    public void sortListFindRoom(List<FindRoomModel> listFindRooms) {
+        Collections.sort(listFindRooms, new Comparator<FindRoomModel>() {
+            @Override
+            public int compare(FindRoomModel findRoomModel1, FindRoomModel findRoomModel2) {
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date date1 = null;
+                try {
+                    date1 = df.parse(findRoomModel1.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Date date2 = null;
+                try {
+                    date2 = df.parse(findRoomModel2.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                return date2.compareTo(date1);
+            }
+        });
+    }
+
+    // Kiểm tra xem hai lst có phần tử nào giống nhau ko
+    private boolean checkTwoList(List<String> lst1, List<String> lst2) {
+        int i, j;
+
+        // Nếu lst data không có giá trị
+        if (lst2 == null) {
+            return false;
+        }
+        // Nếu hai list có số lượng phần từ bằng nhau;
+        else if (lst1.size() == lst2.size()) {
+            lst1 = new ArrayList<String>(lst1);
+            lst2 = new ArrayList<String>(lst2);
+
+            return lst1.equals(lst2);
+        } else if (lst1.size() > lst2.size()) {
+            // Nếu lst cần tìm có số lượng phần từ lớn hơn.
+
+            return false;
+        } else {
+            // Nếu lst cần tìm có số lượng phần từ lớn hơn.
+            for (i = 0; i < lst1.size(); i++) {
+                for (j = 0; j < lst2.size(); j++) {
+                    if (lst1.get(i).equals(lst2.get(j))) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

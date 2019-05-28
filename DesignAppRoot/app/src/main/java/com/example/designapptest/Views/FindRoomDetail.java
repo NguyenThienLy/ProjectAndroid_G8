@@ -1,5 +1,6 @@
 package com.example.designapptest.Views;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,15 +27,17 @@ import com.example.designapptest.R;
 import com.squareup.picasso.Picasso;
 
 public class FindRoomDetail extends AppCompatActivity {
-    TextView txtNameUser, txtAboutPrice, txtWantGender;
+    TextView txtNameUser, txtAboutPrice, txtWantGender, txtExpandConvenients;
 
     Button btnCallPhone;
 
     ImageView imgGenderUser, imgAvatarUser;
     GridView grVLocationSearch;
 
+    LinearLayout lnLtExpandConvenients;
+
     // Các recycler.
-    RecyclerView recycler_convenients_room_detail;
+    RecyclerView recyclerConvenientsFindRoomDetail;
     AdapterRecyclerConvenient adapterRecyclerConvenient;
 
     ProgressBar progressBarFindRoomDetail;
@@ -83,6 +87,9 @@ public class FindRoomDetail extends AppCompatActivity {
 
         txtNameUser = (TextView) findViewById(R.id.txt_name_user_find_room_detail);
         txtAboutPrice = (TextView) findViewById(R.id.txt_abouPrice_find_room_detail);
+        txtExpandConvenients = (TextView) findViewById(R.id.txt_expand_convenients_find_room_detail);
+
+        lnLtExpandConvenients = (LinearLayout) findViewById(R.id.lnLt_expand_convenients_find_room_detail);
 
         grVLocationSearch = (GridView) findViewById(R.id.grV_locationSearch_find_room_detail);
 //        ViewGroup.LayoutParams layoutParams = grVLocationSearch.getLayoutParams();
@@ -96,7 +103,7 @@ public class FindRoomDetail extends AppCompatActivity {
         imgGenderUser = (ImageView) findViewById(R.id.img_gender_user_find_room_detail);
         imgAvatarUser = (ImageView) findViewById(R.id.img_avatar_user_find_room_detail);
 
-        recycler_convenients_room_detail = (RecyclerView) findViewById(R.id.recycler_convenients_find_room_detail);
+        recyclerConvenientsFindRoomDetail = (RecyclerView) findViewById(R.id.recycler_convenients_find_room_detail);
     }
 
     // Khởi tạo các giá trị cho các control.
@@ -143,12 +150,14 @@ public class FindRoomDetail extends AppCompatActivity {
 
 
         if (findRoomModel.getListConvenientRoom() != null) {
+            expandRoomConvenients();
+
             // Load danh sách tiện nghi của phòng trọ
             RecyclerView.LayoutManager layoutManagerConvenient = new GridLayoutManager(this, 3);
-            recycler_convenients_room_detail.setLayoutManager(layoutManagerConvenient);
+            recyclerConvenientsFindRoomDetail.setLayoutManager(layoutManagerConvenient);
             adapterRecyclerConvenient = new AdapterRecyclerConvenient(this, getApplicationContext(),
                     R.layout.utility_element_grid_room_detail_view, findRoomModel.getListConvenientRoom());
-            recycler_convenients_room_detail.setAdapter(adapterRecyclerConvenient);
+            recyclerConvenientsFindRoomDetail.setAdapter(adapterRecyclerConvenient);
             adapterRecyclerConvenient.notifyDataSetChanged();
         }
 
@@ -169,5 +178,49 @@ public class FindRoomDetail extends AppCompatActivity {
                 startActivity(intentCall);
             }
         });
+    }
+
+    private void expandRoomConvenients() {
+        int convenientRoomSize = findRoomModel.getListConvenientRoom().size();
+        int rowConvenientHeight = 203;
+        int fullRowConvenientHeight = (convenientRoomSize % 3 == 0) ?
+                (convenientRoomSize / 3) * rowConvenientHeight : (convenientRoomSize / 3) * rowConvenientHeight + rowConvenientHeight;
+
+        txtExpandConvenients.setText(R.string.stringExpand);
+
+        if (convenientRoomSize > 3) {
+            resizeRecyclerConvenientsFindRoomDetailAnimation(recyclerConvenientsFindRoomDetail.getHeight(), rowConvenientHeight);
+        } else {
+            lnLtExpandConvenients.setVisibility(View.GONE);
+        }
+
+        lnLtExpandConvenients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (txtExpandConvenients.getText().toString().equals(getString(R.string.stringCollapse))) {
+                    resizeRecyclerConvenientsFindRoomDetailAnimation(recyclerConvenientsFindRoomDetail.getHeight(), rowConvenientHeight);
+                    txtExpandConvenients.setText(R.string.stringExpand);
+                } else {
+                    resizeRecyclerConvenientsFindRoomDetailAnimation(recyclerConvenientsFindRoomDetail.getHeight(), fullRowConvenientHeight);
+                    txtExpandConvenients.setText(R.string.stringCollapse);
+                }
+            }
+        });
+    }
+
+    private void resizeRecyclerConvenientsFindRoomDetailAnimation(int fromHeight, int toHeight) {
+        ValueAnimator anim = ValueAnimator.ofInt(fromHeight, toHeight);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = recyclerConvenientsFindRoomDetail.getLayoutParams();
+                layoutParams.height = val;
+
+                recyclerConvenientsFindRoomDetail.setLayoutParams(layoutParams);
+            }
+        });
+        anim.setDuration(200);
+        anim.start();
     }
 }
