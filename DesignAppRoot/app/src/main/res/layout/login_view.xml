@@ -26,7 +26,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login Now"
+                android:text="Đăng Nhập"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="24dp" />
@@ -39,7 +39,7 @@
                 android:layout_marginTop="30dp"
                 android:background="@drawable/custom_edit_text_login"
                 android:drawableLeft="@drawable/ic_svg_user_white_100"
-                android:hint="Username"
+                android:hint="Tên tài khoản"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
@@ -53,7 +53,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_edit_text_login"
                 android:drawableLeft="@drawable/ic_svg_pass_white_100"
-                android:hint="Password"
+                android:hint="Mật khẩu"
                 android:inputType="textPassword"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/white"
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
-            android:text="I forgot password"
+            android:text="Quên mật khẩu"
             android:textColor="@android:color/white"
             android:textSize="12dp"
             android:clickable="true"
@@ -80,7 +80,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/custom_button_login"
-                android:text="Login"
+                android:text="Đăng nhập"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />
 
@@ -91,7 +91,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/custom_button_signup"
-                android:text="Sign Up"
+                android:text="Đăng ký"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />
 

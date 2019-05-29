@@ -6,13 +6,15 @@
     android:orientation="vertical">
 <android.support.v4.widget.NestedScrollView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="35dp"
+        android:paddingRight="35dp"
+        android:paddingLeft="35dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="30dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -39,8 +41,9 @@
             android:layout_width="344dp"
             android:layout_height="wrap_content"
             android:text="@string/stringCityPushRoom"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textColor="#666666"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -54,13 +57,13 @@
                 android:background="@drawable/custom_spinner_rim" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/ic_svg_dropdown_24" />
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_png_drop_100"/>
         </RelativeLayout>
 
         <TextView
@@ -68,8 +71,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/stringDistrictPushRoom"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textColor="#666666"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -83,13 +87,13 @@
                 android:background="@drawable/custom_spinner_rim" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/ic_svg_dropdown_24" />
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_png_drop_100" />
         </RelativeLayout>
 
         <TextView
@@ -97,8 +101,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/stringWardPushRoom"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textColor="#666666"
+            android:textStyle="bold"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -112,13 +116,13 @@
                 android:background="@drawable/custom_spinner_rim" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/ic_svg_dropdown_24" />
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_png_drop_100" />
         </RelativeLayout>
 
         <TextView
@@ -126,8 +130,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/stringStreetPushRoom"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textColor="#666666"
+            android:textStyle="bold"/>
 
         <RelativeLayout
             android:layout_marginTop="10dp"
@@ -140,7 +144,8 @@
                 android:background="@drawable/custom_spinner_rim"
                 android:gravity="center"
                 android:hint="@string/stringExampleStreetPushRoom"
-                android:textColor="@android:color/black" />
+                android:textSize="14sp"
+                android:textColor="#666666" />
         </RelativeLayout>
 
 
@@ -149,8 +154,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/stringNoPushRoom"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textColor="#666666"
+            android:textStyle="bold"/>
 
         <RelativeLayout
             android:layout_marginTop="10dp"
@@ -163,19 +168,22 @@
                 android:background="@drawable/custom_spinner_rim"
                 android:gravity="center"
                 android:hint="@string/stringExampleNoPushRoom"
-                android:textColor="@android:color/black" />
+                android:textColor="#666666"
+                android:textSize="14dp"/>
         </RelativeLayout>
 
 
         <Button
             android:id="@+id/btn_nextStep1_post_room"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
+            android:height="30dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="25dp"
             android:background="@drawable/custom_rim"
-            android:text="@string/stringNameButtonNextPushRoom"
-            android:textColor="@android:color/holo_blue_bright" />
+            android:text="Xác nhận"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
 
