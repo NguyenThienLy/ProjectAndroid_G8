@@ -34,7 +34,7 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtTimeCreated, txtName,txtAddress;
+        TextView txtTimeCreated, txtName,txtAddress,txtQuantityViews,txtQuantityComment;
         ImageView imgRoom,imgVerified;
         Button btnUpdate,btnViews,btnDelete,btnComment;
         public ViewHolder(@NonNull View itemView) {
@@ -48,6 +48,9 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
             imgRoom = (ImageView) itemView.findViewById(R.id.img_room);
 
             imgVerified = (ImageView)itemView.findViewById(R.id.img_verified);
+
+            txtQuantityViews = itemView.findViewById(R.id.txt_quantityViews);
+            txtQuantityComment = itemView.findViewById(R.id.txt_quantityComment);
 
             btnUpdate =(Button)itemView.findViewById(R.id.btn_update);
             btnViews =(Button)itemView.findViewById(R.id.btn_views);
@@ -88,6 +91,9 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
             viewHolder.imgVerified.setVisibility(View.GONE);
         }
         //End hiển thị phòng đã được chúng thực
+
+        viewHolder.txtQuantityComment.setText(roomModel.getListCommentRoom().size()+"");
+        viewHolder.txtQuantityViews.setText(roomModel.getViews()+"");
 
         //Download ảnh dùng picaso cho đỡ lag, dùng thuộc tính fit() để giảm dung lượng xuống thấp nhất có thể
         roomModel.getCompressionImageFit().centerCrop().into(viewHolder.imgRoom);
