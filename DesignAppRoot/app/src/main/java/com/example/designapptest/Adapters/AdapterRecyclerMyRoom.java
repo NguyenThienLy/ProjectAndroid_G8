@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -153,11 +155,48 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
     }
 
     private void showDialogChange(String RoomID,int position){
+
+        RoomModel modelFunction = new RoomModel();
+
         Dialog changeDialog = new Dialog(context);
         changeDialog.setContentView(R.layout.change_state_room_dialog);
 
         ImageView imgClose = changeDialog.findViewById(R.id.img_close);
-        //Button btnClear =changeDialog.findViewById(R.id.btn_);
+
+        RadioButton radClear,radRent;
+        radClear = changeDialog.findViewById(R.id.rad_clear);
+        radRent = changeDialog.findViewById(R.id.rad_rent);
+
+        if(RoomModelList.get(position).getMaxNumber()==RoomModelList.get(position).getCurrentNumber()){
+            radRent.setChecked(true);
+        }else {
+            radClear.setChecked(true);
+        }
+
+        radClear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    //Gọi hàm cho phòng trống ở model
+                    modelFunction.changeState(RoomModelList.get(position).getRoomID());
+                    //Thay đổi ở List hiện tại
+                    RoomModelList.get(position).setCurrentNumber(0);
+                }
+            }
+        });
+
+        radRent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    //Gọi hàm cho thuê phòng từ model
+                    modelFunction.changeState(RoomModelList.get(position).getRoomID(), (int) RoomModelList.get(position).getMaxNumber());
+                    //Thay đổi ở lish hiện tại
+                    RoomModelList.get(position).setCurrentNumber(RoomModelList.get(position).getMaxNumber());
+                }
+            }
+        });
+
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

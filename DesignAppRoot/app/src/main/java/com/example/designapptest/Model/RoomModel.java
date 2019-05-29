@@ -1647,6 +1647,15 @@ public class RoomModel implements Parcelable { // Linh thêm
 
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
 
+    }
 
+    //Hàm Change State Room: sang đã thuê
+    public void changeState(String RoomID,int MaxNumber){
+        nodeRoot.child("Room").child(RoomID).child("currentNumber").setValue(MaxNumber);
+    }
+
+    //Hàm Change State Room: sang còn trống
+    public void changeState(String RoomID){
+        nodeRoot.child("Room").child(RoomID).child("currentNumber").setValue(0);
     }
 }

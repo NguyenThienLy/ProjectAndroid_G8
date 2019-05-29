@@ -44,27 +44,35 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
-            <LinearLayout
-                android:weightSum="2"
+            <RadioGroup
                 android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_alignParentRight="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <Button
-                    android:background="#FFFFFF"
-                    android:textColor="#271C1C"
-                    android:text="Làm trống"
-                    android:layout_weight="1"
+                <RadioButton
+                    android:id="@+id/rad_clear"
+                    android:textColor="@drawable/custom_radio_text_color"
+                    android:background="@drawable/custom_radio_button_gender"
+                    android:padding="10dp"
+                    android:gravity="center_horizontal"
+                    android:button="@android:color/transparent"
+                    android:text="Còn phòng"
                     android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content" />
-                <Button
-                    android:enabled="false"
-                    android:background="#FFFFFF"
-                    android:textColor="#271C1C"
+                <RadioButton
+                    android:id="@+id/rad_rent"
+                    android:textColor="@drawable/custom_radio_text_color"
+                    android:background="@drawable/custom_radio_button_gender"
+                    android:padding="10dp"
+                    android:gravity="center_horizontal"
+                    android:button="@android:color/transparent"
                     android:text="Cho thuê"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content" />
-            </LinearLayout>
+            </RadioGroup>
 
         </LinearLayout>
     </RelativeLayout>
