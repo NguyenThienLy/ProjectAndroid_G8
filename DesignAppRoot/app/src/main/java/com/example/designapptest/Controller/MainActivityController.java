@@ -28,7 +28,7 @@ import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.example.designapptest.Model.LocationModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
-import com.example.designapptest.Views.locationAdapter;
+import com.example.designapptest.Adapters.locationAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
