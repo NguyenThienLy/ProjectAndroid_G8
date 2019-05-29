@@ -229,7 +229,7 @@ public class postRoomStep1 extends Fragment implements AdapterView.OnItemSelecte
                     double srLongtitude =longtitude;
                     intent.putExtra(SHARE_LATITUDE,srLatitude);
                     intent.putExtra(SHARE_LONGTITUDE,srLongtitude);
-                    isChooseMap = true;
+                    //isChooseMap = true;
                     startActivityForResult(intent, RQ_LOCATION);
                 }
 

@@ -31,6 +31,7 @@
             android:layout_marginTop="5dp">
 
             <RadioButton
+                android:checked="true"
                 android:textColor="@drawable/custom_radio_text_color"
                 android:buttonTint="@color/success"
                 android:id="@+id/rBtn_type1_push_room"
@@ -76,6 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp">
             <RadioButton
+                android:checked="true"
                 android:textColor="@drawable/custom_radio_text_color"
                 android:buttonTint="@color/success"
                 android:id="@+id/rBtn_male"
