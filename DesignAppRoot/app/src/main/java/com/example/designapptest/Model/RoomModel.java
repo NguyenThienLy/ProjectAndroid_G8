@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.example.designapptest.ClassOther.FilePath;
 import com.example.designapptest.Controller.Interfaces.ICallBackFromAddRoom;
+import com.example.designapptest.Controller.Interfaces.IInfoOfAllRoomUser;
 import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.example.designapptest.Controller.Interfaces.IMapViewModel;
 import com.example.designapptest.R;
@@ -1502,5 +1503,72 @@ public class RoomModel implements Parcelable { // Linh thêm
                 return date2.compareTo(date1);
             }
         });
+    }
+
+    //Thông tin về tất cả các phòng của người dùng. tổng phòng, tổng lượt xem, tổng bình luận
+    public void infoOfAllRoomOfUser(String UID, IInfoOfAllRoomUser iInfoOfAllRoomUser){
+        Query nodeRoomOrderbyUserID = nodeRoot.child("Room")
+                .orderByChild("owner")
+                .equalTo(UID);
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Lấy ra tổng số phòng
+                int CountRoom = (int) dataSnapshot.getChildrenCount();
+                //Gửi thông tin tổng số phòng về UI
+                iInfoOfAllRoomUser.sendQuantity(CountRoom,0);
+
+                //Duyệt hết số phòng để đếm số lượng lượt xem và bình luận
+                int count = 0;
+                List<String> listRoomID = new ArrayList<>();
+                for(DataSnapshot snapshotRoom:dataSnapshot.getChildren()){
+                    count++;
+                    listRoomID.add(snapshotRoom.getKey());
+                    //Lấy ra key và tìm trong
+                    if(count == CountRoom){
+                        //Gửi dữ liệu về controller
+                        SendInfoAllOfRoom(listRoomID,iInfoOfAllRoomUser);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        nodeRoomOrderbyUserID.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    //Gửi thông tin về UI
+    private void SendInfoAllOfRoom(List<String> listRoomID,IInfoOfAllRoomUser iInfoOfAllRoomUser){
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int CountViews = 0;
+                int CountComments =0;
+                for(String roomID:listRoomID){
+                    int views = (int) dataSnapshot.child("RoomViews").child(roomID).getChildrenCount();
+                    CountViews+=views;
+
+                    int comments = (int) dataSnapshot.child("RoomComments").child(roomID).getChildrenCount();
+                    CountComments+=comments;
+
+                }
+
+                //iInfoOfAllRoomUser.sendQuantity(CountViews,1);
+                //Gửi thông tin về UI
+                iInfoOfAllRoomUser.sendQuantity(CountViews,1);
+                iInfoOfAllRoomUser.sendQuantity(CountComments,2);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
 }

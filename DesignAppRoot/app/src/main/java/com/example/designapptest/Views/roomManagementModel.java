@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.designapptest.Controller.MainActivityController;
+import com.example.designapptest.Controller.RoomManagementControlller;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 
@@ -23,6 +24,7 @@ import java.util.List;
 public class roomManagementModel extends AppCompatActivity {
     RecyclerView recyclerMainRoom;
     MainActivityController mainActivityController;
+    RoomManagementControlller roomManagementControlller;
     List<RoomModel> roomModelList = new ArrayList<>();
 
     ProgressBar progressBarMyRooms;
@@ -54,8 +56,8 @@ public class roomManagementModel extends AppCompatActivity {
         recyclerMainRoom = (RecyclerView)findViewById(R.id.recycler_Main_Room);
 
         txtQuantityRoom = findViewById(R.id.txt_quantity_room);
-        txtQuantityComment = findViewById(R.id.txt_quantityComment);
-        txtQuantityView = findViewById(R.id.txt_quantityViews);
+        txtQuantityComment = findViewById(R.id.txt_quantity_comment);
+        txtQuantityView = findViewById(R.id.txt_quantity_view);
 
         progressBarMyRooms = (ProgressBar) findViewById(R.id.progress_bar_my_rooms);
         progressBarMyRooms.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
@@ -92,6 +94,13 @@ public class roomManagementModel extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         setView();
+        getData();
+
+    }
+
+    private void getData(){
+        roomManagementControlller = new RoomManagementControlller(this);
+        roomManagementControlller.loadQuantiryInfo(UID,txtQuantityRoom,txtQuantityView,txtQuantityComment);
 
         mainActivityController = new MainActivityController(this, UID);
         mainActivityController.ListRoomUser(recyclerMainRoom, txtQuantityMyRooms, progressBarMyRooms,
