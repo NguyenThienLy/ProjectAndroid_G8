@@ -1571,4 +1571,82 @@ public class RoomModel implements Parcelable { // Linh thêm
         };
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
+
+    //Hàm xóa phòng
+    public void DeleteRoom(String RoomID){
+        //Xóa trong node location Room
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Lấy ra tên đường quận để xóa
+                RoomModel roomModel = dataSnapshot.child("Room").child(RoomID).getValue(RoomModel.class);
+
+                String SplitWarn = roomModel.getWard().substring(2);
+                //Xóa trong node location
+                nodeRoot.child("LocationRoom").child(roomModel.getCounty())
+                        .child(SplitWarn).child(roomModel.getStreet()).orderByValue().equalTo(RoomID)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot nodeRoom:dataSnapshot.getChildren()){
+                            Log.d("check3", nodeRoom.getValue(String.class));
+                            //Xóa node
+                            nodeRoom.getRef().removeValue();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                DataSnapshot snapshotFavoriteRoom = dataSnapshot.child("FavoriteRooms");
+                for (DataSnapshot snapshotUser:snapshotFavoriteRoom.getChildren()){
+                    for(DataSnapshot snapshotRoomFavorite:snapshotUser.getChildren()){
+                        if(snapshotRoomFavorite.getKey().equals(RoomID)){
+                            Log.d("mycheck", snapshotRoomFavorite.getKey());
+                            snapshotFavoriteRoom.getRef().removeValue();
+                        }
+                    }
+                }
+
+                //Xóa trong node FacoritRoom
+
+                //Xóa trong node Room
+                nodeRoot.child("Room").child(RoomID).getRef().removeValue();
+
+                //Xóa trong node ReportedRoom
+                nodeRoot.child("ReportedRoom").child(RoomID).getRef().removeValue();
+
+                //Xóa trong node roomComment
+                nodeRoot.child("RoomComments").child(RoomID).getRef().removeValue();
+
+                //Xóa trong node RoomCompressImage
+                nodeRoot.child("RoomCompressionImages").child(RoomID).getRef().removeValue();
+
+                //Xóa trong node RoomImage
+                nodeRoot.child("RoomImages").child(RoomID).getRef().removeValue();
+
+                //Xóa trong node convenient
+                nodeRoot.child("RoomConvenients").child(RoomID).getRef().removeValue();
+
+                //Xóa trong node RoomPrice
+                nodeRoot.child("RoomPrice").child(RoomID).getRef().removeValue();
+
+                //Xóa trong node RoomViews
+                nodeRoot.child("RoomViews").child(RoomID).getRef().removeValue();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+
+
+    }
 }
