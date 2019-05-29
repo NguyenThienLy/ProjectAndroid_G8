@@ -30,6 +30,14 @@ public class ViewModel {
     //Biến lưu root của firebase, lưu ý để biến là private
     private DatabaseReference nodeRoot;
 
+    public RequestCreator getCompressionImageFit() {
+        return compressionImageFit;
+    }
+
+    public void setCompressionImageFit(RequestCreator compressionImageFit) {
+        this.compressionImageFit = compressionImageFit;
+    }
+
     public String getUserID() {
         return userID;
     }

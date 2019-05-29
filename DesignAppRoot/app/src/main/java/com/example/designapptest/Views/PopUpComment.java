@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.designapptest.Controller.PopUpCommentController;
@@ -40,6 +41,8 @@ public class PopUpComment extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     String UID;
+
+    RelativeLayout rLTTop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +96,8 @@ public class PopUpComment extends AppCompatActivity {
         progressBarLoadMoreAllComments.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
                 android.graphics.PorterDuff.Mode.MULTIPLY);
 
-        btnFinish = findViewById(R.id.btn_finish);
-        btnFinish.setOnClickListener(new View.OnClickListener() {
+        rLTTop = findViewById(R.id.rLT_Top);
+        rLTTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

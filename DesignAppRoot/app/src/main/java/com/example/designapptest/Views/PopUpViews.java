@@ -9,16 +9,17 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.designapptest.Controller.PopUpViewsController;
 import com.example.designapptest.R;
 
 public class PopUpViews extends AppCompatActivity {
 
-    ImageButton btnFinish;
+    RelativeLayout rLTTop;
     String roomID;
 
     TextView txtQuantityAllView;
@@ -29,6 +30,8 @@ public class PopUpViews extends AppCompatActivity {
     ProgressBar progressBarLoadMoreAllView;
 
     RecyclerView recyclerView;
+
+    PopUpViewsController popUpViewsController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,14 +72,14 @@ public class PopUpViews extends AppCompatActivity {
         progressBarLoadMoreAllView = (ProgressBar) findViewById(R.id.progress_bar_load_more_all_view);
         progressBarLoadMoreAllView.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
                 android.graphics.PorterDuff.Mode.MULTIPLY);
-
-        btnFinish = findViewById(R.id.btn_finish);
-        btnFinish.setOnClickListener(new View.OnClickListener() {
+        rLTTop = findViewById(R.id.rLT_Top);
+        rLTTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
     }
 
     public void setView() {
@@ -86,9 +89,17 @@ public class PopUpViews extends AppCompatActivity {
         progressBarLoadMoreAllView.setVisibility(View.GONE);
     }
 
+    public void setAdapter() {
+        popUpViewsController = new PopUpViewsController(this);
+        popUpViewsController.ListRoomView(recyclerView, roomID,lnLyQuantityTopAllView ,
+                progressBarAllView, txtQuantityAllView,
+                nestedScrollAllView, progressBarLoadMoreAllView);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
+        setAdapter();
         setView();
     }
 }
