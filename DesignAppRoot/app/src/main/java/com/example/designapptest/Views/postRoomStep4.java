@@ -197,6 +197,9 @@ public class postRoomStep4 extends Fragment implements View.OnClickListener {
                         callAddRoomControlller();
                     }
                 }
+                else {
+                    Toast.makeText(getContext(),"Vui lòng điền đầy đủ thông tin",Toast.LENGTH_LONG).show();
+                }
                 break;
         }
     }

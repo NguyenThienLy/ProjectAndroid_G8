@@ -1,17 +1,23 @@
-package com.example.designapptest.Views;
+package com.example.designapptest.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.designapptest.Model.LocationModel;
 import com.example.designapptest.R;
+import com.example.designapptest.Views.searchView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import static com.example.designapptest.Adapters.AdapterRecyclerSuggestions.INTENT_DISTRICT;
 
 public class locationAdapter extends BaseAdapter {
     private Context context;
@@ -54,6 +60,7 @@ public class locationAdapter extends BaseAdapter {
             holder.image = (ImageView) view.findViewById(R.id.img_location);
             holder.name = (TextView) view.findViewById(R.id.txt_name_location);
             holder.room = (TextView) view.findViewById(R.id.txt_room_location);
+            holder.rLTImage =view.findViewById(R.id.rLT_image);
 
             view.setTag(holder);
         }
@@ -63,9 +70,19 @@ public class locationAdapter extends BaseAdapter {
 
         ViewHolder holder = (ViewHolder) view.getTag();
 
-        holder.image.setImageResource(itemLocation.getImage());
+        Picasso.get().load(itemLocation.getImage()).centerCrop().fit().into(holder.image);
+        //holder.image.setImageResource(itemLocation.getImage());
         holder.name.setText(itemLocation.getCounty());
         holder.room.setText(itemLocation.getRoomNumber()+" Phòng");
+
+        holder.rLTImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, searchView.class);
+                intent.putExtra(INTENT_DISTRICT,lstLocation.get(position).getCounty());
+                context.startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -74,5 +91,6 @@ public class locationAdapter extends BaseAdapter {
         ImageView image;
         TextView name;
         TextView room;
+        RelativeLayout rLTImage;
     }
 }

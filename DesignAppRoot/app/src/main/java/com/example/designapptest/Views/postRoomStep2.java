@@ -12,9 +12,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.designapptest.R;
-import com.example.designapptest.Views.postRoomAdapter;
 
 public class postRoomStep2 extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -208,6 +208,9 @@ public class postRoomStep2 extends Fragment implements View.OnClickListener, Com
 
                     //Chuyển sang page kế tiếp
                     postRoom.setCurrentPage(2);
+                }
+                else {
+                    Toast.makeText(getContext(),"Vui lòng điền đầy đủ thông tin",Toast.LENGTH_LONG).show();
                 }
                 break;
         }

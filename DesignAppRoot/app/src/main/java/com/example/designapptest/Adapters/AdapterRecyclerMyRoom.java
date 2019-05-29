@@ -1,5 +1,6 @@
 package com.example.designapptest.Adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -8,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
@@ -36,7 +40,7 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtTimeCreated, txtName,txtAddress,txtQuantityViews,txtQuantityComment;
         ImageView imgRoom,imgVerified;
-        Button btnUpdate,btnViews,btnDelete,btnComment;
+        Button btnUpdate,btnViews,btnDelete,btnComment,btnChange;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -56,6 +60,7 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
             btnViews =(Button)itemView.findViewById(R.id.btn_views);
             btnDelete =(Button)itemView.findViewById(R.id.btn_delete);
             btnComment =(Button)itemView.findViewById(R.id.btn_comment);
+            btnChange = itemView.findViewById(R.id.btn_change);
 
         }
 
@@ -118,7 +123,7 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
         viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showDialog(roomModel.getRoomID(),i);
             }
         });
 
@@ -128,6 +133,13 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
                 Intent intent = new Intent(context, PopUpComment.class);
                 intent.putExtra("phongtro", roomModel.getRoomID());
                 (context).startActivity(intent);
+            }
+        });
+
+        viewHolder.btnChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogChange(roomModel.getRoomID(),i);
             }
         });
     }
@@ -142,6 +154,88 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
 
     }
 
+    private void showDialogChange(String RoomID,int position){
 
+        RoomModel modelFunction = new RoomModel();
+
+        Dialog changeDialog = new Dialog(context);
+        changeDialog.setContentView(R.layout.change_state_room_dialog);
+
+        ImageView imgClose = changeDialog.findViewById(R.id.img_close);
+
+        RadioButton radClear,radRent;
+        radClear = changeDialog.findViewById(R.id.rad_clear);
+        radRent = changeDialog.findViewById(R.id.rad_rent);
+
+        if(RoomModelList.get(position).getMaxNumber()==RoomModelList.get(position).getCurrentNumber()){
+            radRent.setChecked(true);
+        }else {
+            radClear.setChecked(true);
+        }
+
+        radClear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    //Gọi hàm cho phòng trống ở model
+                    modelFunction.changeState(RoomModelList.get(position).getRoomID());
+                    //Thay đổi ở List hiện tại
+                    RoomModelList.get(position).setCurrentNumber(0);
+                }
+            }
+        });
+
+        radRent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    //Gọi hàm cho thuê phòng từ model
+                    modelFunction.changeState(RoomModelList.get(position).getRoomID(), (int) RoomModelList.get(position).getMaxNumber());
+                    //Thay đổi ở lish hiện tại
+                    RoomModelList.get(position).setCurrentNumber(RoomModelList.get(position).getMaxNumber());
+                }
+            }
+        });
+
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeDialog.dismiss();
+            }
+        });
+
+
+        changeDialog.show();
+    }
+
+    private void showDialog(String RoomID,int position){
+        Dialog deleteDialog = new Dialog(context);
+        deleteDialog.setContentView(R.layout.delete_dialog);
+
+        ImageView imgClose = deleteDialog.findViewById(R.id.img_close);
+        Button btnDelete =deleteDialog.findViewById(R.id.btn_delete);
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteDialog.dismiss();
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Remove khỏi list
+                RoomModelList.remove(position);
+                notifyDataSetChanged();
+                //Gọi hàm xóa từ model
+//                RoomModel roomModel1 = new RoomModel();
+//                roomModel1.DeleteRoom(roomModel.getRoomID());
+                deleteDialog.dismiss();
+                Toast.makeText(context,"Xóa thành công",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        deleteDialog.show();
+    }
 
 }

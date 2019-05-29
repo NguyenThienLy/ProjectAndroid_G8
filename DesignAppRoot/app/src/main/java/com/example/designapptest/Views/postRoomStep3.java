@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.designapptest.Adapters.AdapterRecyclerImageUpload;
 import com.example.designapptest.R;
@@ -283,6 +284,8 @@ public class postRoomStep3 extends Fragment implements View.OnClickListener{
                         changeColorInActivity(true);
                         //Chuyển sang page kế tiếp
                         postRoom.setCurrentPage(3);
+                    }else {
+                        Toast.makeText(getContext(),"Vui lòng chọn đủ ảnh và tiện ích",Toast.LENGTH_LONG).show();
                     }
                 }
 
