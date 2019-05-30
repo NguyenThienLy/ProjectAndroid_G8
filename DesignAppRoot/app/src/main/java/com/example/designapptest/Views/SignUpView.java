@@ -45,8 +45,8 @@ public class SignUpView extends AppCompatActivity implements View.OnClickListene
         rad_gender_female_signUp = (RadioButton) findViewById(R.id.rad_gender_female_signUp);
         rad_gender_male_signUp = (RadioButton) findViewById(R.id.rad_gender_male_signUp);
 
-        progressDialog = new ProgressDialog(SignUpView.this);
-        userController = new UserController();
+        progressDialog = new ProgressDialog(SignUpView.this, R.style.MyProgessDialogStyle);
+        userController = new UserController(this);
 
         btn_signup.setOnClickListener(this);
         rad_gender_female_signUp.setOnClickListener(this);
@@ -67,17 +67,17 @@ public class SignUpView extends AppCompatActivity implements View.OnClickListene
         }
 
         final Boolean genderUser = gender;
-        String error = "Please enter";
+        String error = "Vui lòng nhập";
         if(email.trim().length() == 0) {
-            error += " email ";
+            error += " email";
             Toast.makeText(SignUpView.this, error, Toast.LENGTH_SHORT).show();
         } else if (password.trim().length() == 0) {
-            error += " password";
+            error += " mật khẩu";
             Toast.makeText(SignUpView.this, error, Toast.LENGTH_SHORT).show();
         } else if (!passwordRetype.equals(password)) {
-            Toast.makeText(SignUpView.this, "The password confirmation does not match.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpView.this, "Mật khẩu không khớp. Vui lòng nhập lại!", Toast.LENGTH_LONG).show();
         } else {
-            progressDialog.setMessage("Create new account...");
+            progressDialog.setMessage("Đang tạo tài khoản...");
             progressDialog.setIndeterminate(true);
             progressDialog.show();
 
@@ -87,6 +87,7 @@ public class SignUpView extends AppCompatActivity implements View.OnClickListene
                     if (task.isSuccessful()) {
                         UserModel userModel = new UserModel();
                         userModel.setName(name);
+                        userModel.setEmail(email);
                         userModel.setAvatar(avatar);
                         userModel.setGender(genderUser);
                         userModel.setOwner(owner);
@@ -97,12 +98,12 @@ public class SignUpView extends AppCompatActivity implements View.OnClickListene
                         userController.addUser(userModel, uid);
 
                         progressDialog.dismiss();
-                        Toast.makeText(SignUpView.this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpView.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                         Intent iSignin = new Intent(SignUpView.this, LoginView.class);
                         startActivity(iSignin);
                     } else {
                         progressDialog.dismiss();
-                        Toast.makeText(SignUpView.this, "Sign up failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpView.this, "Đăng kí thất bại", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

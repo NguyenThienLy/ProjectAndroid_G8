@@ -52,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/lnLt_quantity_top_verified_rooms">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,8 +65,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center"
-                    android:paddingLeft="0dp"
+                    android:paddingLeft="10dp"
                     android:paddingRight="10dp">
 
                 </android.support.v7.widget.RecyclerView>
@@ -77,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="15dp"/>
+                    android:layout_marginBottom="15dp" />
                 <!--End Processbar-->
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

@@ -1,7 +1,14 @@
 package com.example.designapptest.Model;
 
+import android.support.annotation.NonNull;
+
+import com.example.designapptest.Controller.Interfaces.IRoomViewsModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class RoomViewsModel {
     String time;
@@ -52,5 +59,29 @@ public class RoomViewsModel {
 
         //Thêm vào một lượng view mới, một user khi vào xem một phòng thì chỉ tính là 1 lượt view duy nhất
         nodeRoomViews.child(roomViewsModel.getRoomID()).child(roomViewsModel.getUserID()).setValue(roomViewsModel.getTime());
+    }
+
+    public void SumViews(IRoomViewsModel iRoomViewsModel) {
+        // Tạo listen cho firebase.
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long quantityViews = 0;
+
+                for (DataSnapshot valueRoomView : dataSnapshot.getChildren()) {
+                    quantityViews += valueRoomView.getChildrenCount();
+                }
+
+                // set view
+                iRoomViewsModel.setSumViewsAdminView(quantityViews);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        nodeRoot.child("RoomViews").addValueEventListener(valueEventListener);
     }
 }
