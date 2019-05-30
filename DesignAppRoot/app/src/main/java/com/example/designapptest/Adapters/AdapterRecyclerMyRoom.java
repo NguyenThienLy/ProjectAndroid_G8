@@ -225,12 +225,12 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
             @Override
             public void onClick(View v) {
                 //Remove khỏi list
+                //Gọi hàm xóa từ model
+                RoomModel modelFunction = new RoomModel();
+                modelFunction.DeleteRoom(RoomModelList.get(position).getRoomID());
+                deleteDialog.dismiss();
                 RoomModelList.remove(position);
                 notifyDataSetChanged();
-                //Gọi hàm xóa từ model
-//                RoomModel roomModel1 = new RoomModel();
-//                roomModel1.DeleteRoom(roomModel.getRoomID());
-                deleteDialog.dismiss();
                 Toast.makeText(context,"Xóa thành công",Toast.LENGTH_SHORT).show();
             }
         });

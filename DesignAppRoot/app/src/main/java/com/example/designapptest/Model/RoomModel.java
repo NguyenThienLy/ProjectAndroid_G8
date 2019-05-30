@@ -1606,7 +1606,7 @@ public class RoomModel implements Parcelable { // Linh thêm
                     for(DataSnapshot snapshotRoomFavorite:snapshotUser.getChildren()){
                         if(snapshotRoomFavorite.getKey().equals(RoomID)){
                             Log.d("mycheck", snapshotRoomFavorite.getKey());
-                            snapshotFavoriteRoom.getRef().removeValue();
+                            snapshotRoomFavorite.getRef().removeValue();
                         }
                     }
                 }
