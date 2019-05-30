@@ -32,6 +32,7 @@
                 android:textSize="24dp" />
 
             <EditText
+                android:textCursorDrawable="@drawable/cursor_edittext"
                 android:id="@+id/edt_username_login"
                 android:layout_width="250dp"
                 android:layout_height="40dp"
@@ -46,6 +47,7 @@
                 android:textSize="14dp" />
 
             <EditText
+                android:textCursorDrawable="@drawable/cursor_edittext"
                 android:id="@+id/edt_password_login"
                 android:layout_width="250dp"
                 android:layout_height="40dp"

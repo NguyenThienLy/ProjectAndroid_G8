@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <com.arlib.floatingsearchview.FloatingSearchView
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:elevation="1dp"
             android:id="@+id/floating_search_view"
             android:layout_width="match_parent"

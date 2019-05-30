@@ -103,6 +103,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:inputType="number"
             android:id="@+id/edt_number_people_push_room"
             android:layout_width="match_parent"
@@ -123,6 +124,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:inputType="number"
             android:id="@+id/edt_length_push_room"
             android:layout_width="match_parent"
@@ -143,6 +145,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:inputType="number"
             android:id="@+id/edt_width_push_room"
             android:layout_width="match_parent"
@@ -163,6 +166,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:inputType="number"
             android:id="@+id/edt_priceRoom_push_room"
             android:layout_width="match_parent"
@@ -188,6 +192,8 @@
             android:orientation="horizontal">
 
             <EditText
+                android:theme="@style/EditTextTheme"
+                android:textCursorDrawable="@drawable/cursor_edittext"
                 android:inputType="number"
                 android:id="@+id/edt_electricBill_push_room"
                 android:layout_width="match_parent"
@@ -225,6 +231,8 @@
             android:orientation="horizontal">
 
             <EditText
+                android:theme="@style/EditTextTheme"
+                android:textCursorDrawable="@drawable/cursor_edittext"
                 android:inputType="number"
                 android:id="@+id/edt_waterBill_push_room"
                 android:layout_width="match_parent"
@@ -258,6 +266,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <EditText
+                android:theme="@style/EditTextTheme"
+                android:textCursorDrawable="@drawable/cursor_edittext"
                 android:inputType="number"
                 android:id="@+id/edt_internet_push_room"
                 android:layout_width="match_parent"
@@ -291,6 +301,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <EditText
+                android:theme="@style/EditTextTheme"
+                android:textCursorDrawable="@drawable/cursor_edittext"
                 android:inputType="number"
                 android:id="@+id/edt_parking_push_room"
                 android:layout_width="match_parent"

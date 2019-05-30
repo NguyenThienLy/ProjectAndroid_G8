@@ -22,6 +22,7 @@
             android:textColor="#666666"
             android:textStyle="bold"/>
         <EditText
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:id="@+id/edt_name_push_room"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -39,9 +40,15 @@
             android:textColor="#666666"
             android:textStyle="bold"/>
         <EditText
+            android:inputType="textMultiLine"
+            android:lines="10"
+            android:maxLines="10"
+            android:minLines="4"
+            android:scrollbars="vertical"
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:id="@+id/edt_describe_push_room"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="@string/stringDescribeConfirmPushRoom"
             android:gravity="center"
