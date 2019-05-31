@@ -104,7 +104,7 @@ public class roomManagementModel extends AppCompatActivity {
 
         mainActivityController = new MainActivityController(this, UID);
         mainActivityController.ListRoomUser(UID, recyclerMainRoom, txtQuantityMyRooms, progressBarMyRooms,
-                lnLtQuantityTopMyRooms, nestedScrollMyRoomsView, progressBarLoadMoreMyRooms);
+                lnLtQuantityTopMyRooms, nestedScrollMyRoomsView, progressBarLoadMoreMyRooms,false);
     }
 
     @Override

@@ -88,7 +88,7 @@ public class adminHostRoomsView extends AppCompatActivity {
 
         mainActivityController = new MainActivityController(this, UID);
         mainActivityController.ListRoomUser(userModel.getUserID(), recyclerAdminHostRoomsView, txtQuantity, progressBarAdminHostRooms,
-                lnLtQuantityTopAdminHostRooms, nestedScrollAdminHostRoomsView, progressBarLoadMoreAdminHostRooms);
+                lnLtQuantityTopAdminHostRooms, nestedScrollAdminHostRoomsView, progressBarLoadMoreAdminHostRooms,true);
     }
 
     private void initData() {

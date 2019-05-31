@@ -244,7 +244,7 @@ public class MainActivityController {
 
     public void ListRoomUser(String userID, RecyclerView recyclerMainRoom, TextView txtQuantity, ProgressBar progressBarMyRooms,
                              LinearLayout lnLtQuantityTopMyRooms, NestedScrollView nestedScrollMyRoomsView,
-                             ProgressBar progressBarLoadMoreMyRooms) {
+                             ProgressBar progressBarLoadMoreMyRooms,boolean isAdminCall) {
         final List<RoomModel> roomModelList = new ArrayList<>();
 
         //Tạo layout cho danh sách trọ tìm kiếm nhiều nhất
@@ -253,7 +253,12 @@ public class MainActivityController {
 
         //Tạo adapter cho recycle view
 //        final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, UID);
-        AdapterRecyclerMyRoom adapterRecyclerMyRoom = new AdapterRecyclerMyRoom(context, roomModelList, R.layout.room_user_list_view);
+        AdapterRecyclerMyRoom adapterRecyclerMyRoom;
+        if(isAdminCall){
+             adapterRecyclerMyRoom = new AdapterRecyclerMyRoom(context, roomModelList, R.layout.room_admin_user_list_view);
+        }else {
+             adapterRecyclerMyRoom = new AdapterRecyclerMyRoom(context, roomModelList, R.layout.room_user_list_view);
+        }
         //Cài adapter cho recycle
         recyclerMainRoom.setAdapter(adapterRecyclerMyRoom);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
