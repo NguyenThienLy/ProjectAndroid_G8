@@ -91,7 +91,7 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/ic_png_logout_color_100"/>
+                android:src="@drawable/ic_png_find_100"/>
             <Button
                 android:id="@+id/btn_my_find_room"
                 android:layout_width="match_parent"
@@ -116,6 +116,7 @@
                 android:layout_marginLeft="20dp"
                 android:src="@drawable/ic_png_logout_color_100"/>
             <Button
+                android:id="@+id/btn_logout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="Đăng xuất"

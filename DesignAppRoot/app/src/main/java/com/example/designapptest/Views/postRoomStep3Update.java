@@ -1,9 +1,7 @@
 package com.example.designapptest.Views;
 
 import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,7 +17,6 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.designapptest.Adapters.AdapterRecyclerImageUpload;
 import com.example.designapptest.Adapters.AdapterRecyclerImageUploadUpdate;
 import com.example.designapptest.Controller.Interfaces.INotifyChangeImage;
 import com.example.designapptest.Controller.Interfaces.IUpdateRoomModel;
@@ -28,9 +25,7 @@ import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -58,8 +53,7 @@ public class postRoomStep3Update extends Fragment implements View.OnClickListene
 
     ImageButton btnImgUpLoadPushRoom;
     RecyclerView recyclerImgUpload;
-    Button btnNextStep3PostRoom;
-    Button btnTakePhoto;
+    Button btnNextStep3PostRoom; Button btnTakePhoto;
 
     //Bien global
     List<String> listConvenient;
@@ -200,8 +194,6 @@ public class postRoomStep3Update extends Fragment implements View.OnClickListene
         btnImgUpLoadPushRoom = view.findViewById(R.id.btnImg_upLoad_push_room);
         btnImgUpLoadPushRoom.setOnClickListener(this);
 
-        btnTakePhoto = view.findViewById(R.id.btn_take_photo);
-        btnTakePhoto.setOnClickListener(this);
 
         recyclerImgUpload = view.findViewById(R.id.recycler_img_upload);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
@@ -423,14 +415,6 @@ public class postRoomStep3Update extends Fragment implements View.OnClickListene
 
                 break;
 
-            case R.id.btn_take_photo:
-
-                dispatchTakePictureIntent();
-
-                // Thông báo đã thay đổi đường dẫn ảnh
-                isChangeListImage = true;
-
-                break;
         }
     }
 }

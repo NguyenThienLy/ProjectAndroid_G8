@@ -54,7 +54,6 @@ public class postRoomStep3 extends Fragment implements View.OnClickListener{
     ImageButton btnImgUpLoadPushRoom;
     RecyclerView recyclerImgUpload;
     Button btnNextStep3PostRoom;
-    Button btnTakePhoto;
 
     //Bien global
     List<String> listConvenient;
@@ -111,8 +110,6 @@ public class postRoomStep3 extends Fragment implements View.OnClickListener{
         btnImgUpLoadPushRoom = view.findViewById(R.id.btnImg_upLoad_push_room);
         btnImgUpLoadPushRoom.setOnClickListener(this);
 
-        btnTakePhoto = view.findViewById(R.id.btn_take_photo);
-        btnTakePhoto.setOnClickListener(this);
 
         recyclerImgUpload = view.findViewById(R.id.recycler_img_upload);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),3);
@@ -291,11 +288,6 @@ public class postRoomStep3 extends Fragment implements View.OnClickListener{
 
                 break;
 
-            case R.id.btn_take_photo:
-
-                dispatchTakePictureIntent();
-
-                break;
         }
     }
 }

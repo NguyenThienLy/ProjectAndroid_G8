@@ -49,7 +49,7 @@ public class PopUpViewsController {
             @Override
             public void getViewInfo(ViewModel viewModel) {
                 viewModel.setCompressionImageFit(Picasso.get().load(viewModel.getUserView().getAvatar()).fit());
-
+                //Log.d("check3", viewModel.getUserView().getName());
                 //Thêm vào trong danh sách bình luận
                 viewModelList.add(viewModel);
 

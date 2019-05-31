@@ -1,6 +1,7 @@
 package com.example.designapptest.Model;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.designapptest.Controller.Interfaces.IViewModel;
 import com.google.firebase.database.DataSnapshot;
@@ -160,7 +161,7 @@ public class ViewModel {
             UserModel tempUser = dataSnapshot.child("Users").child(viewModel.getUserID()).getValue(UserModel.class);
             viewModel.setUserView(tempUser);
             //End duyệt user tương ứng để lấy ra thông tin user bình luận
-
+            Log.d("check3", tempUser.getName());
             //Kích hoạt interface
             viewModelInterface.getViewInfo(viewModel);
         }

@@ -1179,6 +1179,7 @@ public class RoomModel implements Parcelable { // Linh thêm
 
                         for (DataSnapshot userRoomsSnapShot : dataNode.getChildren()) {
                             RoomModel roomModel = userRoomsSnapShot.getValue(RoomModel.class);
+
                             if (roomModel.isApprove()) {
                                 //Lọc ra danh sách verified rooms.
                                 listRoomsID.add(userRoomsSnapShot.getKey());
@@ -2516,5 +2517,10 @@ public class RoomModel implements Parcelable { // Linh thêm
                 getOneRoomFollowRoomId(roomId, iPostRoomUpdateModel);
             }
         });
+    }
+
+    //Duyệt phòng
+    public void verifyRoom(String RoomID){
+        nodeRoot.child("Room").child(RoomID).child("approve").setValue(true);
     }
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.designapptest.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class accountView extends Fragment implements View.OnClickListener {
 
@@ -17,6 +18,9 @@ public class accountView extends Fragment implements View.OnClickListener {
     private Button btnMyRoom;
     private Button btnMyFavoriteRoom;
     private Button btnMyFindRoom;
+    private Button btnLogout;
+
+    FirebaseAuth firebaseAuth;
 
     //View để liên kết
     View layout;
@@ -51,6 +55,9 @@ public class accountView extends Fragment implements View.OnClickListener {
 
         btnMyFindRoom = layout.findViewById(R.id.btn_my_find_room);
         btnMyFindRoom.setOnClickListener(this);
+
+        btnLogout = layout.findViewById(R.id.btn_logout);
+        btnLogout.setOnClickListener(this);
     }
 
     @Override
@@ -75,6 +82,14 @@ public class accountView extends Fragment implements View.OnClickListener {
                 Intent intentMyFindRooms = new Intent(getContext(), FindRoomMine.class);
                 startActivity(intentMyFindRooms);
                 break;
+
+            case R.id.btn_logout:
+                //Khởi tạo firebaseAuth
+                firebaseAuth = FirebaseAuth.getInstance();
+                //Text Đăng xuất
+                firebaseAuth.signOut();
+                getActivity().finish();
+
         }
     }
 }

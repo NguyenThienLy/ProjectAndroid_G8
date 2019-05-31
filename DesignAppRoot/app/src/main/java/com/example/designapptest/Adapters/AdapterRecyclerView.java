@@ -55,6 +55,7 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
         viewHolder.txtNameUser.setText(viewModel.getUserView().getName());
 
         viewModel.getCompressionImageFit().centerCrop().into(viewHolder.imgAvtUser);
+        //Picasso.get().load(viewModel.getUserView().getAvatar()).fit().into(viewHolder.imgAvtUser);
     }
 
     @Override

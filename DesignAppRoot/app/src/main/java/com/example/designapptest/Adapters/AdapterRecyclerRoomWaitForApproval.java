@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -174,6 +175,21 @@ public class AdapterRecyclerRoomWaitForApproval extends RecyclerView.Adapter<Ada
                 Intent iDetailRoom = new Intent(context, detailRoom.class);
                 iDetailRoom.putExtra("phongtro", roomModel);
                 context.startActivity(iDetailRoom);
+            }
+        });
+
+        viewHolder.chBoxApproveRoom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    //Gọi hàm duyệt room ở model
+                    RoomModel functionModel = new RoomModel();
+                    functionModel.verifyRoom(RoomModelList.get(i).getRoomID());
+
+                    //Remove trong list
+                    RoomModelList.remove(i);
+                    notifyDataSetChanged();
+                }
             }
         });
     }
