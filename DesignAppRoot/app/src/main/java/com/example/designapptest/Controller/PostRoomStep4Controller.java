@@ -2,6 +2,7 @@ package com.example.designapptest.Controller;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.example.designapptest.Controller.Interfaces.ICallBackFromAddRoom;
 import com.example.designapptest.Model.RoomModel;
@@ -26,6 +27,7 @@ public class PostRoomStep4Controller {
                 if(isSuccess){
                     //Stop progess
                     progressDialog.dismiss();
+                    Toast.makeText(context,"Thêm thành công",Toast.LENGTH_SHORT).show();
 
                 }else {
                     //do nothing
