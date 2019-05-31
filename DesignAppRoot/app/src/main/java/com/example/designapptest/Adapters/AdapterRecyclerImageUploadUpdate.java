@@ -9,21 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.designapptest.Controller.Interfaces.INotifyChangeImage;
 import com.example.designapptest.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class AdapterRecyclerImageUpload extends RecyclerView.Adapter<AdapterRecyclerImageUpload.ViewHolder> {
-
+public class AdapterRecyclerImageUploadUpdate extends RecyclerView.Adapter<AdapterRecyclerImageUploadUpdate.ViewHolder> {
     Context context;
     int resource;
     List<String> listImagePath;
+    INotifyChangeImage iNotifyChangeImage;
 
-    public AdapterRecyclerImageUpload(Context context,int resource,List<String> listImagePath){
+    public AdapterRecyclerImageUploadUpdate(Context context, int resource, List<String> listImagePath, INotifyChangeImage iNotifyChangeImage){
         this.context=context;
         this.resource=resource;
         this.listImagePath=listImagePath;
+        this.iNotifyChangeImage = iNotifyChangeImage;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -38,17 +40,17 @@ public class AdapterRecyclerImageUpload extends RecyclerView.Adapter<AdapterRecy
 
     @NonNull
     @Override
-    public AdapterRecyclerImageUpload.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public AdapterRecyclerImageUploadUpdate.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(resource,viewGroup,false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        AdapterRecyclerImageUploadUpdate.ViewHolder viewHolder = new AdapterRecyclerImageUploadUpdate.ViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterRecyclerImageUpload.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull AdapterRecyclerImageUploadUpdate.ViewHolder viewHolder, int i) {
         Uri uri = Uri.parse(listImagePath.get(i));
         Picasso.get().load(uri).centerCrop().fit().into(viewHolder.imgUpload);
-       // viewHolder.imgUpload.setImageURI(uri);
+        // viewHolder.imgUpload.setImageURI(uri);
 
 //        try {
 //            Bitmap bitmap = MediaStore.Images.Media.getBitmap((context).getContentResolver(),uri);
@@ -66,6 +68,8 @@ public class AdapterRecyclerImageUpload extends RecyclerView.Adapter<AdapterRecy
                 listImagePath.remove(index);
                 //Thông báo có thay đổi dữ liệu
                 notifyDataSetChanged();
+
+                iNotifyChangeImage.isNotifyChange(listImagePath);
             }
         });
     }
@@ -74,6 +78,4 @@ public class AdapterRecyclerImageUpload extends RecyclerView.Adapter<AdapterRecy
     public int getItemCount() {
         return listImagePath.size();
     }
-
-
 }

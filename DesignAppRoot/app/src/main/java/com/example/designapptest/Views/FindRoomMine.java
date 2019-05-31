@@ -75,6 +75,12 @@ public class FindRoomMine extends AppCompatActivity {
     }
     //End load dữ liệu vào danh sách trong lần đầu chạy
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     private void initControl() {
        toolbar = (Toolbar) findViewById(R.id.toolbar);
 

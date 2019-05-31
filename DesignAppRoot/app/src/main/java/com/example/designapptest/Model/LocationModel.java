@@ -55,8 +55,6 @@ public class LocationModel implements Comparable<LocationModel>  {
         this.roomNumber = roomNumber;
     }
 
-
-
     //Hàm trả về top location
     public void topLocation(ILocationModel locationModelInterface){
         DatabaseReference nodeRoot = FirebaseDatabase.getInstance().getReference();

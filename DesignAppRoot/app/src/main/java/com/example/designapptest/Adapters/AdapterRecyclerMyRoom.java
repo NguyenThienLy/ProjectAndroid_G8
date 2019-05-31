@@ -1,6 +1,7 @@
 package com.example.designapptest.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,9 @@ import android.widget.TextView;
 
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
+import com.example.designapptest.Views.detailRoom;
+import com.example.designapptest.Views.postRoomAdapter;
+import com.example.designapptest.Views.postRoomAdapterUpdate;
 
 import java.util.List;
 
@@ -99,8 +103,9 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
         viewHolder.btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Gọi hàm update
-                updateRoom(roomModel);
+                Intent ipostRoomUpdate = new Intent(context, postRoomAdapterUpdate.class);
+                ipostRoomUpdate.putExtra("phongtro", roomModel);
+                context.startActivity(ipostRoomUpdate);
             }
         });
 

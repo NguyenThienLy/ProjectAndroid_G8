@@ -217,7 +217,6 @@ public class FindRoomController {
         //Tạo adapter cho recycle view
         final AdapterRecyclerFindRoom adapterRecyclerFindRoomFilter = new AdapterRecyclerFindRoom(context, findRoomModelistFilter, R.layout.element_list_find_room_view);
 
-
         //adapterRecyclerFindRoomFilter.clearApplications();
         //Cài adapter cho recycle
         recyclerFindRoom.setAdapter(adapterRecyclerFindRoomFilter);
