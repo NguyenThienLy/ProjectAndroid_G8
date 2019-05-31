@@ -7,9 +7,6 @@
     android:background="@drawable/custom_popup_activity"
     android:orientation="vertical"
     tools:context=".Views.PopupChooseLocation">
-
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -53,7 +50,8 @@
         android:orientation="vertical"
         android:padding="3dp"
         android:layout_alignParentBottom="true"
-        android:weightSum="5">
+        android:weightSum="5"
+        android:background="#FFFFFF">
 
         <View
             android:layout_width="fill_parent"
@@ -66,30 +64,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="4"
+            android:paddingLeft="5dp"
             android:gravity="left"
+            android:textColor="#000000"
             android:text="Vị trí hiện tại (Chạm và giữ để thay đổi)"
-            android:textSize="16sp" />
-        <View
-            android:layout_width="fill_parent"
-            android:layout_weight="2"
-            android:layout_height="0.5dip"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="1dp"
-            android:background="#666666"/>
-
-
+            android:textSize="14sp"/>
         <TableLayout
             android:layout_marginBottom="3dp"
-            android:layout_marginTop="3dp"
             android:layout_marginLeft="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TableRow>
+            <TableRow android:layout_marginTop="5dp">
                 <TextView
                     android:layout_column="1"
                     android:text="@string/StringChooseLocationStreet"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"/>
                 <TextView
                     android:layout_marginLeft="5dp"
                     android:id="@+id/txt_street"
@@ -97,7 +88,7 @@
                     android:layout_height="wrap_content" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginTop="5dp">
                 <TextView
                     android:layout_column="1"
                     android:text="@string/StringChooseLocationWard"
@@ -110,7 +101,7 @@
                     android:layout_height="wrap_content" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginTop="5dp">
                 <TextView
                     android:layout_column="1"
                     android:text="@string/StringChooseLocationDistrict"
@@ -123,7 +114,7 @@
                     android:layout_height="wrap_content" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginTop="5dp">
                 <TextView
                     android:layout_column="1"
                     android:text="@string/StringChooseLocationNo"
@@ -145,7 +136,7 @@
             android:layout_marginBottom="1dp"
             android:background="#666666"/>
         <Button
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:textColor="@android:color/white"
             android:background="@drawable/custom_button_check_map_detail"
