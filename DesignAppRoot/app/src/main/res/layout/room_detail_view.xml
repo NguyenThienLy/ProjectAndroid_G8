@@ -591,11 +591,11 @@
 
                         <TextView
                             android:id="@+id/txt_room_phonenumber"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_marginLeft="10dp"
-                            android:text="Điện thoại: 0973.446.184"
+                            android:text="0123456789"
                             android:textSize="14sp" />
 
                     </LinearLayout>

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +27,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginView extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener
         , FirebaseAuth.AuthStateListener {
@@ -39,6 +43,7 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
     public static int CODE_PROVIDER_LOGIN_WITH_FACEBOOK = 2;
 
     public static final String SHARE_UID = "currentUserId";
+    public static final String IS_ADMIN = "isAdmin";
     public static final String PREFS_DATA_NAME = "currentUserId";
 
     ImageButton btnLoginWithGoogle;
@@ -55,6 +60,8 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
     ProgressDialog progressDialog;
 
     SharedPreferences sharedPreferences;
+
+    DatabaseReference nodeRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +81,8 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
         edt_username_login = (EditText) findViewById(R.id.edt_username_login);
         edt_password_login = (EditText) findViewById(R.id.edt_password_login);
         tvForgotPassword = (TextView) findViewById(R.id.tv_forgot_password);
-        
 
         progressDialog = new ProgressDialog(LoginView.this, R.style.MyProgessDialogStyle);
-
 
         btnLoginWithGoogle.setOnClickListener(this);
         btn_signUp.setOnClickListener(this);
@@ -85,6 +90,7 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
 
         CreateClientLoginWithGoogle();
         /*ClickForgotPassword();*/
+        nodeRoot = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -208,29 +214,61 @@ public class LoginView extends AppCompatActivity implements View.OnClickListener
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
+            checkAdminLogin(user.getUid());
+
             progressDialog.dismiss();
             Toast.makeText(LoginView.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-
-            // Lưu lại mã user đăng nhập vào app
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(SHARE_UID, user.getUid());
-            editor.commit();
-
-            Log.d("kiem tra", user.getUid());
-
-            //Load trang chủ
-            //Intent intent = new Intent(this, MainActivity.class);
-            Intent intent = new Intent(this,Main_Menu.class);
-            startActivity(intent);
         } else {
 
         }
     }
 
-    public void ClickForgotPassword(View v){
+    private void checkAdminLogin(String UID) {
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Boolean isAdmin = false;
 
-                Intent intent = new Intent(LoginView.this,resetPasswordByEmail.class);
-                startActivity(intent);
+                // Lưu lại mã user đăng nhập vào app
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(SHARE_UID, UID);
+
+                for(DataSnapshot adminValue : dataSnapshot.getChildren()) {
+                    if (adminValue.getKey().equals(UID)) {
+                        isAdmin = true;
+
+                        editor.putBoolean(IS_ADMIN, isAdmin);
+                        editor.commit();
+
+                        Intent intent = new Intent(getApplicationContext(), adminView.class);
+                        startActivity(intent);
+                        break;
+                    }
+                }
+
+                //Load trang chủ
+                //Intent intent = new Intent(this, MainActivity.class);
+                if(isAdmin == false) {
+                    editor.putBoolean(IS_ADMIN, isAdmin);
+                    editor.commit();
+
+                    Intent intent = new Intent(getApplicationContext(), Main_Menu.class);
+                    startActivity(intent);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        nodeRoot.child("Admins").addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    public void ClickForgotPassword(View v) {
+
+        Intent intent = new Intent(LoginView.this, resetPasswordByEmail.class);
+        startActivity(intent);
 
     }
 }

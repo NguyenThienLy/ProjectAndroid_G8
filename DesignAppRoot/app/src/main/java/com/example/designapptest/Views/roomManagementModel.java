@@ -103,7 +103,7 @@ public class roomManagementModel extends AppCompatActivity {
         roomManagementControlller.loadQuantiryInfo(UID,txtQuantityRoom,txtQuantityView,txtQuantityComment);
 
         mainActivityController = new MainActivityController(this, UID);
-        mainActivityController.ListRoomUser(recyclerMainRoom, txtQuantityMyRooms, progressBarMyRooms,
+        mainActivityController.ListRoomUser(UID, recyclerMainRoom, txtQuantityMyRooms, progressBarMyRooms,
                 lnLtQuantityTopMyRooms, nestedScrollMyRoomsView, progressBarLoadMoreMyRooms);
     }
 

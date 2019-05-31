@@ -106,6 +106,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
     SharedPreferences sharedPreferences;
     String UID;
+    Boolean isAdmin;
     CommentController commentController;
     MainActivityController mainActivityController;
     ReportedRoomController reportedRoomController;
@@ -132,6 +133,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
         sharedPreferences = getSharedPreferences(LoginView.PREFS_DATA_NAME, MODE_PRIVATE);
         UID = sharedPreferences.getString(LoginView.SHARE_UID, "n1oc76JrhkMB9bxKxwXrxJld3qH2");
+        isAdmin = sharedPreferences.getBoolean(LoginView.IS_ADMIN, false);
 
         initControl();
 
@@ -733,11 +735,13 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
                 txtQuantitySameDetailRoom, lnLtQuantityTopSameDetailRoom,
                 nestedScrollSameDetailRoomView, progressBarLoadMoreSameDetailRoom);
 
-        //Gọi hàm thêm vào lượng view từ controller
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        String date = df.format(Calendar.getInstance().getTime());
-        RoomViewsModel data = new RoomViewsModel(date,UID,roomModel.getRoomID());
-        detailRoomController.addViews(data);
+        if (!isAdmin) {
+            //Gọi hàm thêm vào lượng view từ controller
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String date = df.format(Calendar.getInstance().getTime());
+            RoomViewsModel data = new RoomViewsModel(date, UID, roomModel.getRoomID());
+            detailRoomController.addViews(data);
+        }
     }
 
     private void setViewSameRoom() {
