@@ -1,66 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 <android.support.v4.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
+        android:paddingRight="35dp"
+        android:paddingLeft="35dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="30dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/stringConfirmInfPushRoom"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:textSize="16dp"/>
-        <TextView
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/stringTitleConfirmPushRoom"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
             android:textStyle="bold"/>
         <EditText
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:id="@+id/edt_name_push_room"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:hint="@string/stringTitleHelpPushRoom"
             android:gravity="center"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
+            android:textSize="14sp"
             android:background="@drawable/custom_spinner_rim"/>
         <TextView
             android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/stringDescribePushRoom"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
             android:textStyle="bold"/>
         <EditText
+            android:inputType="textMultiLine"
+            android:lines="10"
+            android:maxLines="10"
+            android:minLines="4"
+            android:scrollbars="vertical"
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:id="@+id/edt_describe_push_room"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="@string/stringDescribeConfirmPushRoom"
             android:gravity="center"
-            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textColor="#666666"
             android:background="@drawable/custom_spinner_rim"/>
 
         <Button
             android:id="@+id/btn_nextStep4_post_room"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/stringPostPushRoom"
-            android:layout_marginTop="40dp"
-            android:textColor="@android:color/holo_blue_bright"
+            android:layout_marginTop="30dp"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             android:layout_gravity="center"
             android:background="@drawable/custom_rim"/>
     </LinearLayout>

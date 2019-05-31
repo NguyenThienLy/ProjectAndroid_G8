@@ -26,6 +26,7 @@
         android:layout_marginTop="5dp"
         android:textColor="#999999"/>
     <EditText
+        android:textCursorDrawable="@drawable/cursor_edittext"
         android:id="@+id/txt_title_comment_and_rate_step_1"
         android:background="#FFFFFF"
         android:layout_width="match_parent"
@@ -54,6 +55,7 @@
     </GridView>
 
     <EditText
+        android:textCursorDrawable="@drawable/cursor_edittext"
         android:id="@+id/txt_content_comment_and_rate_step_1"
         android:background="#FFFFFF"
         android:layout_width="match_parent"

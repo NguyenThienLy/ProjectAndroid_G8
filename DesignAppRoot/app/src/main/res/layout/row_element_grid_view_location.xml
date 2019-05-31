@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="120dp">
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        android:id="@+id/rLT_image"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:padding="5dp">
