@@ -196,10 +196,16 @@
                 android:layout_marginRight="5dp"/>
             />
 
-            <CheckBox
-                android:id="@+id/chBox_approve_room"
+            <Button
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:textSize="10sp"
+                android:layout_height="20dp"
+                android:background="@drawable/custom_button_verify"
+                android:textColor="@color/colorWhile"
+                android:text="duyệt"
+                android:id="@+id/btn_verifi"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="right"/>
         </LinearLayout>
     </LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.designapptest.Adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -8,10 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.designapptest.ClassOther.classFunctionStatic;
 import com.example.designapptest.Model.RoomModel;
@@ -40,7 +41,7 @@ public class AdapterRecyclerRoomWaitForApproval extends RecyclerView.Adapter<Ada
 
         TextView txtTimeCreated, txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment, txtType, txtQuantityViews;
         ImageView imgRoom, imgGender, imgVerified;
-        CheckBox chBoxApproveRoom;
+        Button btnVerify;
         CardView cardViewRoomList;
 
         public ViewHolder(@NonNull View itemView) {
@@ -59,7 +60,7 @@ public class AdapterRecyclerRoomWaitForApproval extends RecyclerView.Adapter<Ada
             txtType = (TextView) itemView.findViewById(R.id.txt_type);
             txtQuantityViews = (TextView) itemView.findViewById(R.id.txt_quantityViews);
             imgVerified = (ImageView) itemView.findViewById(R.id.img_verified);
-            chBoxApproveRoom = (CheckBox) itemView.findViewById(R.id.chBox_approve_room);
+            btnVerify = (Button) itemView.findViewById(R.id.btn_verifi);
             cardViewRoomList = (CardView) itemView.findViewById(R.id.cardViewRoomWaitForApprovalList);
         }
     }
@@ -178,18 +179,10 @@ public class AdapterRecyclerRoomWaitForApproval extends RecyclerView.Adapter<Ada
             }
         });
 
-        viewHolder.chBoxApproveRoom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        viewHolder.btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    //Gọi hàm duyệt room ở model
-                    RoomModel functionModel = new RoomModel();
-                    functionModel.verifyRoom(RoomModelList.get(i).getRoomID());
-
-                    //Remove trong list
-                    RoomModelList.remove(i);
-                    notifyDataSetChanged();
-                }
+            public void onClick(View v) {
+                showDialog(RoomModelList.get(i).getRoomID(),i);
             }
         });
     }
@@ -197,5 +190,35 @@ public class AdapterRecyclerRoomWaitForApproval extends RecyclerView.Adapter<Ada
     @Override
     public int getItemCount() {
         return RoomModelList.size();
+    }
+
+    private void showDialog(String RoomID,int position){
+        Dialog verifiDialog = new Dialog(context);
+        verifiDialog.setContentView(R.layout.verify_dialog);
+
+        ImageView imgClose = verifiDialog.findViewById(R.id.img_close);
+        Button btnVefiry =verifiDialog.findViewById(R.id.btn_verifi);
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verifiDialog.dismiss();
+            }
+        });
+
+        btnVefiry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Remove khỏi list
+                //Gọi hàm xóa từ model
+                RoomModel modelFunction = new RoomModel();
+                modelFunction.verifyRoom(RoomModelList.get(position).getRoomID());
+                verifiDialog.dismiss();
+                RoomModelList.remove(position);
+                notifyDataSetChanged();
+                Toast.makeText(context,"Duyệt thành công",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        verifiDialog.show();
     }
 }
