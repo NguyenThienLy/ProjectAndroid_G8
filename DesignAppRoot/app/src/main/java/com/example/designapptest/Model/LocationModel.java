@@ -1,6 +1,7 @@
 package com.example.designapptest.Model;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.designapptest.Controller.Interfaces.ILocationModel;
 import com.example.designapptest.Controller.Interfaces.IStringCallBack;
@@ -146,15 +147,15 @@ public class LocationModel implements Comparable<LocationModel>  {
                            currentNumber+=SnapShotStreet.getChildrenCount();
                        }
                     }
+                    Log.d("checklocate", SnapShotDicstrict.getKey());
                     if(currentNumber>Top_Child){
                         Top_Child=currentNumber;
                         Top_1_location = SnapShotDicstrict.getKey();
-                    }
-                    if(count == SnapShotDicstrict.getChildrenCount()){
-                        iStringCallBack.sendString(Top_1_location);
+
                     }
                     currentNumber=0;
                 }
+                iStringCallBack.sendString(Top_1_location);
             }
 
             @Override

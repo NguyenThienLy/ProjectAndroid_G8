@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -114,10 +115,11 @@ public class searchMapViewController {
     }
 
     public void TopLocation(Fragment currentFragment){
+        Log.d("check3", "contro");
         IStringCallBack iStringCallBack = new IStringCallBack() {
             @Override
             public void sendString(String value) {
-                //Zoom map đến vị trí có nhiều phòng
+                //Zoom map đến vị trí có nhiều
                 ((searchMapView)currentFragment).Search(value);
             }
         };
