@@ -13,6 +13,7 @@ import com.example.designapptest.Controller.Interfaces.ICallBackFromAddRoom;
 import com.example.designapptest.Controller.Interfaces.IInfoOfAllRoomUser;
 import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.example.designapptest.Controller.Interfaces.IMapViewModel;
+import com.example.designapptest.Controller.Interfaces.IPostRoomUpdateModel;
 import com.example.designapptest.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,7 +40,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import id.zelory.compressor.Compressor;
 
@@ -1622,7 +1625,7 @@ public class RoomModel implements Parcelable { // Linh thêm
     }
 
     //Thông tin về tất cả các phòng của người dùng. tổng phòng, tổng lượt xem, tổng bình luận
-    public void infoOfAllRoomOfUser(String UID, IInfoOfAllRoomUser iInfoOfAllRoomUser){
+    public void infoOfAllRoomOfUser(String UID, IInfoOfAllRoomUser iInfoOfAllRoomUser) {
         Query nodeRoomOrderbyUserID = nodeRoot.child("Room")
                 .orderByChild("owner")
                 .equalTo(UID);
@@ -1633,18 +1636,18 @@ public class RoomModel implements Parcelable { // Linh thêm
                 //Lấy ra tổng số phòng
                 int CountRoom = (int) dataSnapshot.getChildrenCount();
                 //Gửi thông tin tổng số phòng về UI
-                iInfoOfAllRoomUser.sendQuantity(CountRoom,0);
+                iInfoOfAllRoomUser.sendQuantity(CountRoom, 0);
 
                 //Duyệt hết số phòng để đếm số lượng lượt xem và bình luận
                 int count = 0;
                 List<String> listRoomID = new ArrayList<>();
-                for(DataSnapshot snapshotRoom:dataSnapshot.getChildren()){
+                for (DataSnapshot snapshotRoom : dataSnapshot.getChildren()) {
                     count++;
                     listRoomID.add(snapshotRoom.getKey());
                     //Lấy ra key và tìm trong
-                    if(count == CountRoom){
+                    if (count == CountRoom) {
                         //Gửi dữ liệu về controller
-                        SendInfoAllOfRoom(listRoomID,iInfoOfAllRoomUser);
+                        SendInfoAllOfRoom(listRoomID, iInfoOfAllRoomUser);
                     }
                 }
             }
@@ -1659,25 +1662,25 @@ public class RoomModel implements Parcelable { // Linh thêm
     }
 
     //Gửi thông tin về UI
-    private void SendInfoAllOfRoom(List<String> listRoomID,IInfoOfAllRoomUser iInfoOfAllRoomUser){
+    private void SendInfoAllOfRoom(List<String> listRoomID, IInfoOfAllRoomUser iInfoOfAllRoomUser) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int CountViews = 0;
-                int CountComments =0;
-                for(String roomID:listRoomID){
+                int CountComments = 0;
+                for (String roomID : listRoomID) {
                     int views = (int) dataSnapshot.child("RoomViews").child(roomID).getChildrenCount();
-                    CountViews+=views;
+                    CountViews += views;
 
                     int comments = (int) dataSnapshot.child("RoomComments").child(roomID).getChildrenCount();
-                    CountComments+=comments;
+                    CountComments += comments;
 
                 }
 
                 //iInfoOfAllRoomUser.sendQuantity(CountViews,1);
                 //Gửi thông tin về UI
-                iInfoOfAllRoomUser.sendQuantity(CountViews,1);
-                iInfoOfAllRoomUser.sendQuantity(CountComments,2);
+                iInfoOfAllRoomUser.sendQuantity(CountViews, 1);
+                iInfoOfAllRoomUser.sendQuantity(CountComments, 2);
             }
 
             @Override
@@ -1689,7 +1692,7 @@ public class RoomModel implements Parcelable { // Linh thêm
     }
 
     //Hàm xóa phòng
-    public void DeleteRoom(String RoomID){
+    public void DeleteRoom(String RoomID) {
         //Xóa trong node location Room
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -1702,25 +1705,25 @@ public class RoomModel implements Parcelable { // Linh thêm
                 nodeRoot.child("LocationRoom").child(roomModel.getCounty())
                         .child(SplitWarn).child(roomModel.getStreet()).orderByValue().equalTo(RoomID)
                         .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot nodeRoom:dataSnapshot.getChildren()){
-                            Log.d("check3", nodeRoom.getValue(String.class));
-                            //Xóa node
-                            nodeRoom.getRef().removeValue();
-                        }
-                    }
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot nodeRoom : dataSnapshot.getChildren()) {
+                                    Log.d("check3", nodeRoom.getValue(String.class));
+                                    //Xóa node
+                                    nodeRoom.getRef().removeValue();
+                                }
+                            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
+                            }
+                        });
 
                 DataSnapshot snapshotFavoriteRoom = dataSnapshot.child("FavoriteRooms");
-                for (DataSnapshot snapshotUser:snapshotFavoriteRoom.getChildren()){
-                    for(DataSnapshot snapshotRoomFavorite:snapshotUser.getChildren()){
-                        if(snapshotRoomFavorite.getKey().equals(RoomID)){
+                for (DataSnapshot snapshotUser : snapshotFavoriteRoom.getChildren()) {
+                    for (DataSnapshot snapshotRoomFavorite : snapshotUser.getChildren()) {
+                        if (snapshotRoomFavorite.getKey().equals(RoomID)) {
                             Log.d("mycheck", snapshotRoomFavorite.getKey());
                             snapshotRoomFavorite.getRef().removeValue();
                         }
@@ -1766,42 +1769,42 @@ public class RoomModel implements Parcelable { // Linh thêm
     }
 
     //Hàm Change State Room: sang đã thuê
-    public void changeState(String RoomID,int MaxNumber){
+    public void changeState(String RoomID, int MaxNumber) {
         nodeRoot.child("Room").child(RoomID).child("currentNumber").setValue(MaxNumber);
     }
 
     //Hàm Change State Room: sang còn trống
-    public void changeState(String RoomID){
+    public void changeState(String RoomID) {
         nodeRoot.child("Room").child(RoomID).child("currentNumber").setValue(0);
     }
-}
 
-public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoomUpdateModel) {
- 
+
+    public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoomUpdateModel) {
+
         //Tạo listen cho firebase
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DataSnapshot dataSnapshotRoom = dataSnapshot.child("Room");
- 
+
                 //Duyệt hết trong danh sách phòng trọ
                 for (DataSnapshot valueRoom : dataSnapshotRoom.getChildren()) {
- 
+
                     if (valueRoom.getKey().equals(roomId)) {
                         //Lấy ra giá trị ép kiểu qua kiểu RoomModel
                         RoomModel roomModel = valueRoom.getValue(RoomModel.class);
                         //Set mã phòng trọ
                         roomModel.setRoomID(valueRoom.getKey());
- 
+
                         //Set loại phòng trọ
                         String tempType = dataSnapshot.child("RoomTypes")
                                 .child(roomModel.getTypeID())
                                 .getValue(String.class);
- 
+
                         roomModel.setRoomType(tempType);
- 
+
                         //Thêm tên danh sách tên hình vào phòng trọ
- 
+
                         //Duyệt vào node RoomImages trên firebase và duyệt vào node có mã room tương ứng
                         DataSnapshot dataSnapshotImageRoom = dataSnapshot.child("RoomImages").child(valueRoom.getKey());
                         List<String> tempImageList = new ArrayList<String>();
@@ -1809,10 +1812,10 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                         for (DataSnapshot valueImage : dataSnapshotImageRoom.getChildren()) {
                             tempImageList.add(valueImage.getValue(String.class));
                         }
- 
+
                         //set mảng hình vào list
                         roomModel.setListImageRoom(tempImageList);
- 
+
                         //Thêm vào hình dung lượng thấp của phòng trọ
                         DataSnapshot dataSnapshotComPress = dataSnapshot.child("RoomCompressionImages").child(valueRoom.getKey());
                         //Kiểm tra nếu có dữ liệu
@@ -1823,11 +1826,11 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                         } else {
                             roomModel.setCompressionImage(tempImageList.get(0));
                         }
- 
+
                         //End Thêm tên danh sách tên hình vào phòng trọ
- 
+
                         //Thêm danh sách bình luận của phòng trọ
- 
+
                         DataSnapshot dataSnapshotCommentRoom = dataSnapshot.child("RoomComments").child(valueRoom.getKey());
                         List<CommentModel> tempCommentList = new ArrayList<CommentModel>();
                         //Duyệt tất cả các giá trị trong node tương ứng
@@ -1838,16 +1841,16 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                             UserModel tempUser = dataSnapshot.child("Users").child(commentModel.getUser()).getValue(UserModel.class);
                             commentModel.setUserComment(tempUser);
                             //End duyệt user tương ứng để lấy ra thông tin user bình luận
- 
+
                             tempCommentList.add(commentModel);
                         }
- 
+
                         roomModel.setListCommentRoom(tempCommentList);
- 
+
                         //End Thêm danh sách bình luận của phòng trọ
- 
+
                         //Thêm danh sách tiện nghi của phòng trọ
- 
+
                         DataSnapshot dataSnapshotConvenientRoom = dataSnapshot.child("RoomConvenients").child(valueRoom.getKey());
                         List<ConvenientModel> tempConvenientList = new ArrayList<ConvenientModel>();
                         //Duyệt tất cả các giá trị trong node tương ứng
@@ -1855,111 +1858,112 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                             String convenientId = valueConvenient.getValue(String.class);
                             ConvenientModel convenientModel = dataSnapshot.child("Convenients").child(convenientId).getValue(ConvenientModel.class);
                             convenientModel.setConvenientID(convenientId);
- 
+
                             tempConvenientList.add(convenientModel);
                         }
- 
+
                         roomModel.setListConvenientRoom(tempConvenientList);
- 
+
                         //End Thêm danh sách tiện nghi của phòng trọ
- 
+
                         //Thêm danh sách giá của phòng trọ
- 
+
                         DataSnapshot dataSnapshotRoomPrice = dataSnapshot.child("RoomPrice").child(valueRoom.getKey());
                         List<RoomPriceModel> tempRoomPriceList = new ArrayList<RoomPriceModel>();
                         //Duyệt tất cả các giá trị trong node tương ứng
                         for (DataSnapshot valueRoomPrice : dataSnapshotRoomPrice.getChildren()) {
                             String roomPriceId = valueRoomPrice.getKey();
                             double price = valueRoomPrice.getValue(double.class);
- 
+
                             if (roomPriceId.equals("IDRPT4")) {
                                 continue;
                             }
                             RoomPriceModel roomPriceModel = dataSnapshot.child("RoomPriceType").child(roomPriceId).getValue(RoomPriceModel.class);
                             roomPriceModel.setRoomPriceID(roomPriceId);
                             roomPriceModel.setPrice(price);
- 
+
                             tempRoomPriceList.add(roomPriceModel);
                         }
- 
+
                         roomModel.setListRoomPrice(tempRoomPriceList);
- 
+
                         //End Thêm danh sách giá của phòng trọ
- 
+
                         //Thêm thông tin chủ sở hữu cho phòng trọ
                         UserModel tempUser = dataSnapshot.child("Users").child(roomModel.getOwner()).getValue(UserModel.class);
                         roomModel.setRoomOwner(tempUser);
- 
+
                         //End thêm thông tin chủ sở hữu cho phòng trọ
- 
+
                         //Thêm vào lượt xem của phòng trọ
                         int tempViews = (int) dataSnapshot.child("RoomViews").child(valueRoom.getKey()).getChildrenCount();
                         roomModel.setViews(tempViews);
                         //End thêm vào lượt xem của phòng trọ
- 
+
                         //Kích hoạt interface
                         iPostRoomUpdateModel.getRoomFollowId(roomModel);
                     }
                 }
             }
- 
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
- 
+
             }
         };
- 
+
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
-    } 
-// Hàm cập nhật post room step 1
+    }
+
+    // Hàm cập nhật post room step 1
     public void postRoomStep1Update(String roomId, String city, String district, String ward, String street, String no, IPostRoomUpdateModel iPostRoomUpdateModel, double longtitude, double latitude,
                                     String oldCity, String oldDistrict, String oldWard, String oldStreet, String oldNo) {
- 
+
         //Tạo listen cho firebase
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
- 
+
                 DataSnapshot dataSnapshotLocationRoom = dataSnapshot.child("LocationRoom");
                 boolean isHaveLocationRoom = false;
- 
+
                 //Cắt bỏ P. trước phường
                 String SplitWarnOld = oldWard.substring(2);
- 
+
                 for (DataSnapshot valueLocation : dataSnapshotLocationRoom.child(oldDistrict).child(SplitWarnOld).child(oldStreet).getChildren()) {
- 
+
                     if (valueLocation.getValue().equals(roomId)) {
- 
+
                         isHaveLocationRoom = true;
- 
+
                         updateHaveKey(roomId, city, district, ward, street, no, iPostRoomUpdateModel, longtitude, latitude, oldCity,
                                 oldDistrict, oldWard, SplitWarnOld, valueLocation.getKey().toString(), oldStreet, oldNo);
                     }
                 }
- 
+
                 if (isHaveLocationRoom == false) {
- 
+
                     updateNotHaveKey(roomId, city, district, ward, street, no, iPostRoomUpdateModel, longtitude, latitude);
                 }
- 
+
             }
- 
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
- 
+
             }
         };
- 
+
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
- 
+
     // Update khi chưa có id trong location room
     public void updateNotHaveKey(String roomId, String city, String district, String ward, String street, String no, IPostRoomUpdateModel iPostRoomUpdateModel, double longtitude, double latitude
     ) {
- 
+
         //Cắt bỏ P. trước phường
         String splitWarn = ward.substring(2);
- 
+
         //Push ID room vào
         nodeRoot.child("LocationRoom")
                 .child(district)
@@ -1967,7 +1971,7 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                 .child(street)
                 .push()
                 .setValue(roomId);
- 
+
         Map<String, Object> map = new HashMap<>();
         map.put("longtitude", longtitude);
         map.put("latitude", latitude);
@@ -1979,20 +1983,20 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
         nodeRoot.child("Room").child(roomId).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
- 
+
                 iPostRoomUpdateModel.getSuccessNotifyPostRoomStep1();
- 
+
                 getOneRoomFollowRoomId(roomId, iPostRoomUpdateModel);
             }
         });
     }
- 
+
     // Update khi chưa có id trong location room
     public void updateHaveKey(String roomId, String city, String district, String ward, String street, String no, IPostRoomUpdateModel iPostRoomUpdateModel, double longtitude, double latitude,
                               String oldCity, String oldDistrict, String oldWard, String SplitWarnOld, String value, String oldStreet, String oldNo) {
- 
+
         Log.d("delete", oldDistrict + " " + SplitWarnOld + " " + oldStreet + " " + value);
- 
+
         nodeRoot.child("LocationRoom")
                 .child(oldDistrict)
                 .child(SplitWarnOld)
@@ -2002,17 +2006,17 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
- 
+
                         //Cắt bỏ P. trước phường
                         String splitWarn = ward.substring(2);
- 
+
                         //Push ID room vào
                         nodeRoot.child("LocationRoom").child(district)
                                 .child(splitWarn)
                                 .child(street)
                                 .push()
                                 .setValue(roomId);
- 
+
                         Map<String, Object> map = new HashMap<>();
                         map.put("longtitude", longtitude);
                         map.put("latitude", latitude);
@@ -2025,37 +2029,37 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 iPostRoomUpdateModel.getSuccessNotifyPostRoomStep1();
- 
+
                                 getOneRoomFollowRoomId(roomId, iPostRoomUpdateModel);
                             }
                         });
                     }
                 });
     }
- 
+
     // Hàm cập nhật post room step 1
     public void postRoomStep2Update(String roomId, String typeId, boolean genderRoom, long maxNumber, float width, float length,
                                     float priceRoom, float electricBill, float warterBill, float InternetBill, float parkingBill, IPostRoomUpdateModel iPostRoomUpdateModel) {
- 
+
         //Tạo listen cho firebase
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
- 
+
                 DataSnapshot dataSnapshotPriceRoom = dataSnapshot.child("RoomPrice");
                 boolean isHavePriceRoom = false;
- 
+
                 for (DataSnapshot valuePriceroom : dataSnapshotPriceRoom.getChildren()) {
- 
+
                     if (valuePriceroom.getKey().equals(roomId)) {
- 
+
                         nodeRoot.child("RoomPrice")
                                 .child(valuePriceroom.getKey())
                                 .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 addDetailRoomPrice(roomId, electricBill, warterBill, InternetBill, parkingBill, priceRoom);
- 
+
                                 Map<String, Object> map = new HashMap<>();
                                 map.put("typeID", typeId);
                                 map.put("gender", genderRoom);
@@ -2067,7 +2071,7 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         iPostRoomUpdateModel.getSuccessNotifyPostRoomStep2();
- 
+
                                         getOneRoomFollowRoomId(roomId, iPostRoomUpdateModel);
                                     }
                                 });
@@ -2075,11 +2079,11 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                         });
                     }
                 }
- 
+
                 if (isHavePriceRoom == false) {
- 
+
                     addDetailRoomPrice(roomId, electricBill, warterBill, InternetBill, parkingBill, priceRoom);
- 
+
                     Map<String, Object> map = new HashMap<>();
                     map.put("typeID", typeId);
                     map.put("gender", genderRoom);
@@ -2091,22 +2095,22 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             iPostRoomUpdateModel.getSuccessNotifyPostRoomStep2();
- 
+
                             getOneRoomFollowRoomId(roomId, iPostRoomUpdateModel);
                         }
                     });
                 }
             }
- 
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
- 
+
             }
         };
- 
+
         nodeRoot.addListenerForSingleValueEvent(valueEventListener);
     }
- 
+
     // Hàm cập nhật post room step 1
     public void postRoomStep3Update(String roomId, String owner, List<String> listConvenient, List<String> listPathImageChoosed,
                                     boolean isChangeConvenient, boolean isChangeImageRoom, IPostRoomUpdateModel iPostRoomUpdateModel, Context context) {
@@ -2115,61 +2119,61 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
             ValueEventListener valueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
- 
+
                     DataSnapshot dataSnapshotConvenientsRoom = dataSnapshot.child("RoomConvenients");
                     boolean isHaveConvenient = false;
- 
+
                     for (DataSnapshot valueConvenient : dataSnapshotConvenientsRoom.getChildren()) {
- 
+
                         if (valueConvenient.getKey().equals(roomId)) {
- 
+
                             isHaveConvenient = true;
                             deleteConvenients(roomId, valueConvenient.getKey(), listConvenient, iPostRoomUpdateModel);
                         }
                     }
- 
+
                     if (isHaveConvenient == false) {
                         addConvenients(roomId, listConvenient, iPostRoomUpdateModel);
                     }
                 }
- 
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
- 
+
                 }
             };
- 
+
             nodeRoot.addListenerForSingleValueEvent(valueEventListener);
         } else if (isChangeConvenient == false && isChangeImageRoom == true) {
             //Tạo listen cho firebase
- 
+
             final int[] count = {0};
- 
+
             ValueEventListener valueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
- 
+
                     DataSnapshot dataSnapshotRoom = dataSnapshot.child("RoomImages");
                     boolean isHaveImage = false;
- 
+
                     for (DataSnapshot valueNodeImage : dataSnapshotRoom.getChildren()) {
- 
+
                         if (valueNodeImage.getKey().equals(roomId)) {
                             isHaveImage = true;
- 
+
                             for (DataSnapshot valueImage : valueNodeImage.getChildren()) {
                                 boolean isFind = false;
- 
+
                                 for (String pathImage : listPathImageChoosed) {
                                     if (valueImage.getValue().equals(pathImage) == true) {
                                         isFind = true;
- 
+
                                         // Số lần tìm thấy lặp lại ảnh đã up
                                         count[0]++;
                                         break;
                                     }
                                 }
- 
+
                                 if (isFind == false) {
                                     nodeRoot.child("RoomImages")
                                             .child(roomId)
@@ -2179,83 +2183,83 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                                 //deleteImagesRoom(roomId, valueImage.getKey(), listPathImageChoosed, iPostRoomUpdateModel, context);
                             }
                             //Log.d("countingUpdate", count[0] + "");
- 
+
                             addImagesRoom(roomId, listPathImageChoosed, iPostRoomUpdateModel, context, count[0]);
                         }
                     }
- 
+
                     if (isHaveImage == false) {
- 
+
                         //Log.d("isHaveImage", false + "");
- 
+
                         addImagesRoom(roomId, listPathImageChoosed, iPostRoomUpdateModel, context, count[0]);
                     }
                 }
- 
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
- 
+
                 }
- 
+
             };
- 
+
             nodeRoot.addListenerForSingleValueEvent(valueEventListener);
         } else if (isChangeConvenient == true && isChangeImageRoom == true) {
             //Tạo listen cho firebase
             ValueEventListener valueEventListenerConvenients = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
- 
+
                     DataSnapshot dataSnapshotRoom = dataSnapshot.child("RoomConvenients");
                     boolean isHaveConvenient = false;
- 
+
                     for (DataSnapshot valueConvenient : dataSnapshotRoom.getChildren()) {
- 
+
                         if (valueConvenient.getKey().equals(roomId)) {
- 
+
                             isHaveConvenient = true;
                             deleteConvenientsNotNotify(roomId, valueConvenient.getKey(), listConvenient, iPostRoomUpdateModel);
                         }
                     }
- 
+
                     if (isHaveConvenient == false) {
                         addConvenientsNotNotify(roomId, listConvenient, iPostRoomUpdateModel);
                     }
                 }
- 
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
- 
+
                 }
             };
- 
+
             final int[] count = {0};
- 
+
             ValueEventListener valueEventListenerImage = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
- 
+
                     DataSnapshot dataSnapshotRoom = dataSnapshot.child("RoomImages");
                     boolean isHaveImage = false;
- 
+
                     for (DataSnapshot valueNodeImage : dataSnapshotRoom.getChildren()) {
- 
+
                         if (valueNodeImage.getKey().equals(roomId)) {
                             isHaveImage = true;
- 
+
                             for (DataSnapshot valueImage : valueNodeImage.getChildren()) {
                                 boolean isFind = false;
- 
+
                                 for (String pathImage : listPathImageChoosed) {
                                     if (valueImage.getValue().equals(pathImage) == true) {
                                         isFind = true;
- 
+
                                         // Số lần tìm thấy lặp lại ảnh đã up
                                         count[0]++;
                                         break;
                                     }
                                 }
- 
+
                                 if (isFind == false) {
                                     nodeRoot.child("RoomImages")
                                             .child(roomId)
@@ -2263,29 +2267,29 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                                             .removeValue();
                                 }
                             }
- 
+
                             addImagesRoom(roomId, listPathImageChoosed, iPostRoomUpdateModel, context, count[0]);
                         }
                     }
- 
+
                     if (isHaveImage == false) {
                         addImagesRoom(roomId, listPathImageChoosed, iPostRoomUpdateModel, context, count[0]);
                     }
                 }
- 
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
- 
+
                 }
- 
+
             };
- 
+
             nodeRoot.addListenerForSingleValueEvent(valueEventListenerConvenients);
- 
+
             nodeRoot.addListenerForSingleValueEvent(valueEventListenerImage);
         }
     }
- 
+
     public void deleteConvenients(String roomId, String key, List<String> listConvenient, IPostRoomUpdateModel iPostRoomUpdateModel) {
         // Xóa convenients room hiện tại
         nodeRoot.child("RoomConvenients")
@@ -2294,11 +2298,11 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 addConvenients(roomId, listConvenient, iPostRoomUpdateModel);
- 
+
             }
         });
     }
- 
+
     public void deleteConvenientsNotNotify(String roomId, String key, List<String> listConvenient, IPostRoomUpdateModel iPostRoomUpdateModel) {
         // Xóa convenients room hiện tại
         nodeRoot.child("RoomConvenients")
@@ -2307,32 +2311,32 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 addConvenientsNotNotify(roomId, listConvenient, iPostRoomUpdateModel);
- 
+
             }
         });
     }
- 
+
     public void addConvenients(String roomId, List<String> listConvenient, IPostRoomUpdateModel iPostRoomUpdateModel) {
         // Thêm convenients room hiện tại
         for (String dataConvenient : listConvenient) {
             nodeRoot.child("RoomConvenients").child(roomId).push().setValue(dataConvenient);
         }
- 
+
         iPostRoomUpdateModel.getSuccessNotifyPostRoomStep3();
- 
+
         getOneRoomFollowRoomId(roomId, iPostRoomUpdateModel);
     }
- 
+
     public void addConvenientsNotNotify(String roomId, List<String> listConvenient, IPostRoomUpdateModel iPostRoomUpdateModel) {
         // Thêm convenients room hiện tại
         for (String dataConvenient : listConvenient) {
             nodeRoot.child("RoomConvenients").child(roomId).push().setValue(dataConvenient);
         }
     }
- 
+
     public void deleteImagesRoom(String roomId, String key, List<String> listPathImageChoosed,
                                  IPostRoomUpdateModel iPostRoomUpdateModel, Context context, int countImageUploaded) {
- 
+
         // Xóa convenients room hiện tại
         nodeRoot.child("RoomImages")
                 .child(key)
@@ -2343,86 +2347,86 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
             }
         });
     }
- 
+
     public void addImagesRoom(String roomId, List<String> listPathImageChoosed,
                               IPostRoomUpdateModel iPostRoomUpdateModel, Context context, int countImageUploaded) {
         //Lấy ra node room
         DatabaseReference nodeRoom = nodeRoot.child("Room");
- 
+
         //Tải hình lên trước sau khi hoàn tất tải hình mới thêm vào các thông tin cần thiết
         //Tải hình lên
         final int[] count = {0};
         final boolean isExitsFile = false;
         int countImageInFireBase = 0;
- 
- 
+
+
         for (String pathImage : listPathImageChoosed) {
             String header = pathImage.substring(0, Math.min(pathImage.length(), 23));
- 
+
             // Kiểm tra xem đường dẫn này có phải trên fire base ko
             if (header.equals("https://firebasestorage") == true) {
                 countImageInFireBase++;
             }
         }
- 
+
         Log.d("countImageInFireBase", countImageInFireBase + "");
         Log.d("ImageChoosed.size()", listPathImageChoosed.size() + "");
- 
+
         // Tất cả đã có trên fire base
         if (countImageInFireBase == listPathImageChoosed.size()) {
- 
+
             iPostRoomUpdateModel.getSuccessNotifyPostRoomStep3();
- 
+
             getOneRoomFollowRoomId(roomId, iPostRoomUpdateModel);
- 
+
             return;
         }
- 
+
         for (String pathImage : listPathImageChoosed) {
             //Lấy đường dẫn Uri của hình
             Uri file = Uri.parse(pathImage);
- 
+
             //Lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
             DateFormat df = new SimpleDateFormat("ddMMyyyyHHmmss");
             String date = df.format(Calendar.getInstance().getTime());
             //End lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
- 
+
             StorageReference storageReference = FirebaseStorage.getInstance().getReference()
                     .child("Images/" + date + file.getLastPathSegment());
- 
+
             //Tải hình lên bằng hàm putFile
             storageReference.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
- 
+
                     storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             //isExitsFile = true;
- 
+
                             //Lấy URL hình mới upload
                             String dowloadURL = uri.toString();
                             //Push hình vào danh sách hình tương ứng với room
                             nodeRoot.child("RoomImages").child(roomId).push().setValue(dowloadURL);
- 
+
                             count[0]++;
                             if ((count[0] + countImageUploaded) == listPathImageChoosed.size()) {
- 
-                                String header =  listPathImageChoosed.get(0).substring(0, Math.min( listPathImageChoosed.get(0).length(), 23));
- 
- 
+
+                                String header = listPathImageChoosed.get(0).substring(0, Math.min(listPathImageChoosed.get(0).length(), 23));
+
+
                                 Log.d("header", header);
- 
+
                                 if (header.equals("https://firebasestorage") == false) {
- 
+
                                     String path = FilePath.getPath(context, Uri.parse(listPathImageChoosed.get(0)));
- 
+
                                     // Nếu đường dẫn [0] file không tồn tại ở máy
                                     if (new File(path).exists() == true) {
                                         //Lấy ra đường dẫn file
                                         //Tạo file tương ứng với đường dẫn đó
                                         File image_filePath = new File(path);
- 
+
                                         //Tạo Bitmap để nén ảnh và tải lên
                                         Bitmap image_bitmap = null;
                                         try {
@@ -2435,18 +2439,18 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                                             //Chuyển ảnh về JPG và đổ vào mảng byte
                                             image_bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
- 
+
                                             //Đổ dữ liệu ra mảng byte
                                             final byte[] image_byte = byteArrayOutputStream.toByteArray();
- 
+
                                             //Lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
                                             DateFormat df2 = new SimpleDateFormat("ddMMyyyyHHmmss");
                                             String date2 = df2.format(Calendar.getInstance().getTime());
                                             //End lấy ra ngày giờ hiện tại để phân biệt giữa các ảnh
- 
+
                                             //Tạo đường dẫn đến thu mục upload hình
                                             StorageReference CompressStorage = FirebaseStorage.getInstance().getReference().child("CompressionImages/" + owner + date2 + ".jpg");
- 
+
                                             //Up load hình
                                             UploadTask uploadTask = CompressStorage.putBytes(image_byte);
                                             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -2460,7 +2464,7 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                                                             //Thêm vào trong node Room
                                                             nodeRoot.child("RoomCompressionImages").child(roomId).removeValue();
                                                             nodeRoot.child("RoomCompressionImages").child(roomId).push().setValue(ComPressDowloadURL);
- 
+
                                                             iPostRoomUpdateModel.getSuccessNotifyPostRoomStep3();
                                                             getOneRoomFollowRoomId(roomId, iPostRoomUpdateModel);
                                                         }
@@ -2473,14 +2477,13 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                                     } else {
                                         Log.d("myroomroom", "run");
                                         iPostRoomUpdateModel.getSuccessNotifyPostRoomStep3();
- 
+
                                         getOneRoomFollowRoomId(roomId, iPostRoomUpdateModel);
                                     }
-                                }
-                                else {
+                                } else {
                                     Log.d("myroomroom", "run");
                                     iPostRoomUpdateModel.getSuccessNotifyPostRoomStep3();
- 
+
                                     getOneRoomFollowRoomId(roomId, iPostRoomUpdateModel);
                                 }
                             }
@@ -2489,7 +2492,7 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
                 }
             });
         }
- 
+
         // Không có file nào tại máy
 //        if (isExitsFile == false) {
 //            iPostRoomUpdateModel.getSuccessNotifyPostRoomStep3();
@@ -2497,11 +2500,11 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
 //            getOneRoomFollowRoomId(roomId, iPostRoomUpdateModel);
 //        }
     }
- 
+
     // Hàm cập nhật post room step 1
     public void postRoomStep4Update(String roomId, String name, String describe, IPostRoomUpdateModel iPostRoomUpdateModel) {
         DatabaseReference nodeRoom = FirebaseDatabase.getInstance().getReference().child("Room");
- 
+
         Map<String, Object> map = new HashMap<>();
         map.put("name", name);
         map.put("describe", describe);
@@ -2509,8 +2512,9 @@ public void getOneRoomFollowRoomId(String roomId, IPostRoomUpdateModel iPostRoom
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 iPostRoomUpdateModel.getSuccessNotifyPostRoomStep4();
- 
+
                 getOneRoomFollowRoomId(roomId, iPostRoomUpdateModel);
             }
         });
     }
+}
