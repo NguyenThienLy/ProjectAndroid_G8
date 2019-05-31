@@ -17,8 +17,12 @@ import android.widget.Toast;
 
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
+import com.example.designapptest.Views.detailRoom;
+import com.example.designapptest.Views.postRoomAdapter;
+import com.example.designapptest.Views.postRoomAdapterUpdate;
 import com.example.designapptest.Views.PopUpComment;
 import com.example.designapptest.Views.PopUpViews;
+
 
 import java.util.List;
 
@@ -115,8 +119,9 @@ public class AdapterRecyclerMyRoom extends RecyclerView.Adapter<AdapterRecyclerM
         viewHolder.btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Gọi hàm update
-                updateRoom(roomModel);
+                Intent ipostRoomUpdate = new Intent(context, postRoomAdapterUpdate.class);
+                ipostRoomUpdate.putExtra("phongtro", roomModel);
+                context.startActivity(ipostRoomUpdate);
             }
         });
 
