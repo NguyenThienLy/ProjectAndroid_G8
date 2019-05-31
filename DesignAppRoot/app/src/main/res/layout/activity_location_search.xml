@@ -18,6 +18,7 @@
             android:layout_weight="5"
             android:layout_height="match_parent">
             <EditText
+                android:textCursorDrawable="@drawable/cursor_edittext"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:id="@+id/edT_search"

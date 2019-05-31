@@ -23,6 +23,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Views.PopUpViews"
+            android:theme="@style/AppTheme.PopMe"></activity>
+        <activity
+            android:name=".Views.PopUpComment"
+            android:theme="@style/AppTheme.PopMe" />
         <activity android:name=".Views.Main_Menu" />
 
         <meta-data
@@ -87,15 +92,12 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity> <!-- <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/> <activity android:name="com.facebook.FacebookActivity" android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" /> <activity android:name="com.facebook.CustomTabActivity" android:exported="true"> <intent-filter> <action android:name="android.intent.action.VIEW" /> <category android:name="android.intent.category.DEFAULT" /> <category android:name="android.intent.category.BROWSABLE" /> <data android:scheme="@string/fb_login_protocol_scheme" /> </intent-filter> </activity> -->
-        <!--<activity android:name=".Views.MainActivity">-->
-
-            <!--&lt;!&ndash; <intent-filter> &ndash;&gt;-->
-            <!--&lt;!&ndash; <action android:name="android.intent.action.MAIN" /> &ndash;&gt;-->
-
-
-            <!--&lt;!&ndash; <category android:name="android.intent.category.LAUNCHER" /> &ndash;&gt;-->
-            <!--&lt;!&ndash; </intent-filter> &ndash;&gt;-->
-        <!--</activity>-->
+        <!-- <activity android:name=".Views.MainActivity"> -->
+        <!-- &lt;!&ndash; <intent-filter> &ndash;&gt; -->
+        <!-- &lt;!&ndash; <action android:name="android.intent.action.MAIN" /> &ndash;&gt; -->
+        <!-- &lt;!&ndash; <category android:name="android.intent.category.LAUNCHER" /> &ndash;&gt; -->
+        <!-- &lt;!&ndash; </intent-filter> &ndash;&gt; -->
+        <!-- </activity> -->
         <!--
 <activity android:name=".Views.roomManagementModel">
             <intent-filter>
@@ -182,36 +184,66 @@
 
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
-        </activity>
-        <!--<activity android:name=".Views.FindRoom">-->
-
-            <!--&lt;!&ndash; <intent-filter> &ndash;&gt;-->
-            <!--&lt;!&ndash; <action android:name="android.intent.action.MAIN" /> &ndash;&gt;-->
-
-
-            <!--&lt;!&ndash; <category android:name="android.intent.category.LAUNCHER" /> &ndash;&gt;-->
-            <!--&lt;!&ndash; </intent-filter> &ndash;&gt;-->
-        <!--</activity>-->
+        </activity> <!-- <activity android:name=".Views.FindRoom"> -->
+        <!-- &lt;!&ndash; <intent-filter> &ndash;&gt; -->
+        <!-- &lt;!&ndash; <action android:name="android.intent.action.MAIN" /> &ndash;&gt; -->
+        <!-- &lt;!&ndash; <category android:name="android.intent.category.LAUNCHER" /> &ndash;&gt; -->
+        <!-- &lt;!&ndash; </intent-filter> &ndash;&gt; -->
+        <!-- </activity> -->
         <activity android:name=".Views.FindRoomAdd" />
         <activity android:name=".Views.FindRoomDetail" />
         <activity android:name=".Views.FindRoomFilter" />
-        <activity android:name=".Views.FindRoomMine" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".Views.FindRoomMine">
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-        <!--<activity android:name=".Views.accountView">-->
-
-            <!--&lt;!&ndash; <intent-filter> &ndash;&gt;-->
-            <!--&lt;!&ndash; <action android:name="android.intent.action.MAIN" /> &ndash;&gt;-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
 
-            <!--&lt;!&ndash; <category android:name="android.intent.category.LAUNCHER" /> &ndash;&gt;-->
-            <!--&lt;!&ndash; </intent-filter> &ndash;&gt;-->
-        <!--</activity>-->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity> <!-- <activity android:name=".Views.accountView"> -->
+        <!-- &lt;!&ndash; <intent-filter> &ndash;&gt; -->
+        <!-- &lt;!&ndash; <action android:name="android.intent.action.MAIN" /> &ndash;&gt; -->
+        <!-- &lt;!&ndash; <category android:name="android.intent.category.LAUNCHER" /> &ndash;&gt; -->
+        <!-- &lt;!&ndash; </intent-filter> &ndash;&gt; -->
+        <!-- </activity> -->
         <activity android:name=".Views.personalPage">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".Views.resetPasswordByEmail">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".Views.adminView">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".Views.adminRoomsView">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".Views.adminHostsView">
 
              <!--<intent-filter>-->
              <!--<action android:name="android.intent.action.MAIN" />-->
@@ -220,7 +252,34 @@
              <!--<category android:name="android.intent.category.LAUNCHER" />-->
              <!--</intent-filter>-->
         </activity>
-        <activity android:name=".Views.resetPasswordByEmail">
+        <activity android:name=".Views.adminHostRoomsView">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".Views.adminRoomsWaitForApprovalView">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".Views.adminReportRoomView">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".Views.adminReportRoomDetailView">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->

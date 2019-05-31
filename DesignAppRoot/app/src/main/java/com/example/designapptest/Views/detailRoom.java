@@ -5,10 +5,12 @@ import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +27,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerComment;
@@ -46,6 +49,8 @@ import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.Model.RoomViewsModel;
 import com.example.designapptest.R;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -73,8 +78,17 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
     RecyclerView recyclerConvenientsRoomDetail;
     AdapterRecyclerConvenient adapterRecyclerConvenient;
 
-    RecyclerView recyclerTheSameRoomDetail;
-    AdapterRecyclerMainRoom adapterRecyclerTheSame;
+    // same room
+    RecyclerView recyclerSameDetailRoom;
+    ProgressBar progressBarSameDetailRoom;
+    LinearLayout lnLtQuantityTopSameDetailRoom;
+
+    // Số lượng trả về.
+    TextView txtQuantitySameDetailRoom;
+
+    NestedScrollView nestedScrollSameDetailRoomView;
+    ProgressBar progressBarLoadMoreSameDetailRoom;
+    // end same room
 
     RecyclerView recyclerPriceRoomDetail;
     AdapterRecyclerRoomPrice adapterRecyclerRoomPrice;
@@ -92,6 +106,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
     SharedPreferences sharedPreferences;
     String UID;
+    Boolean isAdmin;
     CommentController commentController;
     MainActivityController mainActivityController;
     ReportedRoomController reportedRoomController;
@@ -118,6 +133,7 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
         sharedPreferences = getSharedPreferences(LoginView.PREFS_DATA_NAME, MODE_PRIVATE);
         UID = sharedPreferences.getString(LoginView.SHARE_UID, "n1oc76JrhkMB9bxKxwXrxJld3qH2");
+        isAdmin = sharedPreferences.getBoolean(LoginView.IS_ADMIN, false);
 
         initControl();
 
@@ -139,6 +155,8 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         clickPostComment();
 
         clickShowImage();
+
+        setViewSameRoom();
 
         loadTheSameRoom();
     }
@@ -274,7 +292,19 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         recyclerCommentRoomDetail = (RecyclerView) findViewById(R.id.recycler_comment_room_detail);
         recyclerConvenientsRoomDetail = (RecyclerView) findViewById(R.id.recycler_convenients_room_detail);
         recyclerPriceRoomDetail = (RecyclerView) findViewById(R.id.recycler_price_room_detail);
-        recyclerTheSameRoomDetail = (RecyclerView) findViewById(R.id.recycler_the_same_room_detail);
+        recyclerSameDetailRoom = (RecyclerView) findViewById(R.id.recycler_same_detail_room);
+
+        progressBarSameDetailRoom = (ProgressBar) findViewById(R.id.progress_bar_same_detail_room);
+        progressBarSameDetailRoom.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
+
+        lnLtQuantityTopSameDetailRoom = (LinearLayout) findViewById(R.id.lnLt_quantity_top_same_detail_room);
+        txtQuantitySameDetailRoom = (TextView) findViewById(R.id.txt_quantity_same_detail_room);
+
+        nestedScrollSameDetailRoomView = (NestedScrollView) findViewById(R.id.nested_scroll_same_detail_room_view);
+        progressBarLoadMoreSameDetailRoom = (ProgressBar) findViewById(R.id.progress_bar_load_more_same_detail_rooms);
+        progressBarLoadMoreSameDetailRoom.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     // Khởi tạo các giá trị cho các control.
@@ -373,6 +403,8 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 
         // Load danh sách bình luận của phòng trọ
         commentController.sortListComments(roomModel.getListCommentRoom());
+        downloadImageFitForComment();
+
         RecyclerView.LayoutManager layoutManagerComment = new LinearLayoutManager(this);
         recyclerCommentRoomDetail.setLayoutManager(layoutManagerComment);
         adapterRecyclerComment = new AdapterRecyclerComment(this, R.layout.comment_element_grid_room_detail_view,
@@ -441,6 +473,16 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         });
     }
 
+    private void expandTextView(TextView tv) {
+        ObjectAnimator animation = ObjectAnimator.ofInt(tv, "maxLines", tv.getLineCount());
+        animation.setDuration(200).start();
+    }
+
+    private void collapseTextView(TextView tv, int numLines) {
+        ObjectAnimator animation = ObjectAnimator.ofInt(tv, "maxLines", numLines);
+        animation.setDuration(200).start();
+    }
+
     private void expandRoomConvenients() {
         int convenientRoomSize = roomModel.getListConvenientRoom().size();
         int rowConvenientHeight = 203;
@@ -485,19 +527,16 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
         anim.start();
     }
 
-    private void expandTextView(TextView tv) {
-        ObjectAnimator animation = ObjectAnimator.ofInt(tv, "maxLines", tv.getLineCount());
-        animation.setDuration(200).start();
-    }
-
-    private void collapseTextView(TextView tv, int numLines) {
-        ObjectAnimator animation = ObjectAnimator.ofInt(tv, "maxLines", numLines);
-        animation.setDuration(200).start();
-    }
-
     // Hàm tải ảnh từ firebase về theo image control và vị trí ảnh cần lấy trên firebase.
     private void downloadImageForImageControl(final ImageView imageDownload, final int positionDownload) {
         Picasso.get().load(roomModel.getListImageRoom().get(positionDownload)).fit().centerCrop().into(imageDownload);
+    }
+
+    private void downloadImageFitForComment() {
+        for (CommentModel commentModel : roomModel.getListCommentRoom()) {
+            // Load ảnh nén
+            commentModel.setCompressionImageFit(Picasso.get().load(commentModel.getUserComment().getAvatar()).fit());
+        }
     }
 
     // Hàm gọi điện thoại cho chủ phòng trọ.
@@ -692,12 +731,25 @@ public class detailRoom extends AppCompatActivity implements ReportRoomDialog.Re
 //        }
 
         DetailRoomController detailRoomController = new DetailRoomController(this, District, myFilters, UID);
-        detailRoomController.loadSearchRoom(recyclerTheSameRoomDetail, CurrentRoomID);
+        detailRoomController.loadSearchRoom(recyclerSameDetailRoom, CurrentRoomID, progressBarSameDetailRoom,
+                txtQuantitySameDetailRoom, lnLtQuantityTopSameDetailRoom,
+                nestedScrollSameDetailRoomView, progressBarLoadMoreSameDetailRoom);
 
-        //Gọi hàm thêm vào lượng view từ controller
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        String date = df.format(Calendar.getInstance().getTime());
-        RoomViewsModel data = new RoomViewsModel(date,UID,roomModel.getRoomID());
-        detailRoomController.addViews(data);
+        if (!isAdmin) {
+            //Gọi hàm thêm vào lượng view từ controller
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String date = df.format(Calendar.getInstance().getTime());
+            RoomViewsModel data = new RoomViewsModel(date, UID, roomModel.getRoomID());
+            detailRoomController.addViews(data);
+        }
+    }
+
+    private void setViewSameRoom() {
+        // Hiện progress bar.
+        progressBarSameDetailRoom.setVisibility(View.VISIBLE);
+        // Ẩn progress bar load more.
+        progressBarLoadMoreSameDetailRoom.setVisibility(View.GONE);
+        // Ẩn layout kết quả trả vể.
+        lnLtQuantityTopSameDetailRoom.setVisibility(View.GONE);
     }
 }

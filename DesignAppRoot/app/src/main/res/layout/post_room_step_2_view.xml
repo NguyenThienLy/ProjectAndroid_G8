@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,22 +11,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:orientation="vertical">
+        android:paddingRight="35dp"
+        android:paddingLeft="35dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="30dp"
+        android:orientation="vertical"
+        android:background="#FFFFFF">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/stringTypePushRoom"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textColor="#666666"
+            android:textStyle="bold"/>
 
         <RadioGroup
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
 
             <RadioButton
+                android:checked="true"
                 android:textColor="@drawable/custom_radio_text_color"
                 android:buttonTint="@color/success"
                 android:id="@+id/rBtn_type1_push_room"
@@ -61,14 +67,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/stringGendertitle"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textColor="#666666"
+            android:textStyle="bold"/>
 
         <RadioGroup
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
             <RadioButton
+                android:checked="true"
                 android:textColor="@drawable/custom_radio_text_color"
                 android:buttonTint="@color/success"
                 android:id="@+id/rBtn_male"
@@ -89,10 +98,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/stringNumberPushRoom"
-            android:textColor="@android:color/black"
+            android:layout_marginTop="10dp"
+            android:textColor="#666666"
             android:textStyle="bold" />
 
         <EditText
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:inputType="number"
             android:id="@+id/edt_number_people_push_room"
             android:layout_width="match_parent"
@@ -101,17 +112,19 @@
             android:background="@drawable/custom_spinner_rim"
             android:gravity="center"
             android:hint="@string/stringNumberHelpPushRoom"
-            android:textColor="@android:color/black" />
+            android:textColor="#666666"
+            android:textSize="14sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/stringAreaPushRoom"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
             android:textStyle="bold" />
 
         <EditText
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:inputType="number"
             android:id="@+id/edt_length_push_room"
             android:layout_width="match_parent"
@@ -120,17 +133,19 @@
             android:background="@drawable/custom_spinner_rim"
             android:gravity="center"
             android:hint="@string/stringAreaHelpPushRoom"
-            android:textColor="@android:color/black" />
+            android:textColor="#666666"
+            android:textSize="14sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/stringWidthHelpPushRoom"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
             android:textStyle="bold" />
 
         <EditText
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:inputType="number"
             android:id="@+id/edt_width_push_room"
             android:layout_width="match_parent"
@@ -139,17 +154,19 @@
             android:background="@drawable/custom_spinner_rim"
             android:gravity="center"
             android:hint="@string/stringAreaHelpPushRoom"
-            android:textColor="@android:color/black" />
+            android:textColor="#666666"
+            android:textSize="14sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/stringPricePushRoom"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
             android:textStyle="bold" />
 
         <EditText
+            android:textCursorDrawable="@drawable/cursor_edittext"
             android:inputType="number"
             android:id="@+id/edt_priceRoom_push_room"
             android:layout_width="match_parent"
@@ -158,14 +175,15 @@
             android:background="@drawable/custom_spinner_rim"
             android:gravity="center"
             android:hint="@string/stringPriceHelpPushRoom"
-            android:textColor="@android:color/black" />
+            android:textColor="#666666"
+            android:textSize="14sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/stringElectricPushRoom"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -174,11 +192,15 @@
             android:orientation="horizontal">
 
             <EditText
+                android:theme="@style/EditTextTheme"
+                android:textCursorDrawable="@drawable/cursor_edittext"
                 android:inputType="number"
                 android:id="@+id/edt_electricBill_push_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:textColor="#666666"
+                android:textSize="14sp"
                 android:layout_weight="1"
                 android:hint="@string/stringPriceHelpPushRoom" />
 
@@ -188,7 +210,6 @@
                 android:id="@+id/chBox_freeElectric_push_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/edt_electricBill_push_room"
                 android:text="@string/stringFreePricePushRoom"
                 android:layout_weight="2"/>
@@ -201,7 +222,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/stringWaterPushRoom"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -210,12 +231,16 @@
             android:orientation="horizontal">
 
             <EditText
+                android:theme="@style/EditTextTheme"
+                android:textCursorDrawable="@drawable/cursor_edittext"
                 android:inputType="number"
                 android:id="@+id/edt_waterBill_push_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:hint="@string/stringPriceHelpPushRoom"
+                android:textColor="#666666"
+                android:textSize="14sp"
                 android:layout_weight="1"/>
 
             <CheckBox
@@ -224,7 +249,6 @@
                 android:id="@+id/chBox_freeWater_push_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_toRightOf="@+id/edt_waterBill_push_room"
                 android:text="@string/stringFreePricePushRoom"
                 android:layout_weight="2"/>
@@ -235,17 +259,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/stringInternetPushRoom"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
             android:textStyle="bold" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <EditText
+                android:theme="@style/EditTextTheme"
+                android:textCursorDrawable="@drawable/cursor_edittext"
                 android:inputType="number"
                 android:id="@+id/edt_internet_push_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:textSize="14sp"
                 android:layout_marginTop="5dp"
                 android:hint="@string/stringPriceHelpPushRoom"
                 android:layout_weight="1"/>
@@ -256,7 +284,6 @@
                 android:id="@+id/chBox_freeInternet_push_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_toRightOf="@+id/edt_internet_push_room"
                 android:text="@string/stringFreePricePushRoom"
                 android:layout_weight="2"/>
@@ -267,17 +294,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/stringParking2PushRoom"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
             android:textStyle="bold" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <EditText
+                android:theme="@style/EditTextTheme"
+                android:textCursorDrawable="@drawable/cursor_edittext"
                 android:inputType="number"
                 android:id="@+id/edt_parking_push_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:textSize="14sp"
                 android:layout_marginTop="5dp"
                 android:hint="@string/stringPriceHelpPushRoom"
                 android:layout_weight="1"/>
@@ -288,18 +319,18 @@
                 android:id="@+id/chBox_freeParking_push_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_toRightOf="@+id/edt_internet_push_room"
                 android:text="@string/stringFreePricePushRoom"
                 android:layout_weight="2"/>
         </LinearLayout>
         <Button
             android:id="@+id/btn_nextStep2_post_room"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/stringNameButtonNextPushRoom"
+            android:text="Xác nhận"
+            android:textAllCaps="false"
             android:layout_marginTop="40dp"
-            android:textColor="@android:color/holo_blue_bright"
+            android:textColor="#FFFFFF"
             android:layout_gravity="center"
             android:background="@drawable/custom_rim"
             android:layout_marginBottom="20dp"

@@ -1,6 +1,7 @@
 package com.example.designapptest.Model;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.designapptest.Controller.Interfaces.ILocationModel;
 import com.example.designapptest.Controller.Interfaces.IStringCallBack;
@@ -68,25 +69,25 @@ public class LocationModel implements Comparable<LocationModel>  {
                 //Tạo list mới
                 List<LocationModel> listLocationModel = new ArrayList<LocationModel>();
                 //Khởi tạo giá trị cho list
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận 1",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận 2",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận 3",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận 4",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận 5",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận 6",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận 7",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận 8",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận 9",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận 10",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận 11",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận 12",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận Thủ Đức",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận Gò Vấp",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận Bình Thạnh",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận Tân Bình",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận Tân Phú",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận Phú Nhuận",0));
-                listLocationModel.add(new LocationModel(R.drawable.avt_jpg_room,"Quận Bình Tân",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_1,"Quận 1",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_2,"Quận 2",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_3,"Quận 3",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_4,"Quận 4",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_5,"Quận 5",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_6,"Quận 6",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_7,"Quận 7",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_8,"Quận 8",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_9,"Quận 9",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_10,"Quận 10",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_11,"Quận 11",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_12,"Quận 12",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_thu_duc,"Quận Thủ Đức",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_go_vap,"Quận Gò Vấp",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_binh_thanh,"Quận Bình Thạnh",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_tan_binh,"Quận Tân Bình",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_tan_phu,"Quận Tân Phú",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_phu_nhuan,"Quận Phú Nhuận",0));
+                listLocationModel.add(new LocationModel(R.drawable.avt_q_binh_tan,"Quận Bình Tân",0));
                 //End khởi tạo giá trị cho list
 
                 //Lặp và thêm số lượng phòng vào trong list
@@ -144,15 +145,15 @@ public class LocationModel implements Comparable<LocationModel>  {
                            currentNumber+=SnapShotStreet.getChildrenCount();
                        }
                     }
+                    Log.d("checklocate", SnapShotDicstrict.getKey());
                     if(currentNumber>Top_Child){
                         Top_Child=currentNumber;
                         Top_1_location = SnapShotDicstrict.getKey();
-                    }
-                    if(count == SnapShotDicstrict.getChildrenCount()){
-                        iStringCallBack.sendString(Top_1_location);
+
                     }
                     currentNumber=0;
                 }
+                iStringCallBack.sendString(Top_1_location);
             }
 
             @Override

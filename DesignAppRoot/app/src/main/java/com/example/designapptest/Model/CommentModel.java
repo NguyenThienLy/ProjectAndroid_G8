@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.RequestCreator;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -36,6 +37,9 @@ public class CommentModel implements Parcelable { // Linh thêm
     String user;
     long likes, stars;
     String commentID;
+
+    // Ảnh nén
+    private RequestCreator compressionImageFit;
 
     //Chủ bình luận
     UserModel userComment;
@@ -77,6 +81,14 @@ public class CommentModel implements Parcelable { // Linh thêm
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public RequestCreator getCompressionImageFit() {
+        return compressionImageFit;
+    }
+
+    public void setCompressionImageFit(RequestCreator compressionImageFit) {
+        this.compressionImageFit = compressionImageFit;
     }
 
     public UserModel getUserComment() {
@@ -281,7 +293,7 @@ public class CommentModel implements Parcelable { // Linh thêm
     }
 
     private void getPartListComments(DataSnapshot dataSnapshot, List<CommentModel> listCommentsModel,
-                                      IRoomCommentModel roomCommentModelInterface, int quantityCommentToLoad,
+                                     IRoomCommentModel roomCommentModelInterface, int quantityCommentToLoad,
                                      int quantityCommentLoaded) {
         int i = 0;
 

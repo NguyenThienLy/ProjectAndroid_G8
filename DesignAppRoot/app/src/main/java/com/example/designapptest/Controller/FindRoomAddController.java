@@ -81,7 +81,12 @@ public class FindRoomAddController {
             }
 
             @Override
-            public void getSuccessNotify() {
+            public void getSuccessNotify(int quantity) {
+
+            }
+
+            @Override
+            public void setProgressBarLoadMore() {
 
             }
         };

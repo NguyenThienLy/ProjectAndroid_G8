@@ -18,6 +18,7 @@
         android:layout_gravity="center" />
 
     <com.arlib.floatingsearchview.FloatingSearchView
+        android:textCursorDrawable="@drawable/cursor_edittext"
         android:id="@+id/floating_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

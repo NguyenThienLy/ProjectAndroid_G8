@@ -419,6 +419,7 @@ public class searchMapView extends Fragment implements View.OnClickListener, Pos
             case R.id.btn_top_location:
                 //Trả về vị trí Có nhiều phòng nhất đồng thời zoom map về đó
                 callTopLocation();
+                Log.d("check3", "clieck");
                 break;
             case R.id.btn_near_location:
                 //Zoome map về địa chỉ hiện tại

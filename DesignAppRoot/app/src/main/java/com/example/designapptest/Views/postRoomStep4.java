@@ -197,6 +197,9 @@ public class postRoomStep4 extends Fragment implements View.OnClickListener {
                         callAddRoomControlller();
                     }
                 }
+                else {
+                    Toast.makeText(getContext(),"Vui lòng điền đầy đủ thông tin",Toast.LENGTH_LONG).show();
+                }
                 break;
         }
     }
@@ -208,6 +211,9 @@ public class postRoomStep4 extends Fragment implements View.OnClickListener {
 
         //Tạo mới một room
         RoomModel dataRoom = new RoomModel();
+
+        // phòng mới nên chưa đc duyệt
+        dataRoom.setApprove(false);
 
         //Set giá trị
         dataRoom.setDescribe(describe);
@@ -245,7 +251,7 @@ public class postRoomStep4 extends Fragment implements View.OnClickListener {
         //End set giá trị
 
         //Gọi hàm
-        controller.callAddRoomFromModel(dataRoom,listConvenient,listPathImageChoosed,electricBill,warterBill,InternetBill,parkingBill,progressDialog);
+        controller.callAddRoomFromModel(UID, dataRoom,listConvenient,listPathImageChoosed,electricBill,warterBill,InternetBill,parkingBill,progressDialog);
     }
 
     //Hàm chuyển màu ở activity

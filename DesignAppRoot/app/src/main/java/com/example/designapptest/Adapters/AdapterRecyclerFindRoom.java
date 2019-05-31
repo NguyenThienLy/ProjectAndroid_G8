@@ -133,7 +133,8 @@ public class AdapterRecyclerFindRoom extends RecyclerView.Adapter<AdapterRecycle
         //End Gán giá trị cho giới tính
 
         //Download ảnh dùng picaso cho đỡ lag
-        Picasso.get().load(findRoomModel.getFindRoomOwner().getAvatar()).fit().centerCrop().into(viewHolder.imgAvatarUser);
+        findRoomModel.getCompressionImageFit().centerCrop().into(viewHolder.imgAvatarUser);
+//        Picasso.get().load(findRoomModel.getFindRoomOwner().getAvatar()).fit().centerCrop().into(viewHolder.imgAvatarUser);
 
         viewHolder.cardViewFindRoomList.setOnClickListener(new View.OnClickListener() {
             @Override

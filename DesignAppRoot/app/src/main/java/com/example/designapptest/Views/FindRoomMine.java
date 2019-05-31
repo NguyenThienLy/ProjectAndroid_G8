@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -32,12 +33,13 @@ public class FindRoomMine extends AppCompatActivity {
     FindRoomFilterModel findRoomFilterModel;
 
     ProgressBar progressBarFindRoomMine;
+    LinearLayout lnLtTopHavResultReturnFindRoomMine;
 
-    // Số lượng kết quả trả về.
-    TextView txtResultReturnMine;
+    // Số lượng trả về.
+    TextView txtResultReturn;
 
-    //
-    LinearLayout lLayHaveResultReturnMine;
+    NestedScrollView nestedScrollFindRoomMineView;
+    ProgressBar progressBarLoadMoreFindRoom;
 
     Toolbar toolbar;
 
@@ -60,8 +62,15 @@ public class FindRoomMine extends AppCompatActivity {
         UID = sharedPreferences.getString(LoginView.SHARE_UID, "n1oc76JrhkMB9bxKxwXrxJld3qH2");
 
         initControl();
+    }
 
-        findRoomController = new FindRoomController(this);
+    private void setView() {
+        // Hiện progress bar.
+        progressBarFindRoomMine.setVisibility(View.VISIBLE);
+        // Ẩn progress bar load more.
+        progressBarLoadMoreFindRoom.setVisibility(View.GONE);
+        // Ẩn layout kết quả trả vể.
+        lnLtTopHavResultReturnFindRoomMine.setVisibility(View.GONE);
     }
 
     //Load dữ liệu vào List danh sách trong lần đầu chạy
@@ -71,7 +80,11 @@ public class FindRoomMine extends AppCompatActivity {
 
         initData();
 
-        findRoomController.ListFindRoomMine(UID, recyclerFindRoomMine, progressBarFindRoomMine, txtResultReturnMine, lLayHaveResultReturnMine);
+        setView();
+
+        findRoomController = new FindRoomController(this);
+        findRoomController.ListFindRoomMine(UID, recyclerFindRoomMine, txtResultReturn, progressBarFindRoomMine,
+                lnLtTopHavResultReturnFindRoomMine, nestedScrollFindRoomMineView, progressBarLoadMoreFindRoom);
     }
     //End load dữ liệu vào danh sách trong lần đầu chạy
 
@@ -84,13 +97,20 @@ public class FindRoomMine extends AppCompatActivity {
     private void initControl() {
        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        progressBarFindRoomMine = (ProgressBar) findViewById(R.id.progress_find_room_mine);
+
+        recyclerFindRoomMine = (RecyclerView) findViewById(R.id.recycler_find_room_mine);
+
+        progressBarFindRoomMine = (ProgressBar) findViewById(R.id.progress_bar_find_room_mine);
         progressBarFindRoomMine.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
                 android.graphics.PorterDuff.Mode.MULTIPLY);
 
-        recyclerFindRoomMine = (RecyclerView) findViewById(R.id.recycler_find_Room_mine);
-        txtResultReturnMine = (TextView) findViewById(R.id.txt_resultReturn_find_room_mine);
-        lLayHaveResultReturnMine = (LinearLayout) findViewById(R.id.lLay_haveResultReturn_find_room_mine);
+        lnLtTopHavResultReturnFindRoomMine = (LinearLayout) findViewById(R.id.lnLt_top_haveResultReturn_find_room_mine);
+        txtResultReturn = (TextView) findViewById(R.id.txt_resultReturn_find_room_mine);
+
+        nestedScrollFindRoomMineView = (NestedScrollView) findViewById(R.id.nested_scroll_find_room_mine_view);
+        progressBarLoadMoreFindRoom = (ProgressBar) findViewById(R.id.progress_bar_load_more_find_room_mine);
+        progressBarLoadMoreFindRoom.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     private void initData() {
@@ -101,5 +121,11 @@ public class FindRoomMine extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

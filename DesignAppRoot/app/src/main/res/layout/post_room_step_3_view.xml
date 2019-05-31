@@ -9,22 +9,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="35dp"
-
-        android:layout_marginRight="35dp"
-        android:orientation="vertical">
+        android:paddingRight="35dp"
+        android:paddingLeft="35dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="30dp"
+        android:orientation="vertical"
+        android:background="#FFFFFF">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/stringImagesPushRoom"
             android:textStyle="bold"
-            android:textColor="@android:color/black"/>
+            android:textColor="#666666" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@drawable/custom_rim"
+            android:background="@drawable/custom_rim_1"
             android:layout_gravity="center"
             android:layout_marginTop="20dp">
             <ImageButton
@@ -48,26 +50,26 @@
         </RelativeLayout>
         <Button
             android:id="@+id/btn_take_photo"
-            android:layout_width="150dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_svg_camera_24"
             android:text="@string/stringTakePicturePushRoom"
-            android:textColor="@android:color/holo_blue_bright"
-            android:background="@drawable/custom_rim"
+            android:textColor="#999999"
+            android:background="@drawable/custom_rim_1"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
-            android:paddingLeft="10dp"
+            android:textAllCaps="false"
+            android:paddingLeft="15dp"
             />
         <RelativeLayout
             android:background="@drawable/dotted"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_img_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
             </android.support.v7.widget.RecyclerView>
         </RelativeLayout>
 
@@ -76,7 +78,7 @@
             android:layout_height="wrap_content"
             android:text="@string/stringUtilitiesPushRoom"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
+            android:textColor="#666666"
             android:layout_marginTop="20dp"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -339,11 +341,12 @@
 
         <Button
             android:id="@+id/btn_nextStep3_post_room"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/stringNameButtonNextPushRoom"
+            android:text="Xác nhận"
             android:layout_marginTop="40dp"
-            android:textColor="@android:color/holo_blue_bright"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             android:layout_gravity="center"
             android:background="@drawable/custom_rim"
             android:layout_marginBottom="20dp"
