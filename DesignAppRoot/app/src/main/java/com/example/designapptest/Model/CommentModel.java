@@ -293,7 +293,7 @@ public class CommentModel implements Parcelable { // Linh thêm
     }
 
     private void getPartListComments(DataSnapshot dataSnapshot, List<CommentModel> listCommentsModel,
-                                      IRoomCommentModel roomCommentModelInterface, int quantityCommentToLoad,
+                                     IRoomCommentModel roomCommentModelInterface, int quantityCommentToLoad,
                                      int quantityCommentLoaded) {
         int i = 0;
 

@@ -3,53 +3,43 @@ package com.example.designapptest.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.designapptest.ClassOther.classFunctionStatic;
-import com.example.designapptest.Controller.Interfaces.IMainRoomModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.R;
 import com.example.designapptest.Views.detailRoom;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecyclerMainRoom.ViewHolder> {
-
+public class AdapterRecyclerRoomWaitForApproval extends RecyclerView.Adapter<AdapterRecyclerRoomWaitForApproval.ViewHolder> {
     List<RoomModel> RoomModelList;
     //Là biến lưu giao diện custom của từng row
     int resource;
     // Linh thêm
     Context context;
-    String UID;
 
-    public AdapterRecyclerMainRoom(Context context, List<RoomModel> RoomModelList, int resource, String UID) {
+    public AdapterRecyclerRoomWaitForApproval(Context context, List<RoomModel> RoomModelList, int resource) {
         this.context = context;
         this.RoomModelList = RoomModelList;
         this.resource = resource;
-        this.UID = UID;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtTimeCreated, txtName, txtMaxNumber, txtPrice, txtAddress, txtArea, txtQuantityComment, txtType, txtQuantityViews;
         ImageView imgRoom, imgGender, imgVerified;
+        CheckBox chBoxApproveRoom;
         CardView cardViewRoomList;
 
         public ViewHolder(@NonNull View itemView) {
@@ -66,15 +56,16 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
             imgRoom = (ImageView) itemView.findViewById(R.id.img_room);
             imgGender = (ImageView) itemView.findViewById(R.id.img_gender);
             txtType = (TextView) itemView.findViewById(R.id.txt_type);
-            cardViewRoomList = (CardView) itemView.findViewById(R.id.cardViewRoomList);
             txtQuantityViews = (TextView) itemView.findViewById(R.id.txt_quantityViews);
             imgVerified = (ImageView) itemView.findViewById(R.id.img_verified);
+            chBoxApproveRoom = (CheckBox) itemView.findViewById(R.id.chBox_approve_room);
+            cardViewRoomList = (CardView) itemView.findViewById(R.id.cardViewRoomWaitForApprovalList);
         }
     }
 
     @NonNull
     @Override
-    public AdapterRecyclerMainRoom.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public AdapterRecyclerRoomWaitForApproval.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(resource, viewGroup, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
@@ -82,7 +73,7 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final AdapterRecyclerMainRoom.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final AdapterRecyclerRoomWaitForApproval.ViewHolder viewHolder, int i) {
         //Lấy giá trị trong list
         final RoomModel roomModel = RoomModelList.get(i);
 
@@ -116,8 +107,8 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
         //End Set address for room
 
         //Gán hình cho giới tính
-        if (roomModel.isGender()) {
-            viewHolder.imgGender.setImageResource(R.drawable.ic_svg_male_100);
+        if (roomModel.isGender() == true) {
+            viewHolder.imgGender.setImageResource(R.drawable.ic_png_male_100);
         } else {
             viewHolder.imgGender.setImageResource(R.drawable.ic_svg_female_100);
         }
@@ -190,76 +181,5 @@ public class AdapterRecyclerMainRoom extends RecyclerView.Adapter<AdapterRecycle
     @Override
     public int getItemCount() {
         return RoomModelList.size();
-    }
-
-    public void removeItem(RecyclerView.ViewHolder viewHolder, RecyclerView recyclerView,
-                           AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom, TextView txtQuantity,
-                           IMainRoomModel iMainRoomModel, RoomModel roomModel, int quantityLoaded, int quantityEachTime) {
-        int removedPosition = viewHolder.getAdapterPosition();
-        removeFavoriteRoom(removedPosition, recyclerView, adapterRecyclerFavoriteRoom, txtQuantity,
-                iMainRoomModel, roomModel, quantityLoaded, quantityEachTime);
-    }
-
-    private void removeFavoriteRoom(int removedPosition, RecyclerView recyclerView,
-                                    AdapterRecyclerMainRoom adapterRecyclerFavoriteRoom, TextView txtQuantity,
-                                    IMainRoomModel iMainRoomModel, RoomModel roomModel, int quantityLoaded, int quantityEachTime) {
-        DatabaseReference nodeFavoriteRooms = FirebaseDatabase.getInstance().getReference()
-                .child("FavoriteRooms");
-        String roomId = RoomModelList.get(removedPosition).getRoomID();
-        String roomName = RoomModelList.get(removedPosition).getName();
-
-        nodeFavoriteRooms.child(UID).child(roomId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                RoomModel deletedRoomModel = RoomModelList.get(removedPosition);
-
-//                if (RoomModelList.size() == 0) {
-//                    adapterRecyclerFavoriteRoom.notifyItemRemoved(removedPosition);
-//                }
-
-                // xóa khỏi list
-                RoomModelList.remove(removedPosition);
-                adapterRecyclerFavoriteRoom.notifyItemRemoved(removedPosition);
-
-                // Cập nhật số lượng ở view
-                int roomQuantity = Integer.valueOf(txtQuantity.getText().toString().trim()) - 1;
-                iMainRoomModel.setQuantityTop(roomQuantity);
-
-                // Load more một lượng rooms nữa
-                roomModel.getPartSpecialListRoom(iMainRoomModel,
-                        quantityLoaded + 2*quantityEachTime, quantityLoaded + quantityEachTime);
-                // Cập nhật lại số lượng đã tải cho controller biết có thay đổi
-                iMainRoomModel.setQuantityLoadMore(quantityLoaded + quantityEachTime);
-
-                Snackbar.make(recyclerView, "Đã xóa " + roomName, Snackbar.LENGTH_LONG).setAction("HOÀN TÁC", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                        String date = df.format(Calendar.getInstance().getTime());
-
-                        nodeFavoriteRooms.child(UID).child(roomId).child("time").setValue(date).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    // Thêm vào list
-                                    RoomModelList.add(removedPosition, deletedRoomModel);
-
-                                    // Load ảnh nén
-                                    deletedRoomModel.setCompressionImageFit(Picasso.get().load(deletedRoomModel.getCompressionImage()).fit());
-
-                                    adapterRecyclerFavoriteRoom.notifyItemInserted(removedPosition);
-
-                                    // Cập nhật số lượng ở view
-                                    int roomQuantity = Integer.valueOf(txtQuantity.getText().toString().trim()) + 1;
-                                    iMainRoomModel.setQuantityTop(roomQuantity);
-
-//                                    recyclerView.scrollToPosition(removedPosition);
-                                }
-                            }
-                        });
-                    }
-                }).show();
-            }
-        });
     }
 }

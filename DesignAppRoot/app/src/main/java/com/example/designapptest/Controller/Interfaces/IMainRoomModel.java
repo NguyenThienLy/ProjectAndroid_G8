@@ -14,4 +14,5 @@ public interface IMainRoomModel {
     public void setProgressBarLoadMore();
     public void setQuantityTop(int quantity);
     public void setQuantityLoadMore(int quantityLoaded);
+    public void setSumRoomsAdminView(long quantity);
 }

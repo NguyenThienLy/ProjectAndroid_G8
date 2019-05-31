@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.designapptest.Adapters.AdapterRecyclerMainRoom;
 import com.example.designapptest.ClassOther.myFilter;
+import com.example.designapptest.Controller.Interfaces.IRoomViewsModel;
 import com.example.designapptest.Controller.Interfaces.ISearchRoomModel;
 import com.example.designapptest.Model.RoomModel;
 import com.example.designapptest.Model.RoomViewsModel;
@@ -128,5 +129,16 @@ public class DetailRoomController {
         //Thêm sự kiện listenner cho noderoot
         searchRoomModel.searchRoom(searchRoomModelInterface, currentRoomID,
                 quantityRoomsLoaded + quantityRoomsEachTime, quantityRoomsLoaded);
+    }
+
+    public void getSumViews(TextView txtSumViewsAdminView) {
+        IRoomViewsModel iRoomViewsModel = new IRoomViewsModel() {
+            @Override
+            public void setSumViewsAdminView(long quantity) {
+                txtSumViewsAdminView.setText(quantity + "");
+            }
+        };
+
+        roomViewsModel.SumViews(iRoomViewsModel);
     }
 }
