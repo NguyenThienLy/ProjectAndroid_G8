@@ -1,6 +1,7 @@
 package com.example.designapptest.Controller;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +45,7 @@ public class PopUpViewsController {
         //Tạo adapter cho recycle view
         final AdapterRecyclerView adapterRecyclerView = new AdapterRecyclerView(context, R.layout.element_view_recycler_view,viewModelList);
         recyclerRoomView.setAdapter(adapterRecyclerView);
+        ViewCompat.setNestedScrollingEnabled(recyclerRoomView, false);
 
         IViewModel iViewModel = new IViewModel() {
             @Override

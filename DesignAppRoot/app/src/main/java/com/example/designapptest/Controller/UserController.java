@@ -1,6 +1,7 @@
 package com.example.designapptest.Controller;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,6 +44,7 @@ public class UserController {
         final AdapterRecyclerHost adapterRecyclerAdminHosts = new AdapterRecyclerHost(context, userModelList, R.layout.element_host_list_view);
         //Cài adapter cho recycle
         recyclerAdminHostsView.setAdapter(adapterRecyclerAdminHosts);
+        ViewCompat.setNestedScrollingEnabled(recyclerAdminHostsView, false);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
 
         IUserModel iHostModel = new IUserModel() {

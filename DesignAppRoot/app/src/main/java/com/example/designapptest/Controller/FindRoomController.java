@@ -1,6 +1,7 @@
 package com.example.designapptest.Controller;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,6 +56,7 @@ public class FindRoomController {
         AdapterRecyclerFindRoom adapterRecyclerFindRoom = new AdapterRecyclerFindRoom(context, findRoomModelist, R.layout.element_list_find_room_view);
         //Cài adapter cho recycle
         recyclerFindRoom.setAdapter(adapterRecyclerFindRoom);
+        ViewCompat.setNestedScrollingEnabled(recyclerFindRoom, false);
         //End tạo layout cho danh sách tìm phòng trọ.
 
         //Tạo interface để truyền dữ liệu lên từ model
@@ -143,6 +145,7 @@ public class FindRoomController {
         //adapterRecyclerFindRoomFilter.clearApplications();
         //Cài adapter cho recycle
         recyclerFindRoom.setAdapter(adapterRecyclerFindRoomFilter);
+        ViewCompat.setNestedScrollingEnabled(recyclerFindRoom, false);
         //End tạo layout cho danh sách tìm phòng trọ.
 
         //Tạo interface để truyền dữ liệu lên từ model
@@ -238,6 +241,7 @@ public class FindRoomController {
         //adapterRecyclerFindRoomFilter.clearApplications();
         //Cài adapter cho recycle
         recyclerFindRoomMine.setAdapter(adapterRecyclerFindRoomFilter);
+        ViewCompat.setNestedScrollingEnabled(recyclerFindRoomMine, false);
         //End tạo layout cho danh sách tìm phòng trọ.
 
         //Tạo interface để truyền dữ liệu lên từ model

@@ -70,7 +70,7 @@ public class SearchRoomModel {
                 // Lấy số lượng search rooms mỗi lần click submit
                 getAllSearchRoom(dataRoot, currentRoomID, searchRoomModelInterface);
 
-                getPartSearchRoom(dataRoot, searchRoomModelInterface, quantityRoomsToLoad, quantityRoomsLoaded);
+                getPartSearchRoom(dataRoot, currentRoomID, searchRoomModelInterface, quantityRoomsToLoad, quantityRoomsLoaded);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -79,14 +79,14 @@ public class SearchRoomModel {
         };
 
         if(dataRoot != null) {
-            getPartSearchRoom(dataRoot, searchRoomModelInterface, quantityRoomsToLoad, quantityRoomsLoaded);
+            getPartSearchRoom(dataRoot, currentRoomID, searchRoomModelInterface, quantityRoomsToLoad, quantityRoomsLoaded);
         } else {
             nodeRoot.addListenerForSingleValueEvent(valueEventListener);
         }
 
     }
 
-    private void getPartSearchRoom(DataSnapshot dataSnapshot, ISearchRoomModel searchRoomModelInterface, int quantityRoomsToLoad, int quantityRoomsLoaded) {
+    private void getPartSearchRoom(DataSnapshot dataSnapshot, String currentRoomID, ISearchRoomModel searchRoomModelInterface, int quantityRoomsToLoad, int quantityRoomsLoaded) {
         DataSnapshot snapShotLocationRoom = dataSnapshot.child("LocationRoom").child(district);
 
         int i = 0;
@@ -113,7 +113,7 @@ public class SearchRoomModel {
                     }
 
                     //Lấy ra thông tin Room theo ID truyền vào
-                    Boolean isFound = filterData(dataSnapshot,snapShotRoom.getValue().toString(),searchRoomModelInterface);
+                    Boolean isFound = filterData(dataSnapshot, currentRoomID, snapShotRoom.getValue().toString(),searchRoomModelInterface);
                     filterDataQuantity++;
 
                     if(isFound == true) {
@@ -127,7 +127,7 @@ public class SearchRoomModel {
         searchRoomModelInterface.setProgressBarLoadMore();
     }
 
-    private boolean filterData(DataSnapshot snapShotRoot,String RoomID,ISearchRoomModel iSearchRoomModel){
+    private boolean filterData(DataSnapshot snapShotRoot, String currentRoomID, String RoomID,ISearchRoomModel iSearchRoomModel){
 
         //Mảng lưu xem đã thỏa mãn hết các điều kiện chưa
         boolean[] arrCheck ={false,false,false};
@@ -295,9 +295,16 @@ public class SearchRoomModel {
                 //End thêm vào lượt xem của phòng trọ
 
                 //Kích hoạt interface truyền dữ liệu qua
-
-                iSearchRoomModel.sendDataRoom(roomModel,true);
-                return true;
+                if(currentRoomID.equals(roomModel.getRoomID())) {
+                    iSearchRoomModel.sendDataRoom(roomModel,false);
+                    return false;
+                } else if (roomModel.isApprove()) {
+                    iSearchRoomModel.sendDataRoom(roomModel,true);
+                    return true;
+                } else {
+                    iSearchRoomModel.sendDataRoom(roomModel,false);
+                    return false;
+                }
             }
             else {
                 //Gửi thông báo không tìm thấy phòng trọ nào
@@ -498,7 +505,7 @@ public class SearchRoomModel {
 
                 if(currentRoomID.equals(roomModel.getRoomID())) {
                     // không làm gì cả
-                } else {
+                } else if (roomModel.isApprove()){
                     listSearchRoomsModel.add(roomModel);
                 }
             }

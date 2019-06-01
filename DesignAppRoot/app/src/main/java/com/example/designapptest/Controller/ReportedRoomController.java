@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -87,6 +88,7 @@ public class ReportedRoomController {
         final AdapterRecyclerReportRoom adapterRecyclerReportRoom = new AdapterRecyclerReportRoom(context, reportedRoomModelList, R.layout.element_report_list_view);
         //Cài adapter cho recycle
         recyclerAdminReportRoomView.setAdapter(adapterRecyclerReportRoom);
+        ViewCompat.setNestedScrollingEnabled(recyclerAdminReportRoomView, false);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
 
         IReportedRoomModel iReportedRoomModel = new IReportedRoomModel() {

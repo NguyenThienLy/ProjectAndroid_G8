@@ -13,7 +13,8 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nested_scroll_same_detail_room_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar">
@@ -1026,10 +1027,10 @@
                             android:textSize="15sp" />
                     </LinearLayout>
 
-                    <android.support.v4.widget.NestedScrollView
-                        android:id="@+id/nested_scroll_same_detail_room_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <!--<android.support.v4.widget.NestedScrollView-->
+                        <!--android:id="@+id/nested_scroll_same_detail_room_view"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content">-->
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1062,7 +1063,7 @@
                                 android:layout_marginBottom="15dp" />
                             <!--End Processbar-->
                         </LinearLayout>
-                    </android.support.v4.widget.NestedScrollView>
+                    <!--</android.support.v4.widget.NestedScrollView>-->
 
                     <!--<View-->
                     <!--android:layout_width="fill_parent"-->
@@ -1098,6 +1099,6 @@
 
             </LinearLayout>
 
-        </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

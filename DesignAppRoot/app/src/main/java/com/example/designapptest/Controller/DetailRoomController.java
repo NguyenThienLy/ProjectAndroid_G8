@@ -1,6 +1,7 @@
 package com.example.designapptest.Controller;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,21 +35,21 @@ public class DetailRoomController {
 
     public DetailRoomController(Context context, String district, List<myFilter> filterList, String UID) {
         this.context = context;
-        this.searchRoomModel = new SearchRoomModel(district,filterList);
+        this.searchRoomModel = new SearchRoomModel(district, filterList);
         this.UID = UID;
         //Khởi tạo
         roomViewsModel = new RoomViewsModel();
     }
 
     //Hàm thêm vào số lượng view cho phòng
-    public void addViews(RoomViewsModel data){
+    public void addViews(RoomViewsModel data) {
         //Gọi hàm thêm lượt view từ model
         roomViewsModel.addViews(data);
     }
 
     public void loadSearchRoom(RecyclerView recyclerSearchRoom, String currentRoomID, ProgressBar progressBarSameDetailRoom,
                                TextView txtQuantitySameDetailRoom, LinearLayout lnLtQuantityTopSameDetailRoom,
-                               NestedScrollView nestedScrollSameDetailRoomView, ProgressBar progressBarLoadMoreSameDetailRoom){
+                               NestedScrollView nestedScrollSameDetailRoomView, ProgressBar progressBarLoadMoreSameDetailRoom) {
         final List<RoomModel> roomModelList = new ArrayList<>();
 
         //Tạo layout cho danh sách trọ
@@ -59,29 +60,25 @@ public class DetailRoomController {
         final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, UID);
         //Cài adapter cho recycle
         recyclerSearchRoom.setAdapter(adapterRecyclerMainRoom);
+        ViewCompat.setNestedScrollingEnabled(recyclerSearchRoom, false);
 
         //End tạo layout cho danh sách trọ
 
         ISearchRoomModel searchRoomModelInterface = new ISearchRoomModel() {
-            int i =0;
+            int i = 0;
+
             @Override
-            public void sendDataRoom(RoomModel roomModel,boolean ishadFound) {
-                if(ishadFound){
+            public void sendDataRoom(RoomModel roomModel, boolean ishadFound) {
+                if (ishadFound) {
                     //Add thêm vào recycler view
-                    //Kiểm tra nếu ID trùng với ID của room hiện tại thì bỏ qua không thêm
-                    if(currentRoomID.equals(roomModel.getRoomID())){
-                        //Do nothing
-                    }else {
-                        // Load ảnh nén
-                        roomModel.setCompressionImageFit(Picasso.get().load(roomModel.getCompressionImage()).fit());
+                    // Load ảnh nén
+                    roomModel.setCompressionImageFit(Picasso.get().load(roomModel.getCompressionImage()).fit());
 
-                        roomModelList.add(roomModel);
+                    roomModelList.add(roomModel);
 
-                        //Thông báo thay đổi dữ liệu
-                        adapterRecyclerMainRoom.notifyDataSetChanged();
-                    }
-                }
-                else {
+                    //Thông báo thay đổi dữ liệu
+                    adapterRecyclerMainRoom.notifyDataSetChanged();
+                } else {
 
                 }
             }

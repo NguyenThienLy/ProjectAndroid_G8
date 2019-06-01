@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -68,6 +69,7 @@ public class MainActivityController {
         final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelListAuthentication, R.layout.room_element_list_view, UID);
         //Cài adapter cho recycle
         recyclerMainRoom.setAdapter(adapterRecyclerMainRoom);
+        ViewCompat.setNestedScrollingEnabled(recyclerMainRoom, false);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
 
         //Tạo layout cho danh sách trọ được hiển thị theo dạng grid phía dưới
@@ -78,6 +80,7 @@ public class MainActivityController {
         final AdapterRecyclerMainRoom adapterRecyclerGridMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_grid_view, UID);
         //Cài adapter cho recycle
         recyclerViewGridMainRoom.setAdapter(adapterRecyclerGridMainRoom);
+        ViewCompat.setNestedScrollingEnabled(recyclerViewGridMainRoom, false);
         //End Tạo layout cho danh sách trọ được hiển thị theo dạng grid phía dưới
 
         //Tạo interface để truyền dữ liệu lên từ model
@@ -261,6 +264,7 @@ public class MainActivityController {
         }
         //Cài adapter cho recycle
         recyclerMainRoom.setAdapter(adapterRecyclerMyRoom);
+        ViewCompat.setNestedScrollingEnabled(recyclerMainRoom, false);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
 
         IMainRoomModel iMainRoomModel = new IMainRoomModel() {
@@ -384,6 +388,7 @@ public class MainActivityController {
         final AdapterRecyclerMainRoom adapterRecyclerVerifiedRoom = new AdapterRecyclerMainRoom(context, verifiedRoomsList, R.layout.room_element_list_view, UID);
         //Cài adapter cho recycle
         recyclerVerifiedRoom.setAdapter(adapterRecyclerVerifiedRoom);
+        ViewCompat.setNestedScrollingEnabled(recyclerVerifiedRoom, false);
         //End tạo layout cho danh sách trọ đã xác nhận
 
         //Tạo interface để truyền dữ liệu lên từ model
@@ -485,6 +490,7 @@ public class MainActivityController {
                 R.layout.room_element_list_view, UID);
         //Cài adapter cho recycle
         recyclerFavoriteRoom.setAdapter(adapterRecyclerFavoriteRoom);
+        ViewCompat.setNestedScrollingEnabled(recyclerFavoriteRoom, false);
         //End tạo layout cho danh sách trọ yêu thích
 
         //Tạo interface để truyền dữ liệu lên từ model
@@ -735,6 +741,7 @@ public class MainActivityController {
         final AdapterRecyclerMainRoom adapterRecyclerAdminRooms = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, UID);
         //Cài adapter cho recycle
         recyclerAdminRoomsView.setAdapter(adapterRecyclerAdminRooms);
+        ViewCompat.setNestedScrollingEnabled(recyclerAdminRoomsView, false);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
 
         IMainRoomModel iMainRoomModel = new IMainRoomModel() {
@@ -839,6 +846,7 @@ public class MainActivityController {
                 new AdapterRecyclerRoomWaitForApproval(context, roomModelList, R.layout.element_room_wait_for_approval_list_view);
         //Cài adapter cho recycle
         recyclerAdminRoomsWaitForApprovalView.setAdapter(adapterRecyclerRoomWaitForApproval);
+        ViewCompat.setNestedScrollingEnabled(recyclerAdminRoomsWaitForApprovalView, false);
         //End tạo layout cho danh sách trọ tìm kiếm nhiều nhất
 
         IMainRoomModel iMainRoomModel = new IMainRoomModel() {
