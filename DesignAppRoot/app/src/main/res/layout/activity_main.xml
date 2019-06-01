@@ -60,8 +60,22 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#ffffff">
+        <android.support.design.widget.FloatingActionButton
+            android:src="@drawable/ic_svg_while_search"
+            android:id="@+id/btn_fab_search"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="4dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="3dp"
+            android:scaleType="center"
+            app:useCompatPadding="true"
+            app:elevation="6dp"
+            app:borderWidth="1dp"
+            />
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/nested_scroll_main_view"

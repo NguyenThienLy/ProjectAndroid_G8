@@ -7,8 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.designapptest.Controller.locationSearchController;
 import com.example.designapptest.R;
@@ -18,6 +21,8 @@ public class location_search extends AppCompatActivity implements TextWatcher {
     EditText edTSearch;
     LinearLayout LinearContainSuggestions;
     RecyclerView recyclerSuggestion,recyclerHistorySearch;
+    TextView txtFinish;
+    Button btnClear;
 
     String stringFilter;
 
@@ -54,6 +59,20 @@ public class location_search extends AppCompatActivity implements TextWatcher {
         LinearContainSuggestions = findViewById(R.id.Linear_contain_suggestions);
         recyclerSuggestion = findViewById(R.id.recycler_suggestion);
         recyclerHistorySearch = findViewById(R.id.recycler_history_search);
+        txtFinish = findViewById(R.id.txt_finish);
+        txtFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        btnClear = findViewById(R.id.btn_clear);
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edTSearch.setText("");
+            }
+        });
     }
 
     private void getDataFromControl(){

@@ -6,11 +6,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +56,8 @@ public class MainActivity extends Fragment {
     String UID;
 
     CollapsingToolbarLayout collapsingToolbarLayout;
+
+    FloatingActionButton btnFabSearch;
 
     //Layout
     View layout;
@@ -103,6 +105,16 @@ public class MainActivity extends Fragment {
         progressBarMain = (ProgressBar)layout.findViewById(R.id.Progress_Main);
         progressBarMain.getIndeterminateDrawable().setColorFilter(Color.parseColor("#00DDFF"),
                 android.graphics.PorterDuff.Mode.MULTIPLY);
+
+        btnFabSearch = layout.findViewById(R.id.btn_fab_search);
+        btnFabSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("checkclick", "onClick: ");
+                Intent intentSearchLocation = new Intent(getContext(),location_search.class);
+                startActivity(intentSearchLocation);
+            }
+        });
     }
 
     private void setView() {

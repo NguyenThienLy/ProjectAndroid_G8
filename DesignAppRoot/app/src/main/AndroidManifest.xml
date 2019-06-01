@@ -118,8 +118,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".Views.detailRoom"
-            android:noHistory="true">
+            android:name=".Views.detailRoom">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->

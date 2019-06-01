@@ -62,12 +62,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="6dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="11">
 
                 <CheckBox
+                    android:paddingLeft="7dp"
                     android:id="@+id/chBox_price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -152,7 +154,7 @@
             <Button
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="34dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"

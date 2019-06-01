@@ -6,31 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Views.directMapRoomDetail">
-
-    <LinearLayout
-        android:id="@+id/lLay_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_svg_back_100" />
-
-        <TextView
-            android:id="@+id/txt_roomName"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAlignment="center"
-            android:textColor="@color/colorGrayType1"
-            android:textSize="20sp"
-            />
-    </LinearLayout>
-
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

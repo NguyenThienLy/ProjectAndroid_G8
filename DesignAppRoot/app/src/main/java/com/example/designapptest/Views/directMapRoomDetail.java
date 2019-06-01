@@ -6,11 +6,10 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.designapptest.Model.RoomModel;
@@ -28,10 +27,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class directMapRoomDetail extends FragmentActivity implements OnMapReadyCallback {
+public class directMapRoomDetail extends AppCompatActivity implements OnMapReadyCallback {
 
     GoogleMap map;
-    TextView txtRoomName;
     RoomModel roomModel;
     Button btnDirectMap;
 
@@ -46,7 +44,7 @@ public class directMapRoomDetail extends FragmentActivity implements OnMapReadyC
 
         roomModel = getIntent().getParcelableExtra("phongtro");
 
-        SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_map);
         mapFragment.getMapAsync(this);
 
@@ -60,14 +58,24 @@ public class directMapRoomDetail extends FragmentActivity implements OnMapReadyC
     }
 
     private void initControl() {
-        txtRoomName = (TextView) findViewById(R.id.txt_roomName);
         btnDirectMap = (Button) findViewById(R.id.btn_directMap);
 
-
+        toolbar = findViewById(R.id.toolbar);
     }
 
     private void initData() {
-        txtRoomName.setText(roomModel.getName());
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle(roomModel.getName());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
@@ -75,16 +83,16 @@ public class directMapRoomDetail extends FragmentActivity implements OnMapReadyC
         map = googleMap;
 
         float zoomLevel = (float) 18.0;
-        String longAddress = roomModel.getApartmentNumber() +" "+roomModel.getStreet()+", "
-                +roomModel.getWard()+", "+roomModel.getCounty()+", "+roomModel.getCity();
+        String longAddress = roomModel.getApartmentNumber() + " " + roomModel.getStreet() + ", "
+                + roomModel.getWard() + ", " + roomModel.getCounty() + ", " + roomModel.getCity();
         LatLng roomLocation = new LatLng(roomModel.getLatitude(), roomModel.getLongtitude());
 
         map.addMarker(new MarkerOptions()
-                    .position(roomLocation)
-                    .title(roomModel.getName())
-                    .snippet(longAddress)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_png_show_map_40)))
-                    .showInfoWindow();
+                .position(roomLocation)
+                .title(roomModel.getName())
+                .snippet(longAddress)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_png_show_map_40)))
+                .showInfoWindow();
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(roomLocation, zoomLevel));
     }
 
@@ -94,23 +102,21 @@ public class directMapRoomDetail extends FragmentActivity implements OnMapReadyC
             @Override
             public void onClick(View v) {
                 //Kiểm tra quuyền
-                if(ActivityCompat.checkSelfPermission(directMapRoomDetail.this, ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED){
+                if (ActivityCompat.checkSelfPermission(directMapRoomDetail.this, ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
 
                     return;
-                }
-                else{
+                } else {
                     //Neu du quyen thi lay toa do ma show map
                     client.getLastLocation().addOnSuccessListener(directMapRoomDetail.this, new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
-                            if(location!=null){
+                            if (location != null) {
                                 double srLatitude = location.getLatitude();
-                                double srLongtitude =location.getLongitude();
+                                double srLongtitude = location.getLongitude();
 
-                                drawGoogleMap(srLatitude,srLongtitude,roomModel.getLatitude(),roomModel.getLongtitude());
-                            }
-                            else {
+                                drawGoogleMap(srLatitude, srLongtitude, roomModel.getLatitude(), roomModel.getLongtitude());
+                            } else {
 
                             }
                         }
@@ -131,8 +137,8 @@ public class directMapRoomDetail extends FragmentActivity implements OnMapReadyC
         return false;
     }
 
-    private void drawGoogleMap(double srLatitude,double srLongtitude,double desLatitude,double desLongtitude){
-        Uri gmmIntentUri = Uri.parse("http://maps.google.com/maps?saddr="+srLatitude+","+srLongtitude+"&daddr="+desLatitude+","+desLongtitude);
+    private void drawGoogleMap(double srLatitude, double srLongtitude, double desLatitude, double desLongtitude) {
+        Uri gmmIntentUri = Uri.parse("http://maps.google.com/maps?saddr=" + srLatitude + "," + srLongtitude + "&daddr=" + desLatitude + "," + desLongtitude);
 
         boolean isAppInstalled = appInstalledOrNot("com.google.android.apps.maps");
 
@@ -142,14 +148,13 @@ public class directMapRoomDetail extends FragmentActivity implements OnMapReadyC
             startActivity(mapIntent);
 
             Toast.makeText(this, "Kết nối tới Google Map thành công !", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             Toast.makeText(this, "Kết nối tới Google Map thất bại !", Toast.LENGTH_LONG).show();
             return;
         }
     }
 
-    private void requestPermission(){
-        ActivityCompat.requestPermissions(this,new String[]{ACCESS_FINE_LOCATION},1);
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, 1);
     }
 }
