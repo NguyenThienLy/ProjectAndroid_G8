@@ -2,6 +2,7 @@ package com.example.designapptest.Controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -60,6 +61,7 @@ public class CommentController {
                 UID, true);
         //Cài adapter cho recycle
         recyclerRoomComments.setAdapter(adapterRecyclerComment);
+        ViewCompat.setNestedScrollingEnabled(recyclerRoomComments, false);
 
         //Tạo interface để truyền dữ liệu lên từ model
         IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {
@@ -162,20 +164,21 @@ public class CommentController {
                 quantityCommentsLoaded + quantityCommentsEachTime, quantityCommentsLoaded);
     }
 
-    public void ListMyRoomComments(RecyclerView recyclerRoomComments, RoomModel roomModel, ProgressBar progressBarMyComments,
+    public void ListMyRoomComments(RecyclerView recyclerMyRoomComments, RoomModel roomModel, ProgressBar progressBarMyComments,
                                    LinearLayout lnLyQuantityTopMyComments, TextView txtQuantityMyComments,
                                    NestedScrollView nestedScrollMyComments, ProgressBar progressBarLoadMoreMyComments) {
         final List<CommentModel> myCommentModelList = new ArrayList<CommentModel>();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-        recyclerRoomComments.setLayoutManager(layoutManager);
+        recyclerMyRoomComments.setLayoutManager(layoutManager);
 
         //Tạo adapter cho recycle view
         final AdapterRecyclerComment adapterRecyclerComment = new AdapterRecyclerComment(context,
                 R.layout.comment_element_grid_room_detail_view, myCommentModelList, roomModel.getRoomID(),
                 UID, true);
         //Cài adapter cho recycle
-        recyclerRoomComments.setAdapter(adapterRecyclerComment);
+        recyclerMyRoomComments.setAdapter(adapterRecyclerComment);
+        ViewCompat.setNestedScrollingEnabled(recyclerMyRoomComments, false);
 
         //Tạo interface để truyền dữ liệu lên từ model
         IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {

@@ -2,6 +2,7 @@ package com.example.designapptest.Controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,7 +51,7 @@ public class searchViewController {
         final AdapterRecyclerMainRoom adapterRecyclerMainRoom = new AdapterRecyclerMainRoom(context, roomModelList, R.layout.room_element_list_view, UID);
         //Cài adapter cho recycle
         recyclerSearchRoom.setAdapter(adapterRecyclerMainRoom);
-
+        ViewCompat.setNestedScrollingEnabled(recyclerSearchRoom, false);
         //End tạo layout cho danh sách trọ
 
         ISearchRoomModel searchRoomModelInterface = new ISearchRoomModel() {

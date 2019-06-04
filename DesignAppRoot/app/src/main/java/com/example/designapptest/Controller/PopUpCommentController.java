@@ -1,6 +1,7 @@
 package com.example.designapptest.Controller;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,6 +55,7 @@ public class PopUpCommentController {
                 UID, true);
         //Cài adapter cho recycle
         recyclerRoomComments.setAdapter(adapterRecyclerComment);
+        ViewCompat.setNestedScrollingEnabled(recyclerRoomComments, false);
 
         //Tạo interface để truyền dữ liệu lên từ model
         IRoomCommentModel iRoomCommentsModel = new IRoomCommentModel() {
