@@ -13,7 +13,13 @@ public class PriceFilter extends  myFilter {
     }
 
     public PriceFilter(float minPrice, float maxPrice) {
-        this.name = minPrice+" triệu - "+maxPrice+" triệu";
+        if(minPrice==10){
+            this.name="Lớn hơn 10 triệu";
+        }
+        else {
+            this.name = minPrice+" triệu - "+maxPrice+" triệu";
+        }
+
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
     }

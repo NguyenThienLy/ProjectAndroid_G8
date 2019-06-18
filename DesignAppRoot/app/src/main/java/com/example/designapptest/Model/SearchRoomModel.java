@@ -151,11 +151,21 @@ public class SearchRoomModel {
 
         //Lọc theo giá
         if(priceFilter!=null){
-            if(roomModel.getRentalCosts() >=priceFilter.getMinPrice() && roomModel.getRentalCosts() <=priceFilter.getMaxPrice()){
-                arrCheck[1]=true;
+            if(priceFilter.getMinPrice() ==10){
+                if(roomModel.getRentalCosts()>10){
+                    arrCheck[1]=true;
+                }
+                else {
+                    arrCheck[1]=false;
+                }
             }
             else {
-                arrCheck[1]=false;
+                if(roomModel.getRentalCosts() >=priceFilter.getMinPrice() && roomModel.getRentalCosts() <=priceFilter.getMaxPrice()){
+                    arrCheck[1]=true;
+                }
+                else {
+                    arrCheck[1]=false;
+                }
             }
         }
         else {
@@ -359,11 +369,21 @@ public class SearchRoomModel {
 
         //Lọc theo giá
         if(priceFilter!=null){
-            if(roomModel.getRentalCosts() >=priceFilter.getMinPrice() && roomModel.getRentalCosts() <=priceFilter.getMaxPrice()){
-                arrCheck[1]=true;
+            if(priceFilter.getMinPrice() ==10){
+                if(roomModel.getRentalCosts()>10){
+                    arrCheck[1]=true;
+                }
+                else {
+                    arrCheck[1]=false;
+                }
             }
             else {
-                arrCheck[1]=false;
+                if(roomModel.getRentalCosts() >=priceFilter.getMinPrice() && roomModel.getRentalCosts() <=priceFilter.getMaxPrice()){
+                    arrCheck[1]=true;
+                }
+                else {
+                    arrCheck[1]=false;
+                }
             }
         }
         else {
