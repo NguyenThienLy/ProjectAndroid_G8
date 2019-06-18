@@ -20,10 +20,10 @@
     <string name="stringType4PushRoom">Nhà nguyên căn</string>
     <string name="stringNumberPushRoom">Số người</string>
     <string name="stringAreaPushRoom">Chiều dài phòng (m)</string>
-    <string name="stringPricePushRoom">Giá phòng</string>
-    <string name="stringElectricPushRoom">Tiền điện (đ/kg)</string>
-    <string name="stringWaterPushRoom">Tiền nước (đ/m3)</string>
-    <string name="stringInternetPushRoom">Internet (đ/tháng)</string>
+    <string name="stringPricePushRoom">Giá phòng(triệu)</string>
+    <string name="stringElectricPushRoom">Tiền điện (nghìn đ/kg)</string>
+    <string name="stringWaterPushRoom">Tiền nước (nghìn đ/m3)</string>
+    <string name="stringInternetPushRoom">Internet (nghìn đ/tháng)</string>
     <string name="stringFreePushRoom">Tự do</string>
     <string name="stringParkCarPushRoom">Car park</string>
     <string name="stringNumberHelpPushRoom">Số người ở tối đa</string>
@@ -55,7 +55,7 @@
     <string name="StringWaterheat">Nước nóng</string>
     <string name="StringSecurityPushRoom">An ninh</string>
     <string name="stringWidthHelpPushRoom">Chiều rộng phòng(m)</string>
-    <string name="stringParking2PushRoom">Tiền giữ xe (đ/tháng)</string>
+    <string name="stringParking2PushRoom">Tiền giữ xe (nghìn đ/tháng)</string>
     <string name="stringFreePricePushRoom">Miễn phí</string>
     <string name="stringGendertitle">Phòng dành cho</string>
     <string name="stringMalePushRoom">Nam</string>

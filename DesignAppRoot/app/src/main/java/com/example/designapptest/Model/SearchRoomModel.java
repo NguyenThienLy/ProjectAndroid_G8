@@ -14,7 +14,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class SearchRoomModel {
@@ -535,5 +541,30 @@ public class SearchRoomModel {
         else {
         }
         //End lọc dữ liệu
+    }
+
+    //Sort lại theo ngày đăng, đăng sớm nhất lên đầu
+    public void sortListSearchRoom(List<RoomModel> ListRooms) {
+        Collections.sort(ListRooms, new Comparator<RoomModel>() {
+            @Override
+            public int compare(RoomModel roomModel1, RoomModel roomMode2) {
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date date1 = null;
+                try {
+                    date1 = df.parse(roomModel1.getTimeCreated());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Date date2 = null;
+                try {
+                    date2 = df.parse(roomMode2.getTimeCreated());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                return date2.compareTo(date1);
+            }
+        });
     }
 }
