@@ -459,9 +459,23 @@ public class RoomModel implements Parcelable { // Linh thêm
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         dataRoot = dataSnapshot;
 
+                        List<RoomModel> listRoomsModel = new ArrayList<>();
+
                         //Duyệt hết trong danh sách phòng trọ
                         for (DataSnapshot valueRoom : dataNode.getChildren()) {
-                            listRoomsID.add(valueRoom.getKey());
+                            //listRoomsID.add(valueRoom.getKey());
+
+                            //Lọc ra danh sách favorite rooms.
+                            RoomModel roomModel = valueRoom.getValue(RoomModel.class);
+                            roomModel.setRoomID(valueRoom.getKey());
+
+                            listRoomsModel.add(roomModel);
+                        }
+
+                        sortListRooms(listRoomsModel);
+
+                        for (RoomModel roomModel : listRoomsModel) {
+                            listRoomsID.add(roomModel.getRoomID());
                         }
 
                         mainRoomModelInterface.setQuantityTop(listRoomsID.size());
@@ -1616,6 +1630,30 @@ public class RoomModel implements Parcelable { // Linh thêm
                 Date date2 = null;
                 try {
                     date2 = df.parse(favoriteRoomModel2.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                return date2.compareTo(date1);
+            }
+        });
+    }
+
+    public void sortListRooms(List<RoomModel> listRoomsModel) {
+        Collections.sort(listRoomsModel, new Comparator<RoomModel>() {
+            @Override
+            public int compare(RoomModel roomModel1, RoomModel roomModel2) {
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date date1 = null;
+                try {
+                    date1 = df.parse(roomModel1.getTimeCreated());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Date date2 = null;
+                try {
+                    date2 = df.parse(roomModel2.getTimeCreated());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
